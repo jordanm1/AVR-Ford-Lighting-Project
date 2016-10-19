@@ -179,6 +179,12 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
 ****************************************************************************/
 static uint16_t calc_OCR_count(uint8_t duty_cycle)
 {
+   // Clamp the duty cycle
+   if (100 < duty_cycle)
+   {
+	   duty_cycle = 100;
+   }
+   
    // Return the calculated value
    if (0 < duty_cycle)
    {
