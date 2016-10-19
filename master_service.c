@@ -42,7 +42,15 @@
 #define SCHEDULE_START_ID        0x02     // Start at 2 since ID of #1 is 0x02
 
 // Schedule Interval
-#define SCHEDULE_INTERVAL_MS     500
+// Minimum for Interval is:
+//    T_Frame_Nominal = T_Header_Nominal + T_Response_Nominal
+//    T_Header_Nominal = 34*Bit_Time = 34*(1/19200)
+//    T_Response_Nominal = 10*(Num_Data_Bytes+1)*Bit_time = 10*(2+1)*(1/19200)
+//    T_Frame_Nominal = 0.00333333333 seconds
+#define SCHEDULE_INTERVAL_MS     4
+
+// *Note:
+//    Our schedule service time is then 2*#Slave_Nodes*SCHEDULE_INTERVAL_MS
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -68,9 +76,10 @@ static uint32_t Scheduling_Timer = EVT_MASTER_SCH_TIMEOUT;
 //    >>> Repeat 1-X.
 static uint8_t Curr_Schedule_ID = SCHEDULE_START_ID;
 
-// TEST
-static uint8_t dc_counter = 0;
-// END TEST BLOCK
+// TEST TIMER
+static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
+static uint8_t test_counter = 0;
+#include "PWM.h"
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -109,6 +118,10 @@ void Init_Master_Service(void)
 
    // Kick off scheduling timer
    Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+
+   // Register test timer & start
+   Register_Timer(&Testing_Timer, Post_Event);
+   Start_Timer(&Testing_Timer, 500);
 }
 
 /****************************************************************************
@@ -133,20 +146,6 @@ void Run_Master_Service(uint32_t event_mask)
          update_curr_schedule_id();
          // Restart timer
          Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
-
-         //// TEST BLOCK
-		 //Start_Timer(&Scheduling_Timer, 100);
-		 //Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, dc_counter);
-		 //if (100 == dc_counter)
-		 //{
-			 //dc_counter = 0;
-		 //}
-		 //else
-		 //{
-			 //dc_counter++;
-		 //}
-         //// END TEST BLOCK
-         
          break;
 
       case EVT_MASTER_NEW_STS:
@@ -157,6 +156,13 @@ void Run_Master_Service(uint32_t event_mask)
       case EVT_MASTER_OTHER:
          // Just an example.
          // Do nothing.
+         break;
+
+      case EVT_TEST_TIMEOUT:
+         // Just a test
+         Set_PWM_Duty_Cycle(pwm_channel_a, test_counter);
+         test_counter++;
+         Start_Timer(&Testing_Timer, 500);
          break;
 
       default:

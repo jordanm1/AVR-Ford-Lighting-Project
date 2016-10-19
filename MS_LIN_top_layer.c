@@ -89,7 +89,7 @@ void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
 {
    // 1. Call the LIN init function from the driver layer
    // * Arguments are found in lin_drv.h, config.h
-   lin_init((OUR_LIN_SPEC), (LIN_BAUDRATE));
+   lin_init((OUR_LIN_SPEC), (CONF_LINBRR));
 
    // 2. Save the pointer to this node's ID
    p_My_Node_ID = p_this_node_id;
@@ -113,7 +113,7 @@ void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
 void Master_LIN_Broadcast_ID(uint8_t slave_id)
 {
    // Broadcast the LIN header
-   lin_tx_header((OUR_LIN_SPEC), slave_id, (LIN_PACKET_LEN));
+   lin_tx_header((OUR_LIN_SPEC), slave_id, 0);
 }
 
 // #############################################################################
@@ -133,50 +133,50 @@ void Master_LIN_Broadcast_ID(uint8_t slave_id)
 ****************************************************************************/
 static void lin_id_task(void)
 {
-	// Create copy of ID, make sure this gives only the lower 6 bits
-	uint8_t temp_id = Lin_get_id();
+   // Create copy of ID, make sure this gives only the lower 6 bits
+   uint8_t temp_id = Lin_get_id();
 
-    // This ID matches my ID. It must be a command sent from the master.
-    if (temp_id == *p_My_Node_ID)
+   // This ID matches my ID. It must be a command sent from the master.
+   if (temp_id == *p_My_Node_ID)
 	{
-        // Prepare LIN module for receive.
-        lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
+      // Prepare LIN module for receive.
+      lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
 	}
 
-    // This ID matches my ID. It must be a status request from the master.
-    else if (temp_id == ((*p_My_Node_ID)|REQUEST_MASK))
+   // This ID matches my ID. It must be a status request from the master.
+   else if (temp_id == ((*p_My_Node_ID)|REQUEST_MASK))
 	{
-        // Prepare LIN module for transmit.
-        // We must be a slave so My_Command_Data is 2 bytes long only.
-        lin_tx_response((OUR_LIN_SPEC), p_My_Status_Data, (LIN_PACKET_LEN));
+      // Prepare LIN module for transmit.
+      // We must be a slave so My_Command_Data is 2 bytes long only.
+      lin_tx_response((OUR_LIN_SPEC), p_My_Status_Data, (LIN_PACKET_LEN));
 	}
 
-    // This ID doesn't match my ID.
-    else
+   // This ID doesn't match my ID.
+   else
 	{
-        // If we're the master, we must have sent this ID
-        if (MASTER_NODE_ID == *p_My_Node_ID)
-        {
-        // Prepare LIN module for transmit if we sent a command.
-        if (0 == (temp_id & REQUEST_MASK))
-        {
+      // If we're the master, we must have sent this ID
+      if (MASTER_NODE_ID == *p_My_Node_ID)
+      {
+         // Prepare LIN module for transmit if we sent a command.
+         if (0 == (temp_id & REQUEST_MASK))
+         {
             // Make sure we send the right command based on the slave ID.
             // The master has a My_Command_Data array that is 2*n bytes long.
             // Where n is the number of slaves in the system.
             uint8_t * p_slave_command = p_My_Command_Data + temp_id - 2;
             lin_tx_response((OUR_LIN_SPEC), p_slave_command, (LIN_PACKET_LEN));
-        }
-        // Prepare LIN module for receive if we sent a request.
-        else
-        {
+         }
+         // Prepare LIN module for receive if we sent a request.
+         else
+         {
             lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
-        }
-        }
-        // Otherwise, we are a slave and the ID isn't for us.
-        else
-        {
-        // Do nothing
-        }
+         }
+         }
+         // Otherwise, we are a slave and the ID isn't for us.
+      else
+      {
+         // Do nothing
+      }
 	}
 }
 
@@ -260,7 +260,7 @@ static void lin_err_task(void)
 
 /****************************************************************************
       ISR
-         LIN Interrupt Handler
+         LIN Interrupt Handlers: LIN_TC_vect & LIN_ERR_vect
 
       Parameters
          None
@@ -292,14 +292,16 @@ ISR(LIN_TC_vect)
          Lin_clear_txok_it();
          break;
 
-      // There's an error on the bus
-      case LIN_ERROR:
-         lin_err_task();
-         Lin_clear_err_it();
-         break;
-
       // The interrupt did not correspond to LIN
       default:
          break;
    } // End Switch
+}
+
+ISR(LIN_ERR_vect)
+{
+   // Get Error Status, do task, and clear int
+   Lin_get_error_status();
+   lin_err_task();
+   Lin_clear_err_it();
 }

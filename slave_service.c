@@ -74,6 +74,7 @@ void Init_Slave_Service(void)
 
    // Initialize ADC, read slave number, create & store slave ID in RAM
    // TODO
+   My_Node_ID = 0x02;
 
    // Disable ADC
    // TODO

@@ -12,7 +12,8 @@ master_service.d master_service.o: .././master_service.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- .././events.h .././timer.h .././master_service.h .././MS_LIN_top_layer.h
+ .././events.h .././timer.h .././master_service.h .././MS_LIN_top_layer.h \
+ .././PWM.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -47,3 +48,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././master_service.h:
 
 .././MS_LIN_top_layer.h:
+
+.././PWM.h:

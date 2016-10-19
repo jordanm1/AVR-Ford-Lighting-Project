@@ -19,7 +19,7 @@
 // ------------ SYSTEM SETTINGS
 // #############################################################################
 
-#define NUM_SLAVES   8
+#define NUM_SLAVES   3
 
 // #############################################################################
 // ------------ NODE SETTINGS
@@ -87,8 +87,8 @@ typedef enum
 #define LIN_PACKET_LEN  (2)            // always send 2 bytes of data
 
 // Node Defs
-#define MASTER          (0)
-#define SLAVE           (1)
+#define MASTER          (master_node)
+#define SLAVE           (slave_node)
 
 // #############################################################################
 // ------------ END CONFIG

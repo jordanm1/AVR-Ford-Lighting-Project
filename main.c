@@ -117,7 +117,7 @@ int main(void)
    // *******************************
    // Initialize node service
    // * Global interrupts are enabled inside
-   #if (NODE_TYPE == MASTER)
+   #if ((master_node) == NODE_TYPE)
       Init_Master_Service();
    #else
       Init_Slave_Service();

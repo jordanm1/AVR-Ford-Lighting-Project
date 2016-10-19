@@ -90,7 +90,7 @@ void Run_Events(void)
             // **************************
 			
             // Node Service
-            #if (NODE_TYPE == MASTER)
+            #if ((master_node) == NODE_TYPE)
                Run_Master_Service((0x01 << event));
             #else
                Run_Slave_Service((0x01 << event));

@@ -59,7 +59,18 @@ unsigned char lin_init (unsigned char l_type, unsigned long b_rate) {
     }
     // If LIN is interrupt driven, enable the 2 following lines
     Lin_set_enable_it();
-    asm ("sei");
+
+    // Enable global ints just before our Run_Events() loop,
+    //   instead of right here. We may still need to init services.
+    // asm ("sei");
+
+    // Disable resync for the master only
+    if ((master_node) == NODE_TYPE)
+    {
+      // TODO: Look into this and decide if we NEED to disable autosync
+      // Disable autosync
+      LINBTR |= 1<<LDISR;
+    };
     
     return 1;
 }
