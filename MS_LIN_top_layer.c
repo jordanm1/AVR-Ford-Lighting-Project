@@ -87,6 +87,10 @@ static void lin_err_task(void);
 void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
    uint8_t * p_status_data)
 {
+   // 0. Enable the LIN transceiver via PA4 which is connected on ENABLE
+   PORTA |= (1<<PINA4);
+   DDRA |= (1<<PINA4);
+
    // 1. Call the LIN init function from the driver layer
    // * Arguments are found in lin_drv.h, config.h
    lin_init((OUR_LIN_SPEC), (CONF_LINBRR));

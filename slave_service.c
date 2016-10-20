@@ -22,14 +22,20 @@
 // Config file
 #include "config.h"
 
-// Events
-#include "events.h"
+// This module's header file
+#include "slave_service.h"
 
 // LIN top layer
 #include "MS_LIN_top_layer.h"
 
-// This module's header file
-#include "slave_service.h"
+// Events
+#include "events.h"
+
+// Timer
+#include "timer.h"
+
+// PWM
+#include "PWM.h"
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS
@@ -45,6 +51,8 @@
 static uint8_t My_Node_ID;                         // This node's ID
 static uint8_t My_Command_Data[LIN_PACKET_LEN];    // This node's current command
 static uint8_t My_Status_Data[LIN_PACKET_LEN];     // This node's status
+
+static uint8_t Last_Command = 0;
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -105,18 +113,11 @@ void Run_Slave_Service(uint32_t event_mask)
    switch(event_mask)
    {
       case EVT_SLAVE_NEW_CMD:
-         //// TEST BLOCK
-         //static uint8_t parity = 0x01;
-         //parity ^= 0x01;
-         //if (parity)
-         //{
-            //Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, 100);
-         //}
-         //else
-         //{
-            //Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, 0);
-         //}
-         //// END TEST BLOCK
+         // We got a new command
+         if (Last_Command != My_Command_Data[0])
+         {
+            Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, My_Command_Data[0]);
+         }
          break;
 
       case EVT_SLAVE_OTHER:

@@ -149,6 +149,12 @@
     <Compile Include="lin_drv.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="LIN_XCVR_WD_Kicker.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="LIN_XCVR_WD_Kicker.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>

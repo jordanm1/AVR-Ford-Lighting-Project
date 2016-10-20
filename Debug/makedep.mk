@@ -6,6 +6,8 @@ events.c
 
 lin_drv.c
 
+LIN_XCVR_WD_Kicker.c
+
 main.c
 
 master_service.c

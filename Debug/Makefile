@@ -39,6 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../events.c \
 ../lin_drv.c \
+../LIN_XCVR_WD_Kicker.c \
 ../main.c \
 ../master_service.c \
 ../MS_LIN_top_layer.c \
@@ -56,6 +57,7 @@ ASM_SRCS +=
 OBJS +=  \
 events.o \
 lin_drv.o \
+LIN_XCVR_WD_Kicker.o \
 main.o \
 master_service.o \
 MS_LIN_top_layer.o \
@@ -66,6 +68,7 @@ timer.o
 OBJS_AS_ARGS +=  \
 events.o \
 lin_drv.o \
+LIN_XCVR_WD_Kicker.o \
 main.o \
 master_service.o \
 MS_LIN_top_layer.o \
@@ -76,6 +79,7 @@ timer.o
 C_DEPS +=  \
 events.d \
 lin_drv.d \
+LIN_XCVR_WD_Kicker.d \
 main.d \
 master_service.d \
 MS_LIN_top_layer.d \
@@ -86,6 +90,7 @@ timer.d
 C_DEPS_AS_ARGS +=  \
 events.d \
 lin_drv.d \
+LIN_XCVR_WD_Kicker.d \
 main.d \
 master_service.d \
 MS_LIN_top_layer.d \
@@ -107,6 +112,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

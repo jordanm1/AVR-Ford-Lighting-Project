@@ -22,17 +22,20 @@
 // Config file
 #include "config.h"
 
+// This module's header file
+#include "master_service.h"
+
+// LIN top layer
+#include "MS_LIN_top_layer.h"
+
 // Events
 #include "events.h"
 
 // Timer
 #include "timer.h"
 
-// This module's header file
-#include "master_service.h"
-
-// LIN top layer
-#include "MS_LIN_top_layer.h"
+// PWM
+#include "PWM.h"
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS
@@ -79,7 +82,6 @@ static uint8_t Curr_Schedule_ID = SCHEDULE_START_ID;
 // TEST TIMER
 static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
 static uint8_t test_counter = 0;
-#include "PWM.h"
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -160,8 +162,15 @@ void Run_Master_Service(uint32_t event_mask)
 
       case EVT_TEST_TIMEOUT:
          // Just a test
-         Set_PWM_Duty_Cycle(pwm_channel_a, test_counter);
+          for (int i = 0; i < NUM_SLAVES; i++)
+          {
+             uint8_t temp_index = i<<1;
+             My_Command_Data[temp_index] = test_counter;
+             My_Command_Data[temp_index+1] = 0xFF;
+          }
+         Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
          test_counter++;
+         if (100 < test_counter) {test_counter = 0;};
          Start_Timer(&Testing_Timer, 500);
          break;
 

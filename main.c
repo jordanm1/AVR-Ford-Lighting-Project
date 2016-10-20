@@ -29,6 +29,9 @@
 // Timer
 #include "timer.h"
 
+// LIN XCVR Watchdog Kicker
+#include "LIN_XCVR_WD_Kicker.h"
+
 // PWM
 #include "PWM.h"
 
@@ -98,6 +101,12 @@ int main(void)
    Init_Timer_Module();
 
    // *******************************
+   // LIN XCVR WD KICK INITIALIZATION
+   // *******************************
+   // TODO: The timing params are wrong
+   Init_LIN_XCVR_WD_Kicker();
+
+   // *******************************
    // PWM MODULE INITIALIZATION
    // *******************************
    Init_PWM_Module();
@@ -117,7 +126,7 @@ int main(void)
    // *******************************
    // Initialize node service
    // * Global interrupts are enabled inside
-   #if ((master_node) == NODE_TYPE)
+   #if (MASTER == NODE_TYPE)
       Init_Master_Service();
    #else
       Init_Slave_Service();

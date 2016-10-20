@@ -64,6 +64,7 @@
 // ------------ INCLUDES
 // #############################################################################
 
+// AVR Library
 #include <avr/io.h>                    // Use AVR-GCC library
 
 // #############################################################################
@@ -87,8 +88,8 @@ typedef enum
 #define LIN_PACKET_LEN  (2)            // always send 2 bytes of data
 
 // Node Defs
-#define MASTER          (master_node)
-#define SLAVE           (slave_node)
+#define MASTER          0
+#define SLAVE           1
 
 // #############################################################################
 // ------------ END CONFIG
