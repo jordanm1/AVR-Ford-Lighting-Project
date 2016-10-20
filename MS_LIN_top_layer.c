@@ -175,8 +175,8 @@ static void lin_id_task(void)
          {
             lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
          }
-         }
-         // Otherwise, we are a slave and the ID isn't for us.
+      }
+      // Otherwise, we are a slave and the ID isn't for us.
       else
       {
          // Do nothing
@@ -202,7 +202,7 @@ static void lin_rx_task(void)
    if (MASTER_NODE_ID == *p_My_Node_ID)
    {
       // TODO: Not entirely sure if the ID is saved during the receive...
-      lin_get_response(p_My_Status_Data + (Lin_get_id() & REQUEST_MASK) - 2);
+      lin_get_response(p_My_Status_Data + (Lin_get_id() & SLAVE_BASE_MASK) - 2);
 
       // Post event
       Post_Event(EVT_MASTER_NEW_STS);

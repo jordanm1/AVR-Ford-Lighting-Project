@@ -54,7 +54,8 @@
 #define MASTER_NODE_ID  (0x00)         // Master is the first ID
 
 // Request Mask (the LSB will be high for status requests)
-#define REQUEST_MASK    (0x01)
+#define REQUEST_MASK       (0x01)
+#define SLAVE_BASE_MASK    ~(0x01)
 
 // Define a macro to get the slave number based on ID
 #define Get_slave_number(slave_id)        (slave_id>>1)

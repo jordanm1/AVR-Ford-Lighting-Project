@@ -79,10 +79,12 @@ void Init_Slave_Service(void)
 {
    // Initialize command and status arrays
    // TODO
+   My_Status_Data[0] = 0x80;
+   My_Status_Data[1] = 0xd5;
 
    // Initialize ADC, read slave number, create & store slave ID in RAM
    // TODO
-   My_Node_ID = 0x02;
+   My_Node_ID = 0x06;
 
    // Disable ADC
    // TODO
@@ -117,6 +119,7 @@ void Run_Slave_Service(uint32_t event_mask)
          if (Last_Command != My_Command_Data[0])
          {
             Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, My_Command_Data[0]);
+            Last_Command = My_Command_Data[0];
          }
          break;
 

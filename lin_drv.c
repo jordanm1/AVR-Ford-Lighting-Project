@@ -71,11 +71,6 @@ unsigned char lin_init (unsigned char l_type, unsigned long b_rate) {
       // Disable autosync
       LINBTR |= 1<<LDISR;
     }
-    else
-    {
-      LINCR |= 1<<LCONF0;
-      LINCR &= ~(1<<LCONF1);
-    }
     
     return 1;
 }
@@ -107,7 +102,6 @@ unsigned char lin_tx_header (unsigned char l_type, unsigned char l_id, unsigned 
     				// modes are running, writing in LIN registers is                                                                        
     				// disabled and the ID cannot be set in the controller.                                                                  
     				// (c.f. “Break-in-Data” behavior”)
-   Lin_clear_err_it();
     				
     if (l_type == LIN_1X) {
         Lin_1x_set_id(l_id);                                                                                                                             
@@ -216,7 +210,7 @@ void lin_get_response (unsigned char *l_data) {
                                                                                                                                                                 
 unsigned char i, l_len;                                                                                                                                         
                                                                                                                                                                 
-    l_len = Lin_get_len();                                                                                                                           
+    l_len = Lin_get_len();                                                                                                                        
     Lin_clear_index();                                                                                                                                  
     for (i = 0; i < l_len; i++) {                                                                                                                       
         (*l_data++) = Lin_get_data();                                                                                                           
