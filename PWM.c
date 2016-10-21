@@ -168,13 +168,13 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
 
 /****************************************************************************
       Private Function
-         update_curr_schedule_id()
+         calc_OCR_count()
 
       Parameters
          None
 
       Description
-         Loops through schedule counter
+         returns count for OCR based on specified duty cycle
 
 ****************************************************************************/
 static uint16_t calc_OCR_count(uint8_t duty_cycle)
