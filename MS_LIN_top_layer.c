@@ -24,8 +24,8 @@
 // Config file
 #include "config.h"
 
-// Events
-#include "events.h"
+// Framework
+#include "framework.h"
 
 // This module's header file
 #include "MS_LIN_top_layer.h"
@@ -35,10 +35,6 @@
 
 // Interrupts
 #include <avr/interrupt.h>
-
-// Master and Slave services
-#include "master_service.h" 
-#include "slave_service.h"
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS

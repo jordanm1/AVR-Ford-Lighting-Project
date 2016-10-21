@@ -143,6 +143,12 @@
     <Compile Include="events.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="framework.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="framework.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="lin_drv.c">
       <SubType>compile</SubType>
     </Compile>
@@ -186,6 +192,15 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="timer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="__setup.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="__template.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="__template.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>

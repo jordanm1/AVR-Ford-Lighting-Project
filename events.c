@@ -22,12 +22,18 @@
 // Config file
 #include "config.h"
 
+// Framework
+#include "framework.h"
+
 // This module's header file
 #include "events.h"
 
-// Include all services that process events
-#include "master_service.h"
-#include "slave_service.h"
+// #############################################################################
+// ------------ DEFINITIONS
+// #############################################################################
+
+// Maximum number of events possible in the events service
+#define MAXIMUM_NUM_EVENTS          32
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -85,20 +91,7 @@ void Run_Events(void)
       {
          if (is_event_pending((0x01 << event)))
          {
-            // **************************
-            // *** ADD SERVICES BELOW ***
-            // **************************
-			
-            // Node Service
-            #if (MASTER == NODE_TYPE)
-               Run_Master_Service((0x01 << event));
-            #else
-               Run_Slave_Service((0x01 << event));
-            #endif
-
-            // **************************
-            // *** ADD SERVICES ABOVE ***
-            // **************************
+            Run_Services(event);
          }
       }
    }

@@ -23,21 +23,8 @@
 // Config file
 #include "config.h"
 
-// Events
-#include "events.h"
-
-// Timer
-#include "timer.h"
-
-// LIN XCVR Watchdog Kicker
-#include "LIN_XCVR_WD_Kicker.h"
-
-// PWM
-#include "PWM.h"
-
-// Master and slave services
-#include "master_service.h"
-#include "slave_service.h"
+// Framework
+#include "framework.h"
 
 // #############################################################################
 // ------------ MAIN FUNCTION
@@ -89,48 +76,11 @@ int main(void)
    //    internal current source
    //    watchdog
    //    make sure no port pins drive resistive loads
-
+   
    // *******************************
-   // FLASH STORAGE INITIALIZATION
+   // CALL INITIALIZERS
    // *******************************
-   // TODO: Not necessary for a while
-
-   // *******************************
-   // TIMER MODULE INITIALIZATION
-   // *******************************
-   Init_Timer_Module();
-
-   // *******************************
-   // LIN XCVR WD KICK INITIALIZATION
-   // *******************************
-   // TODO: The timing params are wrong
-   Init_LIN_XCVR_WD_Kicker();
-
-   // *******************************
-   // PWM MODULE INITIALIZATION
-   // *******************************
-   Init_PWM_Module();
-
-   // *******************************
-   // SPI MODULE INITIALIZATION
-   // *******************************
-   // TODO: Master only
-
-   // *******************************
-   // IOC MODULE INITIALIZATION
-   // *******************************
-   // TODO: Both master and slaves
-
-   // *******************************
-   // SERVICE INITIALIZATIONS
-   // *******************************
-   // Initialize node service
-   // * Global interrupts are enabled inside
-   #if (MASTER == NODE_TYPE)
-      Init_Master_Service();
-   #else
-      Init_Slave_Service();
-   #endif
+   Initialize_Framework();
    
    // *******************************
    // ENABLE GLOBAL INTERRUPTS

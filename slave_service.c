@@ -22,20 +22,14 @@
 // Config file
 #include "config.h"
 
+// Framework
+#include "framework.h"
+
 // This module's header file
 #include "slave_service.h"
 
 // LIN top layer
 #include "MS_LIN_top_layer.h"
-
-// Events
-#include "events.h"
-
-// Timer
-#include "timer.h"
-
-// PWM
-#include "PWM.h"
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS

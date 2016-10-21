@@ -65,7 +65,7 @@ unsigned char lin_init (unsigned char l_type, unsigned long b_rate) {
     // asm ("sei");
 
     // Disable resync for the master only
-    if (MASTER == NODE_TYPE)
+    if (MASTER == THIS_NODE_TYPE)
     {
       // TODO: Look into this and decide if we NEED to disable autosync
       // Disable autosync

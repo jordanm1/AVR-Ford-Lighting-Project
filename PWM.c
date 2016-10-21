@@ -25,6 +25,9 @@
 // Config file
 #include "config.h"
 
+// Framework
+#include "framework.h"
+
 // This module's header file
 #include "PWM.h"
 

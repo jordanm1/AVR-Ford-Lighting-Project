@@ -38,6 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../events.c \
+../framework.c \
 ../lin_drv.c \
 ../LIN_XCVR_WD_Kicker.c \
 ../main.c \
@@ -45,7 +46,8 @@ C_SRCS +=  \
 ../MS_LIN_top_layer.c \
 ../PWM.c \
 ../slave_service.c \
-../timer.c
+../timer.c \
+../__template.c
 
 
 PREPROCESSING_SRCS += 
@@ -56,6 +58,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 events.o \
+framework.o \
 lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
@@ -63,10 +66,12 @@ master_service.o \
 MS_LIN_top_layer.o \
 PWM.o \
 slave_service.o \
-timer.o
+timer.o \
+__template.o
 
 OBJS_AS_ARGS +=  \
 events.o \
+framework.o \
 lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
@@ -74,10 +79,12 @@ master_service.o \
 MS_LIN_top_layer.o \
 PWM.o \
 slave_service.o \
-timer.o
+timer.o \
+__template.o
 
 C_DEPS +=  \
 events.d \
+framework.d \
 lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
@@ -85,10 +92,12 @@ master_service.d \
 MS_LIN_top_layer.d \
 PWM.d \
 slave_service.d \
-timer.d
+timer.d \
+__template.d
 
 C_DEPS_AS_ARGS +=  \
 events.d \
+framework.d \
 lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
@@ -96,7 +105,8 @@ master_service.d \
 MS_LIN_top_layer.d \
 PWM.d \
 slave_service.d \
-timer.d
+timer.d \
+__template.d
 
 OUTPUT_FILE_PATH +=Ford_360_Lighting_Project.elf
 
@@ -112,6 +122,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

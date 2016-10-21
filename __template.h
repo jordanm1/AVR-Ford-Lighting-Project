@@ -1,10 +1,10 @@
-#ifndef LIN_XCVR_WD_Kicker_H
-#define LIN_XCVR_WD_Kicker_H
+#ifndef template_H
+#define template_H
 
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-void Init_LIN_XCVR_WD_Kicker(void);
+void Template_Public_Function(void);
 
-#endif // xcvr_wd_kicker_H
+#endif // template_H

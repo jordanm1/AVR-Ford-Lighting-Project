@@ -1,4 +1,4 @@
-LIN_XCVR_WD_Kicker.d LIN_XCVR_WD_Kicker.o: .././LIN_XCVR_WD_Kicker.c \
+__template.d __template.o: .././__template.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdbool.h \
@@ -14,7 +14,7 @@ LIN_XCVR_WD_Kicker.d LIN_XCVR_WD_Kicker.o: .././LIN_XCVR_WD_Kicker.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././master_service.h \
- .././slave_service.h
+ .././slave_service.h .././__template.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -57,3 +57,5 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././master_service.h:
 
 .././slave_service.h:
+
+.././__template.h:
