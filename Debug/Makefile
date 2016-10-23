@@ -37,8 +37,10 @@ SUBDIRS :=
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
+../ADC.c \
 ../events.c \
 ../framework.c \
+../IOC.c \
 ../lin_drv.c \
 ../LIN_XCVR_WD_Kicker.c \
 ../main.c \
@@ -57,8 +59,10 @@ ASM_SRCS +=
 
 
 OBJS +=  \
+ADC.o \
 events.o \
 framework.o \
+IOC.o \
 lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
@@ -70,8 +74,10 @@ timer.o \
 __template.o
 
 OBJS_AS_ARGS +=  \
+ADC.o \
 events.o \
 framework.o \
+IOC.o \
 lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
@@ -83,8 +89,10 @@ timer.o \
 __template.o
 
 C_DEPS +=  \
+ADC.d \
 events.d \
 framework.d \
+IOC.d \
 lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
@@ -96,8 +104,10 @@ timer.d \
 __template.d
 
 C_DEPS_AS_ARGS +=  \
+ADC.d \
 events.d \
 framework.d \
+IOC.d \
 lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
@@ -145,10 +155,14 @@ LINKER_SCRIPT_DEP+=
 
 
 
+
+
+
+
 ./%.o: .././%.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 4.9.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATautomotive_DFP\1.1.96\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=ata6617c -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATautomotive_DFP\1.1.96\gcc\dev\ata6617c" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	$(QUOTE)D:\Additional Programs\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"D:\Additional Programs\Atmel\7.0\Packs\atmel\ATautomotive_DFP\1.1.96\include"  -O1 -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=ata6617c -B "D:\Additional Programs\Atmel\7.0\Packs\atmel\ATautomotive_DFP\1.1.96\gcc\dev\ata6617c" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
 	@echo Finished building: $<
 	
 
@@ -177,13 +191,13 @@ all: $(OUTPUT_FILE_PATH) $(ADDITIONAL_DEPENDENCIES)
 $(OUTPUT_FILE_PATH): $(OBJS) $(USER_OBJS) $(OUTPUT_FILE_DEP) $(LIB_DEP) $(LINKER_SCRIPT_DEP)
 	@echo Building target: $@
 	@echo Invoking: AVR/GNU Linker : 4.9.2
-	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Ford_360_Lighting_Project.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=ata6617c -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATautomotive_DFP\1.1.96\gcc\dev\ata6617c"  
+	$(QUOTE)D:\Additional Programs\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE) -o$(OUTPUT_FILE_PATH_AS_ARGS) $(OBJS_AS_ARGS) $(USER_OBJS) $(LIBS) -Wl,-Map="Ford_360_Lighting_Project.map" -Wl,--start-group -Wl,-lm  -Wl,--end-group -Wl,--gc-sections -mmcu=ata6617c -B "D:\Additional Programs\Atmel\7.0\Packs\atmel\ATautomotive_DFP\1.1.96\gcc\dev\ata6617c"  
 	@echo Finished building target: $@
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Ford_360_Lighting_Project.elf" "Ford_360_Lighting_Project.hex"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Ford_360_Lighting_Project.elf" "Ford_360_Lighting_Project.eep" || exit 0
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "Ford_360_Lighting_Project.elf" > "Ford_360_Lighting_Project.lss"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Ford_360_Lighting_Project.elf" "Ford_360_Lighting_Project.srec"
-	"C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "Ford_360_Lighting_Project.elf"
+	"D:\Additional Programs\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O ihex -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures  "Ford_360_Lighting_Project.elf" "Ford_360_Lighting_Project.hex"
+	"D:\Additional Programs\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -j .eeprom  --set-section-flags=.eeprom=alloc,load --change-section-lma .eeprom=0  --no-change-warnings -O ihex "Ford_360_Lighting_Project.elf" "Ford_360_Lighting_Project.eep" || exit 0
+	"D:\Additional Programs\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objdump.exe" -h -S "Ford_360_Lighting_Project.elf" > "Ford_360_Lighting_Project.lss"
+	"D:\Additional Programs\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-objcopy.exe" -O srec -R .eeprom -R .fuse -R .lock -R .signature -R .user_signatures "Ford_360_Lighting_Project.elf" "Ford_360_Lighting_Project.srec"
+	"D:\Additional Programs\Atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-size.exe" "Ford_360_Lighting_Project.elf"
 	
 	
 
