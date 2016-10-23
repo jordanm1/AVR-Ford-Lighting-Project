@@ -4,12 +4,12 @@
      
       Notes:
       This file contains the ADC module. This module initializes,
-	  ADC10 : PB7
+	   ADC10 : PB5
    
       External Functions Required:
 
       Public Functions:
-	  void Init_ADC_Module(void)
+	   void Init_ADC_Module(void)
         
 *******************************************************************************/
 
@@ -30,8 +30,8 @@
 // This module's header file
 #include "ADC.h"
 
-// Atomic Read/Write operations
-#include <util/atomic.h>
+// Interrupts
+#include <avr/interrupt.h>
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS
@@ -74,26 +74,19 @@ static uint16_t Last_ADC_Value = 0;
 ****************************************************************************/
 void Init_ADC_Module(void)
 {
-   // We need to ensure no interrupts occur when accessing 16-bit registers
-   // (Just for safety, no ISR should be able to access these registers anyways.)
-   // Even though the C code is one line for accessing 16-bit registers,
-   //    in ASM it will be done in two cycles.
-   ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
-   {
-	   // Select voltage reference as internal 2.56 V reference
-	   ADMUX |= (1<<REFS1)|(1<<REFS0);
-	   AMISCR &= ~(1<<AREFEN);
+	// Select voltage reference as Vcc
+	ADMUX &= ~(1<<REFS0);
+	AMISCR &= ~(1<<AREFEN);
 	   
-	   // Set PB7 as A2D input PB7 = ADMUX LSB 1010
-	   ADMUX |= (1<<MUX3)|(1<<MUX1);
-	   ADMUX &= ~(1<<MUX2)&~(1<<MUX0);
+	// Set PB7 as A2D input PB7 = ADMUX LSB 1000
+	ADMUX |= (1<<MUX3);
+	ADMUX &= ~(1<<MUX2)&~(1<<MUX0)&~(1<<MUX1);
 	   
-	   // Enable ADC Module and Interrupt after conversion
-	   ADCSRA |= (1<<ADEN)|(1<<ADIE);
+	// Enable ADC Module and Interrupt after conversion
+	ADCSRA |= (1<<ADEN)|(1<<ADIE);
 	   
-	   // Set ADC clock pre-scalar to SysClock/2
-	   ADCSRA &= ~(1<<ADPS2)&~(1<<ADPS1)&~(1<<ADPS0);
-   }
+	// Set ADC clock pre-scalar to SysClock/2
+	ADCSRA &= ~(1<<ADPS2)&~(1<<ADPS1)&~(1<<ADPS0);
 }
 
 /****************************************************************************
@@ -107,7 +100,6 @@ void Init_ADC_Module(void)
          Returns right justified result of the ADC module
 
 ****************************************************************************/
-
 uint16_t Get_ADC_Result(void)
 {
 	return Last_ADC_Value;
@@ -115,7 +107,7 @@ uint16_t Get_ADC_Result(void)
 
 /****************************************************************************
       Public Function
-         Poll_ADC
+         Start_ADC_Measurement
 
       Parameters
          None
@@ -124,9 +116,9 @@ uint16_t Get_ADC_Result(void)
          Find ADC value at PB7
 
 ****************************************************************************/
-
-void Poll_ADC(void)
+void Start_ADC_Measurement(void)
 {
+   // Writing this bit kicks off the ADC measurement
 	ADCSRA |= (1<<ADSC);
 }
 
@@ -148,23 +140,17 @@ void Poll_ADC(void)
 ISR(ADC_vect)
 {
 	// Clear ADC Interrupt Flag
-	
 	ADCSRA |= (1<<ADIF);
-	Last_ADC_Value = ADCL + ADCH;
+   // Get ADC from 2, 8-bit regs,
+   //    no need for atomic because we are
+   //    in an ISR which is technically an
+   //    atomic section
+   Last_ADC_Value = 0;
+   Last_ADC_Value |= (ADCH<<8);
+   Last_ADC_Value |= ADCL;
 }
 
 // #############################################################################
 // ------------ PRIVATE FUNCTIONS
 // #############################################################################
 
-/****************************************************************************
-      Private Function
-         
-
-      Parameters
-         
-
-      Description
-         
-
-****************************************************************************/

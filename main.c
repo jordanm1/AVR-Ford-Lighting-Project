@@ -26,12 +26,6 @@
 // Framework
 #include "framework.h"
 
-// IOC
-#include "IOC.h"
-
-// ADC
-#include "ADC.h"
-
 // #############################################################################
 // ------------ MAIN FUNCTION
 // #############################################################################
@@ -98,12 +92,6 @@ int main(void)
    // *******************************
    // Run the events service
    Run_Events();
-   
-   // TEST IOC
-   Init_IOC_Module();
-   //TEST ADC
-   Init_ADC_Module();
-   
 
    // *******************************
    // C NECESSARY RETURN
