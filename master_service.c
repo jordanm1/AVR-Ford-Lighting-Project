@@ -119,11 +119,13 @@ void Init_Master_Service(void)
    Register_Timer(&Scheduling_Timer, Post_Event);
 
    // Kick off scheduling timer
-   Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+   // TEST! Pause LIN service for now
+   // Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
    // Register test timer & start
    Register_Timer(&Testing_Timer, Post_Event);
-   Start_Timer(&Testing_Timer, 500);
+   // TEST! Pause LIN service for now
+   // Start_Timer(&Testing_Timer, 500);
 }
 
 /****************************************************************************
