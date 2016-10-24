@@ -152,6 +152,9 @@ void Run_Master_Service(uint32_t event_mask)
          Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
          break;
 
+      // *Note: we should make sure all slaves are online before sending
+      //          legitimate commands (blocking code?)
+
       case EVT_MASTER_NEW_STS:
          // New status
          // Do nothing for now.

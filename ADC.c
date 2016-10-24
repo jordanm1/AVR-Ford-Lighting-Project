@@ -49,7 +49,9 @@
 // ------------ MODULE VARIABLES
 // #############################################################################
 
-static uint16_t Last_ADC_Value = 0;
+// Initialize ADC to impossible value
+// *Note: We have a 10-bit ADC so a full 16-bit number is impossible
+static uint16_t Last_ADC_Value = IMPOSSIBLE_ADC_COUNT;
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
