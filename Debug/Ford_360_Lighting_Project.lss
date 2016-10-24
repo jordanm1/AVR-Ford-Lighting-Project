@@ -99,8 +99,8 @@ Disassembly of section .text:
 ****************************************************************************/
 void Start_ADC_Measurement(void)
 {
-   // Writing this bit kicks off the ADC measurement
-	ADCSRA |= (1<<ADSC);
+    // Writing this bit kicks off the ADC measurement
+    ADCSRA |= (1<<ADSC);
   8e:	ec e7       	ldi	r30, 0x7C	; 124
   90:	f0 e0       	ldi	r31, 0x00	; 0
   92:	80 81       	ld	r24, Z
@@ -128,8 +128,8 @@ void Start_ADC_Measurement(void)
   be:	08 95       	ret
 
 000000c0 <__vector_15>:
-      Description
-         Handles ADC specific interrupts
+    Description
+        Handles ADC specific interrupts
 
 ****************************************************************************/
 ISR(ADC_vect)
@@ -144,28 +144,28 @@ ISR(ADC_vect)
   ce:	9f 93       	push	r25
   d0:	ef 93       	push	r30
   d2:	ff 93       	push	r31
-	// Clear ADC Interrupt Flag
-	ADCSRA |= (1<<ADIF);
+    // Clear ADC Interrupt Flag
+    ADCSRA |= (1<<ADIF);
   d4:	ea e7       	ldi	r30, 0x7A	; 122
   d6:	f0 e0       	ldi	r31, 0x00	; 0
   d8:	80 81       	ld	r24, Z
   da:	80 61       	ori	r24, 0x10	; 16
   dc:	80 83       	st	Z, r24
-   // Get ADC from 2, 8-bit regs,
-   //    no need for atomic because we are
-   //    in an ISR which is technically an
-   //    atomic section
-   Last_ADC_Value = 0;
+    // Get ADC from 2, 8-bit regs,
+    //      no need for atomic because we are
+    //      in an ISR which is technically an
+    //      atomic section
+    Last_ADC_Value = 0;
   de:	10 92 01 01 	sts	0x0101, r1	; 0x800101 <__data_start+0x1>
   e2:	10 92 00 01 	sts	0x0100, r1	; 0x800100 <__data_start>
-   Last_ADC_Value |= (ADCH<<8);
+    Last_ADC_Value |= (ADCH<<8);
   e6:	80 91 79 00 	lds	r24, 0x0079	; 0x800079 <__EEPROM_REGION_LENGTH__+0x7f0079>
   ea:	90 e0       	ldi	r25, 0x00	; 0
   ec:	98 2f       	mov	r25, r24
   ee:	88 27       	eor	r24, r24
   f0:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__data_start+0x1>
   f4:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_start>
-   Last_ADC_Value |= ADCL;
+    Last_ADC_Value |= ADCL;
   f8:	20 91 78 00 	lds	r18, 0x0078	; 0x800078 <__EEPROM_REGION_LENGTH__+0x7f0078>
   fc:	82 2b       	or	r24, r18
   fe:	90 93 01 01 	sts	0x0101, r25	; 0x800101 <__data_start+0x1>
@@ -183,16 +183,16 @@ ISR(ADC_vect)
  118:	18 95       	reti
 
 0000011a <Post_Event>:
-      Description
-         Posts an event to the event list
+    Description
+        Posts an event to the event list
 
 ****************************************************************************/
 void Post_Event(uint32_t event_mask)
 {
  11a:	0f 93       	push	r16
  11c:	1f 93       	push	r17
-   // Set flag in event list
-   Pending_Events |= event_mask;
+    // Set flag in event list
+    Pending_Events |= event_mask;
  11e:	00 91 0c 01 	lds	r16, 0x010C	; 0x80010c <__data_end>
  122:	10 91 0d 01 	lds	r17, 0x010D	; 0x80010d <__data_end+0x1>
  126:	20 91 0e 01 	lds	r18, 0x010E	; 0x80010e <__data_end+0x2>
@@ -213,8 +213,8 @@ void Post_Event(uint32_t event_mask)
  14e:	08 95       	ret
 
 00000150 <Run_Events>:
-      Description
-         Runs a no-end loop to process and clear any pending events
+    Description
+        Runs a no-end loop to process and clear any pending events
 
 ****************************************************************************/
 void Run_Events(void)
@@ -223,16 +223,16 @@ void Run_Events(void)
  152:	b1 2c       	mov	r11, r1
  154:	00 e0       	ldi	r16, 0x00	; 0
  156:	10 e0       	ldi	r17, 0x00	; 0
-   while (1)
-   {
-      // Loop through all events
-      for (int event = 0; event < NUM_EVENTS; event++)
-      {
-         if (is_event_pending((0x01 << event)))
+    while (1)
+    {
+        // Loop through all events
+        for (int event = 0; event < NUM_EVENTS; event++)
+        {
+            if (is_event_pending((0x01 << event)))
  158:	c1 e0       	ldi	r28, 0x01	; 1
  15a:	d0 e0       	ldi	r29, 0x00	; 0
-      Description
-         Runs a no-end loop to process and clear any pending events
+    Description
+        Runs a no-end loop to process and clear any pending events
 
 ****************************************************************************/
 void Run_Events(void)
@@ -241,12 +241,12 @@ void Run_Events(void)
  15e:	db 2c       	mov	r13, r11
  160:	e0 2e       	mov	r14, r16
  162:	f1 2e       	mov	r15, r17
-   while (1)
-   {
-      // Loop through all events
-      for (int event = 0; event < NUM_EVENTS; event++)
-      {
-         if (is_event_pending((0x01 << event)))
+    while (1)
+    {
+        // Loop through all events
+        for (int event = 0; event < NUM_EVENTS; event++)
+        {
+            if (is_event_pending((0x01 << event)))
  164:	ce 01       	movw	r24, r28
  166:	0c 2c       	mov	r0, r12
  168:	02 c0       	rjmp	.+4      	; 0x16e <Run_Events+0x1e>
@@ -262,8 +262,8 @@ void Run_Events(void)
 ****************************************************************************/
 static bool is_event_pending(uint32_t event_mask)
 {
-   // If this event is pending
-   if (event_mask == (Pending_Events & event_mask))
+    // If this event is pending
+    if (event_mask == (Pending_Events & event_mask))
  17a:	40 91 0c 01 	lds	r20, 0x010C	; 0x80010c <__data_end>
  17e:	50 91 0d 01 	lds	r21, 0x010D	; 0x80010d <__data_end+0x1>
  182:	60 91 0e 01 	lds	r22, 0x010E	; 0x80010e <__data_end+0x2>
@@ -279,9 +279,9 @@ static bool is_event_pending(uint32_t event_mask)
  19a:	a6 05       	cpc	r26, r6
  19c:	b7 05       	cpc	r27, r7
  19e:	a1 f4       	brne	.+40     	; 0x1c8 <Run_Events+0x78>
-   {
-      // Clear Event
-      Pending_Events &= ~event_mask;
+    {
+        // Clear Event
+        Pending_Events &= ~event_mask;
  1a0:	80 95       	com	r24
  1a2:	90 95       	com	r25
  1a4:	a0 95       	com	r26
@@ -294,12 +294,12 @@ static bool is_event_pending(uint32_t event_mask)
  1b4:	90 93 0d 01 	sts	0x010D, r25	; 0x80010d <__data_end+0x1>
  1b8:	a0 93 0e 01 	sts	0x010E, r26	; 0x80010e <__data_end+0x2>
  1bc:	b0 93 0f 01 	sts	0x010F, r27	; 0x80010f <__data_end+0x3>
-      // Loop through all events
-      for (int event = 0; event < NUM_EVENTS; event++)
-      {
-         if (is_event_pending((0x01 << event)))
-         {
-            Run_Services(event);
+        // Loop through all events
+        for (int event = 0; event < NUM_EVENTS; event++)
+        {
+            if (is_event_pending((0x01 << event)))
+            {
+                Run_Services(event);
  1c0:	c7 01       	movw	r24, r14
  1c2:	b6 01       	movw	r22, r12
  1c4:	0e 94 fd 00 	call	0x1fa	; 0x1fa <Run_Services>
@@ -309,11 +309,11 @@ static bool is_event_pending(uint32_t event_mask)
  1ce:	e8 0a       	sbc	r14, r24
  1d0:	f8 0a       	sbc	r15, r24
 {
-   // Run no-end main loop
-   while (1)
-   {
-      // Loop through all events
-      for (int event = 0; event < NUM_EVENTS; event++)
+    // Run no-end main loop
+    while (1)
+    {
+        // Loop through all events
+        for (int event = 0; event < NUM_EVENTS; event++)
  1d2:	86 e0       	ldi	r24, 0x06	; 6
  1d4:	c8 16       	cp	r12, r24
  1d6:	d1 04       	cpc	r13, r1
@@ -326,29 +326,29 @@ static bool is_event_pending(uint32_t event_mask)
 ****************************************************************************/
 void Initialize_Framework(void)
 {
-   // Call all initializers
-   #ifdef INITIALIZER_00
-   INITIALIZER_00();
+    // Call all initializers
+    #ifdef INITIALIZER_00
+    INITIALIZER_00();
  1e0:	0e 94 9b 03 	call	0x736	; 0x736 <Init_Timer_Module>
-   #endif
-   #ifdef INITIALIZER_01
-   INITIALIZER_01();
+    #endif
+    #ifdef INITIALIZER_01
+    INITIALIZER_01();
  1e4:	0e 94 f2 01 	call	0x3e4	; 0x3e4 <Init_LIN_XCVR_WD_Kicker>
-   #endif
-   #ifdef INITIALIZER_02
-   INITIALIZER_02();
+    #endif
+    #ifdef INITIALIZER_02
+    INITIALIZER_02();
  1e8:	0e 94 40 03 	call	0x680	; 0x680 <Init_PWM_Module>
-   #endif
-   #ifdef INITIALIZER_03
-   INITIALIZER_03();
+    #endif
+    #ifdef INITIALIZER_03
+    INITIALIZER_03();
  1ec:	0e 94 00 01 	call	0x200	; 0x200 <Init_IOC_Module>
-   #endif
-   #ifdef INITIALIZER_04
-   INITIALIZER_04();
+    #endif
+    #ifdef INITIALIZER_04
+    INITIALIZER_04();
  1f0:	0e 94 47 00 	call	0x8e	; 0x8e <Init_ADC_Module>
-   #endif
-   #ifdef INITIALIZER_05
-   INITIALIZER_05();
+    #endif
+    #ifdef INITIALIZER_05
+    INITIALIZER_05();
  1f4:	0e 94 11 02 	call	0x422	; 0x422 <Init_Master_Service>
  1f8:	08 95       	ret
 
@@ -356,46 +356,46 @@ void Initialize_Framework(void)
 ****************************************************************************/
 void Run_Services(uint32_t event)
 {
-   // Call all services
-   #ifdef SERVICE_00
-   SERVICE_00(event);
+    // Call all services
+    #ifdef SERVICE_00
+    SERVICE_00(event);
  1fa:	0e 94 28 02 	call	0x450	; 0x450 <Run_Master_Service>
  1fe:	08 95       	ret
 
 00000200 <Init_IOC_Module>:
-	// The I/O Clock has no reason to be halted currently, but if it is
-	// i.e. when it is coming out of sleep mode, I/O clock requires to be
-	// enabled.
-	   
-	// Setting up PB6 as an input pin
-	DDRB &= ~(1<<INT0_PIN);
+    // The I/O Clock has no reason to be halted currently, but if it is
+    // i.e. when it is coming out of sleep mode, I/O clock requires to be
+    // enabled.
+         
+    // Setting up PB6 as an input pin
+    DDRB &= ~(1<<INT0_PIN);
  200:	26 98       	cbi	0x04, 6	; 4
-	   
-	// Set External Interrupt Control Register A to detect toggles.
-	EICRA &= ~(1<<ISC01);
+         
+    // Set External Interrupt Control Register A to detect toggles.
+    EICRA &= ~(1<<ISC01);
  202:	e9 e6       	ldi	r30, 0x69	; 105
  204:	f0 e0       	ldi	r31, 0x00	; 0
  206:	80 81       	ld	r24, Z
  208:	8d 7f       	andi	r24, 0xFD	; 253
  20a:	80 83       	st	Z, r24
-	EICRA |= (1<<ISC00);
+    EICRA |= (1<<ISC00);
  20c:	80 81       	ld	r24, Z
  20e:	81 60       	ori	r24, 0x01	; 1
  210:	80 83       	st	Z, r24
-	   
-	// When the INT0 bit is set (one) and the I-bit in the Status Register (SREG) 
-	// is set (one), the external pin interrupt is enabled.
-	EIMSK |= (1<<INT0);
+         
+    // When the INT0 bit is set (one) and the I-bit in the Status Register (SREG) 
+    // is set (one), the external pin interrupt is enabled.
+    EIMSK |= (1<<INT0);
  212:	e8 9a       	sbi	0x1d, 0	; 29
-	   
-	// Clear External Interrupt Flag
-	EIFR |= (1<<INTF0);
+         
+    // Clear External Interrupt Flag
+    EIFR |= (1<<INTF0);
  214:	e0 9a       	sbi	0x1c, 0	; 28
  216:	08 95       	ret
 
 00000218 <__vector_1>:
-      Description
-         Handles IOC specific interrupts
+    Description
+        Handles IOC specific interrupts
 
 ****************************************************************************/
 ISR(INT0_vect)
@@ -405,8 +405,8 @@ ISR(INT0_vect)
  21c:	0f b6       	in	r0, 0x3f	; 63
  21e:	0f 92       	push	r0
  220:	11 24       	eor	r1, r1
-	// Clear External Interrupt Flag
-	EIFR |= (1<<INTF0);
+    // Clear External Interrupt Flag
+    EIFR |= (1<<INTF0);
  222:	e0 9a       	sbi	0x1c, 0	; 28
 }
  224:	0f 90       	pop	r0
@@ -766,23 +766,23 @@ unsigned char i, l_len;
 ****************************************************************************/
 static void kick_LIN_XCVR_WD(uint32_t unused)
 {
-   // Flip Parity
-   Parity ^= 1;
+    // Flip Parity
+    Parity ^= 1;
  3ac:	90 91 10 01 	lds	r25, 0x0110	; 0x800110 <Parity>
  3b0:	81 e0       	ldi	r24, 0x01	; 1
  3b2:	89 27       	eor	r24, r25
  3b4:	80 93 10 01 	sts	0x0110, r24	; 0x800110 <Parity>
 
-   // Kick xcvr watchdog
-   if (0 == Parity)
+    // Kick xcvr watchdog
+    if (0 == Parity)
  3b8:	81 11       	cpse	r24, r1
  3ba:	0a c0       	rjmp	.+20     	; 0x3d0 <kick_LIN_XCVR_WD+0x24>
-   {
-      // PA3 lo
-      PORTA &= ~(1<<PINA3);
+    {
+        // PA3 lo
+        PORTA &= ~(1<<PINA3);
  3bc:	13 98       	cbi	0x02, 3	; 2
-      // Restart timer for kick pulse length
-      Start_Timer(&LIN_XCVR_Kick_Timer, KICK_LENGTH_MS);
+        // Restart timer for kick pulse length
+        Start_Timer(&LIN_XCVR_Kick_Timer, KICK_LENGTH_MS);
  3be:	42 e0       	ldi	r20, 0x02	; 2
  3c0:	50 e0       	ldi	r21, 0x00	; 0
  3c2:	60 e0       	ldi	r22, 0x00	; 0
@@ -791,14 +791,14 @@ static void kick_LIN_XCVR_WD(uint32_t unused)
  3c8:	91 e0       	ldi	r25, 0x01	; 1
  3ca:	0e 94 0c 04 	call	0x818	; 0x818 <Start_Timer>
  3ce:	08 95       	ret
-   }
-   else
-   {
-      // PA3 hi
-      PORTA |= (1<<PINA3);
+    }
+    else
+    {
+        // PA3 hi
+        PORTA |= (1<<PINA3);
  3d0:	13 9a       	sbi	0x02, 3	; 2
-      // Restart timer for kick frequency
-      Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
+        // Restart timer for kick frequency
+        Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
  3d2:	43 e2       	ldi	r20, 0x23	; 35
  3d4:	50 e0       	ldi	r21, 0x00	; 0
  3d6:	60 e0       	ldi	r22, 0x00	; 0
@@ -813,22 +813,22 @@ static void kick_LIN_XCVR_WD(uint32_t unused)
 ****************************************************************************/
 void Init_LIN_XCVR_WD_Kicker(void)
 {
-   // Set up PINA3 to kick WD
-   PORTA |= (1<<PINA3);
+    // Set up PINA3 to kick WD
+    PORTA |= (1<<PINA3);
  3e4:	13 9a       	sbi	0x02, 3	; 2
-   DDRA |= (1<<PINA3);
+    DDRA |= (1<<PINA3);
  3e6:	0b 9a       	sbi	0x01, 3	; 1
 
-   // Register timer
-   Register_Timer(&LIN_XCVR_Kick_Timer, kick_LIN_XCVR_WD);
+    // Register timer
+    Register_Timer(&LIN_XCVR_Kick_Timer, kick_LIN_XCVR_WD);
  3e8:	66 ed       	ldi	r22, 0xD6	; 214
  3ea:	71 e0       	ldi	r23, 0x01	; 1
  3ec:	81 e1       	ldi	r24, 0x11	; 17
  3ee:	91 e0       	ldi	r25, 0x01	; 1
  3f0:	0e 94 bf 03 	call	0x77e	; 0x77e <Register_Timer>
 
-   // Start timer
-   Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
+    // Start timer
+    Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
  3f4:	43 e2       	ldi	r20, 0x23	; 35
  3f6:	50 e0       	ldi	r21, 0x00	; 0
  3f8:	60 e0       	ldi	r22, 0x00	; 0
@@ -840,49 +840,49 @@ void Init_LIN_XCVR_WD_Kicker(void)
 
 00000406 <main>:
 {
-   // *******************************
-   // MICROCONTROLLER INITIALIZATIONS
-   // *******************************
-   // Disable global interrupts
-   asm("cli");
+    // *******************************
+    // MICROCONTROLLER INITIALIZATIONS
+    // *******************************
+    // Disable global interrupts
+    asm("cli");
  406:	f8 94       	cli
-   // >>> The internal 8 MHz clock is already chosen.
+    // >>> The internal 8 MHz clock is already chosen.
 
-   // CLKDIV8 comes initially programmed which will divide the 8MHz clock by 8.
-   // We need to write to the CLKPR to make the chip run at 8 MHz instead of 1 MHz:
-   // (p. 38)
-   CLKPR = 1 << CLKPCE;
+    // CLKDIV8 comes initially programmed which will divide the 8MHz clock by 8.
+    // We need to write to the CLKPR to make the chip run at 8 MHz instead of 1 MHz:
+    // (p. 38)
+    CLKPR = 1 << CLKPCE;
  408:	e1 e6       	ldi	r30, 0x61	; 97
  40a:	f0 e0       	ldi	r31, 0x00	; 0
  40c:	80 e8       	ldi	r24, 0x80	; 128
  40e:	80 83       	st	Z, r24
-   CLKPR = 0;
+    CLKPR = 0;
  410:	10 82       	st	Z, r1
-   //    make sure no port pins drive resistive loads
-   
-   // *******************************
-   // CALL INITIALIZERS
-   // *******************************
-   Initialize_Framework();
+    //      make sure no port pins drive resistive loads
+    
+    // *******************************
+    // CALL INITIALIZERS
+    // *******************************
+    Initialize_Framework();
  412:	0e 94 f0 00 	call	0x1e0	; 0x1e0 <Initialize_Framework>
-   
-   // *******************************
-   // ENABLE GLOBAL INTERRUPTS
-   // *******************************
-   asm("sei");
+    
+    // *******************************
+    // ENABLE GLOBAL INTERRUPTS
+    // *******************************
+    asm("sei");
  416:	78 94       	sei
 
-   // *******************************
-   // RUN EVENTS SERVICE
-   // *******************************
-   // Run the events service
-   Run_Events();
+    // *******************************
+    // RUN EVENTS SERVICE
+    // *******************************
+    // Run the events service
+    Run_Events();
  418:	0e 94 a8 00 	call	0x150	; 0x150 <Run_Events>
 
-   // *******************************
-   // C NECESSARY RETURN
-   // *******************************
-   return 0;
+    // *******************************
+    // C NECESSARY RETURN
+    // *******************************
+    return 0;
 }
  41c:	80 e0       	ldi	r24, 0x00	; 0
  41e:	90 e0       	ldi	r25, 0x00	; 0
@@ -893,15 +893,15 @@ void Init_LIN_XCVR_WD_Kicker(void)
 ****************************************************************************/
 void Init_Master_Service(void)
 {
-   // Set LIN ID, no need for ADC, we are the master node
-   My_Node_ID = MASTER_NODE_ID;
+    // Set LIN ID, no need for ADC, we are the master node
+    My_Node_ID = MASTER_NODE_ID;
  422:	10 92 22 01 	sts	0x0122, r1	; 0x800122 <My_Node_ID>
 
-   // Initialize the data arrays to proper things
-   // TODO:
+    // Initialize the data arrays to proper things
+    // TODO:
 
-   // Initialize LIN
-   MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
+    // Initialize LIN
+    MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
  426:	46 e1       	ldi	r20, 0x16	; 22
  428:	51 e0       	ldi	r21, 0x01	; 1
  42a:	6c e1       	ldi	r22, 0x1C	; 28
@@ -910,19 +910,19 @@ void Init_Master_Service(void)
  430:	91 e0       	ldi	r25, 0x01	; 1
  432:	0e 94 6c 02 	call	0x4d8	; 0x4d8 <MS_LIN_Initialize>
 
-   // Register scheduling timer
-   Register_Timer(&Scheduling_Timer, Post_Event);
+    // Register scheduling timer
+    Register_Timer(&Scheduling_Timer, Post_Event);
  436:	6d e8       	ldi	r22, 0x8D	; 141
  438:	70 e0       	ldi	r23, 0x00	; 0
  43a:	87 e0       	ldi	r24, 0x07	; 7
  43c:	91 e0       	ldi	r25, 0x01	; 1
  43e:	0e 94 bf 03 	call	0x77e	; 0x77e <Register_Timer>
-   // Kick off scheduling timer
-   // TEST! Pause LIN service for now
-   // Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+    // Kick off scheduling timer
+    // TEST! Pause LIN service for now
+    // Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
-   // Register test timer & start
-   Register_Timer(&Testing_Timer, Post_Event);
+    // Register test timer & start
+    Register_Timer(&Testing_Timer, Post_Event);
  442:	6d e8       	ldi	r22, 0x8D	; 141
  444:	70 e0       	ldi	r23, 0x00	; 0
  446:	82 e0       	ldi	r24, 0x02	; 2
@@ -931,12 +931,12 @@ void Init_Master_Service(void)
  44e:	08 95       	ret
 
 00000450 <Run_Master_Service>:
-         Processes events for the master node
+        Processes events for the master node
 
 ****************************************************************************/
 void Run_Master_Service(uint32_t event_mask)
 {
-   switch(event_mask)
+    switch(event_mask)
  450:	68 30       	cpi	r22, 0x08	; 8
  452:	71 05       	cpc	r23, r1
  454:	81 05       	cpc	r24, r1
@@ -948,38 +948,38 @@ void Run_Master_Service(uint32_t event_mask)
  460:	91 05       	cpc	r25, r1
  462:	c9 f0       	breq	.+50     	; 0x496 <Run_Master_Service+0x46>
  464:	08 95       	ret
-   {
-      case EVT_MASTER_SCH_TIMEOUT:
-         // Transmit next header in schedule
-         Master_LIN_Broadcast_ID(Curr_Schedule_ID);
+    {
+        case EVT_MASTER_SCH_TIMEOUT:
+            // Transmit next header in schedule
+            Master_LIN_Broadcast_ID(Curr_Schedule_ID);
  466:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <Curr_Schedule_ID>
  46a:	0e 94 91 02 	call	0x522	; 0x522 <Master_LIN_Broadcast_ID>
 
 ****************************************************************************/
 static void update_curr_schedule_id(void)
 {
-   // If we hit boundary condition, reset counter; otherwise increment
-   if (((NUM_SLAVES<<1)+1) == Curr_Schedule_ID)
+    // If we hit boundary condition, reset counter; otherwise increment
+    if (((NUM_SLAVES<<1)+1) == Curr_Schedule_ID)
  46e:	80 91 06 01 	lds	r24, 0x0106	; 0x800106 <Curr_Schedule_ID>
  472:	87 30       	cpi	r24, 0x07	; 7
  474:	21 f4       	brne	.+8      	; 0x47e <Run_Master_Service+0x2e>
-   {
-      Curr_Schedule_ID = SCHEDULE_START_ID;
+    {
+        Curr_Schedule_ID = SCHEDULE_START_ID;
  476:	82 e0       	ldi	r24, 0x02	; 2
  478:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <Curr_Schedule_ID>
  47c:	03 c0       	rjmp	.+6      	; 0x484 <Run_Master_Service+0x34>
-   }
-   else
-   {
-      Curr_Schedule_ID++;
+    }
+    else
+    {
+        Curr_Schedule_ID++;
  47e:	8f 5f       	subi	r24, 0xFF	; 255
  480:	80 93 06 01 	sts	0x0106, r24	; 0x800106 <Curr_Schedule_ID>
-         // Transmit next header in schedule
-         Master_LIN_Broadcast_ID(Curr_Schedule_ID);
-         // Update schedule
-         update_curr_schedule_id();
-         // Restart timer
-         Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+            // Transmit next header in schedule
+            Master_LIN_Broadcast_ID(Curr_Schedule_ID);
+            // Update schedule
+            update_curr_schedule_id();
+            // Restart timer
+            Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
  484:	44 e0       	ldi	r20, 0x04	; 4
  486:	50 e0       	ldi	r21, 0x00	; 0
  488:	60 e0       	ldi	r22, 0x00	; 0
@@ -987,60 +987,60 @@ static void update_curr_schedule_id(void)
  48c:	87 e0       	ldi	r24, 0x07	; 7
  48e:	91 e0       	ldi	r25, 0x01	; 1
  490:	0e 94 0c 04 	call	0x818	; 0x818 <Start_Timer>
-         break;
+            break;
  494:	08 95       	ret
-      case EVT_TEST_TIMEOUT:
-         // Just a test
-          for (int i = 0; i < NUM_SLAVES; i++)
-          {
-             uint8_t temp_index = i<<1;
-             My_Command_Data[temp_index] = test_counter;
+        case EVT_TEST_TIMEOUT:
+            // Just a test
+             for (int i = 0; i < NUM_SLAVES; i++)
+             {
+                 uint8_t temp_index = i<<1;
+                 My_Command_Data[temp_index] = test_counter;
  496:	60 91 15 01 	lds	r22, 0x0115	; 0x800115 <test_counter>
  49a:	ec e1       	ldi	r30, 0x1C	; 28
  49c:	f1 e0       	ldi	r31, 0x01	; 1
  49e:	60 83       	st	Z, r22
-             My_Command_Data[temp_index+1] = 0xFF;
+                 My_Command_Data[temp_index+1] = 0xFF;
  4a0:	8f ef       	ldi	r24, 0xFF	; 255
  4a2:	81 83       	std	Z+1, r24	; 0x01
-      case EVT_TEST_TIMEOUT:
-         // Just a test
-          for (int i = 0; i < NUM_SLAVES; i++)
-          {
-             uint8_t temp_index = i<<1;
-             My_Command_Data[temp_index] = test_counter;
+        case EVT_TEST_TIMEOUT:
+            // Just a test
+             for (int i = 0; i < NUM_SLAVES; i++)
+             {
+                 uint8_t temp_index = i<<1;
+                 My_Command_Data[temp_index] = test_counter;
  4a4:	62 83       	std	Z+2, r22	; 0x02
-             My_Command_Data[temp_index+1] = 0xFF;
+                 My_Command_Data[temp_index+1] = 0xFF;
  4a6:	83 83       	std	Z+3, r24	; 0x03
-      case EVT_TEST_TIMEOUT:
-         // Just a test
-          for (int i = 0; i < NUM_SLAVES; i++)
-          {
-             uint8_t temp_index = i<<1;
-             My_Command_Data[temp_index] = test_counter;
+        case EVT_TEST_TIMEOUT:
+            // Just a test
+             for (int i = 0; i < NUM_SLAVES; i++)
+             {
+                 uint8_t temp_index = i<<1;
+                 My_Command_Data[temp_index] = test_counter;
  4a8:	64 83       	std	Z+4, r22	; 0x04
-             My_Command_Data[temp_index+1] = 0xFF;
+                 My_Command_Data[temp_index+1] = 0xFF;
  4aa:	85 83       	std	Z+5, r24	; 0x05
-          }
-         Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
+             }
+            Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
  4ac:	81 e0       	ldi	r24, 0x01	; 1
  4ae:	0e 94 68 03 	call	0x6d0	; 0x6d0 <Set_PWM_Duty_Cycle>
-         test_counter++;
+            test_counter++;
  4b2:	80 91 15 01 	lds	r24, 0x0115	; 0x800115 <test_counter>
  4b6:	8f 5f       	subi	r24, 0xFF	; 255
-         if (100 < test_counter) {test_counter = 0;};
+            if (100 < test_counter) {test_counter = 0;};
  4b8:	85 36       	cpi	r24, 0x65	; 101
  4ba:	18 f4       	brcc	.+6      	; 0x4c2 <Run_Master_Service+0x72>
-             uint8_t temp_index = i<<1;
-             My_Command_Data[temp_index] = test_counter;
-             My_Command_Data[temp_index+1] = 0xFF;
-          }
-         Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
-         test_counter++;
+                 uint8_t temp_index = i<<1;
+                 My_Command_Data[temp_index] = test_counter;
+                 My_Command_Data[temp_index+1] = 0xFF;
+             }
+            Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
+            test_counter++;
  4bc:	80 93 15 01 	sts	0x0115, r24	; 0x800115 <test_counter>
  4c0:	02 c0       	rjmp	.+4      	; 0x4c6 <Run_Master_Service+0x76>
-         if (100 < test_counter) {test_counter = 0;};
+            if (100 < test_counter) {test_counter = 0;};
  4c2:	10 92 15 01 	sts	0x0115, r1	; 0x800115 <test_counter>
-         Start_Timer(&Testing_Timer, 500);
+            Start_Timer(&Testing_Timer, 500);
  4c6:	44 ef       	ldi	r20, 0xF4	; 244
  4c8:	51 e0       	ldi	r21, 0x01	; 1
  4ca:	60 e0       	ldi	r22, 0x00	; 0
@@ -1051,11 +1051,11 @@ static void update_curr_schedule_id(void)
  4d6:	08 95       	ret
 
 000004d8 <MS_LIN_Initialize>:
-         Initializes the LIN bus for the nodes based on ATtiny167
+        Initializes the LIN bus for the nodes based on ATtiny167
 
 ****************************************************************************/
 void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
-   uint8_t * p_status_data)
+    uint8_t * p_status_data)
 {
  4d8:	ef 92       	push	r14
  4da:	ff 92       	push	r15
@@ -1066,15 +1066,15 @@ void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
  4e4:	7c 01       	movw	r14, r24
  4e6:	8b 01       	movw	r16, r22
  4e8:	ea 01       	movw	r28, r20
-   // 0. Enable the LIN transceiver via PA4 which is connected on ENABLE
-   PORTA |= (1<<PINA4);
+    // 0. Enable the LIN transceiver via PA4 which is connected on ENABLE
+    PORTA |= (1<<PINA4);
  4ea:	14 9a       	sbi	0x02, 4	; 2
-   DDRA |= (1<<PINA4);
+    DDRA |= (1<<PINA4);
  4ec:	0c 9a       	sbi	0x01, 4	; 1
 
-   // 1. Call the LIN init function from the driver layer
-   // * Arguments are found in lin_drv.h, config.h
-   lin_init((OUR_LIN_SPEC), (CONF_LINBRR));
+    // 1. Call the LIN init function from the driver layer
+    // * Arguments are found in lin_drv.h, config.h
+    lin_init((OUR_LIN_SPEC), (CONF_LINBRR));
  4ee:	4c e0       	ldi	r20, 0x0C	; 12
  4f0:	50 e0       	ldi	r21, 0x00	; 0
  4f2:	60 e0       	ldi	r22, 0x00	; 0
@@ -1082,16 +1082,16 @@ void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
  4f6:	80 e0       	ldi	r24, 0x00	; 0
  4f8:	0e 94 17 01 	call	0x22e	; 0x22e <lin_init>
 
-   // 2. Save the pointer to this node's ID
-   p_My_Node_ID = p_this_node_id;
+    // 2. Save the pointer to this node's ID
+    p_My_Node_ID = p_this_node_id;
  4fc:	f0 92 29 01 	sts	0x0129, r15	; 0x800129 <p_My_Node_ID+0x1>
  500:	e0 92 28 01 	sts	0x0128, r14	; 0x800128 <p_My_Node_ID>
 
-   // 3. Save the pointers to the data stores
-   p_My_Command_Data = p_command_data;
+    // 3. Save the pointers to the data stores
+    p_My_Command_Data = p_command_data;
  504:	10 93 27 01 	sts	0x0127, r17	; 0x800127 <p_My_Command_Data+0x1>
  508:	00 93 26 01 	sts	0x0126, r16	; 0x800126 <p_My_Command_Data>
-   p_My_Status_Data = p_status_data;
+    p_My_Status_Data = p_status_data;
  50c:	d0 93 25 01 	sts	0x0125, r29	; 0x800125 <p_My_Status_Data+0x1>
  510:	c0 93 24 01 	sts	0x0124, r28	; 0x800124 <p_My_Status_Data>
 }
@@ -1108,8 +1108,8 @@ void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
 ****************************************************************************/
 void Master_LIN_Broadcast_ID(uint8_t slave_id)
 {
-   // Broadcast the LIN header
-   lin_tx_header((OUR_LIN_SPEC), slave_id, 0);
+    // Broadcast the LIN header
+    lin_tx_header((OUR_LIN_SPEC), slave_id, 0);
  522:	40 e0       	ldi	r20, 0x00	; 0
  524:	68 2f       	mov	r22, r24
  526:	80 e0       	ldi	r24, 0x00	; 0
@@ -1117,8 +1117,8 @@ void Master_LIN_Broadcast_ID(uint8_t slave_id)
  52c:	08 95       	ret
 
 0000052e <__vector_12>:
-      Description
-         Handles LIN specific interrupts
+    Description
+        Handles LIN specific interrupts
 
 ****************************************************************************/
 ISR(LIN_TC_vect)
@@ -1140,8 +1140,8 @@ ISR(LIN_TC_vect)
  54a:	bf 93       	push	r27
  54c:	ef 93       	push	r30
  54e:	ff 93       	push	r31
-   // Get interrupt cause
-   switch (Lin_get_it())
+    // Get interrupt cause
+    switch (Lin_get_it())
  550:	80 91 c9 00 	lds	r24, 0x00C9	; 0x8000c9 <__EEPROM_REGION_LENGTH__+0x7f00c9>
  554:	8f 70       	andi	r24, 0x0F	; 15
  556:	82 30       	cpi	r24, 0x02	; 2
@@ -1157,38 +1157,38 @@ ISR(LIN_TC_vect)
 ****************************************************************************/
 static void lin_id_task(void)
 {
-   // Create copy of ID, make sure this gives only the lower 6 bits
-   uint8_t temp_id = Lin_get_id();
+    // Create copy of ID, make sure this gives only the lower 6 bits
+    uint8_t temp_id = Lin_get_id();
  568:	90 91 d0 00 	lds	r25, 0x00D0	; 0x8000d0 <__EEPROM_REGION_LENGTH__+0x7f00d0>
  56c:	69 2f       	mov	r22, r25
  56e:	6f 73       	andi	r22, 0x3F	; 63
 
-   // This ID matches my ID. It must be a command sent from the master.
-   if (temp_id == *p_My_Node_ID)
+    // This ID matches my ID. It must be a command sent from the master.
+    if (temp_id == *p_My_Node_ID)
  570:	e0 91 28 01 	lds	r30, 0x0128	; 0x800128 <p_My_Node_ID>
  574:	f0 91 29 01 	lds	r31, 0x0129	; 0x800129 <p_My_Node_ID+0x1>
  578:	80 81       	ld	r24, Z
  57a:	68 13       	cpse	r22, r24
  57c:	05 c0       	rjmp	.+10     	; 0x588 <__vector_12+0x5a>
-	{
-      // Prepare LIN module for receive.
-      lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
+    {
+        // Prepare LIN module for receive.
+        lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
  57e:	62 e0       	ldi	r22, 0x02	; 2
  580:	80 e0       	ldi	r24, 0x00	; 0
  582:	0e 94 72 01 	call	0x2e4	; 0x2e4 <lin_rx_response>
  586:	23 c0       	rjmp	.+70     	; 0x5ce <__vector_12+0xa0>
-	}
+    }
 
-   // This ID matches my ID. It must be a status request from the master.
-   else if (temp_id == ((*p_My_Node_ID)|REQUEST_MASK))
+    // This ID matches my ID. It must be a status request from the master.
+    else if (temp_id == ((*p_My_Node_ID)|REQUEST_MASK))
  588:	28 2f       	mov	r18, r24
  58a:	21 60       	ori	r18, 0x01	; 1
  58c:	62 13       	cpse	r22, r18
  58e:	09 c0       	rjmp	.+18     	; 0x5a2 <__vector_12+0x74>
-	{
-      // Prepare LIN module for transmit.
-      // We must be a slave so My_Command_Data is 2 bytes long only.
-      lin_tx_response((OUR_LIN_SPEC), p_My_Status_Data, (LIN_PACKET_LEN));
+    {
+        // Prepare LIN module for transmit.
+        // We must be a slave so My_Command_Data is 2 bytes long only.
+        lin_tx_response((OUR_LIN_SPEC), p_My_Status_Data, (LIN_PACKET_LEN));
  590:	60 91 24 01 	lds	r22, 0x0124	; 0x800124 <p_My_Status_Data>
  594:	70 91 25 01 	lds	r23, 0x0125	; 0x800125 <p_My_Status_Data+0x1>
  598:	42 e0       	ldi	r20, 0x02	; 2
@@ -1196,23 +1196,23 @@ static void lin_id_task(void)
  59c:	0e 94 8f 01 	call	0x31e	; 0x31e <lin_tx_response>
  5a0:	16 c0       	rjmp	.+44     	; 0x5ce <__vector_12+0xa0>
 
-   // This ID doesn't match my ID.
-   else
-	{
-      // If we're the master, we must have sent this ID
-      if (MASTER_NODE_ID == *p_My_Node_ID)
+    // This ID doesn't match my ID.
+    else
+    {
+        // If we're the master, we must have sent this ID
+        if (MASTER_NODE_ID == *p_My_Node_ID)
  5a2:	81 11       	cpse	r24, r1
  5a4:	14 c0       	rjmp	.+40     	; 0x5ce <__vector_12+0xa0>
-      {
-         // Prepare LIN module for transmit if we sent a command.
-         if (0 == (temp_id & REQUEST_MASK))
+        {
+            // Prepare LIN module for transmit if we sent a command.
+            if (0 == (temp_id & REQUEST_MASK))
  5a6:	90 fd       	sbrc	r25, 0
  5a8:	0e c0       	rjmp	.+28     	; 0x5c6 <__vector_12+0x98>
-         {
-            // Make sure we send the right command based on the slave ID.
-            // The master has a My_Command_Data array that is 2*n bytes long.
-            // Where n is the number of slaves in the system.
-            uint8_t * p_slave_command = p_My_Command_Data + temp_id - 2;
+            {
+                // Make sure we send the right command based on the slave ID.
+                // The master has a My_Command_Data array that is 2*n bytes long.
+                // Where n is the number of slaves in the system.
+                uint8_t * p_slave_command = p_My_Command_Data + temp_id - 2;
  5aa:	70 e0       	ldi	r23, 0x00	; 0
  5ac:	62 50       	subi	r22, 0x02	; 2
  5ae:	71 09       	sbc	r23, r1
@@ -1220,43 +1220,43 @@ static void lin_id_task(void)
  5b4:	90 91 27 01 	lds	r25, 0x0127	; 0x800127 <p_My_Command_Data+0x1>
  5b8:	68 0f       	add	r22, r24
  5ba:	79 1f       	adc	r23, r25
-            lin_tx_response((OUR_LIN_SPEC), p_slave_command, (LIN_PACKET_LEN));
+                lin_tx_response((OUR_LIN_SPEC), p_slave_command, (LIN_PACKET_LEN));
  5bc:	42 e0       	ldi	r20, 0x02	; 2
  5be:	80 e0       	ldi	r24, 0x00	; 0
  5c0:	0e 94 8f 01 	call	0x31e	; 0x31e <lin_tx_response>
  5c4:	04 c0       	rjmp	.+8      	; 0x5ce <__vector_12+0xa0>
-         }
-         // Prepare LIN module for receive if we sent a request.
-         else
-         {
-            lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
+            }
+            // Prepare LIN module for receive if we sent a request.
+            else
+            {
+                lin_rx_response((OUR_LIN_SPEC), (LIN_PACKET_LEN));
  5c6:	62 e0       	ldi	r22, 0x02	; 2
  5c8:	80 e0       	ldi	r24, 0x00	; 0
  5ca:	0e 94 72 01 	call	0x2e4	; 0x2e4 <lin_rx_response>
-   switch (Lin_get_it())
-   {
-      // We received an ID
-      case LIN_IDOK:
-         lin_id_task();
-         Lin_clear_idok_it();
+    switch (Lin_get_it())
+    {
+        // We received an ID
+        case LIN_IDOK:
+            lin_id_task();
+            Lin_clear_idok_it();
  5ce:	84 e0       	ldi	r24, 0x04	; 4
  5d0:	80 93 c9 00 	sts	0x00C9, r24	; 0x8000c9 <__EEPROM_REGION_LENGTH__+0x7f00c9>
-         break;
+            break;
  5d4:	2e c0       	rjmp	.+92     	; 0x632 <__vector_12+0x104>
 ****************************************************************************/
 static void lin_rx_task(void)
 {
-   // Copy the rx data to our appropriate data store
-   // If we're the master, copy to our status array and post event
-   if (MASTER_NODE_ID == *p_My_Node_ID)
+    // Copy the rx data to our appropriate data store
+    // If we're the master, copy to our status array and post event
+    if (MASTER_NODE_ID == *p_My_Node_ID)
  5d6:	e0 91 28 01 	lds	r30, 0x0128	; 0x800128 <p_My_Node_ID>
  5da:	f0 91 29 01 	lds	r31, 0x0129	; 0x800129 <p_My_Node_ID+0x1>
  5de:	80 81       	ld	r24, Z
  5e0:	81 11       	cpse	r24, r1
  5e2:	14 c0       	rjmp	.+40     	; 0x60c <__vector_12+0xde>
-   {
-      // TODO: Not entirely sure if the ID is saved during the receive...
-      lin_get_response(p_My_Status_Data + (Lin_get_id() & SLAVE_BASE_MASK) - 2);
+    {
+        // TODO: Not entirely sure if the ID is saved during the receive...
+        lin_get_response(p_My_Status_Data + (Lin_get_id() & SLAVE_BASE_MASK) - 2);
  5e4:	80 91 d0 00 	lds	r24, 0x00D0	; 0x8000d0 <__EEPROM_REGION_LENGTH__+0x7f00d0>
  5e8:	8e 73       	andi	r24, 0x3E	; 62
  5ea:	90 e0       	ldi	r25, 0x00	; 0
@@ -1267,53 +1267,53 @@ static void lin_rx_task(void)
  5f8:	93 1f       	adc	r25, r19
  5fa:	0e 94 c0 01 	call	0x380	; 0x380 <lin_get_response>
 
-      // Post event
-      Post_Event(EVT_MASTER_NEW_STS);
+        // Post event
+        Post_Event(EVT_MASTER_NEW_STS);
  5fe:	60 e1       	ldi	r22, 0x10	; 16
  600:	70 e0       	ldi	r23, 0x00	; 0
  602:	80 e0       	ldi	r24, 0x00	; 0
  604:	90 e0       	ldi	r25, 0x00	; 0
  606:	0e 94 8d 00 	call	0x11a	; 0x11a <Post_Event>
  60a:	0c c0       	rjmp	.+24     	; 0x624 <__vector_12+0xf6>
-   }
-   // If we're a slave, copy to our command array and post event
-   else
-   {
-      // Copy command
-      lin_get_response(p_My_Command_Data);
+    }
+    // If we're a slave, copy to our command array and post event
+    else
+    {
+        // Copy command
+        lin_get_response(p_My_Command_Data);
  60c:	80 91 26 01 	lds	r24, 0x0126	; 0x800126 <p_My_Command_Data>
  610:	90 91 27 01 	lds	r25, 0x0127	; 0x800127 <p_My_Command_Data+0x1>
  614:	0e 94 c0 01 	call	0x380	; 0x380 <lin_get_response>
 
-      // Post event
-      Post_Event(EVT_SLAVE_NEW_CMD);
+        // Post event
+        Post_Event(EVT_SLAVE_NEW_CMD);
  618:	62 e0       	ldi	r22, 0x02	; 2
  61a:	70 e0       	ldi	r23, 0x00	; 0
  61c:	80 e0       	ldi	r24, 0x00	; 0
  61e:	90 e0       	ldi	r25, 0x00	; 0
  620:	0e 94 8d 00 	call	0x11a	; 0x11a <Post_Event>
-         break;
+            break;
 
-      // We received a data packet
-      case LIN_RXOK:
-         lin_rx_task();
-         Lin_clear_rxok_it();
+        // We received a data packet
+        case LIN_RXOK:
+            lin_rx_task();
+            Lin_clear_rxok_it();
  624:	81 e0       	ldi	r24, 0x01	; 1
  626:	80 93 c9 00 	sts	0x00C9, r24	; 0x8000c9 <__EEPROM_REGION_LENGTH__+0x7f00c9>
-         break;
+            break;
  62a:	03 c0       	rjmp	.+6      	; 0x632 <__vector_12+0x104>
 
-      // We transmitted a data packet
-      case LIN_TXOK:
-         lin_tx_task();
-         Lin_clear_txok_it();
+        // We transmitted a data packet
+        case LIN_TXOK:
+            lin_tx_task();
+            Lin_clear_txok_it();
  62c:	82 e0       	ldi	r24, 0x02	; 2
  62e:	80 93 c9 00 	sts	0x00C9, r24	; 0x8000c9 <__EEPROM_REGION_LENGTH__+0x7f00c9>
 
-      // The interrupt did not correspond to LIN
-      default:
-         break;
-   } // End Switch
+        // The interrupt did not correspond to LIN
+        default:
+            break;
+    } // End Switch
 }
  632:	ff 91       	pop	r31
  634:	ef 91       	pop	r30
@@ -1343,24 +1343,24 @@ ISR(LIN_ERR_vect)
  65a:	0f 92       	push	r0
  65c:	11 24       	eor	r1, r1
  65e:	8f 93       	push	r24
-   // Get Error Status, do task, and clear int
-   Lin_get_error_status();
+    // Get Error Status, do task, and clear int
+    Lin_get_error_status();
  660:	80 91 cb 00 	lds	r24, 0x00CB	; 0x8000cb <__EEPROM_REGION_LENGTH__+0x7f00cb>
 
 ****************************************************************************/
 static void lin_err_task(void)
 {
-   // Increment error count
-   My_LIN_Error_Count++;
+    // Increment error count
+    My_LIN_Error_Count++;
  664:	80 91 23 01 	lds	r24, 0x0123	; 0x800123 <My_LIN_Error_Count>
  668:	8f 5f       	subi	r24, 0xFF	; 255
  66a:	80 93 23 01 	sts	0x0123, r24	; 0x800123 <My_LIN_Error_Count>
 ISR(LIN_ERR_vect)
 {
-   // Get Error Status, do task, and clear int
-   Lin_get_error_status();
-   lin_err_task();
-   Lin_clear_err_it();
+    // Get Error Status, do task, and clear int
+    Lin_get_error_status();
+    lin_err_task();
+    Lin_clear_err_it();
  66e:	88 e0       	ldi	r24, 0x08	; 8
  670:	80 93 c9 00 	sts	0x00C9, r24	; 0x8000c9 <__EEPROM_REGION_LENGTH__+0x7f00c9>
  674:	8f 91       	pop	r24
@@ -1372,11 +1372,11 @@ ISR(LIN_ERR_vect)
 
 00000680 <Init_PWM_Module>:
 {
-   // We need to ensure no interrupts occur when accessing 16-bit registers
-   // (Just for safety, no ISR should be able to access these registers anyways.)
-   // Even though the C code is one line for accessing 16-bit registers,
-   //    in ASM it will be done in two cycles.
-   ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    // We need to ensure no interrupts occur when accessing 16-bit registers
+    // (Just for safety, no ISR should be able to access these registers anyways.)
+    // Even though the C code is one line for accessing 16-bit registers,
+    //      in ASM it will be done in two cycles.
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
  680:	2f b7       	in	r18, 0x3f	; 63
     return 1;
 }
@@ -1385,65 +1385,65 @@ static __inline__ uint8_t __iCliRetVal(void)
 {
     cli();
  682:	f8 94       	cli
-   {
-      // Clear Control Register C
-      // "However, for ensuring compatibility with future devices,
-      //    these bits must be set to zero when TCCR1A is written 
-      //    when operating in a PWM mode."
-      TCCR1C = 0;
+    {
+        // Clear Control Register C
+        // "However, for ensuring compatibility with future devices,
+        //      these bits must be set to zero when TCCR1A is written 
+        //      when operating in a PWM mode."
+        TCCR1C = 0;
  684:	10 92 82 00 	sts	0x0082, r1	; 0x800082 <__EEPROM_REGION_LENGTH__+0x7f0082>
 
-      // Disable Timer1 interrupts
-      TIMSK1 = 0;
+        // Disable Timer1 interrupts
+        TIMSK1 = 0;
  688:	10 92 6f 00 	sts	0x006F, r1	; 0x80006f <__EEPROM_REGION_LENGTH__+0x7f006f>
 
-      // Set up pins for PWM output (p. 85)
-      TCCR1D = ((1<<PWM_CH_A_PIN_ENABLE)|(1<<PWM_CH_B_PIN_ENABLE));
+        // Set up pins for PWM output (p. 85)
+        TCCR1D = ((1<<PWM_CH_A_PIN_ENABLE)|(1<<PWM_CH_B_PIN_ENABLE));
  68c:	84 e2       	ldi	r24, 0x24	; 36
  68e:	80 93 83 00 	sts	0x0083, r24	; 0x800083 <__EEPROM_REGION_LENGTH__+0x7f0083>
-      DDRB |= ((1<<PWM_CH_A_PIN)|(1<<PWM_CH_B_PIN));
+        DDRB |= ((1<<PWM_CH_A_PIN)|(1<<PWM_CH_B_PIN));
  692:	84 b1       	in	r24, 0x04	; 4
  694:	88 61       	ori	r24, 0x18	; 24
  696:	84 b9       	out	0x04, r24	; 4
 
-      // Set TOP values for A/B counters, executes in 1 asm lines
-      ICR1 = TIMER_1_TOP;
+        // Set TOP values for A/B counters, executes in 1 asm lines
+        ICR1 = TIMER_1_TOP;
  698:	8f e1       	ldi	r24, 0x1F	; 31
  69a:	93 e0       	ldi	r25, 0x03	; 3
  69c:	90 93 87 00 	sts	0x0087, r25	; 0x800087 <__EEPROM_REGION_LENGTH__+0x7f0087>
  6a0:	80 93 86 00 	sts	0x0086, r24	; 0x800086 <__EEPROM_REGION_LENGTH__+0x7f0086>
 
-      // Set output compare to value that sets lines low (0% duty cycle)
-      OCR1A = OCR_DC_ZERO;
+        // Set output compare to value that sets lines low (0% duty cycle)
+        OCR1A = OCR_DC_ZERO;
  6a4:	8f ef       	ldi	r24, 0xFF	; 255
  6a6:	9f ef       	ldi	r25, 0xFF	; 255
  6a8:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__EEPROM_REGION_LENGTH__+0x7f0089>
  6ac:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__EEPROM_REGION_LENGTH__+0x7f0088>
-      OCR1B = OCR_DC_ZERO;
+        OCR1B = OCR_DC_ZERO;
  6b0:	90 93 8b 00 	sts	0x008B, r25	; 0x80008b <__EEPROM_REGION_LENGTH__+0x7f008b>
  6b4:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__EEPROM_REGION_LENGTH__+0x7f008a>
-      // Set (COM1A/B[0:1]) for output pin high on match, low on TOP
-      //    (Per Table 12-2 on p. 132)
-      // Set WGM1[0:3]=1110b to define TOP in ICR1A register.
-      //    Define TOP in ICR1 register, instead of OCR1A (explanation on p. 125)
-      //    (Run at a fixed frequency with varying duty cycles)
-      TCCR1A = ((1<<COM1A1)|(1<<COM1A0)|(1<<COM1B1)|(1<<COM1B0) \
+        // Set (COM1A/B[0:1]) for output pin high on match, low on TOP
+        //      (Per Table 12-2 on p. 132)
+        // Set WGM1[0:3]=1110b to define TOP in ICR1A register.
+        //      Define TOP in ICR1 register, instead of OCR1A (explanation on p. 125)
+        //      (Run at a fixed frequency with varying duty cycles)
+        TCCR1A = ((1<<COM1A1)|(1<<COM1A0)|(1<<COM1B1)|(1<<COM1B0) \
  6b8:	82 ef       	ldi	r24, 0xF2	; 242
  6ba:	80 93 80 00 	sts	0x0080, r24	; 0x800080 <__EEPROM_REGION_LENGTH__+0x7f0080>
-               |(1<<WGM11)|(0<<WGM10));
+                    |(1<<WGM11)|(0<<WGM10));
 
-      // Set WGM1[0:3]=1110b
-      TCCR1B = ((1<<WGM13)|(1<<WGM12));
+        // Set WGM1[0:3]=1110b
+        TCCR1B = ((1<<WGM13)|(1<<WGM12));
  6be:	e1 e8       	ldi	r30, 0x81	; 129
  6c0:	f0 e0       	ldi	r31, 0x00	; 0
  6c2:	88 e1       	ldi	r24, 0x18	; 24
  6c4:	80 83       	st	Z, r24
 
-      // Start the clock by selecting a prescaler of f_clk/1 (CS10 set)
-      // We want to aim for a frequency of 1 kHz
-      // PWM freq is:
-      //    f_pwm = f_clk/(prescale*(1+TOP))
-      TCCR1B |= (1<<CS10);
+        // Start the clock by selecting a prescaler of f_clk/1 (CS10 set)
+        // We want to aim for a frequency of 1 kHz
+        // PWM freq is:
+        //      f_pwm = f_clk/(prescale*(1+TOP))
+        TCCR1B |= (1<<CS10);
  6c6:	80 81       	ld	r24, Z
  6c8:	81 60       	ori	r24, 0x01	; 1
  6ca:	80 83       	st	Z, r24
@@ -1460,10 +1460,10 @@ static __inline__ void __iRestore(const  uint8_t *__s)
 000006d0 <Set_PWM_Duty_Cycle>:
 void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
 {
-   // Set OCR1 for the requested channel
-   // *Note: no need for atomic operation since OCR is double buffered
+    // Set OCR1 for the requested channel
+    // *Note: no need for atomic operation since OCR is double buffered
 
-   switch(this_channel)
+    switch(this_channel)
  6d0:	88 23       	and	r24, r24
  6d2:	19 f0       	breq	.+6      	; 0x6da <Set_PWM_Duty_Cycle+0xa>
  6d4:	81 30       	cpi	r24, 0x01	; 1
@@ -1472,16 +1472,16 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
  6da:	65 36       	cpi	r22, 0x65	; 101
  6dc:	08 f0       	brcs	.+2      	; 0x6e0 <Set_PWM_Duty_Cycle+0x10>
  6de:	64 e6       	ldi	r22, 0x64	; 100
-   {
-	   duty_cycle = 100;
-   }
-   
-   // Return the calculated value
-   if (0 < duty_cycle)
+    {
+        duty_cycle = 100;
+    }
+    
+    // Return the calculated value
+    if (0 < duty_cycle)
  6e0:	66 23       	and	r22, r22
  6e2:	59 f0       	breq	.+22     	; 0x6fa <Set_PWM_Duty_Cycle+0x2a>
-   {
-	   return ((TIMER_1_TOP+1)-((TIMER_1_TOP+1)/100)*duty_cycle);
+    {
+        return ((TIMER_1_TOP+1)-((TIMER_1_TOP+1)/100)*duty_cycle);
  6e4:	84 e6       	ldi	r24, 0x64	; 100
  6e6:	90 e0       	ldi	r25, 0x00	; 0
  6e8:	86 1b       	sub	r24, r22
@@ -1493,33 +1493,33 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
  6f4:	88 0f       	add	r24, r24
  6f6:	99 1f       	adc	r25, r25
  6f8:	02 c0       	rjmp	.+4      	; 0x6fe <Set_PWM_Duty_Cycle+0x2e>
-   }
-   return OCR_DC_ZERO;
+    }
+    return OCR_DC_ZERO;
  6fa:	8f ef       	ldi	r24, 0xFF	; 255
  6fc:	9f ef       	ldi	r25, 0xFF	; 255
-   // *Note: no need for atomic operation since OCR is double buffered
+    // *Note: no need for atomic operation since OCR is double buffered
 
-   switch(this_channel)
-   {
-      case pwm_channel_a:
-         OCR1A = calc_OCR_count(new_duty_cycle);
+    switch(this_channel)
+    {
+        case pwm_channel_a:
+            OCR1A = calc_OCR_count(new_duty_cycle);
  6fe:	90 93 89 00 	sts	0x0089, r25	; 0x800089 <__EEPROM_REGION_LENGTH__+0x7f0089>
  702:	80 93 88 00 	sts	0x0088, r24	; 0x800088 <__EEPROM_REGION_LENGTH__+0x7f0088>
-         break;
+            break;
  706:	08 95       	ret
  708:	65 36       	cpi	r22, 0x65	; 101
  70a:	08 f0       	brcs	.+2      	; 0x70e <Set_PWM_Duty_Cycle+0x3e>
  70c:	64 e6       	ldi	r22, 0x64	; 100
-   {
-	   duty_cycle = 100;
-   }
-   
-   // Return the calculated value
-   if (0 < duty_cycle)
+    {
+        duty_cycle = 100;
+    }
+    
+    // Return the calculated value
+    if (0 < duty_cycle)
  70e:	66 23       	and	r22, r22
  710:	59 f0       	breq	.+22     	; 0x728 <Set_PWM_Duty_Cycle+0x58>
-   {
-	   return ((TIMER_1_TOP+1)-((TIMER_1_TOP+1)/100)*duty_cycle);
+    {
+        return ((TIMER_1_TOP+1)-((TIMER_1_TOP+1)/100)*duty_cycle);
  712:	84 e6       	ldi	r24, 0x64	; 100
  714:	90 e0       	ldi	r25, 0x00	; 0
  716:	86 1b       	sub	r24, r22
@@ -1531,16 +1531,16 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
  722:	88 0f       	add	r24, r24
  724:	99 1f       	adc	r25, r25
  726:	02 c0       	rjmp	.+4      	; 0x72c <Set_PWM_Duty_Cycle+0x5c>
-   }
-   return OCR_DC_ZERO;
+    }
+    return OCR_DC_ZERO;
  728:	8f ef       	ldi	r24, 0xFF	; 255
  72a:	9f ef       	ldi	r25, 0xFF	; 255
-      case pwm_channel_a:
-         OCR1A = calc_OCR_count(new_duty_cycle);
-         break;
+        case pwm_channel_a:
+            OCR1A = calc_OCR_count(new_duty_cycle);
+            break;
 
-      case pwm_channel_b:
-         OCR1B = calc_OCR_count(new_duty_cycle);
+        case pwm_channel_b:
+            OCR1B = calc_OCR_count(new_duty_cycle);
  72c:	90 93 8b 00 	sts	0x008B, r25	; 0x80008b <__EEPROM_REGION_LENGTH__+0x7f008b>
  730:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__EEPROM_REGION_LENGTH__+0x7f008a>
  734:	08 95       	ret
@@ -1550,8 +1550,8 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
 ****************************************************************************/
 void Stop_Timer(uint32_t * p_this_timer)
 {
-   // Start timer
-   for (int i = 0; i < NUM_TIMERS; i++)
+    // Start timer
+    for (int i = 0; i < NUM_TIMERS; i++)
  736:	ea e2       	ldi	r30, 0x2A	; 42
  738:	f1 e0       	ldi	r31, 0x01	; 1
  73a:	ae e2       	ldi	r26, 0x2E	; 46
@@ -1717,8 +1717,8 @@ void Stop_Timer(uint32_t * p_this_timer)
  87c:	08 95       	ret
 
 0000087e <__vector_10>:
-      Description
-         Handles the timer overflow interrupt
+    Description
+        Handles the timer overflow interrupt
 
 ****************************************************************************/
 ISR(TIMER0_COMPA_vect)
@@ -1746,10 +1746,10 @@ ISR(TIMER0_COMPA_vect)
  8a6:	df 93       	push	r29
  8a8:	ef 93       	push	r30
  8aa:	ff 93       	push	r31
-   // No need to clear interrupt b/c it is cleared in HW (p. 104)
+    // No need to clear interrupt b/c it is cleared in HW (p. 104)
 
-   // Write new value into output compare reg for next tick
-   OCR0A = OCR0A + OC_T0_REG_VALUE;
+    // Write new value into output compare reg for next tick
+    OCR0A = OCR0A + OC_T0_REG_VALUE;
  8ac:	88 b5       	in	r24, 0x28	; 40
  8ae:	83 58       	subi	r24, 0x83	; 131
  8b0:	88 bd       	out	0x28, r24	; 40
@@ -1765,16 +1765,16 @@ ISR(TIMER0_COMPA_vect)
  8c4:	f0 2d       	mov	r31, r0
  8c6:	f8 01       	movw	r30, r16
 
-   // Service the running registered timers
-   for (int i = 0; i < NUM_TIMERS; i++)
-   {
-      if (true == Timers[i].timer_running_flag)
+    // Service the running registered timers
+    for (int i = 0; i < NUM_TIMERS; i++)
+    {
+        if (true == Timers[i].timer_running_flag)
  8c8:	80 81       	ld	r24, Z
  8ca:	88 23       	and	r24, r24
  8cc:	39 f1       	breq	.+78     	; 0x91c <__vector_10+0x9e>
-      {
-         // Add one to time, subtract one from ticks left
-         Timers[i].ticks_since_start += 1;
+        {
+            // Add one to time, subtract one from ticks left
+            Timers[i].ticks_since_start += 1;
  8ce:	8d 81       	ldd	r24, Y+5	; 0x05
  8d0:	9e 81       	ldd	r25, Y+6	; 0x06
  8d2:	af 81       	ldd	r26, Y+7	; 0x07
@@ -1786,7 +1786,7 @@ ISR(TIMER0_COMPA_vect)
  8de:	9e 83       	std	Y+6, r25	; 0x06
  8e0:	af 83       	std	Y+7, r26	; 0x07
  8e2:	b8 87       	std	Y+8, r27	; 0x08
-         Timers[i].ticks_remaining -= 1;
+            Timers[i].ticks_remaining -= 1;
  8e4:	89 85       	ldd	r24, Y+9	; 0x09
  8e6:	9a 85       	ldd	r25, Y+10	; 0x0a
  8e8:	ab 85       	ldd	r26, Y+11	; 0x0b
@@ -1799,26 +1799,26 @@ ISR(TIMER0_COMPA_vect)
  8f6:	ab 87       	std	Y+11, r26	; 0x0b
  8f8:	bc 87       	std	Y+12, r27	; 0x0c
 
-         // If the timer has expired
-         if (0 == Timers[i].ticks_remaining)
+            // If the timer has expired
+            if (0 == Timers[i].ticks_remaining)
  8fa:	89 2b       	or	r24, r25
  8fc:	8a 2b       	or	r24, r26
  8fe:	8b 2b       	or	r24, r27
  900:	69 f4       	brne	.+26     	; 0x91c <__vector_10+0x9e>
-         {
-            // Clear running flag
-            Timers[i].timer_running_flag = false;
+            {
+                // Clear running flag
+                Timers[i].timer_running_flag = false;
  902:	10 82       	st	Z, r1
-				
-            // Execute cb function with value of id pointer's value
-            // If cb is not null, execute
-            if (Timers[i].timer_cb_func)
+                
+                // Execute cb function with value of id pointer's value
+                // If cb is not null, execute
+                if (Timers[i].timer_cb_func)
  904:	ea 81       	ldd	r30, Y+2	; 0x02
  906:	fb 81       	ldd	r31, Y+3	; 0x03
  908:	30 97       	sbiw	r30, 0x00	; 0
  90a:	41 f0       	breq	.+16     	; 0x91c <__vector_10+0x9e>
-            {
-               Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
+                {
+                    Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
  90c:	88 81       	ld	r24, Y
  90e:	99 81       	ldd	r25, Y+1	; 0x01
  910:	dc 01       	movw	r26, r24
@@ -1831,19 +1831,20 @@ ISR(TIMER0_COMPA_vect)
  91e:	1f 4f       	sbci	r17, 0xFF	; 255
  920:	2d 96       	adiw	r28, 0x0d	; 13
 
-   // Write new value into output compare reg for next tick
-   OCR0A = OCR0A + OC_T0_REG_VALUE;
+    // Write new value into output compare reg for next tick
+    OCR0A = OCR0A + OC_T0_REG_VALUE;
 
-   // Service the running registered timers
-   for (int i = 0; i < NUM_TIMERS; i++)
+    // Service the running registered timers
+    for (int i = 0; i < NUM_TIMERS; i++)
  922:	ce 15       	cp	r28, r14
  924:	df 05       	cpc	r29, r15
  926:	79 f6       	brne	.-98     	; 0x8c6 <__vector_10+0x48>
-               Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
+                    Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
+                }
             }
-         }
-      }
-   }
+        }
+    }
+}
  928:	ff 91       	pop	r31
  92a:	ef 91       	pop	r30
  92c:	df 91       	pop	r29

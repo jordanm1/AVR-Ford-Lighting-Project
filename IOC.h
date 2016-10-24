@@ -5,7 +5,7 @@
 // ------------ IOC DEFINITIONS
 // #############################################################################
 
-#define INT0_PIN	(PB6) // Use PB6 for IOC purpose
+#define INT0_PIN                (PB6)   // Use PB6 for IOC purpose
 
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES

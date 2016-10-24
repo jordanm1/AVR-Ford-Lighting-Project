@@ -1,14 +1,14 @@
 /*******************************************************************************
-      File:
-      master_service.c
-     
-      Notes:
-      This file contains the main service to be run on the master node.
-   
-      External Functions Required:
+    File:
+    master_service.c
+  
+    Notes:
+    This file contains the main service to be run on the master node.
 
-      Public Functions:
-        
+    External Functions Required:
+
+    Public Functions:
+          
 *******************************************************************************/
 
 // #############################################################################
@@ -42,7 +42,7 @@
 // #############################################################################
 
 // Schedule Start ID
-#define SCHEDULE_START_ID        0x02     // Start at 2 since ID of #1 is 0x02
+#define SCHEDULE_START_ID       0x02    // Start at 2 since ID of #1 is 0x02
 
 // Schedule Interval
 // Minimum for Interval is:
@@ -50,19 +50,19 @@
 //    T_Header_Nominal = 34*Bit_Time = 34*(1/19200)
 //    T_Response_Nominal = 10*(Num_Data_Bytes+1)*Bit_time = 10*(2+1)*(1/19200)
 //    T_Frame_Nominal = 0.00333333333 seconds
-#define SCHEDULE_INTERVAL_MS     4
+#define SCHEDULE_INTERVAL_MS    4
 
 // *Note:
-//    Our schedule service time is then 2*#Slave_Nodes*SCHEDULE_INTERVAL_MS
+//      Our schedule service time is then 2*#Slave_Nodes*SCHEDULE_INTERVAL_MS
 
 // #############################################################################
 // ------------ MODULE VARIABLES
 // #############################################################################
 
 // These values should only exist in a single module for each node
-static uint8_t My_Node_ID = 0;                        // This node's ID
-static uint8_t My_Command_Data[NUM_SLAVES*2] = {0};   // Commands for slaves
-static uint8_t My_Status_Data[NUM_SLAVES*2] = {0};    // Slaves' stati
+static uint8_t My_Node_ID = 0;                          // This node's ID
+static uint8_t My_Command_Data[NUM_SLAVES*2] = {0};     // Commands for slaves
+static uint8_t My_Status_Data[NUM_SLAVES*2] = {0};      // Slaves' stati
 
 // Scheduling Timer
 static uint32_t Scheduling_Timer = EVT_MASTER_SCH_TIMEOUT;
@@ -94,94 +94,94 @@ static void update_curr_schedule_id(void);
 // #############################################################################
 
 /****************************************************************************
-      Public Function
-         Init_Master_Service
+    Public Function
+        Init_Master_Service
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         Initializes the master node
+    Description
+        Initializes the master node
 
 ****************************************************************************/
 void Init_Master_Service(void)
 {
-   // Set LIN ID, no need for ADC, we are the master node
-   My_Node_ID = MASTER_NODE_ID;
+    // Set LIN ID, no need for ADC, we are the master node
+    My_Node_ID = MASTER_NODE_ID;
 
-   // Initialize the data arrays to proper things
-   // TODO:
+    // Initialize the data arrays to proper things
+    // TODO:
 
-   // Initialize LIN
-   MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
+    // Initialize LIN
+    MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
 
-   // Register scheduling timer
-   Register_Timer(&Scheduling_Timer, Post_Event);
+    // Register scheduling timer
+    Register_Timer(&Scheduling_Timer, Post_Event);
 
-   // Kick off scheduling timer
-   // TEST! Pause LIN service for now
-   // Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+    // Kick off scheduling timer
+    // TEST! Pause LIN service for now
+    // Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
-   // Register test timer & start
-   Register_Timer(&Testing_Timer, Post_Event);
-   // TEST! Pause LIN service for now
-   // Start_Timer(&Testing_Timer, 500);
+    // Register test timer & start
+    Register_Timer(&Testing_Timer, Post_Event);
+    // TEST! Pause LIN service for now
+    // Start_Timer(&Testing_Timer, 500);
 }
 
 /****************************************************************************
-      Public Function
-         Run_Master_Service
+    Public Function
+        Run_Master_Service
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         Processes events for the master node
+    Description
+        Processes events for the master node
 
 ****************************************************************************/
 void Run_Master_Service(uint32_t event_mask)
 {
-   switch(event_mask)
-   {
-      case EVT_MASTER_SCH_TIMEOUT:
-         // Transmit next header in schedule
-         Master_LIN_Broadcast_ID(Curr_Schedule_ID);
-         // Update schedule
-         update_curr_schedule_id();
-         // Restart timer
-         Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
-         break;
+    switch(event_mask)
+    {
+        case EVT_MASTER_SCH_TIMEOUT:
+            // Transmit next header in schedule
+            Master_LIN_Broadcast_ID(Curr_Schedule_ID);
+            // Update schedule
+            update_curr_schedule_id();
+            // Restart timer
+            Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+            break;
 
-      // *Note: we should make sure all slaves are online before sending
-      //          legitimate commands (blocking code?)
+        // *Note: we should make sure all slaves are online before sending
+        //      legitimate commands (blocking code?)
 
-      case EVT_MASTER_NEW_STS:
-         // New status
-         // Do nothing for now.
-         break;
+        case EVT_MASTER_NEW_STS:
+            // New status
+            // Do nothing for now.
+            break;
 
-      case EVT_MASTER_OTHER:
-         // Just an example.
-         // Do nothing.
-         break;
+        case EVT_MASTER_OTHER:
+            // Just an example.
+            // Do nothing.
+            break;
 
-      case EVT_TEST_TIMEOUT:
-         // Just a test
-          for (int i = 0; i < NUM_SLAVES; i++)
-          {
-             uint8_t temp_index = i<<1;
-             My_Command_Data[temp_index] = test_counter;
-             My_Command_Data[temp_index+1] = 0xFF;
-          }
-         Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
-         test_counter++;
-         if (100 < test_counter) {test_counter = 0;};
-         Start_Timer(&Testing_Timer, 500);
-         break;
+        case EVT_TEST_TIMEOUT:
+            // Just a test
+             for (int i = 0; i < NUM_SLAVES; i++)
+             {
+                 uint8_t temp_index = i<<1;
+                 My_Command_Data[temp_index] = test_counter;
+                 My_Command_Data[temp_index+1] = 0xFF;
+             }
+            Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
+            test_counter++;
+            if (100 < test_counter) {test_counter = 0;};
+            Start_Timer(&Testing_Timer, 500);
+            break;
 
-      default:
-         break;
-   }
+        default:
+            break;
+    }
 }
 
 // #############################################################################
@@ -189,25 +189,25 @@ void Run_Master_Service(uint32_t event_mask)
 // #############################################################################
 
 /****************************************************************************
-      Private Function
-         update_curr_schedule_id()
+    Private Function
+        update_curr_schedule_id()
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         Loops through schedule counter
+    Description
+        Loops through schedule counter
 
 ****************************************************************************/
 static void update_curr_schedule_id(void)
 {
-   // If we hit boundary condition, reset counter; otherwise increment
-   if (((NUM_SLAVES<<1)+1) == Curr_Schedule_ID)
-   {
-      Curr_Schedule_ID = SCHEDULE_START_ID;
-   }
-   else
-   {
-      Curr_Schedule_ID++;
-   }
+    // If we hit boundary condition, reset counter; otherwise increment
+    if (((NUM_SLAVES<<1)+1) == Curr_Schedule_ID)
+    {
+        Curr_Schedule_ID = SCHEDULE_START_ID;
+    }
+    else
+    {
+        Curr_Schedule_ID++;
+    }
 }

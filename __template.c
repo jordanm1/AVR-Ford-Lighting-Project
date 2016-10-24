@@ -1,14 +1,16 @@
 /*******************************************************************************
-      File:
-      __template.c
-     
-      Notes:
-      This file contains template to use with the framework.
-   
-      External Functions Required:
+    File:
+        __template.c
+  
+    Notes:
+        This file contains template to use with the framework.
 
-      Public Functions:
-        
+    External Functions Required:
+        List external functions needed by this module
+
+    Public Functions:
+        List public functions this module provides
+          
 *******************************************************************************/
 
 // #############################################################################
@@ -36,7 +38,7 @@
 // ------------ MODULE DEFINITIONS
 // #############################################################################
 
-#define TEMPLATE_DEFINITION               0
+#define TEMPLATE_DEFINITION         0
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -55,20 +57,20 @@ static void template_private_function(void);
 // #############################################################################
 
 /****************************************************************************
-      Public Function
-         Template_Public_Function
+    Public Function
+        Template_Public_Function
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         This is an example for a public function.
+    Description
+        This is an example for a public function.
 
 ****************************************************************************/
 void Template_Public_Function(void)
 {
-   // Example
-   template_private_function();
+    // Example
+    template_private_function();
 }
 
 // #############################################################################
@@ -76,18 +78,18 @@ void Template_Public_Function(void)
 // #############################################################################
 
 /****************************************************************************
-      Private Function
-         Template_Private_Function
+    Private Function
+        Template_Private_Function
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         This is an example for a private function.
+    Description
+        This is an example for a private function.
 
 ****************************************************************************/
 static void template_private_function(void)
 {
-   // Example
-   template_var = 0;
+    // Example
+    template_var = 0;
 }

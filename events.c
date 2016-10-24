@@ -1,14 +1,14 @@
 /*******************************************************************************
-      File:
-      events.c
-     
-      Notes:
-      This file contains the event handler.
-   
-      External Functions Required:
+    File:
+        events.c
+  
+    Notes:
+        This file contains the event handler.
 
-      Public Functions:
-        
+    External Functions Required:
+
+    Public Functions:
+          
 *******************************************************************************/
 
 // #############################################################################
@@ -33,7 +33,7 @@
 // #############################################################################
 
 // Maximum number of events possible in the events service
-#define MAXIMUM_NUM_EVENTS          32
+#define MAXIMUM_NUM_EVENTS              32
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -54,47 +54,47 @@ static bool is_event_pending(uint32_t event_mask);
 // #############################################################################
 
 /****************************************************************************
-      Public Function
-         Post_Event
+    Public Function
+        Post_Event
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         Posts an event to the event list
+    Description
+        Posts an event to the event list
 
 ****************************************************************************/
 void Post_Event(uint32_t event_mask)
 {
-   // Set flag in event list
-   Pending_Events |= event_mask;
+    // Set flag in event list
+    Pending_Events |= event_mask;
 }
 
 /****************************************************************************
-      Public Function
-         Run_Events
+    Public Function
+        Run_Events
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         Runs a no-end loop to process and clear any pending events
+    Description
+        Runs a no-end loop to process and clear any pending events
 
 ****************************************************************************/
 void Run_Events(void)
 {
-   // Run no-end main loop
-   while (1)
-   {
-      // Loop through all events
-      for (int event = 0; event < NUM_EVENTS; event++)
-      {
-         if (is_event_pending((0x01 << event)))
-         {
-            Run_Services(event);
-         }
-      }
-   }
+    // Run no-end main loop
+    while (1)
+    {
+        // Loop through all events
+        for (int event = 0; event < NUM_EVENTS; event++)
+        {
+            if (is_event_pending((0x01 << event)))
+            {
+                Run_Services(event);
+            }
+        }
+    }
 }
 
 // #############################################################################
@@ -102,30 +102,30 @@ void Run_Events(void)
 // #############################################################################
 
 /****************************************************************************
-      Private Function
-         is_event_pending()
+    Private Function
+        is_event_pending()
 
-      Parameters
-         Event Mask
+    Parameters
+        Event Mask
 
-      Description
-         Checks if an particular event is pending and if so, clears it
+    Description
+        Checks if an particular event is pending and if so, clears it
 
 ****************************************************************************/
 static bool is_event_pending(uint32_t event_mask)
 {
-   // If this event is pending
-   if (event_mask == (Pending_Events & event_mask))
-   {
-      // Clear Event
-      Pending_Events &= ~event_mask;
+    // If this event is pending
+    if (event_mask == (Pending_Events & event_mask))
+    {
+        // Clear Event
+        Pending_Events &= ~event_mask;
 
-      // Return true
-      return true;
-   }
-   // This event is not pending
-   else
-   {
-      return false;
-   }
+        // Return true
+        return true;
+    }
+    // This event is not pending
+    else
+    {
+        return false;
+    }
 }

@@ -1,14 +1,14 @@
 /*******************************************************************************
-      File:
-      LIN_XCVR_WD_Kicker.c
-     
-      Notes:
-      This file contains the LIN transceiver watchdog kicker routine.
-   
-      External Functions Required:
+    File:
+        LIN_XCVR_WD_Kicker.c
+  
+    Notes:
+        This file contains the LIN transceiver watchdog kicker routine.
 
-      Public Functions:
-        
+    External Functions Required:
+
+    Public Functions:
+          
 *******************************************************************************/
 
 // #############################################################################
@@ -36,8 +36,8 @@
 // #############################################################################
 
 // Time interval that we kick the watchdog
-#define LIN_XCVR_WD_KICK_INTERVAL_MS         35
-#define KICK_LENGTH_MS                       2
+#define LIN_XCVR_WD_KICK_INTERVAL_MS        35
+#define KICK_LENGTH_MS                      2
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -60,27 +60,27 @@ static void kick_LIN_XCVR_WD(uint32_t unused);
 // #############################################################################
 
 /****************************************************************************
-      Public Function
-         Init_LIN_XCVR_WD_Kicker
+    Public Function
+        Init_LIN_XCVR_WD_Kicker
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         Initializes and starts the watchdog kicker for LIN xcvr
+    Description
+        Initializes and starts the watchdog kicker for LIN xcvr
 
 ****************************************************************************/
 void Init_LIN_XCVR_WD_Kicker(void)
 {
-   // Set up PINA3 to kick WD
-   PORTA |= (1<<PINA3);
-   DDRA |= (1<<PINA3);
+    // Set up PINA3 to kick WD
+    PORTA |= (1<<PINA3);
+    DDRA |= (1<<PINA3);
 
-   // Register timer
-   Register_Timer(&LIN_XCVR_Kick_Timer, kick_LIN_XCVR_WD);
+    // Register timer
+    Register_Timer(&LIN_XCVR_Kick_Timer, kick_LIN_XCVR_WD);
 
-   // Start timer
-   Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
+    // Start timer
+    Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
 }
 
 // #############################################################################
@@ -88,36 +88,34 @@ void Init_LIN_XCVR_WD_Kicker(void)
 // #############################################################################
 
 /****************************************************************************
-      Private Function
-         kick_LIN_XCVR_WD
+    Private Function
+        kick_LIN_XCVR_WD
 
-      Parameters
-         None
+    Parameters
+        None
 
-      Description
-         Initializes and starts the watchdog kicker for LIN xcvr
+    Description
+        Initializes and starts the watchdog kicker for LIN xcvr
 
 ****************************************************************************/
 static void kick_LIN_XCVR_WD(uint32_t unused)
 {
-   // Flip Parity
-   Parity ^= 1;
+    // Flip Parity
+    Parity ^= 1;
 
-   // Kick xcvr watchdog
-   if (0 == Parity)
-   {
-      // PA3 lo
-      PORTA &= ~(1<<PINA3);
-      // Restart timer for kick pulse length
-      Start_Timer(&LIN_XCVR_Kick_Timer, KICK_LENGTH_MS);
-   }
-   else
-   {
-      // PA3 hi
-      PORTA |= (1<<PINA3);
-      // Restart timer for kick frequency
-      Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
-   }
+    // Kick xcvr watchdog
+    if (0 == Parity)
+    {
+        // PA3 lo
+        PORTA &= ~(1<<PINA3);
+        // Restart timer for kick pulse length
+        Start_Timer(&LIN_XCVR_Kick_Timer, KICK_LENGTH_MS);
+    }
+    else
+    {
+        // PA3 hi
+        PORTA |= (1<<PINA3);
+        // Restart timer for kick frequency
+        Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
+    }
 }
-
-

@@ -5,7 +5,7 @@
 // ------------ ADC DEFINITIONS
 // #############################################################################
 
-#define IMPOSSIBLE_ADC_COUNT     UINT16_MAX
+#define IMPOSSIBLE_ADC_COUNT        UINT16_MAX
 
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES
