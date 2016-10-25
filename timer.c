@@ -5,7 +5,7 @@
     Notes:
         This file contains the timer module.
         Uses Timer 0.
-        The current implementation can be off by +- 1 ms.
+        The current implementation can be off by +- 0.1 ms.
     
     External Functions Required:
 
@@ -16,7 +16,8 @@
         void Start_Timer(uint32_t * pointer_to_timer_expire_event_type, uint32_t ms_to_expire)
         uint32_t Get_Time_Timer(uint32_t * pointer_to_timer_expire_event_type)
         void Stop_Timer(uint32_t * pointer_to_timer_expire_event_type)
-          
+        void Start_Short_Timer(uint32_t * pointer_to_timer_expire_event_type, uint32_t ms_div_ten_to_expire)
+
 *******************************************************************************/
 
 // #############################################################################
@@ -47,7 +48,10 @@
 #define NUM_TIMERS          (8)
 
 // Define value for output compare match value
-#define OC_T0_REG_VALUE     (125)
+#define OC_T0_REG_VALUE     (100)
+
+// Define number of steps per 1 ms
+#define STEP_COUNT_PER_MS   10
 
 // Null cb func
 #define NULL_TIMER_CB       ((timer_cb_t) 0)
@@ -124,9 +128,9 @@ void Init_Timer_Module(void)
     // Enable output compare match interrupt
     TIMSK0 = 1<<OCIE0A;
 
-    // Set up 1/64 prescaling (p.102, figure 10-5)
+    // Set up 1/8 prescaling (p.102, figure 10-5)
     // This kicks off the clock.
-    TCCR0B = 1<<CS02;
+    TCCR0B = 1<<CS01;
 
     // *Note: the interrupt flag (OCF0A) is cleared in hardware when the ISR runs
 }
@@ -185,7 +189,7 @@ void Register_Timer(uint32_t * p_new_timer, timer_cb_t new_timer_cb_func)
 
     Parameters
         uint32_t: Pointer to timer variable holding the event type to post
-        uint32_t: Timer length in ms
+        uint32_t: Timer length in ms, max is (uint32_t/STEP_COUNT_PER_MS)
 
     Description
         Starts the timer
@@ -200,7 +204,7 @@ void Start_Timer(uint32_t * p_this_timer, uint32_t time_in_ms)
         {
             Timers[i].timer_running_flag = true;
             Timers[i].ticks_since_start = 0;
-            Timers[i].ticks_remaining = time_in_ms;
+            Timers[i].ticks_remaining = (time_in_ms*STEP_COUNT_PER_MS);
             break;
         }
     }
@@ -227,7 +231,7 @@ uint32_t Get_Time_Timer(uint32_t * p_this_timer)
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            return_val = Timers[i].ticks_since_start;
+            return_val = ((Timers[i].ticks_since_start)/STEP_COUNT_PER_MS);
         }
     }
     
@@ -254,6 +258,33 @@ void Stop_Timer(uint32_t * p_this_timer)
         if (p_this_timer == Timers[i].p_timer_id)
         {
             Timers[i].timer_running_flag = false;
+            break;
+        }
+    }
+}
+
+/****************************************************************************
+    Public Function
+        Start_Short_Timer
+
+    Parameters
+        uint32_t: Pointer to timer variable holding the event type to post
+        uint32_t: Timer length in ms/10, max is uint32_t
+
+    Description
+        Starts the short timer (milliseconds/10)
+
+****************************************************************************/
+void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ten)
+{
+    // Start timer
+    for (int i = 0; i < NUM_TIMERS; i++)
+    {
+        if (p_this_timer == Timers[i].p_timer_id)
+        {
+            Timers[i].timer_running_flag = true;
+            Timers[i].ticks_since_start = 0;
+            Timers[i].ticks_remaining = time_in_ms_div_ten;
             break;
         }
     }
