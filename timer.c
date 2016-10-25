@@ -39,6 +39,9 @@
 // Interrupts
 #include <avr/interrupt.h>
 
+// Atomic Read/Write operations
+#include <util/atomic.h>
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -47,7 +50,7 @@
 #define NUM_TIMERS          (8)
 
 // Define value for output compare match value
-#define OC_T0_REG_VALUE     (125)
+#define OC_T0_REG_VALUE     (5)
 
 // Null cb func
 #define NULL_TIMER_CB       ((timer_cb_t) 0)
@@ -105,30 +108,54 @@ void Init_Timer_Module(void)
         Timers[i].ticks_remaining = 0;
     }
 
-    // Do not associate any pins with timer 0
-    TCCR0A = 0;
+    // Configure Timer 1 Channel A for 1 ms ticks
+    // We need to ensure no interrupts occur when accessing 16-bit registers
+    // (Just for safety, no ISR should be able to access these registers anyways.)
+    // Even though the C code is one line for accessing 16-bit registers,
+    //      in ASM it will be done in two cycles.
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        // Stop Timer 1 during initialization by removing the clock source
+        TCCR1B &= ~((1<<CS12)|(1<<CS11)|(1<<CS10));
 
-    // Stop the clock to timer 0
-    TCCR0B = 0;
+        // Clear Control Register C
+        // "However, for ensuring compatibility with future devices,
+        //      these bits must be set to zero when TCCR1A is written
+        //      when operating in a PWM mode."
+        TCCR1C = 0;
 
-    // Do not write to timer register
-    // Writing prevented interrupts from occuring
-    // DO NOT DO TCNT0 = 0;
+        // Enable Timer1, Channel A overflow interrupts,
+        TIMSK1 |= (1<<OCIE1A);
 
-    // OCR0A: Output compare register A
-    // Set to value that would give interrupts at desired frequency of 1ms
-    // Math: (8MHz/64)/125 = 0.001sec
-    OCR0A = 0;
-    OCR0A = OCR0A + OC_T0_REG_VALUE;
+        // Do not associate any pins with Timer 1 Channel A
+        // Do nothing.
 
-    // Enable output compare match interrupt
-    TIMSK0 = 1<<OCIE0A;
+        // Set TOP values for A/B counters, executes in 1 asm lines
+        ICR1 = TIMER_1_TOP;
 
-    // Set up 1/64 prescaling (p.102, figure 10-5)
-    // This kicks off the clock.
-    TCCR0B = 1<<CS02;
+        // Set output compare to value that will cause a match in 1 ms
+        //  on channel A
+        OCR1A = ((TCNT1+OC_T0_REG_VALUE) % TIMER_1_TOP);
 
-    // *Note: the interrupt flag (OCF0A) is cleared in hardware when the ISR runs
+        // Set up Timer1 for normal mode on A channel
+        // Clear (COM1A[0:1] = 0b00) for normal port operation
+        //      (Per Table 12-2 on p. 132)
+        // Set WGM1[0:3]=1110b to define TOP in ICR1A register.
+        //      Define TOP in ICR1 register, instead of OCR1A (explanation on p. 125)
+        //      (We are doing this because we need to use channel B for PWM)
+        TCCR1A &= ~((1<<COM1A1)|(1<<COM1A0)|(1<<WGM10));
+        TCCR1A |= (1<<WGM11);
+
+        // Set WGM1[0:3]=1110b
+        TCCR1B |= ((1<<WGM13)|(1<<WGM12));
+
+        // Start the clock by selecting a prescaler of f_clk/8 (CS11 set)
+        // We want to aim for a frequency of 50 Hz
+        // PWM freq is: (per p. 125)
+        //      f_pwm = f_clk/(prescale*(1+TOP))
+        //      50 Hz = 8 Mhz/(8*(1+19999))
+        TCCR1B |= (1<<CS11);
+    }
 }
 
 /****************************************************************************
@@ -228,6 +255,7 @@ uint32_t Get_Time_Timer(uint32_t * p_this_timer)
         if (p_this_timer == Timers[i].p_timer_id)
         {
             return_val = Timers[i].ticks_since_start;
+            break;
         }
     }
     
@@ -280,12 +308,22 @@ void Stop_Timer(uint32_t * p_this_timer)
         Handles the timer overflow interrupt
 
 ****************************************************************************/
-ISR(TIMER0_COMPA_vect)
+ISR(TIMER1_COMPA_vect)
 {
-    // No need to clear interrupt b/c it is cleared in HW (p. 104)
+    // No need to clear interrupt b/c it is cleared in HW (p. 138)
 
     // Write new value into output compare reg for next tick
-    OCR0A = OCR0A + OC_T0_REG_VALUE;
+    OCR1A = ((OCR1A + OC_T0_REG_VALUE) % TIMER_1_TOP);
+
+    //DDRA |= (1<<PINA2);
+    //if (0 == (PORTA&(1<<PINA2)))
+    //{
+        //PORTA |= (1<<PINA2);
+    //}
+    //else
+    //{
+        //PORTA &= ~(1<<PINA2);
+    //}
 
     // Service the running registered timers
     for (int i = 0; i < NUM_TIMERS; i++)

@@ -5,6 +5,10 @@
 // ------------ PWM DEFINITIONS
 // #############################################################################
 
+// Define the top counter value for the PWM module.
+// This value sets the PWM frequency along with prescale.
+#define TIMER_1_TOP             (19999)     // Chosen for ~10 kHz with prescale of 1:1
+
 // Channel Enum Types
 typedef enum
 {

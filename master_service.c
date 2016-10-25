@@ -126,6 +126,8 @@ void Init_Master_Service(void)
     Register_Timer(&Testing_Timer, Post_Event);
     // TEST! Pause LIN service for now
     // Start_Timer(&Testing_Timer, 500);
+
+    Set_PWM_Duty_Cycle(pwm_channel_b, 50);
 }
 
 /****************************************************************************
