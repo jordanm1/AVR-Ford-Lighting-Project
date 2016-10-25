@@ -3,31 +3,31 @@ Ford_360_Lighting_Project.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000000c  00800100  0000095a  000009ee  2**0
+  0 .data         0000000c  00800100  000009a0  00000a34  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         0000095a  00000000  00000000  00000094  2**1
+  1 .text         000009a0  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000086  0080010c  0080010c  000009fa  2**0
+  2 .bss          0000008c  0080010c  0080010c  00000a40  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  000009fa  2**0
+  3 .comment      00000030  00000000  00000000  00000a40  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000a2c  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000a70  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000208  00000000  00000000  00000a68  2**0
+  5 .debug_aranges 00000240  00000000  00000000  00000aac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   000019ea  00000000  00000000  00000c70  2**0
+  6 .debug_info   00001b4f  00000000  00000000  00000cec  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 0000100f  00000000  00000000  0000265a  2**0
+  7 .debug_abbrev 000010f6  00000000  00000000  0000283b  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000010a4  00000000  00000000  00003669  2**0
+  8 .debug_line   000011a3  00000000  00000000  00003931  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000400  00000000  00000000  00004710  2**2
+  9 .debug_frame  00000474  00000000  00000000  00004ad4  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000008ba  00000000  00000000  00004b10  2**0
+ 10 .debug_str    00000944  00000000  00000000  00004f48  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00000c64  00000000  00000000  000053ca  2**0
+ 11 .debug_loc    00000d46  00000000  00000000  0000588c  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000170  00000000  00000000  0000602e  2**0
+ 12 .debug_ranges 00000198  00000000  00000000  000065d2  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -43,11 +43,11 @@ Disassembly of section .text:
   1c:	0c 94 45 00 	jmp	0x8a	; 0x8a <__bad_interrupt>
   20:	0c 94 45 00 	jmp	0x8a	; 0x8a <__bad_interrupt>
   24:	0c 94 45 00 	jmp	0x8a	; 0x8a <__bad_interrupt>
-  28:	0c 94 3f 04 	jmp	0x87e	; 0x87e <__vector_10>
+  28:	0c 94 62 04 	jmp	0x8c4	; 0x8c4 <__vector_10>
   2c:	0c 94 45 00 	jmp	0x8a	; 0x8a <__bad_interrupt>
   30:	0c 94 97 02 	jmp	0x52e	; 0x52e <__vector_12>
   34:	0c 94 2a 03 	jmp	0x654	; 0x654 <__vector_13>
-  38:	0c 94 45 00 	jmp	0x8a	; 0x8a <__bad_interrupt>
+  38:	0c 94 9b 03 	jmp	0x736	; 0x736 <__vector_14>
   3c:	0c 94 60 00 	jmp	0xc0	; 0xc0 <__vector_15>
   40:	0c 94 45 00 	jmp	0x8a	; 0x8a <__bad_interrupt>
   44:	0c 94 45 00 	jmp	0x8a	; 0x8a <__bad_interrupt>
@@ -66,7 +66,7 @@ Disassembly of section .text:
   5c:	11 e0       	ldi	r17, 0x01	; 1
   5e:	a0 e0       	ldi	r26, 0x00	; 0
   60:	b1 e0       	ldi	r27, 0x01	; 1
-  62:	ea e5       	ldi	r30, 0x5A	; 90
+  62:	e0 ea       	ldi	r30, 0xA0	; 160
   64:	f9 e0       	ldi	r31, 0x09	; 9
   66:	02 c0       	rjmp	.+4      	; 0x6c <__do_copy_data+0x10>
   68:	05 90       	lpm	r0, Z+
@@ -85,11 +85,11 @@ Disassembly of section .text:
   7a:	1d 92       	st	X+, r1
 
 0000007c <.do_clear_bss_start>:
-  7c:	a2 39       	cpi	r26, 0x92	; 146
+  7c:	a8 39       	cpi	r26, 0x98	; 152
   7e:	b2 07       	cpc	r27, r18
   80:	e1 f7       	brne	.-8      	; 0x7a <.do_clear_bss_loop>
   82:	0e 94 03 02 	call	0x406	; 0x406 <main>
-  86:	0c 94 ab 04 	jmp	0x956	; 0x956 <_exit>
+  86:	0c 94 ce 04 	jmp	0x99c	; 0x99c <_exit>
 
 0000008a <__bad_interrupt>:
   8a:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -329,7 +329,7 @@ void Initialize_Framework(void)
     // Call all initializers
     #ifdef INITIALIZER_00
     INITIALIZER_00();
- 1e0:	0e 94 9b 03 	call	0x736	; 0x736 <Init_Timer_Module>
+ 1e0:	0e 94 be 03 	call	0x77c	; 0x77c <Init_Timer_Module>
     #endif
     #ifdef INITIALIZER_01
     INITIALIZER_01();
@@ -789,7 +789,7 @@ static void kick_LIN_XCVR_WD(uint32_t unused)
  3c4:	70 e0       	ldi	r23, 0x00	; 0
  3c6:	81 e1       	ldi	r24, 0x11	; 17
  3c8:	91 e0       	ldi	r25, 0x01	; 1
- 3ca:	0e 94 0c 04 	call	0x818	; 0x818 <Start_Timer>
+ 3ca:	0e 94 2f 04 	call	0x85e	; 0x85e <Start_Timer>
  3ce:	08 95       	ret
     }
     else
@@ -805,7 +805,7 @@ static void kick_LIN_XCVR_WD(uint32_t unused)
  3d8:	70 e0       	ldi	r23, 0x00	; 0
  3da:	81 e1       	ldi	r24, 0x11	; 17
  3dc:	91 e0       	ldi	r25, 0x01	; 1
- 3de:	0e 94 0c 04 	call	0x818	; 0x818 <Start_Timer>
+ 3de:	0e 94 2f 04 	call	0x85e	; 0x85e <Start_Timer>
  3e2:	08 95       	ret
 
 000003e4 <Init_LIN_XCVR_WD_Kicker>:
@@ -825,7 +825,7 @@ void Init_LIN_XCVR_WD_Kicker(void)
  3ea:	71 e0       	ldi	r23, 0x01	; 1
  3ec:	81 e1       	ldi	r24, 0x11	; 17
  3ee:	91 e0       	ldi	r25, 0x01	; 1
- 3f0:	0e 94 bf 03 	call	0x77e	; 0x77e <Register_Timer>
+ 3f0:	0e 94 e2 03 	call	0x7c4	; 0x7c4 <Register_Timer>
 
     // Start timer
     Start_Timer(&LIN_XCVR_Kick_Timer, LIN_XCVR_WD_KICK_INTERVAL_MS);
@@ -835,7 +835,7 @@ void Init_LIN_XCVR_WD_Kicker(void)
  3fa:	70 e0       	ldi	r23, 0x00	; 0
  3fc:	81 e1       	ldi	r24, 0x11	; 17
  3fe:	91 e0       	ldi	r25, 0x01	; 1
- 400:	0e 94 0c 04 	call	0x818	; 0x818 <Start_Timer>
+ 400:	0e 94 2f 04 	call	0x85e	; 0x85e <Start_Timer>
  404:	08 95       	ret
 
 00000406 <main>:
@@ -916,7 +916,7 @@ void Init_Master_Service(void)
  438:	70 e0       	ldi	r23, 0x00	; 0
  43a:	87 e0       	ldi	r24, 0x07	; 7
  43c:	91 e0       	ldi	r25, 0x01	; 1
- 43e:	0e 94 bf 03 	call	0x77e	; 0x77e <Register_Timer>
+ 43e:	0e 94 e2 03 	call	0x7c4	; 0x7c4 <Register_Timer>
     // Kick off scheduling timer
     // TEST! Pause LIN service for now
     // Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
@@ -927,7 +927,7 @@ void Init_Master_Service(void)
  444:	70 e0       	ldi	r23, 0x00	; 0
  446:	82 e0       	ldi	r24, 0x02	; 2
  448:	91 e0       	ldi	r25, 0x01	; 1
- 44a:	0e 94 bf 03 	call	0x77e	; 0x77e <Register_Timer>
+ 44a:	0e 94 e2 03 	call	0x7c4	; 0x7c4 <Register_Timer>
  44e:	08 95       	ret
 
 00000450 <Run_Master_Service>:
@@ -986,7 +986,7 @@ static void update_curr_schedule_id(void)
  48a:	70 e0       	ldi	r23, 0x00	; 0
  48c:	87 e0       	ldi	r24, 0x07	; 7
  48e:	91 e0       	ldi	r25, 0x01	; 1
- 490:	0e 94 0c 04 	call	0x818	; 0x818 <Start_Timer>
+ 490:	0e 94 2f 04 	call	0x85e	; 0x85e <Start_Timer>
             break;
  494:	08 95       	ret
         case EVT_TEST_TIMEOUT:
@@ -1047,7 +1047,7 @@ static void update_curr_schedule_id(void)
  4cc:	70 e0       	ldi	r23, 0x00	; 0
  4ce:	82 e0       	ldi	r24, 0x02	; 2
  4d0:	91 e0       	ldi	r25, 0x01	; 1
- 4d2:	0e 94 0c 04 	call	0x818	; 0x818 <Start_Timer>
+ 4d2:	0e 94 2f 04 	call	0x85e	; 0x85e <Start_Timer>
  4d6:	08 95       	ret
 
 000004d8 <MS_LIN_Initialize>:
@@ -1545,332 +1545,386 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
  730:	80 93 8a 00 	sts	0x008A, r24	; 0x80008a <__EEPROM_REGION_LENGTH__+0x7f008a>
  734:	08 95       	ret
 
-00000736 <Init_Timer_Module>:
+00000736 <__vector_14>:
+        Will fire only on slave side
+
+****************************************************************************/
+
+ISR(SPI_STC_vect)
+{
+ 736:	1f 92       	push	r1
+ 738:	0f 92       	push	r0
+ 73a:	0f b6       	in	r0, 0x3f	; 63
+ 73c:	0f 92       	push	r0
+ 73e:	11 24       	eor	r1, r1
+ 740:	8f 93       	push	r24
+ 742:	9f 93       	push	r25
+ 744:	ef 93       	push	r30
+ 746:	ff 93       	push	r31
+    // Clear the SPI Interrupt Flag (is done by reading the SPSR Register)
+    uint8_t SPSR_Status = SPSR;
+ 748:	8d b5       	in	r24, 0x2d	; 45
+
+    // Read and set RX_Data
+    RX_Data[RX_Data_Index] = SPDR;
+ 74a:	80 91 2a 01 	lds	r24, 0x012A	; 0x80012a <RX_Data_Index>
+ 74e:	9e b5       	in	r25, 0x2e	; 46
+ 750:	e8 2f       	mov	r30, r24
+ 752:	f0 e0       	ldi	r31, 0x00	; 0
+ 754:	e5 5d       	subi	r30, 0xD5	; 213
+ 756:	fe 4f       	sbci	r31, 0xFE	; 254
+ 758:	90 83       	st	Z, r25
+
+    // Increment RX_Data_Index
+    RX_Data_Index++;
+ 75a:	8f 5f       	subi	r24, 0xFF	; 255
+ 75c:	80 93 2a 01 	sts	0x012A, r24	; 0x80012a <RX_Data_Index>
+
+    if ((SPI_DATA_LENGTH == RX_Data_Index) || (SS_BIT_HI == (PORTA&SS_BIT_HI)))
+ 760:	85 30       	cpi	r24, 0x05	; 5
+ 762:	09 f0       	breq	.+2      	; 0x766 <__vector_14+0x30>
+ 764:	16 99       	sbic	0x02, 6	; 2
+    {
+        RX_Data_Index = 0;
+ 766:	10 92 2a 01 	sts	0x012A, r1	; 0x80012a <RX_Data_Index>
+    }
+}
+ 76a:	ff 91       	pop	r31
+ 76c:	ef 91       	pop	r30
+ 76e:	9f 91       	pop	r25
+ 770:	8f 91       	pop	r24
+ 772:	0f 90       	pop	r0
+ 774:	0f be       	out	0x3f, r0	; 63
+ 776:	0f 90       	pop	r0
+ 778:	1f 90       	pop	r1
+ 77a:	18 95       	reti
+
+0000077c <Init_Timer_Module>:
 
 ****************************************************************************/
 void Stop_Timer(uint32_t * p_this_timer)
 {
     // Start timer
     for (int i = 0; i < NUM_TIMERS; i++)
- 736:	ea e2       	ldi	r30, 0x2A	; 42
- 738:	f1 e0       	ldi	r31, 0x01	; 1
- 73a:	ae e2       	ldi	r26, 0x2E	; 46
- 73c:	b1 e0       	ldi	r27, 0x01	; 1
- 73e:	82 e9       	ldi	r24, 0x92	; 146
- 740:	91 e0       	ldi	r25, 0x01	; 1
- 742:	11 82       	std	Z+1, r1	; 0x01
- 744:	10 82       	st	Z, r1
- 746:	13 82       	std	Z+3, r1	; 0x03
- 748:	12 82       	std	Z+2, r1	; 0x02
- 74a:	1c 92       	st	X, r1
- 74c:	15 82       	std	Z+5, r1	; 0x05
- 74e:	16 82       	std	Z+6, r1	; 0x06
- 750:	17 82       	std	Z+7, r1	; 0x07
- 752:	10 86       	std	Z+8, r1	; 0x08
- 754:	11 86       	std	Z+9, r1	; 0x09
- 756:	12 86       	std	Z+10, r1	; 0x0a
- 758:	13 86       	std	Z+11, r1	; 0x0b
- 75a:	14 86       	std	Z+12, r1	; 0x0c
- 75c:	3d 96       	adiw	r30, 0x0d	; 13
- 75e:	1d 96       	adiw	r26, 0x0d	; 13
- 760:	e8 17       	cp	r30, r24
- 762:	f9 07       	cpc	r31, r25
- 764:	71 f7       	brne	.-36     	; 0x742 <Init_Timer_Module+0xc>
- 766:	15 bc       	out	0x25, r1	; 37
- 768:	16 bc       	out	0x26, r1	; 38
- 76a:	18 bc       	out	0x28, r1	; 40
- 76c:	88 b5       	in	r24, 0x28	; 40
- 76e:	83 58       	subi	r24, 0x83	; 131
- 770:	88 bd       	out	0x28, r24	; 40
- 772:	82 e0       	ldi	r24, 0x02	; 2
- 774:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <__EEPROM_REGION_LENGTH__+0x7f006e>
- 778:	84 e0       	ldi	r24, 0x04	; 4
- 77a:	86 bd       	out	0x26, r24	; 38
- 77c:	08 95       	ret
+ 77c:	e0 e3       	ldi	r30, 0x30	; 48
+ 77e:	f1 e0       	ldi	r31, 0x01	; 1
+ 780:	a4 e3       	ldi	r26, 0x34	; 52
+ 782:	b1 e0       	ldi	r27, 0x01	; 1
+ 784:	88 e9       	ldi	r24, 0x98	; 152
+ 786:	91 e0       	ldi	r25, 0x01	; 1
+ 788:	11 82       	std	Z+1, r1	; 0x01
+ 78a:	10 82       	st	Z, r1
+ 78c:	13 82       	std	Z+3, r1	; 0x03
+ 78e:	12 82       	std	Z+2, r1	; 0x02
+ 790:	1c 92       	st	X, r1
+ 792:	15 82       	std	Z+5, r1	; 0x05
+ 794:	16 82       	std	Z+6, r1	; 0x06
+ 796:	17 82       	std	Z+7, r1	; 0x07
+ 798:	10 86       	std	Z+8, r1	; 0x08
+ 79a:	11 86       	std	Z+9, r1	; 0x09
+ 79c:	12 86       	std	Z+10, r1	; 0x0a
+ 79e:	13 86       	std	Z+11, r1	; 0x0b
+ 7a0:	14 86       	std	Z+12, r1	; 0x0c
+ 7a2:	3d 96       	adiw	r30, 0x0d	; 13
+ 7a4:	1d 96       	adiw	r26, 0x0d	; 13
+ 7a6:	e8 17       	cp	r30, r24
+ 7a8:	f9 07       	cpc	r31, r25
+ 7aa:	71 f7       	brne	.-36     	; 0x788 <Init_Timer_Module+0xc>
+ 7ac:	15 bc       	out	0x25, r1	; 37
+ 7ae:	16 bc       	out	0x26, r1	; 38
+ 7b0:	18 bc       	out	0x28, r1	; 40
+ 7b2:	88 b5       	in	r24, 0x28	; 40
+ 7b4:	83 58       	subi	r24, 0x83	; 131
+ 7b6:	88 bd       	out	0x28, r24	; 40
+ 7b8:	82 e0       	ldi	r24, 0x02	; 2
+ 7ba:	80 93 6e 00 	sts	0x006E, r24	; 0x80006e <__EEPROM_REGION_LENGTH__+0x7f006e>
+ 7be:	84 e0       	ldi	r24, 0x04	; 4
+ 7c0:	86 bd       	out	0x26, r24	; 38
+ 7c2:	08 95       	ret
 
-0000077e <Register_Timer>:
- 77e:	cf 93       	push	r28
- 780:	df 93       	push	r29
- 782:	c0 91 2a 01 	lds	r28, 0x012A	; 0x80012a <Timers>
- 786:	d0 91 2b 01 	lds	r29, 0x012B	; 0x80012b <Timers+0x1>
- 78a:	c8 17       	cp	r28, r24
- 78c:	d9 07       	cpc	r29, r25
- 78e:	09 f4       	brne	.+2      	; 0x792 <Register_Timer+0x14>
- 790:	40 c0       	rjmp	.+128    	; 0x812 <Register_Timer+0x94>
- 792:	aa e2       	ldi	r26, 0x2A	; 42
- 794:	b1 e0       	ldi	r27, 0x01	; 1
- 796:	45 e8       	ldi	r20, 0x85	; 133
- 798:	51 e0       	ldi	r21, 0x01	; 1
- 79a:	fd 01       	movw	r30, r26
- 79c:	25 85       	ldd	r18, Z+13	; 0x0d
- 79e:	36 85       	ldd	r19, Z+14	; 0x0e
- 7a0:	28 17       	cp	r18, r24
- 7a2:	39 07       	cpc	r19, r25
- 7a4:	b1 f1       	breq	.+108    	; 0x812 <Register_Timer+0x94>
- 7a6:	3d 96       	adiw	r30, 0x0d	; 13
- 7a8:	e4 17       	cp	r30, r20
- 7aa:	f5 07       	cpc	r31, r21
- 7ac:	b9 f7       	brne	.-18     	; 0x79c <Register_Timer+0x1e>
- 7ae:	2c c0       	rjmp	.+88     	; 0x808 <Register_Timer+0x8a>
- 7b0:	1d 96       	adiw	r26, 0x0d	; 13
- 7b2:	4d 91       	ld	r20, X+
- 7b4:	5c 91       	ld	r21, X
- 7b6:	1e 97       	sbiw	r26, 0x0e	; 14
- 7b8:	45 2b       	or	r20, r21
- 7ba:	f9 f4       	brne	.+62     	; 0x7fa <Register_Timer+0x7c>
- 7bc:	02 c0       	rjmp	.+4      	; 0x7c2 <Register_Timer+0x44>
- 7be:	20 e0       	ldi	r18, 0x00	; 0
- 7c0:	30 e0       	ldi	r19, 0x00	; 0
- 7c2:	f9 01       	movw	r30, r18
- 7c4:	ee 0f       	add	r30, r30
- 7c6:	ff 1f       	adc	r31, r31
- 7c8:	e2 0f       	add	r30, r18
- 7ca:	f3 1f       	adc	r31, r19
- 7cc:	ee 0f       	add	r30, r30
- 7ce:	ff 1f       	adc	r31, r31
- 7d0:	ee 0f       	add	r30, r30
- 7d2:	ff 1f       	adc	r31, r31
- 7d4:	2e 0f       	add	r18, r30
- 7d6:	3f 1f       	adc	r19, r31
- 7d8:	f9 01       	movw	r30, r18
- 7da:	e6 5d       	subi	r30, 0xD6	; 214
- 7dc:	fe 4f       	sbci	r31, 0xFE	; 254
- 7de:	91 83       	std	Z+1, r25	; 0x01
- 7e0:	80 83       	st	Z, r24
- 7e2:	73 83       	std	Z+3, r23	; 0x03
- 7e4:	62 83       	std	Z+2, r22	; 0x02
- 7e6:	14 82       	std	Z+4, r1	; 0x04
- 7e8:	15 82       	std	Z+5, r1	; 0x05
- 7ea:	16 82       	std	Z+6, r1	; 0x06
- 7ec:	17 82       	std	Z+7, r1	; 0x07
- 7ee:	10 86       	std	Z+8, r1	; 0x08
- 7f0:	11 86       	std	Z+9, r1	; 0x09
- 7f2:	12 86       	std	Z+10, r1	; 0x0a
- 7f4:	13 86       	std	Z+11, r1	; 0x0b
- 7f6:	14 86       	std	Z+12, r1	; 0x0c
- 7f8:	0c c0       	rjmp	.+24     	; 0x812 <Register_Timer+0x94>
- 7fa:	2f 5f       	subi	r18, 0xFF	; 255
- 7fc:	3f 4f       	sbci	r19, 0xFF	; 255
- 7fe:	1d 96       	adiw	r26, 0x0d	; 13
- 800:	28 30       	cpi	r18, 0x08	; 8
- 802:	31 05       	cpc	r19, r1
- 804:	a9 f6       	brne	.-86     	; 0x7b0 <Register_Timer+0x32>
- 806:	05 c0       	rjmp	.+10     	; 0x812 <Register_Timer+0x94>
- 808:	cd 2b       	or	r28, r29
- 80a:	c9 f2       	breq	.-78     	; 0x7be <Register_Timer+0x40>
- 80c:	21 e0       	ldi	r18, 0x01	; 1
- 80e:	30 e0       	ldi	r19, 0x00	; 0
- 810:	cf cf       	rjmp	.-98     	; 0x7b0 <Register_Timer+0x32>
- 812:	df 91       	pop	r29
- 814:	cf 91       	pop	r28
- 816:	08 95       	ret
+000007c4 <Register_Timer>:
+ 7c4:	cf 93       	push	r28
+ 7c6:	df 93       	push	r29
+ 7c8:	c0 91 30 01 	lds	r28, 0x0130	; 0x800130 <Timers>
+ 7cc:	d0 91 31 01 	lds	r29, 0x0131	; 0x800131 <Timers+0x1>
+ 7d0:	c8 17       	cp	r28, r24
+ 7d2:	d9 07       	cpc	r29, r25
+ 7d4:	09 f4       	brne	.+2      	; 0x7d8 <Register_Timer+0x14>
+ 7d6:	40 c0       	rjmp	.+128    	; 0x858 <Register_Timer+0x94>
+ 7d8:	a0 e3       	ldi	r26, 0x30	; 48
+ 7da:	b1 e0       	ldi	r27, 0x01	; 1
+ 7dc:	4b e8       	ldi	r20, 0x8B	; 139
+ 7de:	51 e0       	ldi	r21, 0x01	; 1
+ 7e0:	fd 01       	movw	r30, r26
+ 7e2:	25 85       	ldd	r18, Z+13	; 0x0d
+ 7e4:	36 85       	ldd	r19, Z+14	; 0x0e
+ 7e6:	28 17       	cp	r18, r24
+ 7e8:	39 07       	cpc	r19, r25
+ 7ea:	b1 f1       	breq	.+108    	; 0x858 <Register_Timer+0x94>
+ 7ec:	3d 96       	adiw	r30, 0x0d	; 13
+ 7ee:	e4 17       	cp	r30, r20
+ 7f0:	f5 07       	cpc	r31, r21
+ 7f2:	b9 f7       	brne	.-18     	; 0x7e2 <Register_Timer+0x1e>
+ 7f4:	2c c0       	rjmp	.+88     	; 0x84e <Register_Timer+0x8a>
+ 7f6:	1d 96       	adiw	r26, 0x0d	; 13
+ 7f8:	4d 91       	ld	r20, X+
+ 7fa:	5c 91       	ld	r21, X
+ 7fc:	1e 97       	sbiw	r26, 0x0e	; 14
+ 7fe:	45 2b       	or	r20, r21
+ 800:	f9 f4       	brne	.+62     	; 0x840 <Register_Timer+0x7c>
+ 802:	02 c0       	rjmp	.+4      	; 0x808 <Register_Timer+0x44>
+ 804:	20 e0       	ldi	r18, 0x00	; 0
+ 806:	30 e0       	ldi	r19, 0x00	; 0
+ 808:	f9 01       	movw	r30, r18
+ 80a:	ee 0f       	add	r30, r30
+ 80c:	ff 1f       	adc	r31, r31
+ 80e:	e2 0f       	add	r30, r18
+ 810:	f3 1f       	adc	r31, r19
+ 812:	ee 0f       	add	r30, r30
+ 814:	ff 1f       	adc	r31, r31
+ 816:	ee 0f       	add	r30, r30
+ 818:	ff 1f       	adc	r31, r31
+ 81a:	2e 0f       	add	r18, r30
+ 81c:	3f 1f       	adc	r19, r31
+ 81e:	f9 01       	movw	r30, r18
+ 820:	e0 5d       	subi	r30, 0xD0	; 208
+ 822:	fe 4f       	sbci	r31, 0xFE	; 254
+ 824:	91 83       	std	Z+1, r25	; 0x01
+ 826:	80 83       	st	Z, r24
+ 828:	73 83       	std	Z+3, r23	; 0x03
+ 82a:	62 83       	std	Z+2, r22	; 0x02
+ 82c:	14 82       	std	Z+4, r1	; 0x04
+ 82e:	15 82       	std	Z+5, r1	; 0x05
+ 830:	16 82       	std	Z+6, r1	; 0x06
+ 832:	17 82       	std	Z+7, r1	; 0x07
+ 834:	10 86       	std	Z+8, r1	; 0x08
+ 836:	11 86       	std	Z+9, r1	; 0x09
+ 838:	12 86       	std	Z+10, r1	; 0x0a
+ 83a:	13 86       	std	Z+11, r1	; 0x0b
+ 83c:	14 86       	std	Z+12, r1	; 0x0c
+ 83e:	0c c0       	rjmp	.+24     	; 0x858 <Register_Timer+0x94>
+ 840:	2f 5f       	subi	r18, 0xFF	; 255
+ 842:	3f 4f       	sbci	r19, 0xFF	; 255
+ 844:	1d 96       	adiw	r26, 0x0d	; 13
+ 846:	28 30       	cpi	r18, 0x08	; 8
+ 848:	31 05       	cpc	r19, r1
+ 84a:	a9 f6       	brne	.-86     	; 0x7f6 <Register_Timer+0x32>
+ 84c:	05 c0       	rjmp	.+10     	; 0x858 <Register_Timer+0x94>
+ 84e:	cd 2b       	or	r28, r29
+ 850:	c9 f2       	breq	.-78     	; 0x804 <Register_Timer+0x40>
+ 852:	21 e0       	ldi	r18, 0x01	; 1
+ 854:	30 e0       	ldi	r19, 0x00	; 0
+ 856:	cf cf       	rjmp	.-98     	; 0x7f6 <Register_Timer+0x32>
+ 858:	df 91       	pop	r29
+ 85a:	cf 91       	pop	r28
+ 85c:	08 95       	ret
 
-00000818 <Start_Timer>:
- 818:	20 91 2a 01 	lds	r18, 0x012A	; 0x80012a <Timers>
- 81c:	30 91 2b 01 	lds	r19, 0x012B	; 0x80012b <Timers+0x1>
- 820:	28 17       	cp	r18, r24
- 822:	39 07       	cpc	r19, r25
- 824:	51 f0       	breq	.+20     	; 0x83a <Start_Timer+0x22>
- 826:	ea e2       	ldi	r30, 0x2A	; 42
- 828:	f1 e0       	ldi	r31, 0x01	; 1
- 82a:	21 e0       	ldi	r18, 0x01	; 1
- 82c:	30 e0       	ldi	r19, 0x00	; 0
- 82e:	a5 85       	ldd	r26, Z+13	; 0x0d
- 830:	b6 85       	ldd	r27, Z+14	; 0x0e
- 832:	a8 17       	cp	r26, r24
- 834:	b9 07       	cpc	r27, r25
- 836:	e1 f4       	brne	.+56     	; 0x870 <Start_Timer+0x58>
- 838:	02 c0       	rjmp	.+4      	; 0x83e <Start_Timer+0x26>
- 83a:	20 e0       	ldi	r18, 0x00	; 0
- 83c:	30 e0       	ldi	r19, 0x00	; 0
- 83e:	f9 01       	movw	r30, r18
- 840:	ee 0f       	add	r30, r30
- 842:	ff 1f       	adc	r31, r31
- 844:	e2 0f       	add	r30, r18
- 846:	f3 1f       	adc	r31, r19
- 848:	ee 0f       	add	r30, r30
- 84a:	ff 1f       	adc	r31, r31
- 84c:	ee 0f       	add	r30, r30
- 84e:	ff 1f       	adc	r31, r31
- 850:	2e 0f       	add	r18, r30
- 852:	3f 1f       	adc	r19, r31
- 854:	f9 01       	movw	r30, r18
- 856:	e6 5d       	subi	r30, 0xD6	; 214
- 858:	fe 4f       	sbci	r31, 0xFE	; 254
- 85a:	81 e0       	ldi	r24, 0x01	; 1
- 85c:	84 83       	std	Z+4, r24	; 0x04
- 85e:	15 82       	std	Z+5, r1	; 0x05
- 860:	16 82       	std	Z+6, r1	; 0x06
- 862:	17 82       	std	Z+7, r1	; 0x07
- 864:	10 86       	std	Z+8, r1	; 0x08
- 866:	41 87       	std	Z+9, r20	; 0x09
- 868:	52 87       	std	Z+10, r21	; 0x0a
- 86a:	63 87       	std	Z+11, r22	; 0x0b
- 86c:	74 87       	std	Z+12, r23	; 0x0c
- 86e:	08 95       	ret
- 870:	2f 5f       	subi	r18, 0xFF	; 255
- 872:	3f 4f       	sbci	r19, 0xFF	; 255
- 874:	3d 96       	adiw	r30, 0x0d	; 13
- 876:	28 30       	cpi	r18, 0x08	; 8
- 878:	31 05       	cpc	r19, r1
- 87a:	c9 f6       	brne	.-78     	; 0x82e <Start_Timer+0x16>
- 87c:	08 95       	ret
+0000085e <Start_Timer>:
+ 85e:	20 91 30 01 	lds	r18, 0x0130	; 0x800130 <Timers>
+ 862:	30 91 31 01 	lds	r19, 0x0131	; 0x800131 <Timers+0x1>
+ 866:	28 17       	cp	r18, r24
+ 868:	39 07       	cpc	r19, r25
+ 86a:	51 f0       	breq	.+20     	; 0x880 <Start_Timer+0x22>
+ 86c:	e0 e3       	ldi	r30, 0x30	; 48
+ 86e:	f1 e0       	ldi	r31, 0x01	; 1
+ 870:	21 e0       	ldi	r18, 0x01	; 1
+ 872:	30 e0       	ldi	r19, 0x00	; 0
+ 874:	a5 85       	ldd	r26, Z+13	; 0x0d
+ 876:	b6 85       	ldd	r27, Z+14	; 0x0e
+ 878:	a8 17       	cp	r26, r24
+ 87a:	b9 07       	cpc	r27, r25
+ 87c:	e1 f4       	brne	.+56     	; 0x8b6 <Start_Timer+0x58>
+ 87e:	02 c0       	rjmp	.+4      	; 0x884 <Start_Timer+0x26>
+ 880:	20 e0       	ldi	r18, 0x00	; 0
+ 882:	30 e0       	ldi	r19, 0x00	; 0
+ 884:	f9 01       	movw	r30, r18
+ 886:	ee 0f       	add	r30, r30
+ 888:	ff 1f       	adc	r31, r31
+ 88a:	e2 0f       	add	r30, r18
+ 88c:	f3 1f       	adc	r31, r19
+ 88e:	ee 0f       	add	r30, r30
+ 890:	ff 1f       	adc	r31, r31
+ 892:	ee 0f       	add	r30, r30
+ 894:	ff 1f       	adc	r31, r31
+ 896:	2e 0f       	add	r18, r30
+ 898:	3f 1f       	adc	r19, r31
+ 89a:	f9 01       	movw	r30, r18
+ 89c:	e0 5d       	subi	r30, 0xD0	; 208
+ 89e:	fe 4f       	sbci	r31, 0xFE	; 254
+ 8a0:	81 e0       	ldi	r24, 0x01	; 1
+ 8a2:	84 83       	std	Z+4, r24	; 0x04
+ 8a4:	15 82       	std	Z+5, r1	; 0x05
+ 8a6:	16 82       	std	Z+6, r1	; 0x06
+ 8a8:	17 82       	std	Z+7, r1	; 0x07
+ 8aa:	10 86       	std	Z+8, r1	; 0x08
+ 8ac:	41 87       	std	Z+9, r20	; 0x09
+ 8ae:	52 87       	std	Z+10, r21	; 0x0a
+ 8b0:	63 87       	std	Z+11, r22	; 0x0b
+ 8b2:	74 87       	std	Z+12, r23	; 0x0c
+ 8b4:	08 95       	ret
+ 8b6:	2f 5f       	subi	r18, 0xFF	; 255
+ 8b8:	3f 4f       	sbci	r19, 0xFF	; 255
+ 8ba:	3d 96       	adiw	r30, 0x0d	; 13
+ 8bc:	28 30       	cpi	r18, 0x08	; 8
+ 8be:	31 05       	cpc	r19, r1
+ 8c0:	c9 f6       	brne	.-78     	; 0x874 <Start_Timer+0x16>
+ 8c2:	08 95       	ret
 
-0000087e <__vector_10>:
+000008c4 <__vector_10>:
     Description
         Handles the timer overflow interrupt
 
 ****************************************************************************/
 ISR(TIMER0_COMPA_vect)
 {
- 87e:	1f 92       	push	r1
- 880:	0f 92       	push	r0
- 882:	0f b6       	in	r0, 0x3f	; 63
- 884:	0f 92       	push	r0
- 886:	11 24       	eor	r1, r1
- 888:	ef 92       	push	r14
- 88a:	ff 92       	push	r15
- 88c:	0f 93       	push	r16
- 88e:	1f 93       	push	r17
- 890:	2f 93       	push	r18
- 892:	3f 93       	push	r19
- 894:	4f 93       	push	r20
- 896:	5f 93       	push	r21
- 898:	6f 93       	push	r22
- 89a:	7f 93       	push	r23
- 89c:	8f 93       	push	r24
- 89e:	9f 93       	push	r25
- 8a0:	af 93       	push	r26
- 8a2:	bf 93       	push	r27
- 8a4:	cf 93       	push	r28
- 8a6:	df 93       	push	r29
- 8a8:	ef 93       	push	r30
- 8aa:	ff 93       	push	r31
+ 8c4:	1f 92       	push	r1
+ 8c6:	0f 92       	push	r0
+ 8c8:	0f b6       	in	r0, 0x3f	; 63
+ 8ca:	0f 92       	push	r0
+ 8cc:	11 24       	eor	r1, r1
+ 8ce:	ef 92       	push	r14
+ 8d0:	ff 92       	push	r15
+ 8d2:	0f 93       	push	r16
+ 8d4:	1f 93       	push	r17
+ 8d6:	2f 93       	push	r18
+ 8d8:	3f 93       	push	r19
+ 8da:	4f 93       	push	r20
+ 8dc:	5f 93       	push	r21
+ 8de:	6f 93       	push	r22
+ 8e0:	7f 93       	push	r23
+ 8e2:	8f 93       	push	r24
+ 8e4:	9f 93       	push	r25
+ 8e6:	af 93       	push	r26
+ 8e8:	bf 93       	push	r27
+ 8ea:	cf 93       	push	r28
+ 8ec:	df 93       	push	r29
+ 8ee:	ef 93       	push	r30
+ 8f0:	ff 93       	push	r31
     // No need to clear interrupt b/c it is cleared in HW (p. 104)
 
     // Write new value into output compare reg for next tick
     OCR0A = OCR0A + OC_T0_REG_VALUE;
- 8ac:	88 b5       	in	r24, 0x28	; 40
- 8ae:	83 58       	subi	r24, 0x83	; 131
- 8b0:	88 bd       	out	0x28, r24	; 40
- 8b2:	0e e2       	ldi	r16, 0x2E	; 46
- 8b4:	11 e0       	ldi	r17, 0x01	; 1
- 8b6:	ca e2       	ldi	r28, 0x2A	; 42
- 8b8:	d1 e0       	ldi	r29, 0x01	; 1
- 8ba:	0f 2e       	mov	r0, r31
- 8bc:	f2 e9       	ldi	r31, 0x92	; 146
- 8be:	ef 2e       	mov	r14, r31
- 8c0:	f1 e0       	ldi	r31, 0x01	; 1
- 8c2:	ff 2e       	mov	r15, r31
- 8c4:	f0 2d       	mov	r31, r0
- 8c6:	f8 01       	movw	r30, r16
+ 8f2:	88 b5       	in	r24, 0x28	; 40
+ 8f4:	83 58       	subi	r24, 0x83	; 131
+ 8f6:	88 bd       	out	0x28, r24	; 40
+ 8f8:	04 e3       	ldi	r16, 0x34	; 52
+ 8fa:	11 e0       	ldi	r17, 0x01	; 1
+ 8fc:	c0 e3       	ldi	r28, 0x30	; 48
+ 8fe:	d1 e0       	ldi	r29, 0x01	; 1
+ 900:	0f 2e       	mov	r0, r31
+ 902:	f8 e9       	ldi	r31, 0x98	; 152
+ 904:	ef 2e       	mov	r14, r31
+ 906:	f1 e0       	ldi	r31, 0x01	; 1
+ 908:	ff 2e       	mov	r15, r31
+ 90a:	f0 2d       	mov	r31, r0
+ 90c:	f8 01       	movw	r30, r16
 
     // Service the running registered timers
     for (int i = 0; i < NUM_TIMERS; i++)
     {
         if (true == Timers[i].timer_running_flag)
- 8c8:	80 81       	ld	r24, Z
- 8ca:	88 23       	and	r24, r24
- 8cc:	39 f1       	breq	.+78     	; 0x91c <__vector_10+0x9e>
+ 90e:	80 81       	ld	r24, Z
+ 910:	88 23       	and	r24, r24
+ 912:	39 f1       	breq	.+78     	; 0x962 <__vector_10+0x9e>
         {
             // Add one to time, subtract one from ticks left
             Timers[i].ticks_since_start += 1;
- 8ce:	8d 81       	ldd	r24, Y+5	; 0x05
- 8d0:	9e 81       	ldd	r25, Y+6	; 0x06
- 8d2:	af 81       	ldd	r26, Y+7	; 0x07
- 8d4:	b8 85       	ldd	r27, Y+8	; 0x08
- 8d6:	01 96       	adiw	r24, 0x01	; 1
- 8d8:	a1 1d       	adc	r26, r1
- 8da:	b1 1d       	adc	r27, r1
- 8dc:	8d 83       	std	Y+5, r24	; 0x05
- 8de:	9e 83       	std	Y+6, r25	; 0x06
- 8e0:	af 83       	std	Y+7, r26	; 0x07
- 8e2:	b8 87       	std	Y+8, r27	; 0x08
+ 914:	8d 81       	ldd	r24, Y+5	; 0x05
+ 916:	9e 81       	ldd	r25, Y+6	; 0x06
+ 918:	af 81       	ldd	r26, Y+7	; 0x07
+ 91a:	b8 85       	ldd	r27, Y+8	; 0x08
+ 91c:	01 96       	adiw	r24, 0x01	; 1
+ 91e:	a1 1d       	adc	r26, r1
+ 920:	b1 1d       	adc	r27, r1
+ 922:	8d 83       	std	Y+5, r24	; 0x05
+ 924:	9e 83       	std	Y+6, r25	; 0x06
+ 926:	af 83       	std	Y+7, r26	; 0x07
+ 928:	b8 87       	std	Y+8, r27	; 0x08
             Timers[i].ticks_remaining -= 1;
- 8e4:	89 85       	ldd	r24, Y+9	; 0x09
- 8e6:	9a 85       	ldd	r25, Y+10	; 0x0a
- 8e8:	ab 85       	ldd	r26, Y+11	; 0x0b
- 8ea:	bc 85       	ldd	r27, Y+12	; 0x0c
- 8ec:	01 97       	sbiw	r24, 0x01	; 1
- 8ee:	a1 09       	sbc	r26, r1
- 8f0:	b1 09       	sbc	r27, r1
- 8f2:	89 87       	std	Y+9, r24	; 0x09
- 8f4:	9a 87       	std	Y+10, r25	; 0x0a
- 8f6:	ab 87       	std	Y+11, r26	; 0x0b
- 8f8:	bc 87       	std	Y+12, r27	; 0x0c
+ 92a:	89 85       	ldd	r24, Y+9	; 0x09
+ 92c:	9a 85       	ldd	r25, Y+10	; 0x0a
+ 92e:	ab 85       	ldd	r26, Y+11	; 0x0b
+ 930:	bc 85       	ldd	r27, Y+12	; 0x0c
+ 932:	01 97       	sbiw	r24, 0x01	; 1
+ 934:	a1 09       	sbc	r26, r1
+ 936:	b1 09       	sbc	r27, r1
+ 938:	89 87       	std	Y+9, r24	; 0x09
+ 93a:	9a 87       	std	Y+10, r25	; 0x0a
+ 93c:	ab 87       	std	Y+11, r26	; 0x0b
+ 93e:	bc 87       	std	Y+12, r27	; 0x0c
 
             // If the timer has expired
             if (0 == Timers[i].ticks_remaining)
- 8fa:	89 2b       	or	r24, r25
- 8fc:	8a 2b       	or	r24, r26
- 8fe:	8b 2b       	or	r24, r27
- 900:	69 f4       	brne	.+26     	; 0x91c <__vector_10+0x9e>
+ 940:	89 2b       	or	r24, r25
+ 942:	8a 2b       	or	r24, r26
+ 944:	8b 2b       	or	r24, r27
+ 946:	69 f4       	brne	.+26     	; 0x962 <__vector_10+0x9e>
             {
                 // Clear running flag
                 Timers[i].timer_running_flag = false;
- 902:	10 82       	st	Z, r1
+ 948:	10 82       	st	Z, r1
                 
                 // Execute cb function with value of id pointer's value
                 // If cb is not null, execute
                 if (Timers[i].timer_cb_func)
- 904:	ea 81       	ldd	r30, Y+2	; 0x02
- 906:	fb 81       	ldd	r31, Y+3	; 0x03
- 908:	30 97       	sbiw	r30, 0x00	; 0
- 90a:	41 f0       	breq	.+16     	; 0x91c <__vector_10+0x9e>
+ 94a:	ea 81       	ldd	r30, Y+2	; 0x02
+ 94c:	fb 81       	ldd	r31, Y+3	; 0x03
+ 94e:	30 97       	sbiw	r30, 0x00	; 0
+ 950:	41 f0       	breq	.+16     	; 0x962 <__vector_10+0x9e>
                 {
                     Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
- 90c:	88 81       	ld	r24, Y
- 90e:	99 81       	ldd	r25, Y+1	; 0x01
- 910:	dc 01       	movw	r26, r24
- 912:	6d 91       	ld	r22, X+
- 914:	7d 91       	ld	r23, X+
- 916:	8d 91       	ld	r24, X+
- 918:	9c 91       	ld	r25, X
- 91a:	09 95       	icall
- 91c:	03 5f       	subi	r16, 0xF3	; 243
- 91e:	1f 4f       	sbci	r17, 0xFF	; 255
- 920:	2d 96       	adiw	r28, 0x0d	; 13
+ 952:	88 81       	ld	r24, Y
+ 954:	99 81       	ldd	r25, Y+1	; 0x01
+ 956:	dc 01       	movw	r26, r24
+ 958:	6d 91       	ld	r22, X+
+ 95a:	7d 91       	ld	r23, X+
+ 95c:	8d 91       	ld	r24, X+
+ 95e:	9c 91       	ld	r25, X
+ 960:	09 95       	icall
+ 962:	03 5f       	subi	r16, 0xF3	; 243
+ 964:	1f 4f       	sbci	r17, 0xFF	; 255
+ 966:	2d 96       	adiw	r28, 0x0d	; 13
 
     // Write new value into output compare reg for next tick
     OCR0A = OCR0A + OC_T0_REG_VALUE;
 
     // Service the running registered timers
     for (int i = 0; i < NUM_TIMERS; i++)
- 922:	ce 15       	cp	r28, r14
- 924:	df 05       	cpc	r29, r15
- 926:	79 f6       	brne	.-98     	; 0x8c6 <__vector_10+0x48>
+ 968:	ce 15       	cp	r28, r14
+ 96a:	df 05       	cpc	r29, r15
+ 96c:	79 f6       	brne	.-98     	; 0x90c <__vector_10+0x48>
                     Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
                 }
             }
         }
     }
 }
- 928:	ff 91       	pop	r31
- 92a:	ef 91       	pop	r30
- 92c:	df 91       	pop	r29
- 92e:	cf 91       	pop	r28
- 930:	bf 91       	pop	r27
- 932:	af 91       	pop	r26
- 934:	9f 91       	pop	r25
- 936:	8f 91       	pop	r24
- 938:	7f 91       	pop	r23
- 93a:	6f 91       	pop	r22
- 93c:	5f 91       	pop	r21
- 93e:	4f 91       	pop	r20
- 940:	3f 91       	pop	r19
- 942:	2f 91       	pop	r18
- 944:	1f 91       	pop	r17
- 946:	0f 91       	pop	r16
- 948:	ff 90       	pop	r15
- 94a:	ef 90       	pop	r14
- 94c:	0f 90       	pop	r0
- 94e:	0f be       	out	0x3f, r0	; 63
- 950:	0f 90       	pop	r0
- 952:	1f 90       	pop	r1
- 954:	18 95       	reti
+ 96e:	ff 91       	pop	r31
+ 970:	ef 91       	pop	r30
+ 972:	df 91       	pop	r29
+ 974:	cf 91       	pop	r28
+ 976:	bf 91       	pop	r27
+ 978:	af 91       	pop	r26
+ 97a:	9f 91       	pop	r25
+ 97c:	8f 91       	pop	r24
+ 97e:	7f 91       	pop	r23
+ 980:	6f 91       	pop	r22
+ 982:	5f 91       	pop	r21
+ 984:	4f 91       	pop	r20
+ 986:	3f 91       	pop	r19
+ 988:	2f 91       	pop	r18
+ 98a:	1f 91       	pop	r17
+ 98c:	0f 91       	pop	r16
+ 98e:	ff 90       	pop	r15
+ 990:	ef 90       	pop	r14
+ 992:	0f 90       	pop	r0
+ 994:	0f be       	out	0x3f, r0	; 63
+ 996:	0f 90       	pop	r0
+ 998:	1f 90       	pop	r1
+ 99a:	18 95       	reti
 
-00000956 <_exit>:
- 956:	f8 94       	cli
+0000099c <_exit>:
+ 99c:	f8 94       	cli
 
-00000958 <__stop_program>:
- 958:	ff cf       	rjmp	.-2      	; 0x958 <__stop_program>
+0000099e <__stop_program>:
+ 99e:	ff cf       	rjmp	.-2      	; 0x99e <__stop_program>

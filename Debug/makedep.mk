@@ -24,6 +24,8 @@ PWM.c
 
 slave_service.c
 
+SPI.c
+
 timer.c
 
 __template.c
