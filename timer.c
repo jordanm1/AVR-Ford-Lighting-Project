@@ -51,7 +51,7 @@
 #define OC_T0_REG_VALUE     (100)
 
 // Define number of steps per 1 ms
-#define STEP_COUNT_PER_MS   10
+#define TICK_COUNT_PER_MS   10
 
 // Null cb func
 #define NULL_TIMER_CB       ((timer_cb_t) 0)
@@ -189,7 +189,7 @@ void Register_Timer(uint32_t * p_new_timer, timer_cb_t new_timer_cb_func)
 
     Parameters
         uint32_t: Pointer to timer variable holding the event type to post
-        uint32_t: Timer length in ms, max is (uint32_t/STEP_COUNT_PER_MS)
+        uint32_t: Timer length in ms, max is (uint32_t/TICK_COUNT_PER_MS)
 
     Description
         Starts the timer
@@ -204,7 +204,7 @@ void Start_Timer(uint32_t * p_this_timer, uint32_t time_in_ms)
         {
             Timers[i].timer_running_flag = true;
             Timers[i].ticks_since_start = 0;
-            Timers[i].ticks_remaining = (time_in_ms*STEP_COUNT_PER_MS);
+            Timers[i].ticks_remaining = (time_in_ms*TICK_COUNT_PER_MS);
             break;
         }
     }
@@ -231,7 +231,7 @@ uint32_t Get_Time_Timer(uint32_t * p_this_timer)
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            return_val = ((Timers[i].ticks_since_start)/STEP_COUNT_PER_MS);
+            return_val = ((Timers[i].ticks_since_start)/TICK_COUNT_PER_MS);
         }
     }
     
