@@ -323,9 +323,14 @@ ISR(TIMER0_COMPA_vect)
     {
         if (true == Timers[i].timer_running_flag)
         {
-            // Add one to time, subtract one from ticks left
-            Timers[i].ticks_since_start += 1;
-            Timers[i].ticks_remaining -= 1;
+            // If the timer was started with a non zero time, service the ticks,
+            //      otherwise, process the cb immediately
+            if (0 < Timers[i].ticks_remaining)
+            {
+                // Add one to time, subtract one from ticks left
+                Timers[i].ticks_since_start += 1;
+                Timers[i].ticks_remaining -= 1;
+            }
 
             // If the timer has expired
             if (0 == Timers[i].ticks_remaining)
