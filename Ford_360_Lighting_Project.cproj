@@ -140,6 +140,12 @@
     <Compile Include="ADC.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="analog_servo_drv.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="analog_servo_drv.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
