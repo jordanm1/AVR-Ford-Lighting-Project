@@ -91,7 +91,7 @@ void Run_Events(void)
         {
             if (is_event_pending((0x01 << event)))
             {
-                Run_Services(event);
+                Run_Services((0x01 << event));
             }
         }
     }
