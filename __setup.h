@@ -58,7 +58,9 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                  6
+#define NUM_EVENTS                  7
+
+#define NON_EVENT                   (0x00)
 
 #define EVT_SLAVE_GET_ID            (0x01<<0)       // This will result in blocking
                                                     //  code to get the slave ID
