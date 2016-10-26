@@ -4,6 +4,8 @@
 
 ADC.c
 
+analog_servo_drv.c
+
 events.c
 
 framework.c

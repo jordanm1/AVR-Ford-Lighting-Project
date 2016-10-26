@@ -82,6 +82,8 @@ static uint8_t Curr_Schedule_ID = SCHEDULE_START_ID;
 // TEST TIMER
 static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
 static uint8_t test_counter = 0;
+static uint8_t position_counter = 1;
+static uint8_t parity = 0;
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -124,8 +126,9 @@ void Init_Master_Service(void)
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
-    // TEST! Pause LIN service for now
-    // Start_Timer(&Testing_Timer, 500);
+    Start_Timer(&Testing_Timer, 500);
+
+    Move_Analog_Servo_To_Position(position_counter);
 }
 
 /****************************************************************************
@@ -167,12 +170,23 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_TEST_TIMEOUT:
             // Just a test
-             for (int i = 0; i < NUM_SLAVES; i++)
-             {
-                 uint8_t temp_index = i<<1;
-                 My_Command_Data[temp_index] = test_counter;
-                 My_Command_Data[temp_index+1] = 0xFF;
-             }
+            // Hold servo position
+            Hold_Analog_Servo_Position(position_counter);
+            if ((10 == position_counter) || (0 == position_counter)) {parity ^= 1;};
+            if (parity)
+            {
+                position_counter--;
+            }
+            else
+            {
+                position_counter++;
+            }
+            for (int i = 0; i < NUM_SLAVES; i++)
+            {
+                uint8_t temp_index = i<<1;
+                My_Command_Data[temp_index] = test_counter;
+                My_Command_Data[temp_index+1] = 0xFF;
+            }
             Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
             test_counter++;
             if (100 < test_counter) {test_counter = 0;};

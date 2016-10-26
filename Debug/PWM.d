@@ -14,7 +14,7 @@ PWM.d PWM.o: .././PWM.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
- .././master_service.h .././slave_service.h \
+ .././analog_servo_drv.h .././master_service.h .././slave_service.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\atomic.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h
 
@@ -59,6 +59,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././IOC.h:
 
 .././ADC.h:
+
+.././analog_servo_drv.h:
 
 .././master_service.h:
 
