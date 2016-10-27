@@ -5,6 +5,9 @@
 // ------------ SERVO DEFINITIONS
 // #############################################################################
 
+// Servo no move position
+#define SERVO_NO_MOVE               (0x7F)
+
 // Servo Control Pin
 #define ANALOG_SERVO_CH1_PORT       PORTB
 #define ANALOG_SERVO_CH1_PDIR       DDRB

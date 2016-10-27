@@ -49,16 +49,14 @@ static uint8_t My_Node_ID;                          // This node's ID
 static uint8_t My_Command_Data[LIN_PACKET_LEN];     // This node's current command
 static uint8_t My_Status_Data[LIN_PACKET_LEN];      // This node's status
 
-// Store our last command so we can choose to execute the new command
-// @TODO: We should really be looking at our status to see if the command
-//          differs from our current status
-static uint8_t Last_Command = 0;
+static slave_parameters_t * p_My_Parameters;        // This  node's parameters
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
 static void set_slave_id(void);
+static void process_cmd(uint8_t cmd_index);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -122,15 +120,21 @@ void Run_Slave_Service(uint32_t event_mask)
         case EVT_SLAVE_GET_ID:
             // We need to get this slave's ID before continuing
             // This function calls blocking code
-            set_slave_id();
+            // TODO: Temporarily comment this out.
+            // set_slave_id();
+
+            // Get the pointer to our parameters struct
+            // p_My_Parameters = Get_Slave_Parameters(My_Node_ID);
             break;
 
         case EVT_SLAVE_NEW_CMD:
             // We got a new command
-            if (Last_Command != My_Command_Data[0])
+            // Always process intensity command
+            process_cmd(INTENSITY_INDEX);
+            // Only process position command if this node is equipped
+            if (p_My_Parameters->move_equipped)
             {
-                Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, My_Command_Data[0]);
-                Last_Command = My_Command_Data[0];
+                process_cmd(POSITION_INDEX);
             }
             break;
 
@@ -195,3 +199,49 @@ static void set_slave_id(void)
 
     // *Note: it is 33 counts per ID, #1 = 33, #2 = 66, ... , #29 = 957
 }
+
+/****************************************************************************
+    Private Function
+        process_cmd()
+
+    Parameters
+        None
+
+    Description
+        Process the command based on command index
+
+****************************************************************************/
+static void process_cmd(uint8_t cmd_index)
+{
+    // If intensity command is enabled
+    if (ENABLE_CMD_MASK == (My_Command_Data[cmd_index]&ENABLE_CMD_MASK))
+    {
+        // If command differs from our status
+        if (My_Status_Data[cmd_index] != (My_Command_Data[cmd_index]&CMD_DATA_MASK))
+        {
+            // Update our status (clear the enable cmd bit)
+            My_Status_Data[cmd_index] = (My_Command_Data[cmd_index]&CMD_DATA_MASK);
+
+            // Execute type of command
+            switch (cmd_index)
+            {
+                case INTENSITY_INDEX:
+                    // Change light intensity
+                    Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, My_Status_Data[INTENSITY_INDEX]);
+                    break;
+
+                case POSITION_INDEX:
+                    if (SERVO_NO_MOVE != My_Status_Data[POSITION_INDEX])
+                    {
+                        // Change motor position
+                        Move_Analog_Servo_To_Position(My_Status_Data[POSITION_INDEX]);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }
+    }
+}
+

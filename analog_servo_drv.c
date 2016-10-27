@@ -135,15 +135,19 @@ void Init_Analog_Servo_Driver(void)
 ****************************************************************************/
 void Move_Analog_Servo_To_Position(uint8_t requested_position)
 {
-    // Set requested pulse width
-    Requested_Pulse_Width_TenthMS = get_pulse_width(requested_position);
+    // Only execute if position is valid
+    if (SERVO_NO_MOVE != requested_position)
+    {
+        // Set requested pulse width
+        Requested_Pulse_Width_TenthMS = get_pulse_width(requested_position);
 
-    // Enable signal generation
-    Signal_Enable = true;
+        // Enable signal generation
+        Signal_Enable = true;
 
-    // Start move timer (this module will send signals for this amount of time)
-    // The cb function for this timer is stop_signal()
-    Start_Timer(&Move_Timer, SERVO_DRIVE_TIME_MS);
+        // Start move timer (this module will send signals for this amount of time)
+        // The cb function for this timer is stop_signal()
+        Start_Timer(&Move_Timer, SERVO_DRIVE_TIME_MS);
+    }
 }
 
 /****************************************************************************
@@ -159,14 +163,18 @@ void Move_Analog_Servo_To_Position(uint8_t requested_position)
 ****************************************************************************/
 void Hold_Analog_Servo_Position(uint8_t position)
 {
-    // Stop the move timer (just in case it's running)
-    Stop_Timer(&Move_Timer);
+    // Only execute if position is valid
+    if (SERVO_NO_MOVE != position)
+    {
+        // Stop the move timer (just in case it's running)
+        Stop_Timer(&Move_Timer);
 
-    // Set requested pulse width
-    Requested_Pulse_Width_TenthMS = get_pulse_width(position);
+        // Set requested pulse width
+        Requested_Pulse_Width_TenthMS = get_pulse_width(position);
 
-    // Set flag that tells the module to send commands
-    Signal_Enable = true;
+        // Set flag that tells the module to send commands
+        Signal_Enable = true;
+    }
 }
 
 /****************************************************************************

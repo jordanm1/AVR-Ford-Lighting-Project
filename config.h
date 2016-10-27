@@ -51,11 +51,19 @@
 //          starting with slave number one (slave_base_id = 0x02)
 
 // Master ID
-#define MASTER_NODE_ID      (0x00)          // Master is the first ID
+#define MASTER_NODE_ID          (0x00)          // Master is the first ID
 
 // Request Mask (the LSB will be high for status requests)
-#define REQUEST_MASK        (0x01)
-#define SLAVE_BASE_MASK     ~(0x01)
+#define REQUEST_MASK            (0x01)
+#define SLAVE_BASE_MASK         ~(0x01)
+
+// Packet byte indices
+#define INTENSITY_INDEX         0               // Lower byte of array
+#define POSITION_INDEX          1               // Upper byte of array
+
+// Slave command mask
+#define ENABLE_CMD_MASK         0x80            // MSB of byte masked in
+#define CMD_DATA_MASK           0x7F            // MSB of byte masked out
 
 // Define a macro to get the slave number based on ID
 #define Get_slave_number(slave_id)          (slave_id>>1)
@@ -67,6 +75,10 @@
 
 // AVR Library
 #include <avr/io.h>                         // Use AVR-GCC library
+
+// Standard ANSI  99 C types for exact integer sizes and booleans
+#include <stdint.h>
+#include <stdbool.h>
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS
@@ -99,6 +111,7 @@ typedef struct
     uint8_t         position_min;       // min position on servo
     uint8_t         position_max;       // max position on servo
     uint16_t        fov;                // field of view of lens on light
+    bool            move_equipped;      // whether the node can move
 } slave_parameters_t;
 
 // slave_settings_t

@@ -5,8 +5,9 @@
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-slave_settings_t Compute_Individual_Light_Settings( \
-                                                    slave_parameters_t * p_slave_params, \
-                                                    rect_vect_t v_desired_location);
+void Compute_Individual_Light_Settings( \
+                                        slave_parameters_t * p_slave_params, \
+                                        uint8_t * p_cmd_data,
+                                        rect_vect_t v_desired_location);
 
 #endif // LIGHT_SETTING_ALG_H

@@ -93,6 +93,7 @@ static uint8_t parity = 0;
 // #############################################################################
 
 static void update_curr_schedule_id(void);
+static void update_cmds(rect_vect_t requested_location);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -175,21 +176,21 @@ void Run_Master_Service(uint32_t event_mask)
             // Just a test
 
             // TEST LIGHT SET ALG
-            PORTB |= (1<<PINB6);
-            slave_parameters_t test_slave;
-            test_slave.fov = 100;
-            test_slave.rect_position.x = 0;
-            test_slave.rect_position.y = 0;
-            test_slave.position_max = 0;
-            test_slave.position_min = 10;
-            test_slave.theta_max = 135;
-            test_slave.theta_min = 45;
-            rect_vect_t test_point;
-            test_point.x = 0;
-            test_point.y = 1;
-            slave_settings_t test_slave_settings;
-            test_slave_settings = Compute_Individual_Light_Settings(&test_slave, test_point);
-            PORTB &= ~(1<<PINB6);
+            //PORTB |= (1<<PINB6);
+            ////slave_parameters_t test_slave;
+            ////test_slave.fov = 100;
+            ////test_slave.rect_position.x = 0;
+            ////test_slave.rect_position.y = 0;
+            ////test_slave.position_max = 0;
+            ////test_slave.position_min = 10;
+            ////test_slave.theta_max = 135;
+            ////test_slave.theta_min = 45;
+            ////rect_vect_t test_point;
+            ////test_point.x = 0;
+            ////test_point.y = 1;
+            ////slave_settings_t test_slave_settings;
+            //// test_slave_settings = Compute_Individual_Light_Settings(&test_slave, test_point);
+            //PORTB &= ~(1<<PINB6);
 
             // TEST SERVO
             // Hold servo position
@@ -247,5 +248,33 @@ static void update_curr_schedule_id(void)
     else
     {
         Curr_Schedule_ID++;
+    }
+}
+
+/****************************************************************************
+    Private Function
+        update_cmds()
+
+    Parameters
+        None
+
+    Description
+        Updates all commands for servos based on requested light location
+
+****************************************************************************/
+static void update_cmds(rect_vect_t requested_location)
+{
+    // temp_id for readability
+    uint8_t temp_id;
+
+    // p_temp_cmd
+    uint8_t * p_temp_cmd;
+
+    // Loop through all slaves
+    for (int i = 1; i < NUM_SLAVES+1; i++)
+    {
+        temp_id = i<<2;
+        p_temp_cmd = (&My_Command_Data)+temp_id-SCHEDULE_START_ID;
+        // Compute_Individual_Light_Settings(Get_Slave_Parameters(temp_id), p_temp_cmd, requested_location);
     }
 }

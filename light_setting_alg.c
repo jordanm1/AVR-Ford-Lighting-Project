@@ -78,16 +78,17 @@ uint8_t interpolate_slave_position(slave_parameters_t * p_slave_params, uint16_t
         based on a user's desired location for light.
 
 ****************************************************************************/
-slave_settings_t Compute_Individual_Light_Settings( \
-                                                    slave_parameters_t * p_slave_params, \
-                                                    rect_vect_t v_desired_location)
+void Compute_Individual_Light_Settings( \
+                                        slave_parameters_t * p_slave_params, \
+                                        uint8_t * p_cmd_data,
+                                        rect_vect_t v_desired_location)
 {
     // INITIALIZE VARS:
     uint16_t desired_theta;
     int16_t theta_light_min, theta_light_max;
     uint16_t norm2_desired_relative;
     rect_vect_t v_desired_relative;
-    slave_settings_t result_settings;
+    uint8_t result_settings[2];
 
     // COMPUTE:
     //   desired_theta (angle between desired location and zero)
@@ -127,32 +128,39 @@ slave_settings_t Compute_Individual_Light_Settings( \
         norm2_desired_relative = norm2_rect_vect(v_desired_relative);
 
         // Compute and set light intensity
-        result_settings.intensity = (MAX_LIGHT_INTENSITY*INTENSITY_SCALING_FACTOR)/norm2_desired_relative;
-        if (MIN_LIGHT_INTENSITY > result_settings.intensity)
+        result_settings[INTENSITY_INDEX] = (MAX_LIGHT_INTENSITY*INTENSITY_SCALING_FACTOR)/norm2_desired_relative;
+        if (MIN_LIGHT_INTENSITY > result_settings[INTENSITY_INDEX])
         {
-            result_settings.intensity = MIN_LIGHT_INTENSITY;
+            result_settings[INTENSITY_INDEX] = MIN_LIGHT_INTENSITY;
         }
-        else if (MAX_LIGHT_INTENSITY < result_settings.intensity)
+        else if (MAX_LIGHT_INTENSITY < result_settings[INTENSITY_INDEX])
         {
-            result_settings.intensity = MAX_LIGHT_INTENSITY;
+            result_settings[INTENSITY_INDEX] = MAX_LIGHT_INTENSITY;
         }
         else
         {
             // Leave as is. Valid light intensity.
         }
 
-        // Interpolate position between min and max
-        result_settings.position = interpolate_slave_position(p_slave_params, desired_theta);
+        // Interpolate position between min and max if this slave is equipped to move
+        if (p_slave_params->move_equipped)
+        {
+            result_settings[POSITION_INDEX] = interpolate_slave_position(p_slave_params, desired_theta);
+        }
+        else
+        {
+            result_settings[POSITION_INDEX] = SERVO_NO_MOVE;
+        }
     }
     else
     {
         // The desired position cannot be reached with light via this node.
-        result_settings.intensity = 0;
-        result_settings.position = 0xff; // TODO: What position should we call? maybe have a keyword for SERVO_STAY = 0xff?
+        result_settings[INTENSITY_INDEX] = 0;
+        result_settings[POSITION_INDEX] = SERVO_NO_MOVE;
     }
 
-    // Return
-    return result_settings;
+    // Save data in location
+    memcpy(p_cmd_data, &result_settings, LIN_PACKET_LEN);
 }
 
 // #############################################################################
