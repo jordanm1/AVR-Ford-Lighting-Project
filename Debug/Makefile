@@ -42,6 +42,7 @@ C_SRCS +=  \
 ../events.c \
 ../framework.c \
 ../IOC.c \
+../light_setting_alg.c \
 ../lin_drv.c \
 ../LIN_XCVR_WD_Kicker.c \
 ../main.c \
@@ -65,6 +66,7 @@ analog_servo_drv.o \
 events.o \
 framework.o \
 IOC.o \
+light_setting_alg.o \
 lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
@@ -81,6 +83,7 @@ analog_servo_drv.o \
 events.o \
 framework.o \
 IOC.o \
+light_setting_alg.o \
 lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
@@ -97,6 +100,7 @@ analog_servo_drv.d \
 events.d \
 framework.d \
 IOC.d \
+light_setting_alg.d \
 lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
@@ -113,6 +117,7 @@ analog_servo_drv.d \
 events.d \
 framework.d \
 IOC.d \
+light_setting_alg.d \
 lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
@@ -137,6 +142,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

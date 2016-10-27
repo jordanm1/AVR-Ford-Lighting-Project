@@ -12,6 +12,8 @@ framework.c
 
 IOC.c
 
+light_setting_alg.c
+
 lin_drv.c
 
 LIN_XCVR_WD_Kicker.c

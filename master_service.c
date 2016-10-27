@@ -37,6 +37,9 @@
 // PWM
 #include "PWM.h"
 
+// Light Setting Algorithm
+#include "light_setting_alg.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -127,8 +130,8 @@ void Init_Master_Service(void)
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
     Start_Timer(&Testing_Timer, 500);
-
-    Move_Analog_Servo_To_Position(position_counter);
+    PORTB &= ~(1<<PINB6);
+    DDRB |= (1<<PINB6);
 }
 
 /****************************************************************************
@@ -170,6 +173,25 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_TEST_TIMEOUT:
             // Just a test
+
+            // TEST LIGHT SET ALG
+            PORTB |= (1<<PINB6);
+            slave_parameters_t test_slave;
+            test_slave.fov = 100;
+            test_slave.rect_position.x = 0;
+            test_slave.rect_position.y = 0;
+            test_slave.position_max = 0;
+            test_slave.position_min = 10;
+            test_slave.theta_max = 135;
+            test_slave.theta_min = 45;
+            rect_vect_t test_point;
+            test_point.x = 0;
+            test_point.y = 1;
+            slave_settings_t test_slave_settings;
+            test_slave_settings = Compute_Individual_Light_Settings(&test_slave, test_point);
+            PORTB &= ~(1<<PINB6);
+
+            // TEST SERVO
             // Hold servo position
             Hold_Analog_Servo_Position(position_counter);
             if ((10 == position_counter) || (0 == position_counter)) {parity ^= 1;};
@@ -187,6 +209,8 @@ void Run_Master_Service(uint32_t event_mask)
                 My_Command_Data[temp_index] = test_counter;
                 My_Command_Data[temp_index+1] = 0xFF;
             }
+
+            // TEST PWM
             Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
             test_counter++;
             if (100 < test_counter) {test_counter = 0;};

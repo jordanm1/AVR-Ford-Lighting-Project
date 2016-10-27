@@ -167,6 +167,12 @@
     <Compile Include="IOC.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="light_setting_alg.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="light_setting_alg.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="lin_drv.c">
       <SubType>compile</SubType>
     </Compile>

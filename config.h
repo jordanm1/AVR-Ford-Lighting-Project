@@ -69,7 +69,7 @@
 #include <avr/io.h>                         // Use AVR-GCC library
 
 // #############################################################################
-// ------------ ENUMERATION TYPES
+// ------------ TYPE DEFINITIONS
 // #############################################################################
 
 // node_type_t
@@ -79,18 +79,51 @@ typedef enum
     slave_node = 1
 } node_type_t;
 
+// rect_vect_t
+typedef struct
+{
+    int16_t        x;                  // x position
+    int16_t        y;                  // y position
+} rect_vect_t;
+
+// slave_parameters_t
+// *Note: Zero angle is pointing to front of truck.
+//        Thetas are always measured CLOCKWISE from zero angle,
+//        when viewed from above.
+// TODO: We need to define the origin.
+typedef struct
+{
+    rect_vect_t     rect_position;      // x,y position
+    uint16_t        theta_min;          // min movement angle
+    uint16_t        theta_max;          // max movement angle (always > theta_min)
+    uint8_t         position_min;       // min position on servo
+    uint8_t         position_max;       // max position on servo
+    uint16_t        fov;                // field of view of lens on light
+} slave_parameters_t;
+
+// slave_settings_t
+typedef struct 
+{
+    uint8_t         intensity;          // 0-100
+    uint8_t         position;           // 0-10 with current servo driver
+} slave_settings_t;
+
 // #############################################################################
 // ------------ DO NOT MODIFY
 // #############################################################################
 
 // LIN Settings
-#define FOSC            8000            // in KHz
-#define LIN_BAUDRATE    19200           // in bit/s
-#define LIN_PACKET_LEN  (2)             // always send 2 bytes of data
+#define FOSC                    8000            // in KHz
+#define LIN_BAUDRATE            19200           // in bit/s
+#define LIN_PACKET_LEN          (2)             // always send 2 bytes of data
 
 // Node Defs
-#define MASTER          0
-#define SLAVE           1
+#define MASTER                  0
+#define SLAVE                   1
+
+// Max Intensities
+#define MIN_LIGHT_INTENSITY     0
+#define MAX_LIGHT_INTENSITY     100
 
 // #############################################################################
 // ------------ END CONFIG
