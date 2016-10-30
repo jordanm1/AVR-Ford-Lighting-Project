@@ -38,6 +38,8 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../ADC.c \
+../CAN.c \
+../CFile1.c \
 ../events.c \
 ../framework.c \
 ../IOC.c \
@@ -61,6 +63,8 @@ ASM_SRCS +=
 
 OBJS +=  \
 ADC.o \
+CAN.o \
+CFile1.o \
 events.o \
 framework.o \
 IOC.o \
@@ -77,6 +81,8 @@ __template.o
 
 OBJS_AS_ARGS +=  \
 ADC.o \
+CAN.o \
+CFile1.o \
 events.o \
 framework.o \
 IOC.o \
@@ -93,6 +99,8 @@ __template.o
 
 C_DEPS +=  \
 ADC.d \
+CAN.d \
+CFile1.d \
 events.d \
 framework.d \
 IOC.d \
@@ -109,6 +117,8 @@ __template.d
 
 C_DEPS_AS_ARGS +=  \
 ADC.d \
+CAN.d \
+CFile1.d \
 events.d \
 framework.d \
 IOC.d \
@@ -137,6 +147,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

@@ -4,6 +4,10 @@
 
 ADC.c
 
+CAN.c
+
+CFile1.c
+
 events.c
 
 framework.c

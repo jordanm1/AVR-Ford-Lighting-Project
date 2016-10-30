@@ -37,6 +37,9 @@
 // PWM
 #include "PWM.h"
 
+// SPI
+#include "SPI.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -63,6 +66,9 @@
 static uint8_t My_Node_ID = 0;                          // This node's ID
 static uint8_t My_Command_Data[NUM_SLAVES*2] = {0};     // Commands for slaves
 static uint8_t My_Status_Data[NUM_SLAVES*2] = {0};      // Slaves' stati
+
+// SPI Data
+static uint8_t My_SPI_Data[MAX_SPI_DATA_LENGTH] = {0};
 
 // Scheduling Timer
 static uint32_t Scheduling_Timer = EVT_MASTER_SCH_TIMEOUT;
@@ -111,6 +117,12 @@ void Init_Master_Service(void)
 
     // Initialize the data arrays to proper things
     // TODO:
+
+    // Initialize SPI
+    MS_SPI_Initialize(&My_Node_ID, &My_SPI_Data[0]);
+
+    // Initialize CAN
+    // void MS_CAN_Initialize(&My_SPI_Data[0]);
 
     // Initialize LIN
     MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);

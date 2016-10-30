@@ -9,8 +9,8 @@
     External Functions Required:
 
     Public Functions:
-        void Init_SPI_Module(void)
-        void SPI_MasterTransmit(char *TX_Data)
+        void MS_SPI_Initialize(uint8_t * p_this_node_id, uint8_t * p_spi_data)
+        void SPI_Transmit(uint8_t Max_Data_Length_Expected)
                 
 *******************************************************************************/
 
@@ -50,12 +50,14 @@
 // ------------ MODULE VARIABLES
 // #############################################################################
 
-// Receive variable that is set to expected SPI Data Length
-static char RX_Data[SPI_DATA_LENGTH] = {0};
-
-// A tracker to know which RX_Data byte is being filled
-// Should be reset to 0 after every SS raised high
-static uint8_t RX_Data_Index = 0;
+static uint8_t * p_My_SPI_Data;             // Pointer to this node's SPI Data address
+static uint8_t Master_Slave_Identifier = 0; // Slave or master?
+static uint8_t data_index = 0;              // Count at which byte of transmission
+static uint8_t Expected_Data_Length = 0;    // Set as Max Expected number of bytes (transmit or receive)
+/*
+static bool In_Tx = true;                   // Indicates currently transmitting     
+static bool Expecting_Response = true;      // Indicates that a response from slave is expected        
+*/      
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -69,96 +71,82 @@ static uint8_t RX_Data_Index = 0;
 
 /****************************************************************************
     Public Function
-        Init_SPI_Module
+        MS_SPI_Initialize
 
     Parameters
-        uint8_t Master_Slave_Identifier
+        uint8_t * p_this_node_id
+        uint8_t * p_spi_data
 
     Description
-        Initializes the SPI module based on whether requested setup is for
-        master or slave
+        Initializes the SPI module as a master/slave and sets SPI TX/RX buffer
+        address
 
 ****************************************************************************/
-void Init_SPI_Module(uint8_t Master_Slave_Identifier)
+void MS_SPI_Initialize(uint8_t * p_this_node_id, uint8_t * p_spi_data)
 {
+    // Identify node type
+    Master_Slave_Identifier = *p_this_node_id;
+    
+    // Point to actual data source 
+    p_My_SPI_Data = p_spi_data;
+
     if (SPI_MASTER == Master_Slave_Identifier)
     {
         // SPI Data Direction Register (DDR_SPI) = DDRA
-        // Set MOSI and SCK output, all others input
-        DDR_SPI = (1<<MOSI)|(1<<SCK);
+        // Set MOSI, SS and SCK output, all others input
+        DDR_SPI |= (1<<MOSI)|(1<<SCK)|(1<<SS);
 
-        // Disable interrupt on transmission complete, enable SPI and set as master,
+        // Enable interrupt on transmission complete, enable SPI and set as master,
         // set clock rate io_clk/4, MSB transmitted first, Sample on rising edge 
-        SPCR = (1<<SPE)|(1<<MSTR);
+        SPCR = (1<<SPIE)|(1<<SPE)|(1<<MSTR);
 
-        // Configure PA7 to be slave select from master side (Only for Tiny, change
-        // for PIC)
-        DDRA |= (1<<SS_MASTER);
         // Raise SS from master at Init
-        PORTA |= (1<<SS_MASTER);
+        PORTA |= (1<<SS);
+
+        // Reset data index
+        data_index = 0;
     }
-    else if (SPI_SLAVE == Master_Slave_Identifier)
+    else
     {
         // SPI Data Direction Register (DDR_SPI) = DDRA
         // Set MISO output, all others input
-        DDR_SPI = (1<<MISO);
+        DDR_SPI |= (1<<MISO);
 
         // Enable interrupt on transmission complete, enable SPI and set as slave,
         // set clock rate io_clk/4, MSB transmitted first, Sample on rising edge
         // Slave requires interrupt response as we do not when transmission might
         // occur.
         SPCR = (1<<SPIE)|(1<<SPE);
-    }
-    else
-    {
-        // Ignore SPI Setup
+
+        // Reset data index
+        data_index = 0;
     }
 }
 
 /****************************************************************************
     Public Function
-        SPI_MasterTransmit
+        SPI_Transmit
 
     Parameters
-        char *TX_Data
+        Max_Data_Length_Expected
 
     Description
         Transmits the TX Data array bytes through SPI
 
 ****************************************************************************/
 
-void SPI_MasterTransmit(char *TX_Data)
+void SPI_Transmit(uint8_t Max_Data_Length_Expected)
 {
+    // Reset data index
+    data_index = 0;
+
+    Expected_Data_Length = Max_Data_Length_Expected;
+
     // Set slave select low to indicate start of transmission
-    PORTA &= ~(1<<SS_MASTER);
+    PORTA &= ~(1<<SS);
 
-    // Loop over specified SPI Data Length
-    for (uint8_t tx_index = 0; tx_index < SPI_DATA_LENGTH; tx_index++)
-    {
-        // Start transmission of data byte
-        SPDR = *(TX_Data + tx_index);
-        // Wait for transmission to complete
-        while(!(SPSR & (1<<SPIF)));
-    }
-
-    // Set slave select line high to reset transmission
-    PORTA |= (1<<SS_MASTER);
-}
-
-/****************************************************************************
-    Public Function
-        Get_RX_Data
-
-    Parameters
-        
-    Description
-        Returns RX_Data to caller
-
-****************************************************************************/
-
-char* Get_RX_Data(void)
-{
-    return &RX_Data[0];
+    // Send first byte out
+    SPDR = *(p_My_SPI_Data + data_index);
 }
 
 // #############################################################################
@@ -180,18 +168,37 @@ char* Get_RX_Data(void)
 
 ISR(SPI_STC_vect)
 {
-    // Clear the SPI Interrupt Flag (is done by reading the SPSR Register)
-    uint8_t SPSR_Status = SPSR;
-
-    // Read and set RX_Data
-    RX_Data[RX_Data_Index] = SPDR;
-
-    // Increment RX_Data_Index
-    RX_Data_Index++;
-
-    if ((SPI_DATA_LENGTH == RX_Data_Index) || (SS_BIT_HI == (PORTA&SS_BIT_HI)))
+    if (Master_Slave_Identifier == SPI_MASTER)
     {
-        RX_Data_Index = 0;
+        // Clear the SPI Interrupt Flag (is done by reading the SPSR Register)
+        uint8_t SPSR_Status = SPSR;
+
+        // Read and set RX_Data
+        *(p_My_SPI_Data + data_index) = SPDR;
+
+        // Increment data index
+        data_index++;
+
+        // If all data has been sent
+        if (data_index == Expected_Data_Length)
+        {
+            // Reset Data index counter
+            data_index = 0;
+
+            // End transmission by pulling SS high
+            PORTA |= (1<<SS);
+        }
+        else
+        {
+            // Send consecutive bytes out
+            SPDR = *(p_My_SPI_Data + data_index);
+        }
+    }
+    else
+    {
+        // Needs to be discussed
+
+        // Currently not being used, will worry about later        
     }
 }
 

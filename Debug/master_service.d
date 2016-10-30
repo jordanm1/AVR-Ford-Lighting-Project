@@ -14,7 +14,8 @@ master_service.d master_service.o: .././master_service.c \
  d:\additional\ programs\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
- .././master_service.h .././slave_service.h .././MS_LIN_top_layer.h
+ .././master_service.h .././slave_service.h .././MS_LIN_top_layer.h \
+ .././SPI.h
 
 d:\additional\ programs\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -63,3 +64,5 @@ d:\additional\ programs\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\
 .././slave_service.h:
 
 .././MS_LIN_top_layer.h:
+
+.././SPI.h:
