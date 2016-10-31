@@ -12,12 +12,6 @@ typedef enum
     pwm_channel_b = 1
 } pwm_channel_t;
 
-// Define channels and pins for functions.
-// Two functions cannot have the same channel,
-//    unless you want the same duty cycle.
-#define LED_PWM_CHANNEL         (pwm_channel_a)
-#define MOTOR_PWM_CHANNEL       (pwm_channel_b)
-
 // Pins on (p. 81)
 #define PWM_CH_A_PIN            (PB4)
 #define PWM_CH_A_PIN_ENABLE     (OC1AW)     // Pin PB4
