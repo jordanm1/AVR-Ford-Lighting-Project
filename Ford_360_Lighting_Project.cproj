@@ -212,6 +212,12 @@
     <Compile Include="PWM.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="slave_parameters.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="slave_parameters.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="slave_service.c">
       <SubType>compile</SubType>
     </Compile>

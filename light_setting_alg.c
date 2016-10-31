@@ -66,7 +66,7 @@
 
 static uint16_t invcos(uint16_t x);
 static uint16_t norm2_rect_vect(rect_vect_t vect);
-uint8_t interpolate_slave_position(slave_parameters_t * p_slave_params, uint16_t desired_angle);
+uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -86,11 +86,14 @@ uint8_t interpolate_slave_position(slave_parameters_t * p_slave_params, uint16_t
         Computes the light settings and copies the settings to p_cmd_data.
 
 ****************************************************************************/
-void Compute_Individual_Light_Settings( \
-                                        slave_parameters_t * p_slave_params, \
+void Compute_Individual_Light_Settings(
+                                        const slave_parameters_t * p_slave_params,
                                         uint8_t * p_cmd_data,
                                         rect_vect_t v_desired_location)
 {
+    // If NULL pointers, return immediately
+    if (!p_slave_params) return;
+
     // INITIALIZE VARS:
     uint16_t desired_theta;
     int16_t theta_light_min, theta_light_max;
@@ -237,7 +240,7 @@ static uint16_t norm2_rect_vect(rect_vect_t vect)
         Returns the squared norm of a 2-D vector
 
 ****************************************************************************/
-uint8_t interpolate_slave_position(slave_parameters_t * p_slave_params, uint16_t desired_angle)
+uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle)
 {
     /* CALCULATE RANGE OF SLAVE IN DEGREES */
     // Calculate the range of degrees between min and max
