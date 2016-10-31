@@ -43,9 +43,15 @@
 // Light Setting Algorithm
 #include "light_setting_alg.h"
 
+// Slave Parameters
+#include "slave_parameters.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
+
+// Master array length
+#define MASTER_DATA_LENGTH      (NUM_SLAVES*LIN_PACKET_LEN)
 
 // Schedule Start ID
 #define SCHEDULE_START_ID       (GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER))
@@ -66,9 +72,9 @@
 // #############################################################################
 
 // These values should only exist in a single module for each node
-static uint8_t My_Node_ID = 0;                                      // This node's ID
-static uint8_t My_Command_Data[NUM_SLAVES*LIN_PACKET_LEN] = {0};    // Commands for slaves
-static uint8_t My_Status_Data[NUM_SLAVES*LIN_PACKET_LEN] = {0};     // Slaves' stati
+static uint8_t My_Node_ID = 0;                              // This node's ID
+static uint8_t My_Command_Data[MASTER_DATA_LENGTH] = {0};   // Commands for slaves
+static uint8_t My_Status_Data[MASTER_DATA_LENGTH] = {0};    // Slaves' stati
 
 // Scheduling Timer
 static uint32_t Scheduling_Timer = NON_EVENT;
@@ -134,14 +140,13 @@ void Init_Master_Service(void)
     Register_Timer(&Scheduling_Timer, ID_schedule_handler);
 
     // Kick off scheduling timer
-    // TEST! Pause LIN service for now
-    // Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+     Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
-    Start_Timer(&Testing_Timer, 500);
-    PORTB &= ~(1<<PINB6);
-    DDRB |= (1<<PINB6);
+    //Start_Timer(&Testing_Timer, 500);
+    //PORTB &= ~(1<<PINB6);
+    //DDRB |= (1<<PINB6);
 }
 
 /****************************************************************************
@@ -316,7 +321,7 @@ static void update_curr_schedule_id(void)
 static void clear_cmds(void)
 {
     // Clear all of our commands
-    memset(&My_Command_Data, NON_COMMAND, sizeof(My_Command_Data));
+    memset(&My_Command_Data, NON_COMMAND, MASTER_DATA_LENGTH);
 }
 
 /****************************************************************************
