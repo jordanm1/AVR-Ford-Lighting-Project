@@ -34,6 +34,12 @@
 // ADC
 #include "ADC.h"
 
+// Light
+#include "light_drv.h"
+
+// Servo
+#include "analog_servo_drv.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -49,7 +55,7 @@ static uint8_t My_Node_ID;                          // This node's ID
 static uint8_t My_Command_Data[LIN_PACKET_LEN];     // This node's current command
 static uint8_t My_Status_Data[LIN_PACKET_LEN];      // This node's status
 
-static slave_parameters_t * p_My_Parameters;        // This  node's parameters
+static slave_parameters_t * p_My_Parameters;        // Pointer to this node's parameters
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -57,6 +63,9 @@ static slave_parameters_t * p_My_Parameters;        // This  node's parameters
 
 static void set_slave_id(void);
 static void process_cmd(uint8_t cmd_index);
+static bool is_cmd_valid(uint8_t cmd_index);
+static void exec_intensity_cmd(void);
+static void exec_position_cmd(void);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -77,8 +86,10 @@ void Init_Slave_Service(void)
 {
     // Initialize command and status arrays
     // TODO
-    My_Status_Data[0] = 0x80;
-    My_Status_Data[1] = 0xd5;
+    My_Command_Data[INTENSITY_INDEX] = NON_COMMAND;
+    My_Command_Data[POSITION_INDEX] = NON_COMMAND;
+    My_Status_Data[INTENSITY_INDEX] = LIGHT_OFF;
+    My_Status_Data[POSITION_INDEX] = SERVO_STAY;
 
     // Initialize ADC, read slave number, create & store slave ID in RAM
     // TODO
@@ -87,10 +98,10 @@ void Init_Slave_Service(void)
     // Disable ADC
     // TODO
 
-    // Initialize light, (LED PWM module)
+    // Initialize light to LIGHT_OFF
     // TODO
 
-    // Initialize motor, (Motor PWM module)
+    // Initialize servo to SERVO_STAY
     // TODO
 
     // Initialize LIN
@@ -129,13 +140,13 @@ void Run_Slave_Service(uint32_t event_mask)
 
         case EVT_SLAVE_NEW_CMD:
             // We got a new command
+
             // Always process intensity command
             process_cmd(INTENSITY_INDEX);
-            // Only process position command if this node is equipped
-            if (p_My_Parameters->move_equipped)
-            {
-                process_cmd(POSITION_INDEX);
-            }
+
+            // Alway process the position command,
+            process_cmd(POSITION_INDEX);
+
             break;
 
         case EVT_SLAVE_OTHER:
@@ -213,29 +224,22 @@ static void set_slave_id(void)
 ****************************************************************************/
 static void process_cmd(uint8_t cmd_index)
 {
-    // If intensity command is enabled
-    if (ENABLE_CMD_MASK == (My_Command_Data[cmd_index]&ENABLE_CMD_MASK))
+    // If the command is valid, then we copy the command to our status
+    //      then execute whatever is in our status
+    if (is_cmd_valid(cmd_index))
     {
-        // If command differs from our status
-        if (My_Status_Data[cmd_index] != (My_Command_Data[cmd_index]&CMD_DATA_MASK))
+        // If command differs from our status, execute the command
+        if (My_Status_Data[cmd_index] != My_Command_Data[cmd_index])
         {
-            // Update our status (clear the enable cmd bit)
-            My_Status_Data[cmd_index] = (My_Command_Data[cmd_index]&CMD_DATA_MASK);
-
             // Execute type of command
             switch (cmd_index)
             {
                 case INTENSITY_INDEX:
-                    // Change light intensity
-                    Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, My_Status_Data[INTENSITY_INDEX]);
+                    exec_intensity_cmd();
                     break;
 
                 case POSITION_INDEX:
-                    if (SERVO_NO_MOVE != My_Status_Data[POSITION_INDEX])
-                    {
-                        // Change motor position
-                        Move_Analog_Servo_To_Position(My_Status_Data[POSITION_INDEX]);
-                    }
+                    exec_position_cmd();
                     break;
 
                 default:
@@ -243,5 +247,69 @@ static void process_cmd(uint8_t cmd_index)
             }
         }
     }
+}
+
+/****************************************************************************
+    Private Function
+        is_cmd_valid()
+
+    Parameters
+        cmd_index
+
+    Description
+        returns bool based on if command is enabled
+
+****************************************************************************/
+static bool is_cmd_valid(uint8_t cmd_index)
+{
+    // If command is valid
+    if (NON_COMMAND != My_Command_Data[cmd_index])
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+/****************************************************************************
+    Private Function
+        exec_intensity_cmd()
+
+    Parameters
+        none
+
+    Description
+        executes intensity cmd with proper
+
+****************************************************************************/
+static void exec_intensity_cmd(void)
+{
+    // Update our status as the command
+    My_Status_Data[INTENSITY_INDEX] = My_Command_Data[INTENSITY_INDEX];
+
+    // Set light intensity
+    Set_Light_Intensity(My_Status_Data[INTENSITY_INDEX]);
+}
+
+/****************************************************************************
+    Private Function
+        exec_position_cmd()
+
+    Parameters
+        none
+
+    Description
+        executes position cmd with proper
+
+****************************************************************************/
+static void exec_position_cmd(void)
+{
+    // Update our status as the command
+    My_Status_Data[POSITION_INDEX] = My_Command_Data[POSITION_INDEX];
+
+    // Change servo position
+    Move_Analog_Servo_To_Position(My_Status_Data[POSITION_INDEX]);
 }
 
