@@ -12,6 +12,8 @@ framework.c
 
 IOC.c
 
+light_drv.c
+
 light_setting_alg.c
 
 lin_drv.c
