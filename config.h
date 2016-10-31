@@ -53,22 +53,31 @@
 // Master ID
 #define MASTER_NODE_ID          (0x00)          // Master is the first ID
 
+// First slave number
+#define LOWEST_SLAVE_NUMBER     (0x01)
+#define HIGHEST_SLAVE_NUMBER    (NUM_SLAVES)    
+
 // Request Mask (the LSB will be high for status requests)
 #define REQUEST_MASK            (0x01)
 #define SLAVE_BASE_MASK         ~(0x01)
 
-// Packet byte indices
+// Define a macro to get the slave number based on ID
+#define GET_SLAVE_NUMBER(slave_id)              (slave_id>>1)
+#define GET_SLAVE_BASE_ID(slave_number)         (slave_number<<1)
+
+// #############################################################################
+// ------------ COMMANDS
+// #############################################################################
+
+// Command/status packet byte indices
 #define INTENSITY_INDEX         0               // Lower byte of array
 #define POSITION_INDEX          1               // Upper byte of array
 
-// Slave command mask
-#define ENABLE_CMD_MASK         0x80            // MSB of byte masked in
-#define CMD_DATA_MASK           0x7F            // MSB of byte masked out
-
-// Define a macro to get the slave number based on ID
-#define Get_slave_number(slave_id)          (slave_id>>1)
-#define Get_slave_base_id(slave_number)     (slave_number<<1)
-                                                                                                                           
+// Specific Command Keywords
+#define NON_COMMAND             (0xFF)          // All commands on master
+                                                //  should be initialized
+                                                //  to this value.                                      
+                                                                                                
 // #############################################################################
 // ------------ INCLUDES
 // #############################################################################
@@ -133,10 +142,6 @@ typedef struct
 // Node Defs
 #define MASTER                  0
 #define SLAVE                   1
-
-// Max Intensities
-#define MIN_LIGHT_INTENSITY     0
-#define MAX_LIGHT_INTENSITY     100
 
 // #############################################################################
 // ------------ END CONFIG
