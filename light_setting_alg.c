@@ -32,7 +32,13 @@
 #include "__template.h"
 
 // Include other files below:
+#include <string.h>
 
+// Light
+#include "light_drv.h"
+
+// Servo
+#include "analog_servo_drv.h"
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS
@@ -41,7 +47,7 @@
 // Intensity scaling factor
 #define INTENSITY_SCALING_FACTOR    10
 
-// Zero Degree Unit Vector
+// Zero Degree Unit Vector (unused)
 #define ZERO_DEG_X                  0
 #define ZERO_DEG_Y                  1
 
@@ -76,6 +82,8 @@ uint8_t interpolate_slave_position(slave_parameters_t * p_slave_params, uint16_t
     Description
         This function computes the light settings for an individual node
         based on a user's desired location for light.
+
+        Computes the light settings and copies the settings to p_cmd_data.
 
 ****************************************************************************/
 void Compute_Individual_Light_Settings( \
@@ -149,17 +157,25 @@ void Compute_Individual_Light_Settings( \
         }
         else
         {
-            result_settings[POSITION_INDEX] = SERVO_NO_MOVE;
+            // This slave is not equipped to move so return a non-command, so the servo
+            // doesn't move
+            result_settings[POSITION_INDEX] = NON_COMMAND;
         }
     }
+    // Otherwise, this slave cannot put any light in the requested location
     else
     {
         // The desired position cannot be reached with light via this node.
-        result_settings[INTENSITY_INDEX] = 0;
-        result_settings[POSITION_INDEX] = SERVO_NO_MOVE;
+        // Turn off the light and keep the servo where it is (send non command to servo)
+        result_settings[INTENSITY_INDEX] = LIGHT_OFF;
+        result_settings[POSITION_INDEX] = NON_COMMAND;
     }
 
-    // Save data in location
+    // *Note: after this algorithm runs, the light intensity will be set,
+    //  and the servo position may or may not be a real position,
+    //  (either NON_COMMAND or a valid position)
+
+    // Copy data to location provided by caller
     memcpy(p_cmd_data, &result_settings, LIN_PACKET_LEN);
 }
 
@@ -239,7 +255,8 @@ uint8_t interpolate_slave_position(slave_parameters_t * p_slave_params, uint16_t
     else
     {
         // This only occurs when the start and end angles are the same.
-        slave_range_degs = DEGS_FULL_CIRCLE;
+        // @TODO: Maybe make this zero instead.
+        slave_range_degs = 0;
     }
 
     /* COMPUTE RATIO OF DESIRED ANGLE ABOVE THE MINIMUM ANGLE*/
@@ -254,18 +271,25 @@ uint8_t interpolate_slave_position(slave_parameters_t * p_slave_params, uint16_t
     }
     else
     {
+        // If positions are increasing from min to max
         if (p_slave_params->position_max > p_slave_params->position_min)
         {
+            // Classic interpolation (add 0.5 to round to closest integer)
+            // Since the positions are increasing, we add to min position
             num_positions = p_slave_params->position_max-p_slave_params->position_min;
-            return (0.5+(((desired_angle-p_slave_params->theta_min)*num_positions)/slave_range_degs));
+            return p_slave_params->position_min+(0.5+(((desired_angle-p_slave_params->theta_min)*num_positions)/slave_range_degs));
         }
+        // If positions are decreasing from min to max
         else if (p_slave_params->position_min > p_slave_params->position_max)
         {
+            // Classic interpolation (add 0.5 to round to closest integer)
+            // Since the positions are decreasing, we subtract from min position
             num_positions = p_slave_params->position_min-p_slave_params->position_max;
-            return num_positions-(0.5+(((desired_angle-p_slave_params->theta_min)*num_positions)/slave_range_degs));
+            return p_slave_params->position_min-(0.5+(((desired_angle-p_slave_params->theta_min)*num_positions)/slave_range_degs));
         }
         else
         {
+            // Same angle so just use either
             return p_slave_params->position_min;
         }
     }
