@@ -136,7 +136,7 @@ void Init_Analog_Servo_Driver(void)
 void Move_Analog_Servo_To_Position(uint8_t requested_position)
 {
     // Only execute if position is valid
-    if (SERVO_NO_MOVE != requested_position)
+    if (SERVO_STAY != requested_position)
     {
         // Set requested pulse width
         Requested_Pulse_Width_TenthMS = get_pulse_width(requested_position);
@@ -161,16 +161,16 @@ void Move_Analog_Servo_To_Position(uint8_t requested_position)
         Holds the desired servo position by continuously sending servo commands
 
 ****************************************************************************/
-void Hold_Analog_Servo_Position(uint8_t position)
+void Hold_Analog_Servo_Position(uint8_t requested_position)
 {
     // Only execute if position is valid
-    if (SERVO_NO_MOVE != position)
+    if (SERVO_STAY != requested_position)
     {
         // Stop the move timer (just in case it's running)
         Stop_Timer(&Move_Timer);
 
         // Set requested pulse width
-        Requested_Pulse_Width_TenthMS = get_pulse_width(position);
+        Requested_Pulse_Width_TenthMS = get_pulse_width(requested_position);
 
         // Set flag that tells the module to send commands
         Signal_Enable = true;

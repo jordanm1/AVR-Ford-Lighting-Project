@@ -5,8 +5,8 @@
 // ------------ SERVO DEFINITIONS
 // #############################################################################
 
-// Servo no move position
-#define SERVO_NO_MOVE               (0x7F)
+// Stay Command for Servo (does not cause servo to move)
+#define SERVO_STAY                  (NON_COMMAND)
 
 // Servo Control Pin
 #define ANALOG_SERVO_CH1_PORT       PORTB
@@ -34,7 +34,7 @@
 
 void Init_Analog_Servo_Driver(void);
 void Move_Analog_Servo_To_Position(uint8_t requested_position);
-void Hold_Analog_Servo_Position(uint8_t position);
+void Hold_Analog_Servo_Position(uint8_t requested_position);
 void Release_Analog_Servo(void);
 
 #endif // ANALOG_SERVO_DRV_H
