@@ -28,6 +28,9 @@
 // This module's header file
 #include "master_service.h"
 
+// memset
+#include <string.h>
+
 // LIN top layer
 #include "MS_LIN_top_layer.h"
 
@@ -45,7 +48,7 @@
 // #############################################################################
 
 // Schedule Start ID
-#define SCHEDULE_START_ID       0x02    // Start at 2 since ID of #1 is 0x02
+#define SCHEDULE_START_ID       (GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER))
 
 // Schedule Interval
 // Minimum for Interval is:
@@ -63,12 +66,12 @@
 // #############################################################################
 
 // These values should only exist in a single module for each node
-static uint8_t My_Node_ID = 0;                          // This node's ID
-static uint8_t My_Command_Data[NUM_SLAVES*2] = {0};     // Commands for slaves
-static uint8_t My_Status_Data[NUM_SLAVES*2] = {0};      // Slaves' stati
+static uint8_t My_Node_ID = 0;                                      // This node's ID
+static uint8_t My_Command_Data[NUM_SLAVES*LIN_PACKET_LEN] = {0};    // Commands for slaves
+static uint8_t My_Status_Data[NUM_SLAVES*LIN_PACKET_LEN] = {0};     // Slaves' stati
 
 // Scheduling Timer
-static uint32_t Scheduling_Timer = EVT_MASTER_SCH_TIMEOUT;
+static uint32_t Scheduling_Timer = NON_EVENT;
 
 // Curr_Schedule_ID
 // The schedule is simple:
@@ -92,8 +95,13 @@ static uint8_t parity = 0;
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
+static void ID_schedule_handler(uint32_t unused);           // Called from int context
 static void update_curr_schedule_id(void);
+static void clear_cmds(void);
 static void update_cmds(rect_vect_t requested_location);
+static bool did_single_slave_obey(uint8_t slave_number);
+static bool did_all_slaves_obey(void);
+static void put_LIN_to_sleep(void);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -116,13 +124,14 @@ void Init_Master_Service(void)
     My_Node_ID = MASTER_NODE_ID;
 
     // Initialize the data arrays to proper things
-    // TODO:
+    clear_cmds();
 
     // Initialize LIN
     MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
 
-    // Register scheduling timer
-    Register_Timer(&Scheduling_Timer, Post_Event);
+    // Register scheduling timer with ID_schedule_handler as 
+    //      callback function
+    Register_Timer(&Scheduling_Timer, ID_schedule_handler);
 
     // Kick off scheduling timer
     // TEST! Pause LIN service for now
@@ -150,21 +159,22 @@ void Run_Master_Service(uint32_t event_mask)
 {
     switch(event_mask)
     {
-        case EVT_MASTER_SCH_TIMEOUT:
-            // Transmit next header in schedule
-            Master_LIN_Broadcast_ID(Curr_Schedule_ID);
-            // Update schedule
-            update_curr_schedule_id();
-            // Restart timer
-            Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
-            break;
 
         // *Note: we should make sure all slaves are online before sending
         //      legitimate commands (blocking code?)
 
         case EVT_MASTER_NEW_STS:
             // New status
-            // Do nothing for now.
+
+            #if 0
+            // Check for slave obedience
+            if (false == did_all_slaves_obey())
+            {
+                // Stop sending ID's, go to sleep
+                put_LIN_to_sleep();
+            }
+            #endif
+
             break;
 
         case EVT_MASTER_OTHER:
@@ -218,6 +228,25 @@ void Run_Master_Service(uint32_t event_mask)
             Start_Timer(&Testing_Timer, 500);
             break;
 
+            // Not yet
+            #if 0
+            // EXAMPLE FOR NEW_REQ_LOCATION over CAN
+            // Reset the schedule counter
+            Curr_Schedule_ID = SCHEDULE_START_ID;
+            // Reset our commands to NON_COMMANDs
+            //      (will be ignored by the slaves)
+            clear_cmds();
+            // Start transmitting headers
+            Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+            // Begin updating the commands, which will
+            //      be sent in the background
+            update_cmds();
+            // *Note: While we are sending, we will
+            //      check to see if the slaves have
+            //      obeyed whenever we receive a
+            //      new status.
+            #endif
+
         default:
             break;
     }
@@ -226,6 +255,28 @@ void Run_Master_Service(uint32_t event_mask)
 // #############################################################################
 // ------------ PRIVATE FUNCTIONS
 // #############################################################################
+
+/****************************************************************************
+    Private Function
+        ID_schedule_handler()
+
+    Parameters
+        None
+
+    Description
+        Handles sending the next ID within interrupt context (called from
+        the timer expired interrupt)
+
+****************************************************************************/
+static void ID_schedule_handler(uint32_t unused)
+{
+    // Transmit next header in schedule
+    Master_LIN_Broadcast_ID(Curr_Schedule_ID);
+    // Update schedule id
+    update_curr_schedule_id();
+    // Restart timer
+    Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+}
 
 /****************************************************************************
     Private Function
@@ -253,13 +304,30 @@ static void update_curr_schedule_id(void)
 
 /****************************************************************************
     Private Function
+       clear_cmds()
+
+    Parameters
+        None
+
+    Description
+        Updates all commands for slaves to be NON_COMMANDs
+
+****************************************************************************/
+static void clear_cmds(void)
+{
+    // Clear all of our commands
+    memset(&My_Command_Data, NON_COMMAND, sizeof(My_Command_Data));
+}
+
+/****************************************************************************
+    Private Function
         update_cmds()
 
     Parameters
         None
 
     Description
-        Updates all commands for servos based on requested light location
+        Updates all commands for slaves based on requested light location
 
 ****************************************************************************/
 static void update_cmds(rect_vect_t requested_location)
@@ -271,10 +339,113 @@ static void update_cmds(rect_vect_t requested_location)
     uint8_t * p_temp_cmd;
 
     // Loop through all slaves
-    for (int i = 1; i < NUM_SLAVES+1; i++)
+    for (int slave_num = 1; slave_num <= NUM_SLAVES; slave_num++)
     {
-        temp_id = i<<2;
-        p_temp_cmd = (&My_Command_Data)+temp_id-SCHEDULE_START_ID;
-        // Compute_Individual_Light_Settings(Get_Slave_Parameters(temp_id), p_temp_cmd, requested_location);
+        // Get slave base id for slave num
+        temp_id = GET_SLAVE_BASE_ID(slave_num);
+        // Compute the pointer to the correct location in command array
+        p_temp_cmd = (&(My_Command_Data[0]))+temp_id-SCHEDULE_START_ID;
+        // Run algorithm to compute the individual light settings
+        Compute_Individual_Light_Settings(Get_Slave_Parameters(temp_id), p_temp_cmd, requested_location);
     }
+}
+
+/****************************************************************************
+    Private Function
+        did_single_slave_obey()
+
+    Parameters
+        None
+
+    Description
+        Checks to see if a particular slave has received and executed
+        the command previously commanded from the master.
+
+****************************************************************************/
+static bool did_single_slave_obey(uint8_t slave_number)
+{
+    // Ensure the slave_number is within slave bounds
+    if ((LOWEST_SLAVE_NUMBER > slave_number) || (HIGHEST_SLAVE_NUMBER < slave_number))
+    {
+        // Return false
+        return false;
+    }
+
+    // Check byte by byte, memcmp won't work b/c we ignore non-commands
+
+    // IF The slave's intensity doesn't match my commanded intensity AND my command was valid
+    // (if the command we sent was a NON_COMMAND, then we don't care about the slave's status)
+    if (    (My_Command_Data[GET_SLAVE_BASE_ID(slave_number)-GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER)]
+            != My_Status_Data[GET_SLAVE_BASE_ID(slave_number)-GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER)])
+            &&
+            (My_Command_Data[GET_SLAVE_BASE_ID(slave_number)-GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER)]
+            != NON_COMMAND)
+       )
+    {
+        // The slave has not obeyed my intensity command, return false
+        return false;
+    }
+    
+     // IF The slave's position doesn't match my commanded position AND my command was valid
+     // (if the command we sent was a NON_COMMAND, then we don't care about the slave's status)
+     if (    (My_Command_Data[GET_SLAVE_BASE_ID(slave_number)-GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER)+1]
+             != My_Status_Data[GET_SLAVE_BASE_ID(slave_number)-GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER)+1])
+             &&
+             (My_Command_Data[GET_SLAVE_BASE_ID(slave_number)-GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER)+1]
+             != NON_COMMAND)
+        )
+     {
+        // The slave has not obeyed my position command, return false
+        return false;
+     }
+
+     // IF none of the cases above were satisfied, then the slave obeyed my commands
+     return true;
+}
+
+/****************************************************************************
+    Private Function
+        did_all_slaves_obey()
+
+    Parameters
+        None
+
+    Description
+        Checks if all of the slaves have obeyed
+
+****************************************************************************/
+static bool did_all_slaves_obey(void)
+{
+    // Loop through all slaves
+    for (int slave_num = 1; slave_num <= NUM_SLAVES; slave_num++)
+    {
+        // Check individual slave for obedience
+        if (false == did_single_slave_obey(slave_num))
+        {
+            return false;
+        }
+    }
+
+    // Return true if all slaves obeyed
+    return true;
+}
+
+/****************************************************************************
+    Private Function
+        put_LIN_to_sleep()
+
+    Parameters
+        None
+
+    Description
+        Puts the LIN bus to sleep by stopping LIN headers from being sent
+        from the master
+
+****************************************************************************/
+static void put_LIN_to_sleep(void)
+{
+    // Stop the scheduling timer
+    Stop_Timer(&Scheduling_Timer);
+
+    // @TODO: More housekeeping to put the bus to sleep
 }
