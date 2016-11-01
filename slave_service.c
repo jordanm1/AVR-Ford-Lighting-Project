@@ -34,11 +34,17 @@
 // ADC
 #include "ADC.h"
 
+// Slave Parameters
+#include "slave_parameters.h"
+
 // Light
 #include "light_drv.h"
 
 // Servo
 #include "analog_servo_drv.h"
+
+// Atomic Read/Write operations
+#include <util/atomic.h>
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS
@@ -55,17 +61,17 @@ static uint8_t My_Node_ID;                          // This node's ID
 static uint8_t My_Command_Data[LIN_PACKET_LEN];     // This node's current command
 static uint8_t My_Status_Data[LIN_PACKET_LEN];      // This node's status
 
-static slave_parameters_t * p_My_Parameters;        // Pointer to this node's parameters
+static const slave_parameters_t * p_My_Parameters;  // Pointer to this node's parameters
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
 static void set_slave_id(void);
-static void process_cmd(uint8_t cmd_index);
+static void process_intensity_cmd(void);
+static void process_position_cmd(void);
 static bool is_cmd_valid(uint8_t cmd_index);
-static void exec_intensity_cmd(void);
-static void exec_position_cmd(void);
+static bool is_position_valid(const slave_parameters_t * p_slave_params, uint8_t requested_position);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -94,6 +100,9 @@ void Init_Slave_Service(void)
     // Initialize ADC, read slave number, create & store slave ID in RAM
     // TODO
     My_Node_ID = 0x06;
+
+    // Update the pointer to our slave parameters
+    p_My_Parameters = Get_Slave_Parameters(My_Node_ID);
 
     // Disable ADC
     // TODO
@@ -142,10 +151,10 @@ void Run_Slave_Service(uint32_t event_mask)
             // We got a new command
 
             // Always process intensity command
-            process_cmd(INTENSITY_INDEX);
+            process_intensity_cmd();
 
             // Alway process the position command,
-            process_cmd(POSITION_INDEX);
+            process_position_cmd();
 
             break;
 
@@ -213,37 +222,72 @@ static void set_slave_id(void)
 
 /****************************************************************************
     Private Function
-        process_cmd()
+        process_intensity_cmd()
 
     Parameters
-        None
+        none
 
     Description
-        Process the command based on command index
+        processes the intensity command
 
 ****************************************************************************/
-static void process_cmd(uint8_t cmd_index)
+static void process_intensity_cmd(void)
 {
-    // If the command is valid, then we copy the command to our status
-    //      then execute whatever is in our status
-    if (is_cmd_valid(cmd_index))
+    // Enter critical section so when we are copying data, we know the data
+    //      we are copying is the same data we checked.
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
     {
-        // If command differs from our status, execute the command
-        if (My_Status_Data[cmd_index] != My_Command_Data[cmd_index])
+        // General Flow:
+        // If the command is valid, then we copy the command to our status
+        //      then we execute whatever is in our status
+        if (is_cmd_valid(INTENSITY_INDEX))
         {
-            // Execute type of command
-            switch (cmd_index)
+            // If command differs from our status execute intensity command
+            if (My_Status_Data[INTENSITY_INDEX] != My_Command_Data[INTENSITY_INDEX])
             {
-                case INTENSITY_INDEX:
-                    exec_intensity_cmd();
-                    break;
+                // Update our status as the command
+                My_Status_Data[INTENSITY_INDEX] = My_Command_Data[INTENSITY_INDEX];
 
-                case POSITION_INDEX:
-                    exec_position_cmd();
-                    break;
+                // Set light intensity
+                Set_Light_Intensity(My_Status_Data[INTENSITY_INDEX]);
+            }
+        }
+    }
+}
 
-                default:
-                    break;
+/****************************************************************************
+    Private Function
+        process_position_cmd()
+
+    Parameters
+        none
+
+    Description
+        processes the position command
+
+****************************************************************************/
+static void process_position_cmd(void)
+{
+    // Enter critical section so when we are copying data, we know the data
+    //      we are copying is the same data we checked.
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        // General Flow:
+        // If the command is valid, then we copy the command to our status
+        //      then we execute whatever is in our status
+        if (is_cmd_valid(POSITION_INDEX))
+        {
+            // If command differs from our status and position is valid, execute move command
+            if  (   (My_Status_Data[POSITION_INDEX] != My_Command_Data[POSITION_INDEX])
+                    &&
+                    is_position_valid(p_My_Parameters, My_Command_Data[POSITION_INDEX])
+                )
+            {
+                // Update our status as the command
+                My_Status_Data[POSITION_INDEX] = My_Command_Data[POSITION_INDEX];
+
+                // Change servo position
+                Move_Analog_Servo_To_Position(My_Status_Data[POSITION_INDEX]);
             }
         }
     }
@@ -275,41 +319,69 @@ static bool is_cmd_valid(uint8_t cmd_index)
 
 /****************************************************************************
     Private Function
-        exec_intensity_cmd()
+        is_position_valid
 
     Parameters
-        none
+        None
 
     Description
-        executes intensity cmd with proper
+        Determines if position requested is a valid position,
+            based on the slave parameters
 
 ****************************************************************************/
-static void exec_intensity_cmd(void)
+static bool is_position_valid(const slave_parameters_t * p_slave_params, uint8_t requested_position)
 {
-    // Update our status as the command
-    My_Status_Data[INTENSITY_INDEX] = My_Command_Data[INTENSITY_INDEX];
+    // If requested position is servo stay, the position is immediately invalid
+    if (SERVO_STAY == requested_position) return false;
 
-    // Set light intensity
-    Set_Light_Intensity(My_Status_Data[INTENSITY_INDEX]);
-}
-
-/****************************************************************************
-    Private Function
-        exec_position_cmd()
-
-    Parameters
-        none
-
-    Description
-        executes position cmd with proper
-
-****************************************************************************/
-static void exec_position_cmd(void)
-{
-    // Update our status as the command
-    My_Status_Data[POSITION_INDEX] = My_Command_Data[POSITION_INDEX];
-
-    // Change servo position
-    Move_Analog_Servo_To_Position(My_Status_Data[POSITION_INDEX]);
+    // If the max position is greater than the min position
+    // (Example: min = 1, max = 6, requested = 10)
+    if (p_slave_params->position_max > p_slave_params->position_min)
+    {
+        if  (   (p_slave_params->position_min > requested_position)
+                ||
+                (p_slave_params->position_max < requested_position)
+            )
+        {
+            // Position is outside of possible range, return false
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    // If the min position is greater than the max position
+    // (Example: min = 8, max = 0, requested = 10)
+    else if (p_slave_params->position_min > p_slave_params->position_max)
+    {
+        if  (   (p_slave_params->position_min < requested_position)
+                ||
+                (p_slave_params->position_max > requested_position)
+            )
+        {
+            // Position is outside of possible range, return false
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    // Otherwise the positions are equal
+    // (Example: min = 5, max = 5, requested = 10)
+    else
+    {
+        if (p_slave_params->position_min != requested_position)
+        {
+            // The requested position does not match the single
+            //  possible position
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
 }
 
