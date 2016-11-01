@@ -378,6 +378,7 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
     }
 
     // Check for position validity before returning
+    // @TODO: We might want to still move it to the closest edge.
     if (Is_Servo_Position_Valid(p_slave_params, result)) 
     {
         return result;
