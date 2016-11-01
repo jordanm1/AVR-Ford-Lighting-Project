@@ -359,6 +359,8 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
         else
         {
             // Same angle so just use either
+            // *Note: This should never be reached,
+            // One angle should not be able to span?
             // @TODO:
             return p_slave_params->position_min;
         }
