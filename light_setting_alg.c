@@ -360,8 +360,10 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
         {
             // Same angle so just use either
             // *Note: This should never be reached,
-            // One angle should not be able to span?
-            // @TODO:
+            // One angle should not be able to span
+            //  two locations.
+            // Anyways, just return the one position
+            //  since it is constant across the angles
             return p_slave_params->position_min;
         }
     }
