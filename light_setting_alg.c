@@ -58,7 +58,12 @@
 // ------------ MODULE VARIABLES
 // #############################################################################
 
-
+// INITIALIZE VARS:
+uint16_t desired_theta, light_range;
+int16_t theta_light_min, theta_light_max;
+uint16_t norm2_desired_relative;
+rect_vect_t v_desired_relative;
+uint8_t result_settings[2];
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -66,7 +71,8 @@
 
 static uint16_t norm2_rect_vect(rect_vect_t vect);
 static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel);
-uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle);
+static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle);
+static uint16_t compute_cw_angular_distance(uint16_t start_angle, uint16_t end_angle);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -94,12 +100,12 @@ void Compute_Individual_Light_Settings(
     // If NULL pointers, return immediately
     if (!p_slave_params) return;
 
-    // INITIALIZE VARS:
-    uint16_t desired_theta;
-    int16_t theta_light_min, theta_light_max;
-    uint16_t norm2_desired_relative;
-    rect_vect_t v_desired_relative;
-    uint8_t result_settings[2];
+//     // INITIALIZE VARS:
+//     uint16_t desired_theta, light_range;
+//     int16_t theta_light_min, theta_light_max;
+//     uint16_t norm2_desired_relative;
+//     rect_vect_t v_desired_relative;
+//     uint8_t result_settings[2];
 
     // COMPUTE:
     // v_User_Relative = (v_User-v_Node)
@@ -120,13 +126,37 @@ void Compute_Individual_Light_Settings(
     desired_theta = compute_our_rel_angle(v_desired_relative, norm2_desired_relative);
 
     // COMPUTE:
+    //  Light range in degs
+    if (p_slave_params->move_equipped)
+    {
+        // Theta_min/max can be anything, treats equal angles as full 360 movement capable
+        light_range = compute_cw_angular_distance(p_slave_params->theta_min, p_slave_params->theta_max)
+                        + p_slave_params->fov;
+    }
+    else
+    {
+        // The theta_min/max must be the same angle in slave_parameters
+        light_range = p_slave_params->fov;
+    }
+
+    // COMPUTE:
     //  Theta_Light_Min = Theta_Node_Min - (Field_Of_View / 2)
     //  Theta_Light_Max = Theta_Node_Max + (Field_Of_View / 2)
-    theta_light_min = (p_slave_params->theta_min-(p_slave_params->fov/2));
-    theta_light_max = (p_slave_params->theta_max+(p_slave_params->fov/2));
+    theta_light_min = (p_slave_params->theta_min-(p_slave_params->fov/2)+DEGS_FULL_CIRCLE)%DEGS_FULL_CIRCLE;
+    theta_light_max = (p_slave_params->theta_max+(p_slave_params->fov/2)+DEGS_FULL_CIRCLE)%DEGS_FULL_CIRCLE;
 
     // CHECK TO SEE IF ANGLE IS BETWEEN MIN AND MAX:
-    if ((theta_light_min <= (int16_t) desired_theta) && (theta_light_max >= (int16_t) desired_theta))
+    // COMPUTE:
+    //  Distance from min to desired
+    //  Distance from min to max
+    if  (   (compute_cw_angular_distance(theta_light_min, desired_theta)
+            <=
+            compute_cw_angular_distance(theta_light_min, theta_light_max))
+
+            ||
+
+            (DEGS_FULL_CIRCLE <= light_range)
+        )
     {
         // The desired position can be reached with light via this node.
         //  1. Set slave settings with some intensity > 0 and <= 100
@@ -275,38 +305,39 @@ static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
         Returns the squared norm of a 2-D vector
 
 ****************************************************************************/
-uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle)
+static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle)
 {
     /* CALCULATE RANGE OF SLAVE IN DEGREES */
     // Calculate the range of degrees between min and max
     uint16_t slave_range_degs;
-    if (p_slave_params->theta_max > p_slave_params->theta_min)
-    {
-        // Get normal range
-        slave_range_degs = p_slave_params->theta_max - p_slave_params->theta_min;
-    }
-    else if (p_slave_params->theta_min > p_slave_params->theta_max)
-    {
-        // Get complimented range
-        slave_range_degs = DEGS_FULL_CIRCLE - (p_slave_params->theta_max - p_slave_params->theta_min);
-    }
-    else
-    {
-        // This only occurs when the start and end angles are the same.
-        // @TODO: Maybe make this zero instead.
-        slave_range_degs = 360;
-    }
+    slave_range_degs = compute_cw_angular_distance(p_slave_params->theta_min, p_slave_params->theta_max);
 
     /* COMPUTE RATIO OF DESIRED ANGLE ABOVE THE MINIMUM ANGLE*/
-    uint8_t num_positions;
-    if (p_slave_params->theta_min >= desired_angle)
+    uint8_t position_range;
+    // If the desired angle is outside of our move ability
+    if  (   compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)
+            >=
+            slave_range_degs
+        )
     {
-        return p_slave_params->position_min;
+        // If the desired angle is closer to our min
+        if  (   compute_cw_angular_distance(p_slave_params->theta_max, desired_theta)
+                >
+                compute_cw_angular_distance(desired_theta, p_slave_params->theta_min)
+            )
+        {
+            // Return our min position
+            return p_slave_params->position_min;
+        }
+        // Otherwise, the desired angle is closer to our max
+        else
+        {
+            // Return our max position
+            return p_slave_params->position_max;
+        }
     }
-    else if (p_slave_params->theta_max <= desired_angle)
-    {
-        return p_slave_params->position_max;
-    }
+    // Otherwise, angle is actually between our min and max (going CW)
+    //      so... interpolate
     else
     {
         // If positions are increasing from min to max
@@ -314,22 +345,61 @@ uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, ui
         {
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are increasing, we add to min position
-            num_positions = p_slave_params->position_max-p_slave_params->position_min;
-            return p_slave_params->position_min+(0.5+(((desired_angle-p_slave_params->theta_min)*num_positions)/slave_range_degs));
+            position_range = p_slave_params->position_max-p_slave_params->position_min;
+            return p_slave_params->position_min+(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
         }
         // If positions are decreasing from min to max
         else if (p_slave_params->position_min > p_slave_params->position_max)
         {
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are decreasing, we subtract from min position
-            num_positions = p_slave_params->position_min-p_slave_params->position_max;
-            return p_slave_params->position_min-(0.5+(((desired_angle-p_slave_params->theta_min)*num_positions)/slave_range_degs));
+            position_range = p_slave_params->position_min-p_slave_params->position_max;
+            return p_slave_params->position_min-(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
         }
         else
         {
             // Same angle so just use either
+            // @TODO:
             return p_slave_params->position_min;
         }
+    }
+}
+
+/****************************************************************************
+    Private Function
+        compute_cw_angular_distance()
+
+    Parameters
+        uint16_t: start angle
+        uint16_t: end angle
+
+        Keep in mind,
+            the range of 16-bit integer types is -32,768 through 32,767.
+
+    Description
+        Returns the angular distance in the clockwise direction:
+            The start angle + return angle equals end angle
+            (start_angle+return_angle)%360=end+angle
+
+****************************************************************************/
+static uint16_t compute_cw_angular_distance(uint16_t start_angle, uint16_t end_angle)
+{
+    if (end_angle > start_angle)
+    {
+        // Just do the positive biased subtraction
+        return end_angle-start_angle;
+    }
+    else if (end_angle < start_angle)
+    {
+        // Take the compliment of the positive biased subtraction
+        // *Note: this is for cases where the end angle is right of 0 degs
+        //      and start is left of 0 degs
+        return DEGS_FULL_CIRCLE-(start_angle-end_angle);
+    }
+    else
+    {
+        // The angles are equal
+        return DEGS_FULL_CIRCLE;
     }
 }
 
