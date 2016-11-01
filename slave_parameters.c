@@ -51,17 +51,17 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] =  {
 // Slave One
 #if (1 <= NUM_SLAVES)
 {
-    .rect_position.x =  0,
+    .rect_position.x =  1,
     .rect_position.y =  0,
 
-    .fov =              100,
+    .fov =              10,
 
     .move_equipped =    true,
 
-    .theta_min =        90,
+    .theta_min =        0,
     .position_min =     0,
 
-    .theta_max =        100,
+    .theta_max =        180,
     .position_max =     10
 },
 #endif
@@ -70,35 +70,35 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] =  {
 #if (2 <= NUM_SLAVES)
 {
     .rect_position.x =  0,
-    .rect_position.y =  0,
+    .rect_position.y =  1,
 
-    .fov =              100,
+    .fov =              5,
 
-    .move_equipped =    true,
+    .move_equipped =    false,
 
-    .theta_min =        90,
+    .theta_min =        0,
     .position_min =     0,
 
-    .theta_max =        100,
-    .position_max =     10
+    .theta_max =        0,
+    .position_max =     0
 },
 #endif
 
 // Slave Three
 #if (3 <= NUM_SLAVES)
 {
-    .rect_position.x =  0,
+    .rect_position.x =  -1,
     .rect_position.y =  0,
 
-    .fov =              100,
+    .fov =              180,
 
     .move_equipped =    true,
 
-    .theta_min =        90,
-    .position_min =     0,
+    .theta_min =        270,
+    .position_min =     10,
 
-    .theta_max =        100,
-    .position_max =     10
+    .theta_max =        90,
+    .position_max =     1
 },
 #endif
 
@@ -106,17 +106,17 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] =  {
 #if (4 <= NUM_SLAVES)
 {
     .rect_position.x =  0,
-    .rect_position.y =  0,
+    .rect_position.y =  -1,
 
     .fov =              100,
 
-    .move_equipped =    true,
+    .move_equipped =    false,
 
-    .theta_min =        90,
+    .theta_min =        180,
     .position_min =     0,
 
-    .theta_max =        100,
-    .position_max =     10
+    .theta_max =        180,
+    .position_max =     0
 },
 #endif
 
