@@ -313,6 +313,9 @@ static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
 ****************************************************************************/
 static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle)
 {
+    // Initialize result
+    uint8_t result = NON_COMMAND;
+
     /* CALCULATE RANGE OF SLAVE IN DEGREES */
     // Calculate the range of degrees between min and max
     uint16_t slave_range_degs;
@@ -333,13 +336,13 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
             )
         {
             // Return our min position
-            return p_slave_params->position_min;
+            result = p_slave_params->position_min;
         }
         // Otherwise, the desired angle is closer to our max
         else
         {
             // Return our max position
-            return p_slave_params->position_max;
+            result = p_slave_params->position_max;
         }
     }
     // Otherwise, angle is actually between our min and max (going CW)
@@ -352,7 +355,7 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are increasing, we add to min position
             position_range = p_slave_params->position_max-p_slave_params->position_min;
-            return p_slave_params->position_min+(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
+            result = p_slave_params->position_min+(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
         }
         // If positions are decreasing from min to max
         else if (p_slave_params->position_min > p_slave_params->position_max)
@@ -360,7 +363,7 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are decreasing, we subtract from min position
             position_range = p_slave_params->position_min-p_slave_params->position_max;
-            return p_slave_params->position_min-(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
+            result = p_slave_params->position_min-(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
         }
         else
         {
@@ -370,8 +373,18 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
             //  two locations.
             // Anyways, just return the one position
             //  since it is constant across the angles
-            return p_slave_params->position_min;
+            result = p_slave_params->position_min;
         }
+    }
+
+    // Check for position validity before returning
+    if (Is_Servo_Position_Valid(p_slave_params, result)) 
+    {
+        return result;
+    }
+    else
+    {
+        return NON_COMMAND;
     }
 }
 
