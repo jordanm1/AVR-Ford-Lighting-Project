@@ -64,8 +64,8 @@
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
-static uint16_t invcos(uint16_t x);
 static uint16_t norm2_rect_vect(rect_vect_t vect);
+static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel);
 uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle);
 
 // #############################################################################
@@ -102,34 +102,22 @@ void Compute_Individual_Light_Settings(
     uint8_t result_settings[2];
 
     // COMPUTE:
-    //   desired_theta (angle between desired location and zero)
-    //  Since our zero degrees vector is (0,1) the dot product is
-    //      v_zero_degrees * v_desired_location = v_desired_location.y = cos(theta)
-    if (0 == v_desired_location.x)
-    {
-        // The requested location is along the vector (0,1)
-        //  so the angle is zero degrees or 180
-        if (0 <= v_desired_location.y)
-        {
-            desired_theta = 0;
-        }
-        else
-        {
-            desired_theta = 180;
-        }
-    }
-    else if (0 > v_desired_location.x)
-    {
-        // The vector is in the left half
-        // Subtract computed angle from 360
-        desired_theta = DEGS_FULL_CIRCLE-invcos(v_desired_location.y);
-    }
-    else
-    {
-        // The vector is in the right half.
-        // Leave computed angle between as is
-        desired_theta = invcos(v_desired_location.y);
-    }
+    // v_User_Relative = (v_User-v_Node)
+    // This is because we want to see the angle relative to where we are,
+    // For example, we could be at (1,0) with 180 FOV and the requested
+    //  loc. could be (0.8,1) and the angle would be within our bounds,
+    //  but if we use the desired location relative to us, the angle would
+    //  be outside of our bounds.
+    v_desired_relative.x = v_desired_location.x-p_slave_params->rect_position.x;
+    v_desired_relative.y = v_desired_location.y-p_slave_params->rect_position.y;
+
+    // COMPUTE:
+    // distance^2 from node to desired location
+    norm2_desired_relative = norm2_rect_vect(v_desired_relative);
+
+    // COMPUTE:
+    // the relative angle of the desired location to us
+    desired_theta = compute_our_rel_angle(v_desired_relative, norm2_desired_relative);
 
     // COMPUTE:
     //  Theta_Light_Min = Theta_Node_Min - (Field_Of_View / 2)
@@ -143,13 +131,6 @@ void Compute_Individual_Light_Settings(
         // The desired position can be reached with light via this node.
         //  1. Set slave settings with some intensity > 0 and <= 100
         //  2. Set slave position via interpolation
-
-        // v_User_Relative = (v_User-v_Node)
-        v_desired_relative.x = v_desired_location.x-p_slave_params->rect_position.x;
-        v_desired_relative.y = v_desired_location.y-p_slave_params->rect_position.y;
-
-        // Compute distance^2 from node to desired location
-        norm2_desired_relative = norm2_rect_vect(v_desired_relative);
 
         // Compute and set light intensity
         result_settings[INTENSITY_INDEX] = (MAX_LIGHT_INTENSITY*INTENSITY_SCALING_FACTOR)/norm2_desired_relative;
@@ -201,26 +182,6 @@ void Compute_Individual_Light_Settings(
 
 /****************************************************************************
     Private Function
-        invcos
-
-    Parameters
-        uint16_t x:
-
-    Description
-        Computes the inverse consine of the input parameter as 3rd order
-        Taylor Series approximation.
-
-        From:
-        http://stackoverflow.com/questions/3380628/fast-arc-cos-algorithm
-
-****************************************************************************/
-static uint16_t invcos(uint16_t x)
-{
-    return 57*((-0.69813170079773212 * x * x - 0.87266462599716477) * x + 1.5707963267948966);
-}
-
-/****************************************************************************
-    Private Function
         norm2_rect_vect
 
     Parameters
@@ -236,6 +197,67 @@ static uint16_t invcos(uint16_t x)
 static uint16_t norm2_rect_vect(rect_vect_t vect)
 {
     return ((vect.x*vect.x) + (vect.y*vect.y));
+}
+
+/****************************************************************************
+    Private Function
+        compute_our_rel_angle()
+
+    Parameters
+        uint16_t y: y coordinate relative to us
+
+    Description
+        Computes the angle based on our coordinate system
+
+        From:
+        (invcos)
+        http://stackoverflow.com/questions/3380628/fast-arc-cos-algorithm
+        (inv sqrt)
+        https://en.wikipedia.org/wiki/Fast_inverse_square_root
+
+****************************************************************************/
+static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
+{
+    //
+    // Compute 1/sqrt(norm2)
+    //
+	long i;
+	float x2, y;
+	const float threehalfs = 1.5F;
+
+	x2 = norm2_v_rel * 0.5F;
+	y  = norm2_v_rel;
+	i  = * ( long * ) &y;                       // evil floating point bit level hacking
+	i  = 0x5f3759df - ( i >> 1 );               // what the fuck?
+	y  = * ( float * ) &i;
+	y  = y * ( threehalfs - ( x2 * y * y ) );   // 1st iteration
+	//	y  = y * ( threehalfs - ( x2 * y * y ) );   // 2nd iteration, this can be removed
+
+    //
+    // Multiply 1/sqrt(norm2) by the y so we get normalized y component
+    //
+    float normalized_y = v_rel.y*y;
+
+    //
+    // Take inverse cosine to get angle, via taylor3 approximation
+    //
+    uint16_t angle = 57*((-0.69813170079773212 * normalized_y * normalized_y - 0.87266462599716477) * normalized_y + 1.5707963267948966);
+
+    //
+    // Output angle
+    //
+    if (0 > v_rel.x)
+    {
+        // The vector is in the left half
+        // Subtract computed angle from 360
+        return DEGS_FULL_CIRCLE-angle;
+    }
+    else
+    {
+        // The vector is in the right half.
+        // Leave computed angle between as is
+        return angle;
+    }
 }
 
 /****************************************************************************
@@ -310,3 +332,57 @@ uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, ui
         }
     }
 }
+
+// #############################################################################
+// ------------ NOTES/LEGACY
+// #############################################################################
+
+// /****************************************************************************
+//     Private Function
+//         invcos
+// 
+//     Parameters
+//         uint16_t x:
+// 
+//     Description
+//         Computes the inverse cosine of the input parameter as 3rd order
+//         Taylor Series approximation.
+// 
+//         From:
+//         http://stackoverflow.com/questions/3380628/fast-arc-cos-algorithm
+// 
+// ****************************************************************************/
+// static uint16_t invcos(uint16_t x)
+// {
+//     return 57*((-0.69813170079773212 * x * x - 0.87266462599716477) * x + 1.5707963267948966);
+// }
+
+//     // COMPUTE:
+//     //   desired_theta (angle between desired location and zero)
+//     //  Since our zero degrees vector is (0,1) the dot product is
+//     //      v_zero_degrees * v_desired_relative = v_desired_relative.y = cos(theta)
+//     if (0 == v_desired_relative.x)
+//     {
+//         // The requested location is along the vector (0,1)
+//         //  so the angle is zero degrees or 180
+//         if (0 <= v_desired_relative.y)
+//         {
+//             desired_theta = 0;
+//         }
+//         else
+//         {
+//             desired_theta = 180;
+//         }
+//     }
+//     else if (0 > v_desired_relative.x)
+//     {
+//         // The vector is in the left half
+//         // Subtract computed angle from 360
+//         desired_theta = DEGS_FULL_CIRCLE-invcos(v_desired_relative.y);
+//     }
+//     else
+//     {
+//         // The vector is in the right half.
+//         // Leave computed angle between as is
+//         desired_theta = invcos(v_desired_relative.y);
+//     }
