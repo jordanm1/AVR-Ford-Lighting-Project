@@ -229,7 +229,7 @@ const slave_parameters_t * Get_Slave_Parameters(uint8_t slave_base_id)
     }
 
     // Return the pointer to the requested slave parameters
-    return (Slave_Parameters+slave_base_id-GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER));
+    return (Slave_Parameters+GET_SLAVE_NUMBER(slave_base_id)-LOWEST_SLAVE_NUMBER);
 }
 
 // #############################################################################
