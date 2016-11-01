@@ -53,8 +53,9 @@
 // Master array length
 #define MASTER_DATA_LENGTH      (NUM_SLAVES*LIN_PACKET_LEN)
 
-// Schedule Start ID
+// Schedule Start/End IDs
 #define SCHEDULE_START_ID       (GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER))
+#define SCHEDULE_END_ID         (GET_SLAVE_BASE_ID(HIGHEST_SLAVE_NUMBER)|REQUEST_MASK)
 
 // Schedule Interval
 // Minimum for Interval is:
@@ -297,7 +298,7 @@ static void ID_schedule_handler(uint32_t unused)
 static void update_curr_schedule_id(void)
 {
     // If we hit boundary condition, reset counter; otherwise increment
-    if (((NUM_SLAVES<<1)+1) == Curr_Schedule_ID)
+    if (SCHEDULE_END_ID == Curr_Schedule_ID)
     {
         Curr_Schedule_ID = SCHEDULE_START_ID;
     }
