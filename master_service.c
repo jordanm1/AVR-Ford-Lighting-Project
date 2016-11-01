@@ -344,7 +344,7 @@ static void update_cmds(rect_vect_t requested_location)
     uint8_t * p_temp_cmd;
 
     // Loop through all slaves
-    for (int slave_num = 1; slave_num <= NUM_SLAVES; slave_num++)
+    for (int slave_num = LOWEST_SLAVE_NUMBER; slave_num <= NUM_SLAVES; slave_num++)
     {
         // Get slave base id for slave num
         temp_id = GET_SLAVE_BASE_ID(slave_num);
