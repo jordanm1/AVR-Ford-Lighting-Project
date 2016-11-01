@@ -71,7 +71,6 @@ static void set_slave_id(void);
 static void process_intensity_cmd(void);
 static void process_position_cmd(void);
 static bool is_cmd_valid(uint8_t cmd_index);
-static bool is_position_valid(const slave_parameters_t * p_slave_params, uint8_t requested_position);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -99,7 +98,7 @@ void Init_Slave_Service(void)
 
     // Initialize ADC, read slave number, create & store slave ID in RAM
     // TODO
-    My_Node_ID = 0x06;
+    My_Node_ID = 0x02;
 
     // Update the pointer to our slave parameters
     p_My_Parameters = Get_Slave_Parameters(My_Node_ID);
@@ -278,10 +277,7 @@ static void process_position_cmd(void)
         if (is_cmd_valid(POSITION_INDEX))
         {
             // If command differs from our status and position is valid, execute move command
-            if  (   (My_Status_Data[POSITION_INDEX] != My_Command_Data[POSITION_INDEX])
-                    &&
-                    is_position_valid(p_My_Parameters, My_Command_Data[POSITION_INDEX])
-                )
+            if (My_Status_Data[POSITION_INDEX] != My_Command_Data[POSITION_INDEX])
             {
                 // Update our status as the command
                 My_Status_Data[POSITION_INDEX] = My_Command_Data[POSITION_INDEX];
@@ -317,71 +313,4 @@ static bool is_cmd_valid(uint8_t cmd_index)
     }
 }
 
-/****************************************************************************
-    Private Function
-        is_position_valid
-
-    Parameters
-        None
-
-    Description
-        Determines if position requested is a valid position,
-            based on the slave parameters
-
-****************************************************************************/
-static bool is_position_valid(const slave_parameters_t * p_slave_params, uint8_t requested_position)
-{
-    // If requested position is servo stay, the position is immediately invalid
-    if (SERVO_STAY == requested_position) return false;
-
-    // If the max position is greater than the min position
-    // (Example: min = 1, max = 6, requested = 10)
-    if (p_slave_params->position_max > p_slave_params->position_min)
-    {
-        if  (   (p_slave_params->position_min > requested_position)
-                ||
-                (p_slave_params->position_max < requested_position)
-            )
-        {
-            // Position is outside of possible range, return false
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-    // If the min position is greater than the max position
-    // (Example: min = 8, max = 0, requested = 10)
-    else if (p_slave_params->position_min > p_slave_params->position_max)
-    {
-        if  (   (p_slave_params->position_min < requested_position)
-                ||
-                (p_slave_params->position_max > requested_position)
-            )
-        {
-            // Position is outside of possible range, return false
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-    // Otherwise the positions are equal
-    // (Example: min = 5, max = 5, requested = 10)
-    else
-    {
-        if (p_slave_params->position_min != requested_position)
-        {
-            // The requested position does not match the single
-            //  possible position
-            return false;
-        }
-        else
-        {
-            return true;
-        }
-    }
-}
 
