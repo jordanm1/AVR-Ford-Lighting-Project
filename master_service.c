@@ -97,7 +97,13 @@ static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
 static uint8_t test_counter = 0;
 static uint8_t position_counter = 1;
 static uint8_t parity = 0;
-static rect_vect_t test_positions[8];
+#define NUM_TEST_POSITIONS          4
+static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
+                                                        {.x = 5, .y = 0},
+                                                        {.x = 0, .y = 5},
+                                                        {.x = -5, .y = 0},
+                                                        {.x = 0, .y = -5},
+                                                        };
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -146,7 +152,7 @@ void Init_Master_Service(void)
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
-    Start_Timer(&Testing_Timer, 500);
+    Start_Timer(&Testing_Timer, 2000);
     PORTB &= ~(1<<PINB6);
     DDRB |= (1<<PINB6);
 }
@@ -229,7 +235,7 @@ void Run_Master_Service(uint32_t event_mask)
 //             {
 //                 PORTB &= ~(1<<PINB6);
 //             }
-            Start_Timer(&Testing_Timer, 500);
+            Start_Timer(&Testing_Timer, 2000);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -241,9 +247,9 @@ void Run_Master_Service(uint32_t event_mask)
             // Begin updating the commands, which will
             //      be sent in the background
             PORTB |= (1<<PINB6);
+            update_cmds(test_positions[test_counter]);
             test_counter++;
-            if (4 < test_counter) {test_counter = 0;};
-            update_cmds((rect_vect_t){.x = 1, .y = 2});
+            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
             PORTB &= ~(1<<PINB6);
             // *Note: While we are sending, we will
             //      check to see if the slaves have
