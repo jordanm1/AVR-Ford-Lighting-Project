@@ -105,7 +105,20 @@ void Compute_Individual_Light_Settings(
     //   desired_theta (angle between desired location and zero)
     //  Since our zero degrees vector is (0,1) the dot product is
     //      v_zero_degrees * v_desired_location = v_desired_location.y = cos(theta)
-    if (0 > v_desired_location.x)
+    if (0 == v_desired_location.x)
+    {
+        // The requested location is along the vector (0,1)
+        //  so the angle is zero degrees or 180
+        if (0 <= v_desired_location.y)
+        {
+            desired_theta = 0;
+        }
+        else
+        {
+            desired_theta = 180;
+        }
+    }
+    else if (0 > v_desired_location.x)
     {
         // The vector is in the left half
         // Subtract computed angle from 360
@@ -259,7 +272,7 @@ uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, ui
     {
         // This only occurs when the start and end angles are the same.
         // @TODO: Maybe make this zero instead.
-        slave_range_degs = 0;
+        slave_range_degs = 360;
     }
 
     /* COMPUTE RATIO OF DESIRED ANGLE ABOVE THE MINIMUM ANGLE*/
