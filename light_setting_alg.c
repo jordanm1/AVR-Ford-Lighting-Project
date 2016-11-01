@@ -267,10 +267,16 @@ static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
     // Multiply 1/sqrt(norm2) by the y so we get normalized y component
     //
     float normalized_y = v_rel.y*y;
+    if (1 < normalized_y) normalized_y = 1;     // clamp since we are dealing with approximations
+    if (-1 > normalized_y) normalized_y = -1;   // clamp since we are dealing with approximations
 
     //
     // Take inverse cosine to get angle, via taylor3 approximation
     //
+    // We only care about our relative y component because our zero degree vector is <0,1>
+    //  and the dot product is just the y component
+    // Wolfram Alpha: plot 57*arccos(x) for x = {-1,1}
+    //  acos ranges from 0 to 180 degrees
     uint16_t angle = 57*((-0.69813170079773212 * normalized_y * normalized_y - 0.87266462599716477) * normalized_y + 1.5707963267948966);
 
     //
@@ -279,7 +285,7 @@ static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
     if (0 > v_rel.x)
     {
         // The vector is in the left half
-        // Subtract computed angle from 360
+        // Subtract computed angle from 360 to get cw angle
         return DEGS_FULL_CIRCLE-angle;
     }
     else
