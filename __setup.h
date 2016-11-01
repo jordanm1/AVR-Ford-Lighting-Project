@@ -37,20 +37,20 @@
 
 #define INITIALIZER_05              Init_Analog_Servo_Driver
 
-#if (MASTER == THIS_NODE_TYPE)
-#define INITIALIZER_06              Init_Master_Service
+#if IS_MASTER_NODE
+    #define INITIALIZER_06          Init_Master_Service
 #else
-#define INITIALIZER_06              Init_Slave_Service
+    #define INITIALIZER_06          Init_Slave_Service
 #endif
 
 // #############################################################################
 // ------------ SERVICES (must be functions of type "void f(uint32_t event)")
 // #############################################################################
 
-#if (MASTER == THIS_NODE_TYPE)
-#define SERVICE_00		            Run_Master_Service
+#if IS_MASTER_NODE
+    #define SERVICE_00		        Run_Master_Service
 #else
-#define SERVICE_00		            Run_Slave_Service
+    #define SERVICE_00		        Run_Slave_Service
 #endif
 
 // #############################################################################

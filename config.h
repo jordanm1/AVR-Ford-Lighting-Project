@@ -25,7 +25,7 @@
 // ------------ NODE SETTINGS
 // #############################################################################
 
-#define THIS_NODE_TYPE      MASTER
+#define IS_MASTER_NODE      NO
 
 // #############################################################################
 // ------------ LIN ID MAP
@@ -139,9 +139,9 @@ typedef struct
 #define LIN_BAUDRATE            19200           // in bit/s
 #define LIN_PACKET_LEN          (2)             // always send 2 bytes of data
 
-// Node Defs
-#define MASTER                  0
-#define SLAVE                   1
+// YES/NO directives
+#define NO                      0
+#define YES                     1
 
 // #############################################################################
 // ------------ END CONFIG
