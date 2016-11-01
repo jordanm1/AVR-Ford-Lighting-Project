@@ -194,6 +194,74 @@ void Release_Analog_Servo(void)
     stop_signal(NON_EVENT);
 }
 
+/****************************************************************************
+    Private Function
+        Is_Servo_Position_Valid
+
+    Parameters
+        None
+
+    Description
+        Determines if position requested is a valid position,
+            based on the slave parameters
+
+****************************************************************************/
+bool Is_Servo_Position_Valid(const slave_parameters_t * p_slave_params, uint8_t requested_position)
+{
+    // If requested position is servo stay, the position is immediately invalid
+    if (SERVO_STAY == requested_position) return false;
+
+    // If the max position is greater than the min position
+    // (Example: min = 1, max = 6, requested = 10)
+    if (p_slave_params->position_max > p_slave_params->position_min)
+    {
+        if  (   (p_slave_params->position_min > requested_position)
+                ||
+                (p_slave_params->position_max < requested_position)
+            )
+        {
+            // Position is outside of possible range, return false
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    // If the min position is greater than the max position
+    // (Example: min = 8, max = 0, requested = 10)
+    else if (p_slave_params->position_min > p_slave_params->position_max)
+    {
+        if  (   (p_slave_params->position_min < requested_position)
+                ||
+                (p_slave_params->position_max > requested_position)
+            )
+        {
+            // Position is outside of possible range, return false
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+    // Otherwise the positions are equal
+    // (Example: min = 5, max = 5, requested = 10)
+    else
+    {
+        if (p_slave_params->position_min != requested_position)
+        {
+            // The requested position does not match the single
+            //  possible position
+            return false;
+        }
+        else
+        {
+            return true;
+        }
+    }
+}
+
 // #############################################################################
 // ------------ PRIVATE FUNCTIONS
 // #############################################################################

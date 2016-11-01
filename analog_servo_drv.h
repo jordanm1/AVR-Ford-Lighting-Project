@@ -2,6 +2,12 @@
 #define ANALOG_SERVO_DRV_H
 
 // #############################################################################
+// ------------ INCLUDES
+// #############################################################################
+
+#include "config.h"
+
+// #############################################################################
 // ------------ SERVO DEFINITIONS
 // #############################################################################
 
@@ -36,5 +42,6 @@ void Init_Analog_Servo_Driver(void);
 void Move_Analog_Servo_To_Position(uint8_t requested_position);
 void Hold_Analog_Servo_Position(uint8_t requested_position);
 void Release_Analog_Servo(void);
+bool Is_Servo_Position_Valid(const slave_parameters_t * p_slave_params, uint8_t requested_position);
 
 #endif // ANALOG_SERVO_DRV_H
