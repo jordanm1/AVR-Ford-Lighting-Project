@@ -342,6 +342,17 @@ ISR(TIMER0_COMPA_vect)
                 // If cb is not null, execute
                 if (Timers[i].timer_cb_func)
                 {
+                    // Overwrite our compare register to give us more time to process this stuff
+                    //  We will just read the time in the counter then add the OC_TO_REG_VALUE
+                    //  We make the assumption that we can get here from the last setting of
+                    //  the OCR0A register in lesser ticks than the OC_TO_TO_REG_VALUE
+                    // *Note: this will cause time to stretch, but not by much
+                    //  It is possible to account for time warp, by dynamically changing
+                    //      the OC_TO_REG_VALUE
+                    // @TODO: Implement time stretch factoring by counting number of ticks we've
+                    //          missed while in this ISR.
+                    OCR0A = TCNT0 + OC_T0_REG_VALUE;
+                    // Execute callback
                     Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
                 }
             }
