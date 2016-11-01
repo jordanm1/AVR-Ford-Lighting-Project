@@ -96,6 +96,7 @@ static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
 static uint8_t test_counter = 0;
 static uint8_t position_counter = 1;
 static uint8_t parity = 0;
+static rect_vect_t test_positions[8];
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -140,13 +141,13 @@ void Init_Master_Service(void)
     Register_Timer(&Scheduling_Timer, ID_schedule_handler);
 
     // Kick off scheduling timer
-     Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+    Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
-    //Start_Timer(&Testing_Timer, 500);
-    //PORTB &= ~(1<<PINB6);
-    //DDRB |= (1<<PINB6);
+    Start_Timer(&Testing_Timer, 500);
+    PORTB &= ~(1<<PINB6);
+    DDRB |= (1<<PINB6);
 }
 
 /****************************************************************************
@@ -190,67 +191,66 @@ void Run_Master_Service(uint32_t event_mask)
         case EVT_TEST_TIMEOUT:
             // Just a test
 
-            // TEST LIGHT SET ALG
-            //PORTB |= (1<<PINB6);
-            ////slave_parameters_t test_slave;
-            ////test_slave.fov = 100;
-            ////test_slave.rect_position.x = 0;
-            ////test_slave.rect_position.y = 0;
-            ////test_slave.position_max = 0;
-            ////test_slave.position_min = 10;
-            ////test_slave.theta_max = 135;
-            ////test_slave.theta_min = 45;
-            ////rect_vect_t test_point;
-            ////test_point.x = 0;
-            ////test_point.y = 1;
-            ////slave_settings_t test_slave_settings;
-            //// test_slave_settings = Compute_Individual_Light_Settings(&test_slave, test_point);
-            //PORTB &= ~(1<<PINB6);
-
-            // TEST SERVO
-            // Hold servo position
-            Hold_Analog_Servo_Position(position_counter);
-            if ((10 == position_counter) || (0 == position_counter)) {parity ^= 1;};
-            if (parity)
-            {
-                position_counter--;
-            }
-            else
-            {
-                position_counter++;
-            }
-            for (int i = 0; i < NUM_SLAVES; i++)
-            {
-                uint8_t temp_index = i<<1;
-                My_Command_Data[temp_index] = test_counter;
-                My_Command_Data[temp_index+1] = 0xFF;
-            }
-
-            // TEST PWM
-            Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
-            test_counter++;
-            if (100 < test_counter) {test_counter = 0;};
-            Start_Timer(&Testing_Timer, 500);
-            break;
+            //// TEST SERVO
+            //// Hold servo position
+            //Hold_Analog_Servo_Position(position_counter);
+            //if ((10 == position_counter) || (0 == position_counter)) {parity ^= 1;};
+            //if (parity)
+            //{
+                //position_counter--;
+            //}
+            //else
+            //{
+                //position_counter++;
+            //}
+            //for (int i = 0; i < NUM_SLAVES; i++)
+            //{
+                //uint8_t temp_index = i<<1;
+                //My_Command_Data[temp_index] = test_counter;
+                //My_Command_Data[temp_index+1] = 0xFF;
+            //}
+//
+            //// TEST PWM
+            //Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
+            //test_counter++;
+            //if (100 < test_counter) {test_counter = 0;};
+            //Start_Timer(&Testing_Timer, 500);
 
             // Not yet
-            #if 0
+            // Hold_Analog_Servo_Position(10);
+            #if 1
+//             parity ^= 1;
+//             if (parity)
+//             {
+//                 PORTB |= (1<<PINB6);
+//             }
+//             else
+//             {
+//                 PORTB &= ~(1<<PINB6);
+//             }
+            Start_Timer(&Testing_Timer, 500);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
-            // Reset the schedule counter
-            Curr_Schedule_ID = SCHEDULE_START_ID;
-            // Reset our commands to NON_COMMANDs
-            //      (will be ignored by the slaves)
-            clear_cmds();
-            // Start transmitting headers
-            Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+//             // Reset the schedule counter
+//             Curr_Schedule_ID = SCHEDULE_START_ID;
+//             // Reset our commands to NON_COMMANDs
+//             //      (will be ignored by the slaves)
+//             clear_cmds();
+//             // Start transmitting headers
+//             Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
             // Begin updating the commands, which will
             //      be sent in the background
-            update_cmds();
+            PORTB |= (1<<PINB6);
+            test_counter++;
+            if (4 < test_counter) {test_counter = 0;};
+            update_cmds((rect_vect_t){.x = 1, .y = 2});
+            PORTB &= ~(1<<PINB6);
             // *Note: While we are sending, we will
             //      check to see if the slaves have
             //      obeyed whenever we receive a
             //      new status.
             #endif
+
+            break;
 
         default:
             break;
