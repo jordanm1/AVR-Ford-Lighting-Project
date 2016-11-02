@@ -50,6 +50,7 @@ C_SRCS +=  \
 ../master_service.c \
 ../MS_LIN_top_layer.c \
 ../PWM.c \
+../slave_parameters.c \
 ../slave_service.c \
 ../timer.c \
 ../__template.c
@@ -75,6 +76,7 @@ main.o \
 master_service.o \
 MS_LIN_top_layer.o \
 PWM.o \
+slave_parameters.o \
 slave_service.o \
 timer.o \
 __template.o
@@ -93,6 +95,7 @@ main.o \
 master_service.o \
 MS_LIN_top_layer.o \
 PWM.o \
+slave_parameters.o \
 slave_service.o \
 timer.o \
 __template.o
@@ -111,6 +114,7 @@ main.d \
 master_service.d \
 MS_LIN_top_layer.d \
 PWM.d \
+slave_parameters.d \
 slave_service.d \
 timer.d \
 __template.d
@@ -129,6 +133,7 @@ main.d \
 master_service.d \
 MS_LIN_top_layer.d \
 PWM.d \
+slave_parameters.d \
 slave_service.d \
 timer.d \
 __template.d
@@ -147,6 +152,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

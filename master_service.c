@@ -97,12 +97,13 @@ static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
 static uint8_t test_counter = 0;
 static uint8_t position_counter = 1;
 static uint8_t parity = 0;
-#define NUM_TEST_POSITIONS          4
+#define NUM_TEST_POSITIONS          5
 static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
+                                                        {.x = 5, .y = -4},
+                                                        {.x = 5, .y = -2},
                                                         {.x = 5, .y = 0},
-                                                        {.x = 0, .y = 5},
-                                                        {.x = -5, .y = 0},
-                                                        {.x = 0, .y = -5},
+                                                        {.x = 5, .y = 2},
+                                                        {.x = 5, .y = 4},
                                                         };
 
 // #############################################################################
@@ -152,7 +153,7 @@ void Init_Master_Service(void)
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
-    Start_Timer(&Testing_Timer, 2000);
+    Start_Timer(&Testing_Timer, 5000);
     PORTB &= ~(1<<PINB6);
     DDRB |= (1<<PINB6);
 }
@@ -235,7 +236,7 @@ void Run_Master_Service(uint32_t event_mask)
 //             {
 //                 PORTB &= ~(1<<PINB6);
 //             }
-            Start_Timer(&Testing_Timer, 2000);
+            Start_Timer(&Testing_Timer, 5000);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;

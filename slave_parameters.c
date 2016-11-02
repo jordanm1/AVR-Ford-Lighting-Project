@@ -54,15 +54,15 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] =  {
     .rect_position.x =  1,
     .rect_position.y =  0,
 
-    .fov =              10,
+    .fov =              30,
 
     .move_equipped =    true,
 
-    .theta_min =        0,
-    .position_min =     0,
+    .theta_min =        45,
+    .position_min =     2,
 
-    .theta_max =        180,
-    .position_max =     10
+    .theta_max =        135,
+    .position_max =     8
 },
 #endif
 

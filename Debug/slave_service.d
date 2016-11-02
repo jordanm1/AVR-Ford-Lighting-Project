@@ -15,7 +15,9 @@ slave_service.d slave_service.o: .././slave_service.c \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
  .././analog_servo_drv.h .././master_service.h .././slave_service.h \
- .././MS_LIN_top_layer.h .././light_drv.h
+ .././MS_LIN_top_layer.h .././slave_parameters.h .././light_drv.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\atomic.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -67,4 +69,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././MS_LIN_top_layer.h:
 
+.././slave_parameters.h:
+
 .././light_drv.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\atomic.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:

@@ -28,6 +28,8 @@ MS_LIN_top_layer.c
 
 PWM.c
 
+slave_parameters.c
+
 slave_service.c
 
 timer.c
