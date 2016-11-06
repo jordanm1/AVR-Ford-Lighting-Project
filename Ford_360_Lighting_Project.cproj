@@ -146,9 +146,6 @@
     <Compile Include="CAN.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="CFile1.c">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
@@ -191,6 +188,9 @@
     <Compile Include="master_service.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCP25625_defs.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MS_LIN_top_layer.c">
       <SubType>compile</SubType>
     </Compile>
@@ -213,6 +213,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="SPI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_service.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_service.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="timer.c">

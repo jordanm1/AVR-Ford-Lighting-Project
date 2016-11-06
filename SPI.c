@@ -50,15 +50,17 @@
 // ------------ MODULE VARIABLES
 // #############################################################################
 
-static uint8_t * p_My_SPI_Data;             // Pointer to this node's SPI Data address
 static uint8_t Master_Slave_Identifier = 0; // Slave or master?
-static uint8_t data_index = 0;              // Count at which byte of transmission
-static uint8_t Expected_Data_Length = 0;    // Set as Max Expected number of bytes (transmit or receive)
-/*
-static bool In_Tx = true;                   // Indicates currently transmitting     
-static bool Expecting_Response = true;      // Indicates that a response from slave is expected        
-*/      
+static uint8_t RX_Index = 0;				// Count RX_Bytes
+static uint8_t TX_Index = 0;				// Count TX_Bytes
+static uint8_t Expected_TX_Length = 0;	    // Set as Max TX Bytes
+static uint8_t Expected_RX_Length = 0;	    // Set as Max RX Bytes
 
+static uint8_t SPI_TX_Buffer[12] = {0};		// [0]: TX Msg Length, [1]: RX Msg Length
+											// [2]-[11]: Data Bytes		
+static uint8_t SPI_RX_Buffer[10] = {0};		// [0]-[9]: Data Bytes 		
+
+static bool In_Tx = false;					// This flag decides which buffer to fill
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
@@ -75,21 +77,17 @@ static bool Expecting_Response = true;      // Indicates that a response from sl
 
     Parameters
         uint8_t * p_this_node_id
-        uint8_t * p_spi_data
 
     Description
         Initializes the SPI module as a master/slave and sets SPI TX/RX buffer
         address
 
 ****************************************************************************/
-void MS_SPI_Initialize(uint8_t * p_this_node_id, uint8_t * p_spi_data)
+void MS_SPI_Initialize(uint8_t * p_this_node_id)
 {
     // Identify node type
     Master_Slave_Identifier = *p_this_node_id;
     
-    // Point to actual data source 
-    p_My_SPI_Data = p_spi_data;
-
     if (SPI_MASTER == Master_Slave_Identifier)
     {
         // SPI Data Direction Register (DDR_SPI) = DDRA
@@ -103,8 +101,9 @@ void MS_SPI_Initialize(uint8_t * p_this_node_id, uint8_t * p_spi_data)
         // Raise SS from master at Init
         PORTA |= (1<<SS);
 
-        // Reset data index
-        data_index = 0;
+        // Reset indices index
+        TX_Index = 0;
+		RX_Index = 0;
     }
     else
     {
@@ -118,35 +117,123 @@ void MS_SPI_Initialize(uint8_t * p_this_node_id, uint8_t * p_spi_data)
         // occur.
         SPCR = (1<<SPIE)|(1<<SPE);
 
-        // Reset data index
-        data_index = 0;
+        // Reset indices index
+        TX_Index = 0;
+        RX_Index = 0;
     }
 }
+
+/****************************************************************************
+    Public Function
+        SPI_Start_Command
+
+    Parameters
+
+    Description
+        Resets SPI parameters before beginning a command
+
+****************************************************************************/
+
+void SPI_Start_Command (void)
+{
+	Expected_TX_Length = *(SPI_TX_Buffer + TX_LNTH_INDX);
+	Expected_RX_Length = *(SPI_TX_Buffer + RX_LNTH_INDX);
+	
+	// Set RX data index
+	RX_Index = 0
+	
+    // Set TX data index
+    TX_Index = 0
+	
+	// State in TX
+	In_Tx = true;
+
+    // Set slave select low to indicate start of transmission
+    PORTA &= ~(1<<SS);
+}
+
+/****************************************************************************
+    Public Function
+        SPI_End_Command
+
+    Parameters
+
+    Description
+        Ends SPI Transmission by setting SS high
+
+****************************************************************************/
+
+void SPI_End_Command (void)
+{
+    // Set slave select high to indicate end of transmission
+    PORTA |= (1<<SS);
+}
+
 
 /****************************************************************************
     Public Function
         SPI_Transmit
 
     Parameters
-        Max_Data_Length_Expected
 
     Description
         Transmits the TX Data array bytes through SPI
 
 ****************************************************************************/
 
-void SPI_Transmit(uint8_t Max_Data_Length_Expected)
+void SPI_Transmit (void)
 {
-    // Reset data index
-    data_index = 0;
+    // Send byte out
+    SPDR = *(SPI_TX_Buffer + TX_Index);
+	
+	if (In_Tx)
+	{
+		// Increment Transmit Index
+		TX_Index++;		
+	}
+	else
+	{
+		// Increment Receive Index
+		RX_Index++;
+		// Increment Transmit Index
+		TX_Index++;
+	}
+}
 
-    Expected_Data_Length = Max_Data_Length_Expected;
+/****************************************************************************
+    Public Function
+        Get_SPI_TX_Buffer
 
-    // Set slave select low to indicate start of transmission
-    PORTA &= ~(1<<SS);
+    Parameters
+        
 
-    // Send first byte out
-    SPDR = *(p_My_SPI_Data + data_index);
+    Description
+        Returns SPI TX Buffer address
+		
+****************************************************************************/
+
+uint8_t* Get_SPI_TX_Buffer(void)
+{
+	// Return start address
+	return &SPI_TX_Buffer[0];
+}
+
+/****************************************************************************
+    Public Function
+        Get_SPI_RX_Buffer
+
+    Parameters
+        
+
+    Description
+        Returns SPI RX Buffer address
+		
+****************************************************************************/
+
+uint8_t* Get_SPI_RX_Buffer(void)
+{
+	// Return start address
+	return &SPI_RX_Buffer[0];
 }
 
 // #############################################################################
@@ -172,34 +259,47 @@ ISR(SPI_STC_vect)
     {
         // Clear the SPI Interrupt Flag (is done by reading the SPSR Register)
         uint8_t SPSR_Status = SPSR;
-
-        // Read and set RX_Data
-        *(p_My_SPI_Data + data_index) = SPDR;
-
-        // Increment data index
-        data_index++;
-
-        // If all data has been sent
-        if (data_index == Expected_Data_Length)
-        {
-            // Reset Data index counter
-            data_index = 0;
-
-            // End transmission by pulling SS high
-            PORTA |= (1<<SS);
-        }
-        else
-        {
-            // Send consecutive bytes out
-            SPDR = *(p_My_SPI_Data + data_index);
-        }
+		
+		// Once a transmit has been completed
+		if (In_Tx)
+		{
+			if (TX_Index < Expected_TX_Length)
+			{
+				Post_Event(EVT_SEND_BYTE);
+			}
+			else if (TX_Index == Expected_TX_Length)
+			{
+				Post_Event(EVT_SEND_BYTE);'
+			}
+			else
+			{
+				In_Tx = false;
+			}
+		}
+		
+		if (!In_Tx)
+		{
+			*(SPI_RX_Buffer + RX_Index) = SPDR;
+			RX_Index++;
+			
+			if (RX_Index < Expected_RX_Length)
+			{
+				Post_Event(EVT_RECV_BYTE);
+			}
+			else if (RX_Index == Expected_RX_Length)
+			{
+				Post_Event(EVT_END_TRANS);
+			}
+			else
+			{
+				// Do Nothing. Should never get here.
+			}		
+		}
     }
-    else
-    {
-        // Needs to be discussed
-
-        // Currently not being used, will worry about later        
-    }
+	else
+	{
+		// Not configured to be slave
+	}
 }
 
 // #############################################################################

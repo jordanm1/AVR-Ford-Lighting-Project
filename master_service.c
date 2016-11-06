@@ -119,7 +119,7 @@ void Init_Master_Service(void)
     // TODO:
 
     // Initialize SPI
-    MS_SPI_Initialize(&My_Node_ID, &My_SPI_Data[0]);
+    MS_SPI_Initialize(&My_Node_ID);
 
     // Initialize CAN
     // void MS_CAN_Initialize(&My_SPI_Data[0]);

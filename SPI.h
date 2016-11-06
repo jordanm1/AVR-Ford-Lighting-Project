@@ -22,7 +22,11 @@
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-void MS_SPI_Initialize(uint8_t * p_this_node_id, uint8_t * p_spi_data);
-void SPI_Transmit(uint8_t Max_Data_Length_Expected);
+void MS_SPI_Initialize(uint8_t * p_this_node_id);
+void SPI_Transmit(void);
+uint8_t* Get_SPI_TX_Buffer(void);
+uint8_t* Get_SPI_RX_Buffer(void);
+void SPI_Start_Command (void);
+void SPI_End_Command (void);
 
 #endif // SPI_H

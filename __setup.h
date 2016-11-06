@@ -19,11 +19,13 @@
 
 #include "slave_service.h"
 
+#include "SPI_service.h"
+
 // #############################################################################
 // ------------ INITIALIZATIONS (must be functions of type "void f(void)")
 // #############################################################################
 
-#define NUM_INITIALIZERS            6
+#define NUM_INITIALIZERS            7
 
 #define INITIALIZER_00              Init_Timer_Module
 
@@ -35,10 +37,12 @@
 
 #define INITIALIZER_04              Init_ADC_Module
 
+#define INITIALIZER_05				Init_SPI_Service
+
 #if (MASTER == THIS_NODE_TYPE)
-#define INITIALIZER_05              Init_Master_Service
+#define INITIALIZER_06              Init_Master_Service
 #else
-#define INITIALIZER_05              Init_Slave_Service
+#define INITIALIZER_06              Init_Slave_Service
 #endif
 
 // #############################################################################
@@ -58,7 +62,7 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                  6
+#define NUM_EVENTS                  9
 
 #define EVT_SLAVE_GET_ID            (0x01<<0)       // This will result in blocking
                                                     //  code to get the slave ID
@@ -73,6 +77,10 @@
 #define EVT_MASTER_OTHER            (0x01<<5)
 
 #define EVT_TEST_TIMEOUT            (0x01<<6)
+
+#define EVT_SEND_BYTE				(0x01<<7)
+#define EVT_RECV_BYTE				(0x01<<8)
+#define EVT_END_TRANS				(0x01<<9)
 
 // #############################################################################
 // ------------ END OF FILE
