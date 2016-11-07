@@ -21,6 +21,8 @@
 
 #include "slave_service.h"
 
+#include "SPI_Service.h"
+
 // #############################################################################
 // ------------ INITIALIZATIONS (must be functions of type "void f(void)")
 // #############################################################################
@@ -37,10 +39,12 @@
 
 #define INITIALIZER_05              Init_Analog_Servo_Driver
 
+#define INITIALIZER_06              Init_SPI_Service
+
 #if IS_MASTER_NODE
-    #define INITIALIZER_06          Init_Master_Service
+    #define INITIALIZER_07          Init_Master_Service
 #else
-    #define INITIALIZER_06          Init_Slave_Service
+    #define INITIALIZER_07          Init_Slave_Service
 #endif
 
 // #############################################################################
@@ -58,7 +62,7 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                  7
+#define NUM_EVENTS                  11
 
 #define NON_EVENT                   (0x00)
 
@@ -75,6 +79,12 @@
 #define EVT_MASTER_OTHER            (0x01<<5)
 
 #define EVT_TEST_TIMEOUT            (0x01<<6)
+
+#define EVT_SPI_START               (0x01<<7)
+#define EVT_SPI_SEND_BYTE           (0x01<<8)
+#define EVT_SPI_RECV_BYTE           (0x01<<9)
+#define EVT_SPI_END                 (0x01<<10)
+
 
 // #############################################################################
 // ------------ END OF FILE

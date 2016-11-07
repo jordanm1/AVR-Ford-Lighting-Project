@@ -32,6 +32,10 @@ slave_parameters.c
 
 slave_service.c
 
+SPI.c
+
+SPI_Service.c
+
 timer.c
 
 __template.c

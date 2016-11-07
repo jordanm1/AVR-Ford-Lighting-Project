@@ -224,6 +224,18 @@
     <Compile Include="slave_service.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="SPI.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_Service.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_Service.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="timer.c">
       <SubType>compile</SubType>
     </Compile>
