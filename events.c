@@ -46,7 +46,7 @@ static uint32_t Pending_Events = 0;     // Each bit corresponds to type of event
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
-// Event Handler
+static void check_and_process_event(uint32_t event_mask);
 static bool is_event_pending(uint32_t event_mask);
 
 // #############################################################################
@@ -87,19 +87,129 @@ void Run_Events(void)
     while (1)
     {
         // Loop through all events
-        for (int event = 0; event < NUM_EVENTS; event++)
-        {
-            if (is_event_pending((0x01 << event)))
-            {
-                Run_Services((0x01 << event));
-            }
-        }
+        #if (1 <= NUM_EVENTS)
+        check_and_process_event(EVENT_01);
+        #endif
+        #if (2 <= NUM_EVENTS)
+        check_and_process_event(EVENT_02);
+        #endif
+        #if (3 <= NUM_EVENTS)
+        check_and_process_event(EVENT_03);
+        #endif
+        #if (4 <= NUM_EVENTS)
+        check_and_process_event(EVENT_04);
+        #endif
+        #if (5 <= NUM_EVENTS)
+        check_and_process_event(EVENT_05);
+        #endif
+        #if (6 <= NUM_EVENTS)
+        check_and_process_event(EVENT_06);
+        #endif
+        #if (7 <= NUM_EVENTS)
+        check_and_process_event(EVENT_07);
+        #endif
+        #if (8 <= NUM_EVENTS)
+        check_and_process_event(EVENT_08);
+        #endif
+        #if (9 <= NUM_EVENTS)
+        check_and_process_event(EVENT_09);
+        #endif
+        #if (10 <= NUM_EVENTS)
+        check_and_process_event(EVENT_10);
+        #endif
+        #if (11 <= NUM_EVENTS)
+        check_and_process_event(EVENT_11);
+        #endif
+        #if (12 <= NUM_EVENTS)
+        check_and_process_event(EVENT_12);
+        #endif
+        #if (13 <= NUM_EVENTS)
+        check_and_process_event(EVENT_13);
+        #endif
+        #if (14 <= NUM_EVENTS)
+        check_and_process_event(EVENT_14);
+        #endif
+        #if (15 <= NUM_EVENTS)
+        check_and_process_event(EVENT_15);
+        #endif
+        #if (16 <= NUM_EVENTS)
+        check_and_process_event(EVENT_16);
+        #endif
+        #if (17 <= NUM_EVENTS)
+        check_and_process_event(EVENT_17);
+        #endif
+        #if (18 <= NUM_EVENTS)
+        check_and_process_event(EVENT_18);
+        #endif
+        #if (19 <= NUM_EVENTS)
+        check_and_process_event(EVENT_19);
+        #endif
+        #if (20 <= NUM_EVENTS)
+        check_and_process_event(EVENT_20);
+        #endif
+        #if (21 <= NUM_EVENTS)
+        check_and_process_event(EVENT_21);
+        #endif
+        #if (22 <= NUM_EVENTS)
+        check_and_process_event(EVENT_22);
+        #endif
+        #if (23 <= NUM_EVENTS)
+        check_and_process_event(EVENT_23);
+        #endif
+        #if (24 <= NUM_EVENTS)
+        check_and_process_event(EVENT_24);
+        #endif
+        #if (25 <= NUM_EVENTS)
+        check_and_process_event(EVENT_25);
+        #endif
+        #if (26 <= NUM_EVENTS)
+        check_and_process_event(EVENT_26);
+        #endif
+        #if (27 <= NUM_EVENTS)
+        check_and_process_event(EVENT_27);
+        #endif
+        #if (28 <= NUM_EVENTS)
+        check_and_process_event(EVENT_28);
+        #endif
+        #if (29 <= NUM_EVENTS)
+        check_and_process_event(EVENT_29);
+        #endif
+        #if (30 <= NUM_EVENTS)
+        check_and_process_event(EVENT_30);
+        #endif
+        #if (31 <= NUM_EVENTS)
+        check_and_process_event(EVENT_31);
+        #endif
+        #if (32 <= NUM_EVENTS)
+        check_and_process_event(EVENT_32);
+        #endif
     }
 }
 
 // #############################################################################
 // ------------ PRIVATE FUNCTIONS
 // #############################################################################
+
+/****************************************************************************
+    Private Function
+        check_and_process_event()
+
+    Parameters
+        Event Mask
+
+    Description
+        Checks if an particular event is pending and if so, clears it, then
+            calls the run functions to process the event
+
+****************************************************************************/
+static void check_and_process_event(uint32_t event_mask)
+{
+    // If event is pending
+    if (is_event_pending(event_mask))
+    {
+        Run_Services(event_mask);
+    }
+}
 
 /****************************************************************************
     Private Function

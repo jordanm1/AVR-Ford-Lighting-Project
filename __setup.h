@@ -2,6 +2,12 @@
 #define __setup_H
 
 // #############################################################################
+// ------------ EVENT NAMES
+// #############################################################################
+
+#include "events.h"
+
+// #############################################################################
 // ------------ MODULES (only those that need init or process events)
 // #############################################################################
 
@@ -60,21 +66,21 @@
 // Number of events we've defined
 #define NUM_EVENTS                  7
 
-#define NON_EVENT                   (0x00)
+#define NON_EVENT                   EVENT_NULL
 
-#define EVT_SLAVE_GET_ID            (0x01<<0)       // This will result in blocking
+#define EVT_SLAVE_GET_ID            EVENT_01        // This will result in blocking
                                                     //  code to get the slave ID
                                                     //  before continuing with
                                                     //  anything else.
                                                     // This needs to have highest priority.
-#define EVT_SLAVE_NEW_CMD           (0x01<<1)
-#define EVT_SLAVE_OTHER             (0x01<<2)
+#define EVT_SLAVE_NEW_CMD           EVENT_02
+#define EVT_SLAVE_OTHER             EVENT_03
 
-#define EVT_MASTER_SCH_TIMEOUT      (0x01<<3)
-#define EVT_MASTER_NEW_STS          (0x01<<4)
-#define EVT_MASTER_OTHER            (0x01<<5)
+#define EVT_MASTER_SCH_TIMEOUT      EVENT_04
+#define EVT_MASTER_NEW_STS          EVENT_05
+#define EVT_MASTER_OTHER            EVENT_06
 
-#define EVT_TEST_TIMEOUT            (0x01<<6)
+#define EVT_TEST_TIMEOUT            EVENT_07
 
 // #############################################################################
 // ------------ END OF FILE
