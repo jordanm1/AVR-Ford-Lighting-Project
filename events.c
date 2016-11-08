@@ -46,7 +46,7 @@ static uint32_t Pending_Events = 0;     // Each bit corresponds to type of event
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
-static void check_and_process_event(uint32_t event_mask);
+static void process_event_if_pending(uint32_t event_mask);
 static bool is_event_pending(uint32_t event_mask);
 
 // #############################################################################
@@ -88,100 +88,100 @@ void Run_Events(void)
     {
         // Loop through all events
         #if (1 <= NUM_EVENTS)
-        check_and_process_event(EVENT_01);
+        process_event_if_pending(EVENT_01);
         #endif
         #if (2 <= NUM_EVENTS)
-        check_and_process_event(EVENT_02);
+        process_event_if_pending(EVENT_02);
         #endif
         #if (3 <= NUM_EVENTS)
-        check_and_process_event(EVENT_03);
+        process_event_if_pending(EVENT_03);
         #endif
         #if (4 <= NUM_EVENTS)
-        check_and_process_event(EVENT_04);
+        process_event_if_pending(EVENT_04);
         #endif
         #if (5 <= NUM_EVENTS)
-        check_and_process_event(EVENT_05);
+        process_event_if_pending(EVENT_05);
         #endif
         #if (6 <= NUM_EVENTS)
-        check_and_process_event(EVENT_06);
+        process_event_if_pending(EVENT_06);
         #endif
         #if (7 <= NUM_EVENTS)
-        check_and_process_event(EVENT_07);
+        process_event_if_pending(EVENT_07);
         #endif
         #if (8 <= NUM_EVENTS)
-        check_and_process_event(EVENT_08);
+        process_event_if_pending(EVENT_08);
         #endif
         #if (9 <= NUM_EVENTS)
-        check_and_process_event(EVENT_09);
+        process_event_if_pending(EVENT_09);
         #endif
         #if (10 <= NUM_EVENTS)
-        check_and_process_event(EVENT_10);
+        process_event_if_pending(EVENT_10);
         #endif
         #if (11 <= NUM_EVENTS)
-        check_and_process_event(EVENT_11);
+        process_event_if_pending(EVENT_11);
         #endif
         #if (12 <= NUM_EVENTS)
-        check_and_process_event(EVENT_12);
+        process_event_if_pending(EVENT_12);
         #endif
         #if (13 <= NUM_EVENTS)
-        check_and_process_event(EVENT_13);
+        process_event_if_pending(EVENT_13);
         #endif
         #if (14 <= NUM_EVENTS)
-        check_and_process_event(EVENT_14);
+        process_event_if_pending(EVENT_14);
         #endif
         #if (15 <= NUM_EVENTS)
-        check_and_process_event(EVENT_15);
+        process_event_if_pending(EVENT_15);
         #endif
         #if (16 <= NUM_EVENTS)
-        check_and_process_event(EVENT_16);
+        process_event_if_pending(EVENT_16);
         #endif
         #if (17 <= NUM_EVENTS)
-        check_and_process_event(EVENT_17);
+        process_event_if_pending(EVENT_17);
         #endif
         #if (18 <= NUM_EVENTS)
-        check_and_process_event(EVENT_18);
+        process_event_if_pending(EVENT_18);
         #endif
         #if (19 <= NUM_EVENTS)
-        check_and_process_event(EVENT_19);
+        process_event_if_pending(EVENT_19);
         #endif
         #if (20 <= NUM_EVENTS)
-        check_and_process_event(EVENT_20);
+        process_event_if_pending(EVENT_20);
         #endif
         #if (21 <= NUM_EVENTS)
-        check_and_process_event(EVENT_21);
+        process_event_if_pending(EVENT_21);
         #endif
         #if (22 <= NUM_EVENTS)
-        check_and_process_event(EVENT_22);
+        process_event_if_pending(EVENT_22);
         #endif
         #if (23 <= NUM_EVENTS)
-        check_and_process_event(EVENT_23);
+        process_event_if_pending(EVENT_23);
         #endif
         #if (24 <= NUM_EVENTS)
-        check_and_process_event(EVENT_24);
+        process_event_if_pending(EVENT_24);
         #endif
         #if (25 <= NUM_EVENTS)
-        check_and_process_event(EVENT_25);
+        process_event_if_pending(EVENT_25);
         #endif
         #if (26 <= NUM_EVENTS)
-        check_and_process_event(EVENT_26);
+        process_event_if_pending(EVENT_26);
         #endif
         #if (27 <= NUM_EVENTS)
-        check_and_process_event(EVENT_27);
+        process_event_if_pending(EVENT_27);
         #endif
         #if (28 <= NUM_EVENTS)
-        check_and_process_event(EVENT_28);
+        process_event_if_pending(EVENT_28);
         #endif
         #if (29 <= NUM_EVENTS)
-        check_and_process_event(EVENT_29);
+        process_event_if_pending(EVENT_29);
         #endif
         #if (30 <= NUM_EVENTS)
-        check_and_process_event(EVENT_30);
+        process_event_if_pending(EVENT_30);
         #endif
         #if (31 <= NUM_EVENTS)
-        check_and_process_event(EVENT_31);
+        process_event_if_pending(EVENT_31);
         #endif
         #if (32 <= NUM_EVENTS)
-        check_and_process_event(EVENT_32);
+        process_event_if_pending(EVENT_32);
         #endif
     }
 }
@@ -192,7 +192,7 @@ void Run_Events(void)
 
 /****************************************************************************
     Private Function
-        check_and_process_event()
+        process_event_if_pending()
 
     Parameters
         Event Mask
@@ -202,11 +202,12 @@ void Run_Events(void)
             calls the run functions to process the event
 
 ****************************************************************************/
-static void check_and_process_event(uint32_t event_mask)
+static void process_event_if_pending(uint32_t event_mask)
 {
     // If event is pending
     if (is_event_pending(event_mask))
     {
+        // Run the services with this event
         Run_Services(event_mask);
     }
 }
