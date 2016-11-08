@@ -73,7 +73,26 @@
 void Set_Light_Intensity(uint8_t requested_intensity)
 {
     // Set intensity via PWM
-    Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, requested_intensity);
+    // If intensity if light off, set 0% duty cycle
+    if (LIGHT_OFF == requested_intensity)
+    {
+        Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, LIGHT_OFF);
+    }
+    // If intensity is non-zero and less than minimum, set minimum duty cycle
+    else if (LIGHT_OFF < requested_intensity) && (MIN_LIGHT_INTENSITY > requested_intensity)
+    {
+        Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, MIN_LIGHT_INTENSITY);
+    }
+    // If intensity is greater maximum, set maximum duty cycle
+    else if (MAX_LIGHT_INTENSITY < requested_intensity)
+    {
+        Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, MAX_LIGHT_INTENSITY);
+    }
+    // Otherwise, use the actual intensity parameter as duty cycle
+    else
+    {
+        Set_PWM_Duty_Cycle(LED_PWM_CHANNEL, requested_intensity);
+    }
 }
 
 // #############################################################################
