@@ -149,13 +149,14 @@ void Init_Master_Service(void)
     Register_Timer(&Scheduling_Timer, ID_schedule_handler);
 
     // Kick off scheduling timer
-    Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
+/*    Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);*/
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
     Start_Timer(&Testing_Timer, 5000);
     PORTB &= ~(1<<PINB6);
     DDRB |= (1<<PINB6);
+    //Set_PWM_Duty_Cycle(pwm_channel_a, 10);
 }
 
 /****************************************************************************
@@ -218,25 +219,24 @@ void Run_Master_Service(uint32_t event_mask)
                 //My_Command_Data[temp_index+1] = 0xFF;
             //}
 //
-            //// TEST PWM
-            //Set_PWM_Duty_Cycle(pwm_channel_b, test_counter);
-            //test_counter++;
-            //if (100 < test_counter) {test_counter = 0;};
+            // TEST PWM
+            Set_PWM_Duty_Cycle(pwm_channel_a, test_counter);
+            test_counter++;
+            if (100 < test_counter) {test_counter = 0;};
             //Start_Timer(&Testing_Timer, 500);
 
-            // Not yet
             // Hold_Analog_Servo_Position(10);
             #if 1
-//             parity ^= 1;
-//             if (parity)
-//             {
-//                 PORTB |= (1<<PINB6);
-//             }
-//             else
-//             {
-//                 PORTB &= ~(1<<PINB6);
-//             }
-            Start_Timer(&Testing_Timer, 5000);
+            parity ^= 1;
+            if (parity)
+            {
+                PORTB |= (1<<PINB6);
+            }
+            else
+            {
+                PORTB &= ~(1<<PINB6);
+            }
+            Start_Timer(&Testing_Timer, 50);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -247,11 +247,11 @@ void Run_Master_Service(uint32_t event_mask)
 //             Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
             // Begin updating the commands, which will
             //      be sent in the background
-            PORTB |= (1<<PINB6);
-            update_cmds(test_positions[test_counter]);
-            test_counter++;
-            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
-            PORTB &= ~(1<<PINB6);
+//             PORTB |= (1<<PINB6);
+//             update_cmds(test_positions[test_counter]);
+//             test_counter++;
+//             if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
+//             PORTB &= ~(1<<PINB6);
             // *Note: While we are sending, we will
             //      check to see if the slaves have
             //      obeyed whenever we receive a
