@@ -100,6 +100,7 @@ void MS_SPI_Initialize(uint8_t * p_this_node_id)
         // SPI Data Direction Register (DDR_SPI) = DDRA
         // Set MOSI, SS and SCK output, all others input
         DDR_SPI |= (1<<MOSI)|(1<<SCK)|(1<<SS);
+		//DDR_SPI &= ~(1<<SS);
 
         // Enable interrupt on transmission complete, enable SPI and set as master,
         // set clock rate io_clk/4, MSB transmitted first, Sample on rising edge 
@@ -197,7 +198,7 @@ void SPI_End_Command (void)
 void SPI_Transmit (void)
 {
     // Send byte out
-    SPDR = Command_Buffer[Buffer_Index][TX_Index];
+    SPDR = Command_Buffer[Buffer_Index][TX_Index + LENGTH_BYTES];
 	
 	if (In_Tx)
 	{
@@ -206,8 +207,10 @@ void SPI_Transmit (void)
 	}
 	else
 	{
+		/*
 		// Increment Receive Index
 		RX_Index++;
+		*/
 		// Increment Transmit Index
 		TX_Index++;
 	}

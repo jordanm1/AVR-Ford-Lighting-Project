@@ -46,6 +46,9 @@
 // Slave Parameters
 #include "slave_parameters.h"
 
+// SPI 
+#include "SPI.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -105,6 +108,12 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
                                                         {.x = 5, .y = 2},
                                                         {.x = 5, .y = 4},
                                                         };
+														
+// SPI Test									
+static uint8_t SPI_TX[3] = {0x0A, 0x02, 0x07};
+static uint8_t Recv1 = 0;
+static uint8_t Recv2 = 0;
+uint8_t* RecvList[2];
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -143,6 +152,9 @@ void Init_Master_Service(void)
 
     // Initialize LIN
     MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
+	
+	// Initialize SPI
+	MS_SPI_Initialize(&My_Node_ID);
 
     // Register scheduling timer with ID_schedule_handler as 
     //      callback function
@@ -153,7 +165,7 @@ void Init_Master_Service(void)
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
-    Start_Timer(&Testing_Timer, 5000);
+    Start_Timer(&Testing_Timer, 500);
     PORTB &= ~(1<<PINB6);
     DDRB |= (1<<PINB6);
 }
@@ -190,13 +202,22 @@ void Run_Master_Service(uint32_t event_mask)
             #endif
 
             break;
-
+		
         case EVT_MASTER_OTHER:
             // Just an example.
             // Do nothing.
             break;
 
         case EVT_TEST_TIMEOUT:
+			//RecvList[0] = &Recv1;
+			//RecvList[1] = &Recv2;
+			// SPI Test
+			
+			//Write_SPI(3, 2, SPI_TX, &RecvList[0]);
+			SPI_Transmit();
+			Start_Timer(&Testing_Timer, 500);
+		
+		
             // Just a test
 
             //// TEST SERVO
@@ -226,17 +247,17 @@ void Run_Master_Service(uint32_t event_mask)
 
             // Not yet
             // Hold_Analog_Servo_Position(10);
-            #if 1
-//             parity ^= 1;
-//             if (parity)
-//             {
-//                 PORTB |= (1<<PINB6);
-//             }
-//             else
-//             {
-//                 PORTB &= ~(1<<PINB6);
-//             }
-            Start_Timer(&Testing_Timer, 5000);
+            #if 0
+            parity ^= 1;
+            if (parity)
+            {
+                PORTB |= (1<<PINB6);
+            }
+            else
+            {
+                PORTB &= ~(1<<PINB6);
+            }
+            Start_Timer(&Testing_Timer, 500);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -247,11 +268,11 @@ void Run_Master_Service(uint32_t event_mask)
 //             Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
             // Begin updating the commands, which will
             //      be sent in the background
-            PORTB |= (1<<PINB6);
-            update_cmds(test_positions[test_counter]);
-            test_counter++;
-            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
-            PORTB &= ~(1<<PINB6);
+//             PORTB |= (1<<PINB6);
+//             update_cmds(test_positions[test_counter]);
+//             test_counter++;
+//             if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
+//             PORTB &= ~(1<<PINB6);
             // *Note: While we are sending, we will
             //      check to see if the slaves have
             //      obeyed whenever we receive a

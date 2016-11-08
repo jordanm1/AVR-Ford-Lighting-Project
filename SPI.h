@@ -33,6 +33,6 @@ void MS_SPI_Initialize(uint8_t * p_this_node_id);
 void SPI_Transmit(void);
 void SPI_Start_Command (void);
 void SPI_End_Command (void);
-void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8_t ** Data2Receive);
+void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8_t * * Data2Receive);
 
 #endif // SPI_H

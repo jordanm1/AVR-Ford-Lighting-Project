@@ -10,7 +10,7 @@
 // ------------ TYPE DEFINITIONS
 // #############################################################################
 
-typedef enum {SENDING_STATE, RECEIVING_STATE, NORMAL_STATE} SPI_State_t;
+typedef enum {NORMAL_STATE, SENDING_STATE, RECEIVING_STATE} SPI_State_t;
 
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES

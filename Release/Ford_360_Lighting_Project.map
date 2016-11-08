@@ -1,0 +1,1967 @@
+Archive member included to satisfy reference by file (symbol)
+
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
+                              light_setting_alg.o (__subsf3)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o) (__addsf3x)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o)
+                              light_setting_alg.o (__ltsf2)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fixunssfsi.o)
+                              light_setting_alg.o (__fixunssfsi)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(floatsisf.o)
+                              light_setting_alg.o (__floatunsisf)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_cmp.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o) (__fp_cmp)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_inf.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o) (__fp_inf)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_nan.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o) (__fp_nan)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscA.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o) (__fp_pscA)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscB.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o) (__fp_pscB)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_round.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o) (__fp_round)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_split3.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o) (__fp_split3)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_zero.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o) (__fp_zero)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(gesf2.o)
+                              light_setting_alg.o (__gtsf2)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o)
+                              light_setting_alg.o (__mulsf3)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3x.o)
+                              c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o) (__mulsf3x)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+                              light_setting_alg.o (__mulhi3)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+                              light_setting_alg.o (__udivmodhi4)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+                              timer.o (__udivmodsi4)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+                              C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o (exit)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+                              ADC.o (__do_copy_data)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+                              analog_servo_drv.o (__do_clear_bss)
+c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memset.o)
+                              master_service.o (memset)
+
+Allocating common symbols
+Common symbol       size              file
+
+RecvList            0x4               master_service.o
+theta_light_min     0x2               light_setting_alg.o
+desired_theta       0x2               light_setting_alg.o
+light_range         0x2               light_setting_alg.o
+norm2_desired_relative
+                    0x2               light_setting_alg.o
+theta_light_max     0x2               light_setting_alg.o
+v_desired_relative  0x4               light_setting_alg.o
+result_settings     0x2               light_setting_alg.o
+
+Discarded input sections
+
+ .data          0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ .bss           0x00000000        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .group         0x00000000        0x8 ADC.o
+ .text          0x00000000        0x0 ADC.o
+ .data          0x00000000        0x0 ADC.o
+ .bss           0x00000000        0x0 ADC.o
+ .text.Get_ADC_Result
+                0x00000000       0x16 ADC.o
+ .text.Start_ADC_Measurement
+                0x00000000       0x20 ADC.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .group         0x00000000        0x8 analog_servo_drv.o
+ .text          0x00000000        0x0 analog_servo_drv.o
+ .data          0x00000000        0x0 analog_servo_drv.o
+ .bss           0x00000000        0x0 analog_servo_drv.o
+ .text.Move_Analog_Servo_To_Position
+                0x00000000       0x3a analog_servo_drv.o
+ .text.Hold_Analog_Servo_Position
+                0x00000000       0x32 analog_servo_drv.o
+ .text.Release_Analog_Servo
+                0x00000000       0x18 analog_servo_drv.o
+ .text.Is_Servo_Position_Valid
+                0x00000000       0xac analog_servo_drv.o
+ .text.get_pulse_width
+                0x00000000       0x22 analog_servo_drv.o
+ .debug_macro   0x00000000      0xa42 analog_servo_drv.o
+ .debug_macro   0x00000000      0x1c9 analog_servo_drv.o
+ .debug_macro   0x00000000       0x22 analog_servo_drv.o
+ .debug_macro   0x00000000       0x52 analog_servo_drv.o
+ .debug_macro   0x00000000       0x10 analog_servo_drv.o
+ .debug_macro   0x00000000      0x302 analog_servo_drv.o
+ .debug_macro   0x00000000       0x9e analog_servo_drv.o
+ .debug_macro   0x00000000     0x106f analog_servo_drv.o
+ .debug_macro   0x00000000      0x101 analog_servo_drv.o
+ .debug_macro   0x00000000       0xbd analog_servo_drv.o
+ .debug_macro   0x00000000       0x34 analog_servo_drv.o
+ .debug_macro   0x00000000       0x18 analog_servo_drv.o
+ .debug_macro   0x00000000       0x34 analog_servo_drv.o
+ .debug_macro   0x00000000       0x27 analog_servo_drv.o
+ .debug_macro   0x00000000       0x22 analog_servo_drv.o
+ .debug_macro   0x00000000       0x10 analog_servo_drv.o
+ .debug_macro   0x00000000       0x10 analog_servo_drv.o
+ .debug_macro   0x00000000       0x34 analog_servo_drv.o
+ .debug_macro   0x00000000       0x8e analog_servo_drv.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .group         0x00000000        0x8 events.o
+ .text          0x00000000        0x0 events.o
+ .data          0x00000000        0x0 events.o
+ .bss           0x00000000        0x0 events.o
+ .debug_macro   0x00000000      0xa42 events.o
+ .debug_macro   0x00000000      0x1c9 events.o
+ .debug_macro   0x00000000       0x22 events.o
+ .debug_macro   0x00000000       0x52 events.o
+ .debug_macro   0x00000000       0x10 events.o
+ .debug_macro   0x00000000      0x302 events.o
+ .debug_macro   0x00000000       0x9e events.o
+ .debug_macro   0x00000000     0x106f events.o
+ .debug_macro   0x00000000      0x101 events.o
+ .debug_macro   0x00000000       0xbd events.o
+ .debug_macro   0x00000000       0x34 events.o
+ .debug_macro   0x00000000       0x18 events.o
+ .debug_macro   0x00000000       0x34 events.o
+ .debug_macro   0x00000000       0x27 events.o
+ .debug_macro   0x00000000       0x22 events.o
+ .debug_macro   0x00000000       0x10 events.o
+ .debug_macro   0x00000000       0x10 events.o
+ .debug_macro   0x00000000       0x34 events.o
+ .debug_macro   0x00000000       0x8e events.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .group         0x00000000        0x8 framework.o
+ .text          0x00000000        0x0 framework.o
+ .data          0x00000000        0x0 framework.o
+ .bss           0x00000000        0x0 framework.o
+ .debug_macro   0x00000000      0xa42 framework.o
+ .debug_macro   0x00000000      0x1c9 framework.o
+ .debug_macro   0x00000000       0x22 framework.o
+ .debug_macro   0x00000000       0x22 framework.o
+ .debug_macro   0x00000000       0x10 framework.o
+ .debug_macro   0x00000000       0x10 framework.o
+ .debug_macro   0x00000000       0x52 framework.o
+ .debug_macro   0x00000000       0x10 framework.o
+ .debug_macro   0x00000000      0x302 framework.o
+ .debug_macro   0x00000000       0x9e framework.o
+ .debug_macro   0x00000000     0x106f framework.o
+ .debug_macro   0x00000000      0x101 framework.o
+ .debug_macro   0x00000000       0xbd framework.o
+ .debug_macro   0x00000000       0x34 framework.o
+ .debug_macro   0x00000000       0x18 framework.o
+ .debug_macro   0x00000000       0x34 framework.o
+ .debug_macro   0x00000000       0x27 framework.o
+ .debug_macro   0x00000000       0x8e framework.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .group         0x00000000        0x8 IOC.o
+ .text          0x00000000        0x0 IOC.o
+ .data          0x00000000        0x0 IOC.o
+ .bss           0x00000000        0x0 IOC.o
+ .debug_macro   0x00000000      0xa42 IOC.o
+ .debug_macro   0x00000000      0x1c9 IOC.o
+ .debug_macro   0x00000000       0x22 IOC.o
+ .debug_macro   0x00000000       0x52 IOC.o
+ .debug_macro   0x00000000       0x10 IOC.o
+ .debug_macro   0x00000000      0x302 IOC.o
+ .debug_macro   0x00000000       0x9e IOC.o
+ .debug_macro   0x00000000     0x106f IOC.o
+ .debug_macro   0x00000000      0x101 IOC.o
+ .debug_macro   0x00000000       0xbd IOC.o
+ .debug_macro   0x00000000       0x34 IOC.o
+ .debug_macro   0x00000000       0x18 IOC.o
+ .debug_macro   0x00000000       0x34 IOC.o
+ .debug_macro   0x00000000       0x27 IOC.o
+ .debug_macro   0x00000000       0x22 IOC.o
+ .debug_macro   0x00000000       0x10 IOC.o
+ .debug_macro   0x00000000       0x10 IOC.o
+ .debug_macro   0x00000000       0x34 IOC.o
+ .debug_macro   0x00000000       0x8e IOC.o
+ .debug_macro   0x00000000       0x69 IOC.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .group         0x00000000        0x8 light_drv.o
+ .text          0x00000000        0x0 light_drv.o
+ .data          0x00000000        0x0 light_drv.o
+ .bss           0x00000000        0x0 light_drv.o
+ .text.Set_Light_Intensity
+                0x00000000       0x1c light_drv.o
+ .debug_info    0x00000000       0xbd light_drv.o
+ .debug_abbrev  0x00000000       0x79 light_drv.o
+ .debug_loc     0x00000000       0x48 light_drv.o
+ .debug_aranges
+                0x00000000       0x20 light_drv.o
+ .debug_ranges  0x00000000       0x10 light_drv.o
+ .debug_macro   0x00000000      0x120 light_drv.o
+ .debug_macro   0x00000000      0xa42 light_drv.o
+ .debug_macro   0x00000000      0x1c9 light_drv.o
+ .debug_macro   0x00000000       0x22 light_drv.o
+ .debug_macro   0x00000000       0x52 light_drv.o
+ .debug_macro   0x00000000       0x10 light_drv.o
+ .debug_macro   0x00000000      0x302 light_drv.o
+ .debug_macro   0x00000000       0x9e light_drv.o
+ .debug_macro   0x00000000     0x106f light_drv.o
+ .debug_macro   0x00000000      0x101 light_drv.o
+ .debug_macro   0x00000000       0xbd light_drv.o
+ .debug_macro   0x00000000       0x34 light_drv.o
+ .debug_macro   0x00000000       0x18 light_drv.o
+ .debug_macro   0x00000000       0x34 light_drv.o
+ .debug_macro   0x00000000       0x27 light_drv.o
+ .debug_macro   0x00000000       0x22 light_drv.o
+ .debug_macro   0x00000000       0x10 light_drv.o
+ .debug_macro   0x00000000       0x10 light_drv.o
+ .debug_macro   0x00000000       0x34 light_drv.o
+ .debug_macro   0x00000000       0x8e light_drv.o
+ .debug_macro   0x00000000       0x1c light_drv.o
+ .debug_line    0x00000000      0x318 light_drv.o
+ .debug_str     0x00000000     0x6721 light_drv.o
+ .comment       0x00000000       0x31 light_drv.o
+ .debug_frame   0x00000000       0x34 light_drv.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .group         0x00000000        0x8 light_setting_alg.o
+ .text          0x00000000        0x0 light_setting_alg.o
+ .data          0x00000000        0x0 light_setting_alg.o
+ .bss           0x00000000        0x0 light_setting_alg.o
+ .text.Compute_Individual_Light_Settings
+                0x00000000      0x24c light_setting_alg.o
+ .text.norm2_rect_vect
+                0x00000000       0x44 light_setting_alg.o
+ .text.compute_our_rel_angle
+                0x00000000      0x2a0 light_setting_alg.o
+ .text.interpolate_slave_position
+                0x00000000      0x282 light_setting_alg.o
+ .text.compute_cw_angular_distance
+                0x00000000       0x6a light_setting_alg.o
+ .debug_info    0x00000000      0x386 light_setting_alg.o
+ .debug_abbrev  0x00000000      0x158 light_setting_alg.o
+ .debug_loc     0x00000000      0x201 light_setting_alg.o
+ .debug_aranges
+                0x00000000       0x40 light_setting_alg.o
+ .debug_ranges  0x00000000       0x30 light_setting_alg.o
+ .debug_macro   0x00000000      0x153 light_setting_alg.o
+ .debug_macro   0x00000000      0xa42 light_setting_alg.o
+ .debug_macro   0x00000000      0x1c9 light_setting_alg.o
+ .debug_macro   0x00000000       0x22 light_setting_alg.o
+ .debug_macro   0x00000000       0x52 light_setting_alg.o
+ .debug_macro   0x00000000       0x10 light_setting_alg.o
+ .debug_macro   0x00000000      0x302 light_setting_alg.o
+ .debug_macro   0x00000000       0x9e light_setting_alg.o
+ .debug_macro   0x00000000     0x106f light_setting_alg.o
+ .debug_macro   0x00000000      0x101 light_setting_alg.o
+ .debug_macro   0x00000000       0xbd light_setting_alg.o
+ .debug_macro   0x00000000       0x34 light_setting_alg.o
+ .debug_macro   0x00000000       0x18 light_setting_alg.o
+ .debug_macro   0x00000000       0x34 light_setting_alg.o
+ .debug_macro   0x00000000       0x27 light_setting_alg.o
+ .debug_macro   0x00000000       0x22 light_setting_alg.o
+ .debug_macro   0x00000000       0x10 light_setting_alg.o
+ .debug_macro   0x00000000       0x10 light_setting_alg.o
+ .debug_macro   0x00000000       0x34 light_setting_alg.o
+ .debug_macro   0x00000000       0x8e light_setting_alg.o
+ .debug_macro   0x00000000       0x16 light_setting_alg.o
+ .debug_macro   0x00000000       0x97 light_setting_alg.o
+ .debug_macro   0x00000000       0x16 light_setting_alg.o
+ .debug_macro   0x00000000       0x1c light_setting_alg.o
+ .debug_line    0x00000000      0x552 light_setting_alg.o
+ .debug_str     0x00000000     0x6c24 light_setting_alg.o
+ .comment       0x00000000       0x31 light_setting_alg.o
+ .debug_frame   0x00000000       0xf4 light_setting_alg.o
+ COMMON         0x00000000       0x10 light_setting_alg.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .group         0x00000000        0x8 lin_drv.o
+ .text          0x00000000        0x0 lin_drv.o
+ .data          0x00000000        0x0 lin_drv.o
+ .bss           0x00000000        0x0 lin_drv.o
+ .debug_macro   0x00000000      0xa42 lin_drv.o
+ .debug_macro   0x00000000       0x52 lin_drv.o
+ .debug_macro   0x00000000       0x10 lin_drv.o
+ .debug_macro   0x00000000      0x1c9 lin_drv.o
+ .debug_macro   0x00000000       0x9e lin_drv.o
+ .debug_macro   0x00000000     0x106f lin_drv.o
+ .debug_macro   0x00000000      0x101 lin_drv.o
+ .debug_macro   0x00000000       0xbd lin_drv.o
+ .debug_macro   0x00000000       0x34 lin_drv.o
+ .debug_macro   0x00000000       0x18 lin_drv.o
+ .debug_macro   0x00000000       0x34 lin_drv.o
+ .debug_macro   0x00000000       0x22 lin_drv.o
+ .debug_macro   0x00000000       0x27 lin_drv.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 LIN_XCVR_WD_Kicker.o
+ .text          0x00000000        0x0 LIN_XCVR_WD_Kicker.o
+ .data          0x00000000        0x0 LIN_XCVR_WD_Kicker.o
+ .bss           0x00000000        0x0 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000      0xa42 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000      0x1c9 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x22 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x52 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x10 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000      0x302 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x9e LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000     0x106f LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000      0x101 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0xbd LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x34 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x18 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x34 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x27 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x22 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x10 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x10 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x34 LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x00000000       0x8e LIN_XCVR_WD_Kicker.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .group         0x00000000        0x8 main.o
+ .text          0x00000000        0x0 main.o
+ .data          0x00000000        0x0 main.o
+ .bss           0x00000000        0x0 main.o
+ .debug_macro   0x00000000      0xa42 main.o
+ .debug_macro   0x00000000      0x1c9 main.o
+ .debug_macro   0x00000000       0x22 main.o
+ .debug_macro   0x00000000       0x52 main.o
+ .debug_macro   0x00000000       0x10 main.o
+ .debug_macro   0x00000000      0x302 main.o
+ .debug_macro   0x00000000       0x9e main.o
+ .debug_macro   0x00000000     0x106f main.o
+ .debug_macro   0x00000000      0x101 main.o
+ .debug_macro   0x00000000       0xbd main.o
+ .debug_macro   0x00000000       0x34 main.o
+ .debug_macro   0x00000000       0x18 main.o
+ .debug_macro   0x00000000       0x34 main.o
+ .debug_macro   0x00000000       0x27 main.o
+ .debug_macro   0x00000000       0x22 main.o
+ .debug_macro   0x00000000       0x10 main.o
+ .debug_macro   0x00000000       0x10 main.o
+ .debug_macro   0x00000000       0x34 main.o
+ .debug_macro   0x00000000       0x8e main.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .group         0x00000000        0x8 master_service.o
+ .text          0x00000000        0x0 master_service.o
+ .data          0x00000000        0x0 master_service.o
+ .bss           0x00000000        0x0 master_service.o
+ .bss.test_counter
+                0x00000000        0x1 master_service.o
+ .data.position_counter
+                0x00000000        0x1 master_service.o
+ .bss.parity    0x00000000        0x1 master_service.o
+ .data.test_positions
+                0x00000000       0x14 master_service.o
+ .data.SPI_TX   0x00000000        0x3 master_service.o
+ .bss.Recv1     0x00000000        0x1 master_service.o
+ .bss.Recv2     0x00000000        0x1 master_service.o
+ .text.update_cmds
+                0x00000000       0x7e master_service.o
+ .text.did_single_slave_obey
+                0x00000000       0xb6 master_service.o
+ .text.did_all_slaves_obey
+                0x00000000       0x46 master_service.o
+ .text.put_LIN_to_sleep
+                0x00000000       0x16 master_service.o
+ .debug_macro   0x00000000      0xa42 master_service.o
+ .debug_macro   0x00000000      0x1c9 master_service.o
+ .debug_macro   0x00000000       0x22 master_service.o
+ .debug_macro   0x00000000       0x52 master_service.o
+ .debug_macro   0x00000000       0x10 master_service.o
+ .debug_macro   0x00000000      0x302 master_service.o
+ .debug_macro   0x00000000       0x9e master_service.o
+ .debug_macro   0x00000000     0x106f master_service.o
+ .debug_macro   0x00000000      0x101 master_service.o
+ .debug_macro   0x00000000       0xbd master_service.o
+ .debug_macro   0x00000000       0x34 master_service.o
+ .debug_macro   0x00000000       0x18 master_service.o
+ .debug_macro   0x00000000       0x34 master_service.o
+ .debug_macro   0x00000000       0x27 master_service.o
+ .debug_macro   0x00000000       0x22 master_service.o
+ .debug_macro   0x00000000       0x10 master_service.o
+ .debug_macro   0x00000000       0x10 master_service.o
+ .debug_macro   0x00000000       0x34 master_service.o
+ .debug_macro   0x00000000       0x8e master_service.o
+ .debug_macro   0x00000000       0x16 master_service.o
+ .debug_macro   0x00000000       0x97 master_service.o
+ .debug_macro   0x00000000       0x16 master_service.o
+ COMMON         0x00000000        0x4 master_service.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 MS_LIN_top_layer.o
+ .text          0x00000000        0x0 MS_LIN_top_layer.o
+ .data          0x00000000        0x0 MS_LIN_top_layer.o
+ .bss           0x00000000        0x0 MS_LIN_top_layer.o
+ .debug_macro   0x00000000      0xa42 MS_LIN_top_layer.o
+ .debug_macro   0x00000000      0x1c9 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x22 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x52 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x10 MS_LIN_top_layer.o
+ .debug_macro   0x00000000      0x302 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x9e MS_LIN_top_layer.o
+ .debug_macro   0x00000000     0x106f MS_LIN_top_layer.o
+ .debug_macro   0x00000000      0x101 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0xbd MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x34 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x18 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x34 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x27 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x22 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x10 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x10 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x34 MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x8e MS_LIN_top_layer.o
+ .debug_macro   0x00000000       0x69 MS_LIN_top_layer.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .group         0x00000000        0x8 PWM.o
+ .text          0x00000000        0x0 PWM.o
+ .data          0x00000000        0x0 PWM.o
+ .bss           0x00000000        0x0 PWM.o
+ .text.Set_PWM_Duty_Cycle
+                0x00000000       0x54 PWM.o
+ .text.calc_OCR_count
+                0x00000000       0x48 PWM.o
+ .debug_macro   0x00000000      0xa42 PWM.o
+ .debug_macro   0x00000000      0x1c9 PWM.o
+ .debug_macro   0x00000000       0x22 PWM.o
+ .debug_macro   0x00000000       0x52 PWM.o
+ .debug_macro   0x00000000       0x10 PWM.o
+ .debug_macro   0x00000000      0x302 PWM.o
+ .debug_macro   0x00000000       0x9e PWM.o
+ .debug_macro   0x00000000     0x106f PWM.o
+ .debug_macro   0x00000000      0x101 PWM.o
+ .debug_macro   0x00000000       0xbd PWM.o
+ .debug_macro   0x00000000       0x34 PWM.o
+ .debug_macro   0x00000000       0x18 PWM.o
+ .debug_macro   0x00000000       0x34 PWM.o
+ .debug_macro   0x00000000       0x27 PWM.o
+ .debug_macro   0x00000000       0x22 PWM.o
+ .debug_macro   0x00000000       0x10 PWM.o
+ .debug_macro   0x00000000       0x10 PWM.o
+ .debug_macro   0x00000000       0x34 PWM.o
+ .debug_macro   0x00000000       0x8e PWM.o
+ .debug_macro   0x00000000       0x69 PWM.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .group         0x00000000        0x8 slave_parameters.o
+ .text          0x00000000        0x0 slave_parameters.o
+ .data          0x00000000        0x0 slave_parameters.o
+ .bss           0x00000000        0x0 slave_parameters.o
+ .rodata.Slave_Parameters
+                0x00000000        0xd slave_parameters.o
+ .text.Get_Slave_Parameters
+                0x00000000       0x4a slave_parameters.o
+ .debug_info    0x00000000      0x195 slave_parameters.o
+ .debug_abbrev  0x00000000       0xc3 slave_parameters.o
+ .debug_loc     0x00000000       0x48 slave_parameters.o
+ .debug_aranges
+                0x00000000       0x20 slave_parameters.o
+ .debug_ranges  0x00000000       0x10 slave_parameters.o
+ .debug_macro   0x00000000      0x124 slave_parameters.o
+ .debug_macro   0x00000000      0xa42 slave_parameters.o
+ .debug_macro   0x00000000      0x1c9 slave_parameters.o
+ .debug_macro   0x00000000       0x22 slave_parameters.o
+ .debug_macro   0x00000000       0x52 slave_parameters.o
+ .debug_macro   0x00000000       0x10 slave_parameters.o
+ .debug_macro   0x00000000      0x302 slave_parameters.o
+ .debug_macro   0x00000000       0x9e slave_parameters.o
+ .debug_macro   0x00000000     0x106f slave_parameters.o
+ .debug_macro   0x00000000      0x101 slave_parameters.o
+ .debug_macro   0x00000000       0xbd slave_parameters.o
+ .debug_macro   0x00000000       0x34 slave_parameters.o
+ .debug_macro   0x00000000       0x18 slave_parameters.o
+ .debug_macro   0x00000000       0x34 slave_parameters.o
+ .debug_macro   0x00000000       0x27 slave_parameters.o
+ .debug_macro   0x00000000       0x22 slave_parameters.o
+ .debug_macro   0x00000000       0x10 slave_parameters.o
+ .debug_macro   0x00000000       0x10 slave_parameters.o
+ .debug_macro   0x00000000       0x34 slave_parameters.o
+ .debug_macro   0x00000000       0x8e slave_parameters.o
+ .debug_macro   0x00000000      0x166 slave_parameters.o
+ .debug_line    0x00000000      0x33e slave_parameters.o
+ .debug_str     0x00000000     0x6a00 slave_parameters.o
+ .comment       0x00000000       0x31 slave_parameters.o
+ .debug_frame   0x00000000       0x34 slave_parameters.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .group         0x00000000        0x8 slave_service.o
+ .text          0x00000000        0x0 slave_service.o
+ .data          0x00000000        0x0 slave_service.o
+ .bss           0x00000000        0x0 slave_service.o
+ .text.__iCliRetVal
+                0x00000000       0x12 slave_service.o
+ .text.__iRestore
+                0x00000000       0x28 slave_service.o
+ .bss.My_Node_ID
+                0x00000000        0x1 slave_service.o
+ .bss.My_Command_Data
+                0x00000000        0x2 slave_service.o
+ .bss.My_Status_Data
+                0x00000000        0x2 slave_service.o
+ .bss.p_My_Parameters
+                0x00000000        0x2 slave_service.o
+ .text.Init_Slave_Service
+                0x00000000       0x56 slave_service.o
+ .text.Run_Slave_Service
+                0x00000000       0x58 slave_service.o
+ .text.set_slave_id
+                0x00000000       0x42 slave_service.o
+ .text.process_intensity_cmd
+                0x00000000       0x5c slave_service.o
+ .text.process_position_cmd
+                0x00000000       0x5c slave_service.o
+ .text.is_cmd_valid
+                0x00000000       0x2c slave_service.o
+ .debug_info    0x00000000      0x305 slave_service.o
+ .debug_abbrev  0x00000000      0x189 slave_service.o
+ .debug_loc     0x00000000      0x226 slave_service.o
+ .debug_aranges
+                0x00000000       0x58 slave_service.o
+ .debug_ranges  0x00000000       0x48 slave_service.o
+ .debug_macro   0x00000000      0x146 slave_service.o
+ .debug_macro   0x00000000      0xa42 slave_service.o
+ .debug_macro   0x00000000      0x1c9 slave_service.o
+ .debug_macro   0x00000000       0x22 slave_service.o
+ .debug_macro   0x00000000       0x52 slave_service.o
+ .debug_macro   0x00000000       0x10 slave_service.o
+ .debug_macro   0x00000000      0x302 slave_service.o
+ .debug_macro   0x00000000       0x9e slave_service.o
+ .debug_macro   0x00000000     0x106f slave_service.o
+ .debug_macro   0x00000000      0x101 slave_service.o
+ .debug_macro   0x00000000       0xbd slave_service.o
+ .debug_macro   0x00000000       0x34 slave_service.o
+ .debug_macro   0x00000000       0x18 slave_service.o
+ .debug_macro   0x00000000       0x34 slave_service.o
+ .debug_macro   0x00000000       0x27 slave_service.o
+ .debug_macro   0x00000000       0x22 slave_service.o
+ .debug_macro   0x00000000       0x10 slave_service.o
+ .debug_macro   0x00000000       0x10 slave_service.o
+ .debug_macro   0x00000000       0x34 slave_service.o
+ .debug_macro   0x00000000       0x8e slave_service.o
+ .debug_macro   0x00000000       0x1c slave_service.o
+ .debug_macro   0x00000000       0x69 slave_service.o
+ .debug_macro   0x00000000       0x2e slave_service.o
+ .debug_line    0x00000000      0x596 slave_service.o
+ .debug_str     0x00000000     0x6db3 slave_service.o
+ .comment       0x00000000       0x31 slave_service.o
+ .debug_frame   0x00000000      0x114 slave_service.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .group         0x00000000        0x8 SPI.o
+ .text          0x00000000        0x0 SPI.o
+ .data          0x00000000        0x0 SPI.o
+ .bss           0x00000000        0x0 SPI.o
+ .bss.Next_Available_Row
+                0x00000000        0x1 SPI.o
+ .text.Write_SPI
+                0x00000000      0x176 SPI.o
+ .debug_macro   0x00000000      0xa42 SPI.o
+ .debug_macro   0x00000000      0x1c9 SPI.o
+ .debug_macro   0x00000000       0x22 SPI.o
+ .debug_macro   0x00000000       0x52 SPI.o
+ .debug_macro   0x00000000       0x10 SPI.o
+ .debug_macro   0x00000000      0x302 SPI.o
+ .debug_macro   0x00000000       0x9e SPI.o
+ .debug_macro   0x00000000     0x106f SPI.o
+ .debug_macro   0x00000000      0x101 SPI.o
+ .debug_macro   0x00000000       0xbd SPI.o
+ .debug_macro   0x00000000       0x34 SPI.o
+ .debug_macro   0x00000000       0x18 SPI.o
+ .debug_macro   0x00000000       0x34 SPI.o
+ .debug_macro   0x00000000       0x27 SPI.o
+ .debug_macro   0x00000000       0x22 SPI.o
+ .debug_macro   0x00000000       0x10 SPI.o
+ .debug_macro   0x00000000       0x10 SPI.o
+ .debug_macro   0x00000000       0x34 SPI.o
+ .debug_macro   0x00000000       0x8e SPI.o
+ .debug_macro   0x00000000       0x64 SPI.o
+ .debug_macro   0x00000000       0x69 SPI.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .group         0x00000000        0x8 SPI_Service.o
+ .text          0x00000000        0x0 SPI_Service.o
+ .data          0x00000000        0x0 SPI_Service.o
+ .bss           0x00000000        0x0 SPI_Service.o
+ .text.Query_SPI_State
+                0x00000000       0x12 SPI_Service.o
+ .debug_macro   0x00000000      0xa42 SPI_Service.o
+ .debug_macro   0x00000000      0x1c9 SPI_Service.o
+ .debug_macro   0x00000000       0x22 SPI_Service.o
+ .debug_macro   0x00000000       0x52 SPI_Service.o
+ .debug_macro   0x00000000       0x10 SPI_Service.o
+ .debug_macro   0x00000000      0x302 SPI_Service.o
+ .debug_macro   0x00000000       0x9e SPI_Service.o
+ .debug_macro   0x00000000     0x106f SPI_Service.o
+ .debug_macro   0x00000000      0x101 SPI_Service.o
+ .debug_macro   0x00000000       0xbd SPI_Service.o
+ .debug_macro   0x00000000       0x34 SPI_Service.o
+ .debug_macro   0x00000000       0x18 SPI_Service.o
+ .debug_macro   0x00000000       0x34 SPI_Service.o
+ .debug_macro   0x00000000       0x27 SPI_Service.o
+ .debug_macro   0x00000000       0x22 SPI_Service.o
+ .debug_macro   0x00000000       0x10 SPI_Service.o
+ .debug_macro   0x00000000       0x10 SPI_Service.o
+ .debug_macro   0x00000000       0x34 SPI_Service.o
+ .debug_macro   0x00000000       0x8e SPI_Service.o
+ .debug_macro   0x00000000       0x64 SPI_Service.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .group         0x00000000        0x8 timer.o
+ .text          0x00000000        0x0 timer.o
+ .data          0x00000000        0x0 timer.o
+ .bss           0x00000000        0x0 timer.o
+ .text.Get_Time_Timer
+                0x00000000       0xd0 timer.o
+ .text.Stop_Timer
+                0x00000000       0x88 timer.o
+ .debug_macro   0x00000000      0xa42 timer.o
+ .debug_macro   0x00000000      0x1c9 timer.o
+ .debug_macro   0x00000000       0x22 timer.o
+ .debug_macro   0x00000000       0x52 timer.o
+ .debug_macro   0x00000000       0x10 timer.o
+ .debug_macro   0x00000000      0x302 timer.o
+ .debug_macro   0x00000000       0x9e timer.o
+ .debug_macro   0x00000000     0x106f timer.o
+ .debug_macro   0x00000000      0x101 timer.o
+ .debug_macro   0x00000000       0xbd timer.o
+ .debug_macro   0x00000000       0x34 timer.o
+ .debug_macro   0x00000000       0x18 timer.o
+ .debug_macro   0x00000000       0x34 timer.o
+ .debug_macro   0x00000000       0x27 timer.o
+ .debug_macro   0x00000000       0x22 timer.o
+ .debug_macro   0x00000000       0x10 timer.o
+ .debug_macro   0x00000000       0x10 timer.o
+ .debug_macro   0x00000000       0x34 timer.o
+ .debug_macro   0x00000000       0x8e timer.o
+ .debug_macro   0x00000000       0x69 timer.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .group         0x00000000        0x8 __template.o
+ .text          0x00000000        0x0 __template.o
+ .data          0x00000000        0x0 __template.o
+ .bss           0x00000000        0x0 __template.o
+ .bss.template_var
+                0x00000000        0x1 __template.o
+ .text.Template_Public_Function
+                0x00000000       0x12 __template.o
+ .text.template_private_function
+                0x00000000       0x12 __template.o
+ .debug_info    0x00000000       0xb4 __template.o
+ .debug_abbrev  0x00000000       0x79 __template.o
+ .debug_loc     0x00000000       0x76 __template.o
+ .debug_aranges
+                0x00000000       0x28 __template.o
+ .debug_ranges  0x00000000       0x18 __template.o
+ .debug_macro   0x00000000      0x121 __template.o
+ .debug_macro   0x00000000      0xa42 __template.o
+ .debug_macro   0x00000000      0x1c9 __template.o
+ .debug_macro   0x00000000       0x22 __template.o
+ .debug_macro   0x00000000       0x52 __template.o
+ .debug_macro   0x00000000       0x10 __template.o
+ .debug_macro   0x00000000      0x302 __template.o
+ .debug_macro   0x00000000       0x9e __template.o
+ .debug_macro   0x00000000     0x106f __template.o
+ .debug_macro   0x00000000      0x101 __template.o
+ .debug_macro   0x00000000       0xbd __template.o
+ .debug_macro   0x00000000       0x34 __template.o
+ .debug_macro   0x00000000       0x18 __template.o
+ .debug_macro   0x00000000       0x34 __template.o
+ .debug_macro   0x00000000       0x27 __template.o
+ .debug_macro   0x00000000       0x22 __template.o
+ .debug_macro   0x00000000       0x10 __template.o
+ .debug_macro   0x00000000       0x10 __template.o
+ .debug_macro   0x00000000       0x34 __template.o
+ .debug_macro   0x00000000       0x8e __template.o
+ .debug_line    0x00000000      0x337 __template.o
+ .debug_str     0x00000000     0x66b4 __template.o
+ .comment       0x00000000       0x31 __template.o
+ .debug_frame   0x00000000       0x54 __template.o
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
+ .text.avr-libc.fplib
+                0x00000000        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o)
+ .text.avr-libc.fplib
+                0x00000000       0xcc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o)
+ .text.avr-libc.fplib
+                0x00000000        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fixunssfsi.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fixunssfsi.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fixunssfsi.o)
+ .text.avr-libc.fplib
+                0x00000000       0x5e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fixunssfsi.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(floatsisf.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(floatsisf.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(floatsisf.o)
+ .text.avr-libc.fplib
+                0x00000000       0x7a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(floatsisf.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_cmp.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_cmp.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_cmp.o)
+ .text.avr-libc.fplib
+                0x00000000       0x48 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_cmp.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_inf.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_inf.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_inf.o)
+ .text.avr-libc.fplib
+                0x00000000        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_inf.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_nan.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_nan.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_nan.o)
+ .text.avr-libc.fplib
+                0x00000000        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_nan.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscA.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscA.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscA.o)
+ .text.avr-libc.fplib
+                0x00000000        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscA.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscB.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscB.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscB.o)
+ .text.avr-libc.fplib
+                0x00000000        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscB.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_round.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_round.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_round.o)
+ .text.avr-libc.fplib
+                0x00000000       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_round.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_split3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_split3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_split3.o)
+ .text.avr-libc.fplib
+                0x00000000       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_split3.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_zero.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_zero.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_zero.o)
+ .text.avr-libc.fplib
+                0x00000000        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_zero.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(gesf2.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(gesf2.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(gesf2.o)
+ .text.avr-libc.fplib
+                0x00000000        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(gesf2.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o)
+ .text.avr-libc.fplib
+                0x00000000        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3x.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3x.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3x.o)
+ .text.avr-libc.fplib
+                0x00000000       0xe2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3x.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text.libgcc.mul
+                0x00000000       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.div
+                0x00000000       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text.libgcc.div
+                0x00000000       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text.libgcc.mul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text.libgcc.div
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text.libgcc   0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text.libgcc.prologue
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text.libgcc.builtins
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text.libgcc.fmul
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text.libgcc.fixed
+                0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+ .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memset.o)
+ .data          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memset.o)
+ .bss           0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memset.o)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+text             0x00000000         0x00010000         xr
+data             0x00800060         0x0000ffa0         rw !x
+eeprom           0x00810000         0x00010000         rw !x
+fuse             0x00820000         0x00000003         rw !x
+lock             0x00830000         0x00000400         rw !x
+signature        0x00840000         0x00000400         rw !x
+user_signatures  0x00850000         0x00000400         rw !x
+*default*        0x00000000         0xffffffff
+
+Linker script and memory map
+
+Address of section .data set to 0x800100
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+LOAD ADC.o
+LOAD analog_servo_drv.o
+LOAD events.o
+LOAD framework.o
+LOAD IOC.o
+LOAD light_drv.o
+LOAD light_setting_alg.o
+LOAD lin_drv.o
+LOAD LIN_XCVR_WD_Kicker.o
+LOAD main.o
+LOAD master_service.o
+LOAD MS_LIN_top_layer.o
+LOAD PWM.o
+LOAD slave_parameters.o
+LOAD slave_service.o
+LOAD SPI.o
+LOAD SPI_Service.o
+LOAD timer.o
+LOAD __template.o
+START GROUP
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a
+END GROUP
+START GROUP
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a
+LOAD c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a
+LOAD C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35\libata6617c.a
+END GROUP
+                0x00010000                __TEXT_REGION_LENGTH__ = DEFINED (__TEXT_REGION_LENGTH__)?__TEXT_REGION_LENGTH__:0x10000
+                0x0000ffa0                __DATA_REGION_LENGTH__ = DEFINED (__DATA_REGION_LENGTH__)?__DATA_REGION_LENGTH__:0xffa0
+                0x00010000                __EEPROM_REGION_LENGTH__ = DEFINED (__EEPROM_REGION_LENGTH__)?__EEPROM_REGION_LENGTH__:0x10000
+                [0x00000003]                __FUSE_REGION_LENGTH__ = DEFINED (__FUSE_REGION_LENGTH__)?__FUSE_REGION_LENGTH__:0x400
+                0x00000400                __LOCK_REGION_LENGTH__ = DEFINED (__LOCK_REGION_LENGTH__)?__LOCK_REGION_LENGTH__:0x400
+                0x00000400                __SIGNATURE_REGION_LENGTH__ = DEFINED (__SIGNATURE_REGION_LENGTH__)?__SIGNATURE_REGION_LENGTH__:0x400
+                0x00000400                __USER_SIGNATURE_REGION_LENGTH__ = DEFINED (__USER_SIGNATURE_REGION_LENGTH__)?__USER_SIGNATURE_REGION_LENGTH__:0x400
+
+.hash
+ *(.hash)
+
+.dynsym
+ *(.dynsym)
+
+.dynstr
+ *(.dynstr)
+
+.gnu.version
+ *(.gnu.version)
+
+.gnu.version_d
+ *(.gnu.version_d)
+
+.gnu.version_r
+ *(.gnu.version_r)
+
+.rel.init
+ *(.rel.init)
+
+.rela.init
+ *(.rela.init)
+
+.rel.text
+ *(.rel.text)
+ *(.rel.text.*)
+ *(.rel.gnu.linkonce.t*)
+
+.rela.text
+ *(.rela.text)
+ *(.rela.text.*)
+ *(.rela.gnu.linkonce.t*)
+
+.rel.fini
+ *(.rel.fini)
+
+.rela.fini
+ *(.rela.fini)
+
+.rel.rodata
+ *(.rel.rodata)
+ *(.rel.rodata.*)
+ *(.rel.gnu.linkonce.r*)
+
+.rela.rodata
+ *(.rela.rodata)
+ *(.rela.rodata.*)
+ *(.rela.gnu.linkonce.r*)
+
+.rel.data
+ *(.rel.data)
+ *(.rel.data.*)
+ *(.rel.gnu.linkonce.d*)
+
+.rela.data
+ *(.rela.data)
+ *(.rela.data.*)
+ *(.rela.gnu.linkonce.d*)
+
+.rel.ctors
+ *(.rel.ctors)
+
+.rela.ctors
+ *(.rela.ctors)
+
+.rel.dtors
+ *(.rel.dtors)
+
+.rela.dtors
+ *(.rela.dtors)
+
+.rel.got
+ *(.rel.got)
+
+.rela.got
+ *(.rela.got)
+
+.rel.bss
+ *(.rel.bss)
+
+.rela.bss
+ *(.rela.bss)
+
+.rel.plt
+ *(.rel.plt)
+
+.rela.plt
+ *(.rela.plt)
+
+.text           0x00000000     0x1bce
+ *(.vectors)
+ .vectors       0x00000000       0x50 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+                0x00000000                __vector_default
+                0x00000000                __vectors
+ *(.vectors)
+ *(.progmem.gcc*)
+                0x00000050                . = ALIGN (0x2)
+                0x00000050                __trampolines_start = .
+ *(.trampolines)
+ .trampolines   0x00000050        0x0 linker stubs
+ *(.trampolines*)
+                0x00000050                __trampolines_end = .
+ *libprintf_flt.a:*(.progmem.data)
+ *libc.a:*(.progmem.data)
+ *(.progmem*)
+                0x00000050                . = ALIGN (0x2)
+ *(.jumptables)
+ *(.jumptables*)
+ *(.lowtext)
+ *(.lowtext*)
+                0x00000050                __ctors_start = .
+ *(.ctors)
+                0x00000050                __ctors_end = .
+                0x00000050                __dtors_start = .
+ *(.dtors)
+                0x00000050                __dtors_end = .
+ SORT(*)(.ctors)
+ SORT(*)(.dtors)
+ *(.init0)
+ .init0         0x00000050        0x0 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+                0x00000050                __init
+ *(.init0)
+ *(.init1)
+ *(.init1)
+ *(.init2)
+ .init2         0x00000050        0xc C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ *(.init2)
+ *(.init3)
+ *(.init3)
+ *(.init4)
+ .init4         0x0000005c       0x16 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_copy_data.o)
+                0x0000005c                __do_copy_data
+ .init4         0x00000072       0x10 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_clear_bss.o)
+                0x00000072                __do_clear_bss
+ *(.init4)
+ *(.init5)
+ *(.init5)
+ *(.init6)
+ *(.init6)
+ *(.init7)
+ *(.init7)
+ *(.init8)
+ *(.init8)
+ *(.init9)
+ .init9         0x00000082        0x8 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ *(.init9)
+ *(.text)
+ .text          0x0000008a        0x4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+                0x0000008a                __bad_interrupt
+                0x0000008a                __vector_6
+                0x0000008a                __vector_3
+                0x0000008a                __vector_11
+                0x0000008a                __vector_17
+                0x0000008a                __vector_19
+                0x0000008a                __vector_7
+                0x0000008a                __vector_5
+                0x0000008a                __vector_4
+                0x0000008a                __vector_9
+                0x0000008a                __vector_2
+                0x0000008a                __vector_8
+                0x0000008a                __vector_16
+                0x0000008a                __vector_18
+                0x0000008e                . = ALIGN (0x2)
+ *(.text.*)
+ .text.Init_ADC_Module
+                0x0000008e       0x7a ADC.o
+                0x0000008e                Init_ADC_Module
+ .text.__vector_15
+                0x00000108       0x9c ADC.o
+                0x00000108                __vector_15
+ .text.Init_Analog_Servo_Driver
+                0x000001a4       0x62 analog_servo_drv.o
+                0x000001a4                Init_Analog_Servo_Driver
+ .text.stop_signal
+                0x00000206       0x26 analog_servo_drv.o
+ .text.generate_signal
+                0x0000022c       0xb8 analog_servo_drv.o
+ .text.Post_Event
+                0x000002e4       0x52 events.o
+                0x000002e4                Post_Event
+ .text.Run_Events
+                0x00000336       0x68 events.o
+                0x00000336                Run_Events
+ .text.is_event_pending
+                0x0000039e       0x96 events.o
+ .text.Initialize_Framework
+                0x00000434       0x2e framework.o
+                0x00000434                Initialize_Framework
+ .text.Run_Services
+                0x00000462       0x42 framework.o
+                0x00000462                Run_Services
+ .text.Init_IOC_Module
+                0x000004a4       0x68 IOC.o
+                0x000004a4                Init_IOC_Module
+ .text.__vector_1
+                0x0000050c       0x4e IOC.o
+                0x0000050c                __vector_1
+ .text.lin_init
+                0x0000055a       0xf2 lin_drv.o
+                0x0000055a                lin_init
+ .text.lin_tx_header
+                0x0000064c       0xf8 lin_drv.o
+                0x0000064c                lin_tx_header
+ .text.lin_rx_response
+                0x00000744       0x80 lin_drv.o
+                0x00000744                lin_rx_response
+ .text.lin_tx_response
+                0x000007c4       0xc4 lin_drv.o
+                0x000007c4                lin_tx_response
+ .text.lin_get_response
+                0x00000888       0x5e lin_drv.o
+                0x00000888                lin_get_response
+ .text.Init_LIN_XCVR_WD_Kicker
+                0x000008e6       0x4e LIN_XCVR_WD_Kicker.o
+                0x000008e6                Init_LIN_XCVR_WD_Kicker
+ .text.kick_LIN_XCVR_WD
+                0x00000934       0x7c LIN_XCVR_WD_Kicker.o
+ .text.main     0x000009b0       0x30 main.o
+                0x000009b0                main
+ .text.Init_Master_Service
+                0x000009e0       0x8a master_service.o
+                0x000009e0                Init_Master_Service
+ .text.Run_Master_Service
+                0x00000a6a       0x68 master_service.o
+                0x00000a6a                Run_Master_Service
+ .text.ID_schedule_handler
+                0x00000ad2       0x3e master_service.o
+ .text.update_curr_schedule_id
+                0x00000b10       0x28 master_service.o
+ .text.clear_cmds
+                0x00000b38       0x1e master_service.o
+ .text.MS_LIN_Initialize
+                0x00000b56       0x82 MS_LIN_top_layer.o
+                0x00000b56                MS_LIN_Initialize
+ .text.Master_LIN_Broadcast_ID
+                0x00000bd8       0x1e MS_LIN_top_layer.o
+                0x00000bd8                Master_LIN_Broadcast_ID
+ .text.lin_id_task
+                0x00000bf6       0xb8 MS_LIN_top_layer.o
+ .text.lin_rx_task
+                0x00000cae       0x66 MS_LIN_top_layer.o
+ .text.lin_tx_task
+                0x00000d14        0xe MS_LIN_top_layer.o
+ .text.lin_err_task
+                0x00000d22       0x18 MS_LIN_top_layer.o
+ .text.__vector_12
+                0x00000d3a       0xa6 MS_LIN_top_layer.o
+                0x00000d3a                __vector_12
+ .text.__vector_13
+                0x00000de0       0x6a MS_LIN_top_layer.o
+                0x00000de0                __vector_13
+ .text.__iCliRetVal
+                0x00000e4a       0x12 PWM.o
+ .text.__iRestore
+                0x00000e5c       0x28 PWM.o
+ .text.Init_PWM_Module
+                0x00000e84       0xb4 PWM.o
+                0x00000e84                Init_PWM_Module
+ .text.MS_SPI_Initialize
+                0x00000f38       0xaa SPI.o
+                0x00000f38                MS_SPI_Initialize
+ .text.SPI_Start_Command
+                0x00000fe2       0x72 SPI.o
+                0x00000fe2                SPI_Start_Command
+ .text.SPI_End_Command
+                0x00001054       0x20 SPI.o
+                0x00001054                SPI_End_Command
+ .text.SPI_Transmit
+                0x00001074       0x64 SPI.o
+                0x00001074                SPI_Transmit
+ .text.__vector_14
+                0x000010d8      0x114 SPI.o
+                0x000010d8                __vector_14
+ .text.Reset_Command_Receive_Buffer
+                0x000011ec       0xb2 SPI.o
+ .text.Update_Buffer_Index
+                0x0000129e       0xe0 SPI.o
+ .text.Init_SPI_Service
+                0x0000137e       0x12 SPI_Service.o
+                0x0000137e                Init_SPI_Service
+ .text.Run_SPI_Service
+                0x00001390       0xe0 SPI_Service.o
+                0x00001390                Run_SPI_Service
+ .text.Init_Timer_Module
+                0x00001470      0x126 timer.o
+                0x00001470                Init_Timer_Module
+ .text.Register_Timer
+                0x00001596      0x18c timer.o
+                0x00001596                Register_Timer
+ .text.Start_Timer
+                0x00001722      0x11e timer.o
+                0x00001722                Start_Timer
+ .text.Start_Short_Timer
+                0x00001840       0xfc timer.o
+                0x00001840                Start_Short_Timer
+ .text.__vector_10
+                0x0000193c      0x280 timer.o
+                0x0000193c                __vector_10
+ .text.avr-libc
+                0x00001bbc        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memset.o)
+                0x00001bbc                memset
+                0x00001bca                . = ALIGN (0x2)
+ *(.fini9)
+ .fini9         0x00001bca        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+                0x00001bca                _exit
+                0x00001bca                exit
+ *(.fini9)
+ *(.fini8)
+ *(.fini8)
+ *(.fini7)
+ *(.fini7)
+ *(.fini6)
+ *(.fini6)
+ *(.fini5)
+ *(.fini5)
+ *(.fini4)
+ *(.fini4)
+ *(.fini3)
+ *(.fini3)
+ *(.fini2)
+ *(.fini2)
+ *(.fini1)
+ *(.fini1)
+ *(.fini0)
+ .fini0         0x00001bca        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ *(.fini0)
+                0x00001bce                _etext = .
+
+.data           0x00800100        0xa load address 0x00001bce
+                0x00800100                PROVIDE (__data_start, .)
+ *(.data)
+ *(.data*)
+ .data.Last_ADC_Value
+                0x00800100        0x2 ADC.o
+ .data.Current_Pulse_Width_TenthMS
+                0x00800102        0x1 analog_servo_drv.o
+ .data.Requested_Pulse_Width_TenthMS
+                0x00800103        0x1 analog_servo_drv.o
+ .data.Curr_Schedule_ID
+                0x00800104        0x1 master_service.o
+ .data.Testing_Timer
+                0x00800105        0x4 master_service.o
+ *(.rodata)
+ *(.rodata*)
+ *(.gnu.linkonce.d*)
+                0x0080010a                . = ALIGN (0x2)
+ *fill*         0x00800109        0x1 
+                0x0080010a                _edata = .
+                0x0080010a                PROVIDE (__data_end, .)
+
+.bss            0x0080010a      0x11f
+                0x0080010a                PROVIDE (__bss_start, .)
+ *(.bss)
+ *(.bss*)
+ .bss.Move_Timer
+                0x0080010a        0x4 analog_servo_drv.o
+ .bss.Signal_Timer
+                0x0080010e        0x4 analog_servo_drv.o
+ .bss.Signal_Enable
+                0x00800112        0x1 analog_servo_drv.o
+ .bss.Step      0x00800113        0x1 analog_servo_drv.o
+ .bss.Pending_Events
+                0x00800114        0x4 events.o
+ .bss.LIN_XCVR_Kick_Timer
+                0x00800118        0x4 LIN_XCVR_WD_Kicker.o
+ .bss.Parity    0x0080011c        0x1 LIN_XCVR_WD_Kicker.o
+ .bss.My_Node_ID
+                0x0080011d        0x1 master_service.o
+ .bss.My_Command_Data
+                0x0080011e        0x2 master_service.o
+ .bss.My_Status_Data
+                0x00800120        0x2 master_service.o
+ .bss.Scheduling_Timer
+                0x00800122        0x4 master_service.o
+ .bss.p_My_Node_ID
+                0x00800126        0x2 MS_LIN_top_layer.o
+ .bss.p_My_Command_Data
+                0x00800128        0x2 MS_LIN_top_layer.o
+ .bss.p_My_Status_Data
+                0x0080012a        0x2 MS_LIN_top_layer.o
+ .bss.My_LIN_Error_Count
+                0x0080012c        0x1 MS_LIN_top_layer.o
+ .bss.Master_Slave_Identifier
+                0x0080012d        0x1 SPI.o
+ .bss.Command_Buffer
+                0x0080012e       0x3c SPI.o
+ .bss.Receive_List
+                0x0080016a       0x50 SPI.o
+ .bss.Buffer_Index
+                0x008001ba        0x1 SPI.o
+ .bss.RX_Index  0x008001bb        0x1 SPI.o
+ .bss.TX_Index  0x008001bc        0x1 SPI.o
+ .bss.Expected_TX_Length
+                0x008001bd        0x1 SPI.o
+ .bss.Expected_RX_Length
+                0x008001be        0x1 SPI.o
+ .bss.In_Tx     0x008001bf        0x1 SPI.o
+ .bss.Current_State
+                0x008001c0        0x1 SPI_Service.o
+ .bss.Timers    0x008001c1       0x68 timer.o
+ *(COMMON)
+                0x00800229                PROVIDE (__bss_end, .)
+                0x00001bce                __data_load_start = LOADADDR (.data)
+                0x00001bd8                __data_load_end = (__data_load_start + SIZEOF (.data))
+
+.noinit         0x00800229        0x0
+                [!provide]                PROVIDE (__noinit_start, .)
+ *(.noinit*)
+                [!provide]                PROVIDE (__noinit_end, .)
+                0x00800229                _end = .
+                [!provide]                PROVIDE (__heap_start, .)
+
+.eeprom         0x00810000        0x0
+ *(.eeprom*)
+                0x00810000                __eeprom_end = .
+
+.fuse
+ *(.fuse)
+ *(.lfuse)
+ *(.hfuse)
+ *(.efuse)
+
+.lock
+ *(.lock*)
+
+.signature
+ *(.signature*)
+
+.user_signatures
+ *(.user_signatures*)
+
+.stab
+ *(.stab)
+
+.stabstr
+ *(.stabstr)
+
+.stab.excl
+ *(.stab.excl)
+
+.stab.exclstr
+ *(.stab.exclstr)
+
+.stab.index
+ *(.stab.index)
+
+.stab.indexstr
+ *(.stab.indexstr)
+
+.comment        0x00000000       0x30
+ *(.comment)
+ .comment       0x00000000       0x30 ADC.o
+                                 0x31 (size before relaxing)
+ .comment       0x00000030       0x31 analog_servo_drv.o
+ .comment       0x00000030       0x31 events.o
+ .comment       0x00000030       0x31 framework.o
+ .comment       0x00000030       0x31 IOC.o
+ .comment       0x00000030       0x31 lin_drv.o
+ .comment       0x00000030       0x31 LIN_XCVR_WD_Kicker.o
+ .comment       0x00000030       0x31 main.o
+ .comment       0x00000030       0x31 master_service.o
+ .comment       0x00000030       0x31 MS_LIN_top_layer.o
+ .comment       0x00000030       0x31 PWM.o
+ .comment       0x00000030       0x31 SPI.o
+ .comment       0x00000030       0x31 SPI_Service.o
+ .comment       0x00000030       0x31 timer.o
+
+.note.gnu.avr.deviceinfo
+                0x00000000       0x3c
+ .note.gnu.avr.deviceinfo
+                0x00000000       0x3c C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+
+.note.gnu.build-id
+ *(.note.gnu.build-id)
+
+.debug
+ *(.debug)
+
+.line
+ *(.line)
+
+.debug_srcinfo
+ *(.debug_srcinfo)
+
+.debug_sfnames
+ *(.debug_sfnames)
+
+.debug_aranges  0x00000000      0x368
+ *(.debug_aranges)
+ .debug_aranges
+                0x00000000       0x38 ADC.o
+ .debug_aranges
+                0x00000038       0x58 analog_servo_drv.o
+ .debug_aranges
+                0x00000090       0x30 events.o
+ .debug_aranges
+                0x000000c0       0x28 framework.o
+ .debug_aranges
+                0x000000e8       0x28 IOC.o
+ .debug_aranges
+                0x00000110       0x40 lin_drv.o
+ .debug_aranges
+                0x00000150       0x28 LIN_XCVR_WD_Kicker.o
+ .debug_aranges
+                0x00000178       0x20 main.o
+ .debug_aranges
+                0x00000198       0x60 master_service.o
+ .debug_aranges
+                0x000001f8       0x58 MS_LIN_top_layer.o
+ .debug_aranges
+                0x00000250       0x40 PWM.o
+ .debug_aranges
+                0x00000290       0x58 SPI.o
+ .debug_aranges
+                0x000002e8       0x30 SPI_Service.o
+ .debug_aranges
+                0x00000318       0x50 timer.o
+
+.debug_pubnames
+ *(.debug_pubnames)
+
+.debug_info     0x00000000     0x1ddc
+ *(.debug_info .gnu.linkonce.wi.*)
+ .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ .debug_info    0x000005f4       0xf0 ADC.o
+ .debug_info    0x000006e4      0x2e7 analog_servo_drv.o
+ .debug_info    0x000009cb      0x111 events.o
+ .debug_info    0x00000adc       0xb3 framework.o
+ .debug_info    0x00000b8f       0xa4 IOC.o
+ .debug_info    0x00000c33      0x1d1 lin_drv.o
+ .debug_info    0x00000e04       0xe3 LIN_XCVR_WD_Kicker.o
+ .debug_info    0x00000ee7       0x92 main.o
+ .debug_info    0x00000f79      0x368 master_service.o
+ .debug_info    0x000012e1      0x1dd MS_LIN_top_layer.o
+ .debug_info    0x000014be      0x18f PWM.o
+ .debug_info    0x0000164d      0x357 SPI.o
+ .debug_info    0x000019a4      0x108 SPI_Service.o
+ .debug_info    0x00001aac      0x330 timer.o
+
+.debug_abbrev   0x00000000     0x1100
+ *(.debug_abbrev)
+ .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ .debug_abbrev  0x000005a2       0x7d ADC.o
+ .debug_abbrev  0x0000061f      0x13c analog_servo_drv.o
+ .debug_abbrev  0x0000075b       0xb1 events.o
+ .debug_abbrev  0x0000080c       0x7b framework.o
+ .debug_abbrev  0x00000887       0x54 IOC.o
+ .debug_abbrev  0x000008db       0xa6 lin_drv.o
+ .debug_abbrev  0x00000981       0x8a LIN_XCVR_WD_Kicker.o
+ .debug_abbrev  0x00000a0b       0x56 main.o
+ .debug_abbrev  0x00000a61      0x173 master_service.o
+ .debug_abbrev  0x00000bd4       0xe2 MS_LIN_top_layer.o
+ .debug_abbrev  0x00000cb6       0xfa PWM.o
+ .debug_abbrev  0x00000db0      0x148 SPI.o
+ .debug_abbrev  0x00000ef8       0xbc SPI_Service.o
+ .debug_abbrev  0x00000fb4      0x14c timer.o
+
+.debug_line     0x00000000     0x3cd1
+ *(.debug_line .debug_line.* .debug_line_end)
+ .debug_line    0x00000000      0x10f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ .debug_line    0x0000010f      0x399 ADC.o
+ .debug_line    0x000004a8      0x4e3 analog_servo_drv.o
+ .debug_line    0x0000098b      0x374 events.o
+ .debug_line    0x00000cff      0x355 framework.o
+ .debug_line    0x00001054      0x347 IOC.o
+ .debug_line    0x0000139b      0x3fd lin_drv.o
+ .debug_line    0x00001798      0x35f LIN_XCVR_WD_Kicker.o
+ .debug_line    0x00001af7      0x327 main.o
+ .debug_line    0x00001e1e      0x58d master_service.o
+ .debug_line    0x000023ab      0x4bb MS_LIN_top_layer.o
+ .debug_line    0x00002866      0x4bc PWM.o
+ .debug_line    0x00002d22      0x61a SPI.o
+ .debug_line    0x0000333c      0x3dd SPI_Service.o
+ .debug_line    0x00003719      0x5b8 timer.o
+
+.debug_frame    0x00000000      0xaec
+ *(.debug_frame)
+ .debug_frame   0x00000000       0xbc ADC.o
+ .debug_frame   0x000000bc      0x114 analog_servo_drv.o
+ .debug_frame   0x000001d0       0x74 events.o
+ .debug_frame   0x00000244       0x54 framework.o
+ .debug_frame   0x00000298       0x7c IOC.o
+ .debug_frame   0x00000314       0xb4 lin_drv.o
+ .debug_frame   0x000003c8       0x54 LIN_XCVR_WD_Kicker.o
+ .debug_frame   0x0000041c       0x34 main.o
+ .debug_frame   0x00000450      0x134 master_service.o
+ .debug_frame   0x00000584      0x19c MS_LIN_top_layer.o
+ .debug_frame   0x00000720       0xc0 PWM.o
+ .debug_frame   0x000007e0      0x15c SPI.o
+ .debug_frame   0x0000093c       0x74 SPI_Service.o
+ .debug_frame   0x000009b0      0x13c timer.o
+
+.debug_str      0x00000000     0x89c4
+ *(.debug_str)
+ .debug_str     0x00000000      0x21d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
+ .debug_str     0x0000021d     0x6944 ADC.o
+                               0x6a0d (size before relaxing)
+ .debug_str     0x00006b61      0x47b analog_servo_drv.o
+                               0x6b54 (size before relaxing)
+ .debug_str     0x00006fdc       0x6b events.o
+                               0x66ac (size before relaxing)
+ .debug_str     0x00007047       0x33 framework.o
+                               0x667a (size before relaxing)
+ .debug_str     0x0000707a       0x16 IOC.o
+                               0x69cf (size before relaxing)
+ .debug_str     0x00007090      0xb20 lin_drv.o
+                               0x6cea (size before relaxing)
+ .debug_str     0x00007bb0       0x77 LIN_XCVR_WD_Kicker.o
+                               0x66df (size before relaxing)
+ .debug_str     0x00007c27       0x11 main.o
+                               0x6651 (size before relaxing)
+ .debug_str     0x00007c38      0x55c master_service.o
+                               0x6d2d (size before relaxing)
+ .debug_str     0x00008194      0x113 MS_LIN_top_layer.o
+                               0x7581 (size before relaxing)
+ .debug_str     0x000082a7      0x287 PWM.o
+                               0x6caa (size before relaxing)
+ .debug_str     0x0000852e      0x2e5 SPI.o
+                               0x7032 (size before relaxing)
+ .debug_str     0x00008813       0x3d SPI_Service.o
+                               0x67d1 (size before relaxing)
+ .debug_str     0x00008850      0x174 timer.o
+                               0x6b4f (size before relaxing)
+
+.debug_loc      0x00000000     0x1542
+ *(.debug_loc)
+ .debug_loc     0x00000000      0x154 ADC.o
+ .debug_loc     0x00000154      0x226 analog_servo_drv.o
+ .debug_loc     0x0000037a       0xd8 events.o
+ .debug_loc     0x00000452       0x83 framework.o
+ .debug_loc     0x000004d5       0xde IOC.o
+ .debug_loc     0x000005b3      0x168 lin_drv.o
+ .debug_loc     0x0000071b       0x83 LIN_XCVR_WD_Kicker.o
+ .debug_loc     0x0000079e       0x3b main.o
+ .debug_loc     0x000007d9      0x253 master_service.o
+ .debug_loc     0x00000a2c      0x36b MS_LIN_top_layer.o
+ .debug_loc     0x00000d97      0x175 PWM.o
+ .debug_loc     0x00000f0c      0x2ce SPI.o
+ .debug_loc     0x000011da       0xbe SPI_Service.o
+ .debug_loc     0x00001298      0x2aa timer.o
+
+.debug_macinfo
+ *(.debug_macinfo)
+
+.debug_weaknames
+ *(.debug_weaknames)
+
+.debug_funcnames
+ *(.debug_funcnames)
+
+.debug_typenames
+ *(.debug_typenames)
+
+.debug_varnames
+ *(.debug_varnames)
+
+.debug_pubtypes
+ *(.debug_pubtypes)
+
+.debug_ranges   0x00000000      0x288
+ *(.debug_ranges)
+ .debug_ranges  0x00000000       0x28 ADC.o
+ .debug_ranges  0x00000028       0x48 analog_servo_drv.o
+ .debug_ranges  0x00000070       0x20 events.o
+ .debug_ranges  0x00000090       0x18 framework.o
+ .debug_ranges  0x000000a8       0x18 IOC.o
+ .debug_ranges  0x000000c0       0x30 lin_drv.o
+ .debug_ranges  0x000000f0       0x18 LIN_XCVR_WD_Kicker.o
+ .debug_ranges  0x00000108       0x10 main.o
+ .debug_ranges  0x00000118       0x50 master_service.o
+ .debug_ranges  0x00000168       0x48 MS_LIN_top_layer.o
+ .debug_ranges  0x000001b0       0x30 PWM.o
+ .debug_ranges  0x000001e0       0x48 SPI.o
+ .debug_ranges  0x00000228       0x20 SPI_Service.o
+ .debug_ranges  0x00000248       0x40 timer.o
+
+.debug_macro    0x00000000     0x3de4
+ *(.debug_macro)
+ .debug_macro   0x00000000      0x11a ADC.o
+ .debug_macro   0x0000011a      0xa42 ADC.o
+ .debug_macro   0x00000b5c      0x1c9 ADC.o
+ .debug_macro   0x00000d25       0x22 ADC.o
+ .debug_macro   0x00000d47       0x52 ADC.o
+ .debug_macro   0x00000d99       0x10 ADC.o
+ .debug_macro   0x00000da9      0x302 ADC.o
+ .debug_macro   0x000010ab       0x9e ADC.o
+ .debug_macro   0x00001149     0x106f ADC.o
+ .debug_macro   0x000021b8      0x101 ADC.o
+ .debug_macro   0x000022b9       0xbd ADC.o
+ .debug_macro   0x00002376       0x34 ADC.o
+ .debug_macro   0x000023aa       0x18 ADC.o
+ .debug_macro   0x000023c2       0x34 ADC.o
+ .debug_macro   0x000023f6       0x27 ADC.o
+ .debug_macro   0x0000241d       0x22 ADC.o
+ .debug_macro   0x0000243f       0x10 ADC.o
+ .debug_macro   0x0000244f       0x10 ADC.o
+ .debug_macro   0x0000245f       0x34 ADC.o
+ .debug_macro   0x00002493       0x8e ADC.o
+ .debug_macro   0x00002521       0x69 ADC.o
+ .debug_macro   0x0000258a      0x132 analog_servo_drv.o
+ .debug_macro   0x000026bc      0x166 analog_servo_drv.o
+ .debug_macro   0x00002822      0x117 events.o
+ .debug_macro   0x00002939      0x117 framework.o
+ .debug_macro   0x00002a50       0x2e framework.o
+ .debug_macro   0x00002a7e      0x11a IOC.o
+ .debug_macro   0x00002b98       0xad lin_drv.o
+ .debug_macro   0x00002c45      0x2fc lin_drv.o
+ .debug_macro   0x00002f41      0x177 lin_drv.o
+ .debug_macro   0x000030b8      0x11d LIN_XCVR_WD_Kicker.o
+ .debug_macro   0x000031d5      0x111 main.o
+ .debug_macro   0x000032e6      0x16d master_service.o
+ .debug_macro   0x00003453       0x64 master_service.o
+ .debug_macro   0x000034b7      0x12d MS_LIN_top_layer.o
+ .debug_macro   0x000035e4      0x17d MS_LIN_top_layer.o
+ .debug_macro   0x00003761      0x13b PWM.o
+ .debug_macro   0x0000389c       0x2e PWM.o
+ .debug_macro   0x000038ca      0x13a SPI.o
+ .debug_macro   0x00003a04       0x1c SPI.o
+ .debug_macro   0x00003a20      0x10e SPI.o
+ .debug_macro   0x00003b2e       0x66 SPI.o
+ .debug_macro   0x00003b94      0x11e SPI_Service.o
+ .debug_macro   0x00003cb2      0x132 timer.o
+OUTPUT(Ford_360_Lighting_Project.elf elf32-avr)
+LOAD linker stubs

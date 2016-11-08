@@ -53,6 +53,7 @@
 
 #if IS_MASTER_NODE
     #define SERVICE_00		        Run_Master_Service
+	#define SERVICE_01				Run_SPI_Service
 #else
     #define SERVICE_00		        Run_Slave_Service
 #endif
@@ -62,7 +63,7 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                  11
+#define NUM_EVENTS                  7
 
 #define NON_EVENT                   (0x00)
 
@@ -70,20 +71,22 @@
                                                     //  code to get the slave ID
                                                     //  before continuing with
                                                     //  anything else.
-                                                    // This needs to have highest priority.
-#define EVT_SLAVE_NEW_CMD           (0x01<<1)
-#define EVT_SLAVE_OTHER             (0x01<<2)
+                                                 // This needs to have highest priority.
+#define EVT_SLAVE_NEW_CMD           (0x01<<6)
+#define EVT_SLAVE_OTHER             (0x01<<7)
 
-#define EVT_MASTER_SCH_TIMEOUT      (0x01<<3)
-#define EVT_MASTER_NEW_STS          (0x01<<4)
-#define EVT_MASTER_OTHER            (0x01<<5)
+#define EVT_MASTER_SCH_TIMEOUT      (0x01<<8)
+#define EVT_MASTER_NEW_STS          (0x01<<9)
 
-#define EVT_TEST_TIMEOUT            (0x01<<6)
+#define EVT_MASTER_OTHER            (0x01<<10)
 
-#define EVT_SPI_START               (0x01<<7)
-#define EVT_SPI_SEND_BYTE           (0x01<<8)
-#define EVT_SPI_RECV_BYTE           (0x01<<9)
-#define EVT_SPI_END                 (0x01<<10)
+
+#define EVT_TEST_TIMEOUT            (0x01<<1)
+
+#define EVT_SPI_START               (0x01<<2)
+#define EVT_SPI_SEND_BYTE           (0x01<<3)
+#define EVT_SPI_RECV_BYTE           (0x01<<4)
+#define EVT_SPI_END                 (0x01<<5)
 
 
 // #############################################################################
