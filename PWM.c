@@ -38,14 +38,10 @@
 // ------------ MODULE DEFINITIONS
 // #############################################################################
 
-// Define the top counter value for the PWM module.
-// This value sets the PWM frequency along with prescale.
-#define TIMER_1_TOP         (799)       // Chosen for ~10 kHz with prescale of 1:1
-
 // Define OCR values for 0% and 100% duty cycle
 #define OCR_DC_HUNDRED      (0x0000)    // With two channels, this is best we can 
                                         //  do unless we just set the line high
-#define OCR_DC_ZERO         (0xFFFF)
+#define OCR_DC_ZERO         (0xFFFF)    // This works as long as (TOP < 0xFFFF)
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS
@@ -127,7 +123,7 @@ void Init_PWM_Module(void)
         // We want to aim for a frequency of 1 kHz
         // PWM freq is:
         //      f_pwm = f_clk/(prescale*(1+TOP))
-        TCCR1B |= (1<<CS10);
+        TCCR1B |= TIMER_1_PRESCALE;
     }
 }
 
@@ -182,16 +178,17 @@ void Set_PWM_Duty_Cycle(pwm_channel_t this_channel, uint8_t new_duty_cycle)
 ****************************************************************************/
 static uint16_t calc_OCR_count(uint8_t duty_cycle)
 {
-    // Clamp the duty cycle
-    if (100 < duty_cycle)
+    // Return the calculated value only if in (0,100) exclusive
+    if (100 <= duty_cycle)
     {
-        duty_cycle = 100;
+        return OCR_DC_HUNDRED;
     }
-    
-    // Return the calculated value
-    if (0 < duty_cycle)
+    else if ((100 > duty_cycle) && (0 < duty_cycle))
     {
         return ((TIMER_1_TOP+1)-((TIMER_1_TOP+1)/100)*duty_cycle);
     }
-    return OCR_DC_ZERO;
+    else
+    {
+        return OCR_DC_ZERO;
+    }
 }
