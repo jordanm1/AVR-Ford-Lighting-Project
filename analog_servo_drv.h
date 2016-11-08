@@ -14,25 +14,23 @@
 // Stay Command for Servo (does not cause servo to move)
 #define SERVO_STAY                  (NON_COMMAND)
 
-// Servo Control Pin
-#define ANALOG_SERVO_CH1_PORT       PORTB
-#define ANALOG_SERVO_CH1_PDIR       DDRB
-#define ANALOG_SERVO_CH1_PIN        PINB2
+// Servo Control Pin, (Use PWM channel B)
+#define ANALOG_SERVO_PWM_CH         pwm_channel_b
+#define ANALOG_SERVO_PWM_EN         PWM_CH_B_PIN_ENABLE
+#define ANALOG_SERVO_DRV_PORT       PORTB
+#define ANALOG_SERVO_DRV_PDIR       DDRB
+#define ANALOG_SERVO_DRV_PIN        PWM_CH_B_PIN
 
 // Max time for servo to move between extreme positions
 #define SERVO_DRIVE_TIME_MS         2000
 
 // Servo command min pulse width, max pulse width
-#define MIN_PULSE_WIDTH_TENTHMS     10
-#define MAX_PULSE_WIDTH_TENTHMS     20
+#define MIN_PULSE_WIDTH_US          1000
+#define MAX_PULSE_WIDTH_US          2000
 
-// *Note: Number of positions possible is:
-//
-//      (MAX_PULSE_WIDTH_TENTHMS-MIN_PULSE_WIDTH_TENTHMS)+1
-//
-//      where positions are:
-//
-//      0 to (MAX_PULSE_WIDTH_TENTHMS-MIN_PULSE_WIDTH_TENTHMS)
+// *Note: Number of positions possible is 20
+//  (we can have 1% duty cycle resolution and 1ms to 2ms pulse width is 
+//  20% to 40% DC so we have 40-20 positions)
 
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES
