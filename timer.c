@@ -5,7 +5,9 @@
     Notes:
         This file contains the timer module.
         Uses Timer 0.
-        The current implementation can be off by +- 0.1 ms.
+        The current implementation can be off by +- 0.5 ms.
+            (That is, if a function started a timer for 0.5ms, the 
+            timer could expire in the next clock cycle via an interrupt)
     
     External Functions Required:
 
@@ -45,16 +47,28 @@
 // #############################################################################
 
 // Define number of timers used
+// This should be based on a project wide search for the 
+//  number of unique Register_Timer() calls
 #define NUM_TIMERS          (8)
-
-// Define value for output compare match value
-#define OC_T0_REG_VALUE     (100)
-
-// Define number of steps per 1 ms
-#define TICK_COUNT_PER_MS   10
 
 // Null cb func
 #define NULL_TIMER_CB       ((timer_cb_t) 0)
+
+// #############################################################################
+// ------------ TIMER SETUP DEFINITIONS
+// #############################################################################
+
+// Current setup and resolution
+// We are going for 0.5 ms resolution for this timer.
+
+// Define value for clock select prescale value (Page 102)
+#define CLOCK_SELECT_VALUE  ((1<<CS01)|(1<<CS00))           // SYSCLK/32
+
+// Define value for output compare match value
+#define OC_T0_REG_VALUE     (125)
+
+// Define number of steps per 1 ms
+#define TICK_COUNT_PER_MS   2                               // 0.5ms resolution
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS
@@ -116,7 +130,7 @@ void Init_Timer_Module(void)
     TCCR0B = 0;
 
     // Do not write to timer register
-    // Writing prevented interrupts from occuring
+    // Writing prevented interrupts from occurring
     // DO NOT DO TCNT0 = 0;
 
     // OCR0A: Output compare register A
@@ -128,9 +142,10 @@ void Init_Timer_Module(void)
     // Enable output compare match interrupt
     TIMSK0 = 1<<OCIE0A;
 
-    // Set up 1/8 prescaling (p.102, figure 10-5)
+    // Set up prescaling (p.102, figure 10-5)
     // This kicks off the clock.
-    TCCR0B = 1<<CS01;
+    TCCR0B = 0;                                 // Clear the force compare
+    TCCR0B |= CLOCK_SELECT_VALUE;
 
     // *Note: the interrupt flag (OCF0A) is cleared in hardware when the ISR runs
 }
@@ -218,7 +233,7 @@ void Start_Timer(uint32_t * p_this_timer, uint32_t time_in_ms)
         uint32_t: Pointer to timer variable holding the event type to post
 
     Description
-        Gets the time since the timer started
+        Gets the time since the timer started in milliseconds
 
 ****************************************************************************/
 uint32_t Get_Time_Timer(uint32_t * p_this_timer)
@@ -247,7 +262,8 @@ uint32_t Get_Time_Timer(uint32_t * p_this_timer)
         uint32_t: Pointer to timer variable holding the event type to post
 
     Description
-        Stops the timer and resets the timer
+        Stops the timer, the time remaining is saved, so one could
+            stop the timer, then pull the time value when it was stopped
 
 ****************************************************************************/
 void Stop_Timer(uint32_t * p_this_timer)
@@ -269,13 +285,16 @@ void Stop_Timer(uint32_t * p_this_timer)
 
     Parameters
         uint32_t: Pointer to timer variable holding the event type to post
-        uint32_t: Timer length in ms/10, max is uint32_t
+        uint32_t: Timer length in ms/TICK_COUNT_PER_MS, max is uint32_t
 
     Description
-        Starts the short timer (milliseconds/10)
+        Starts the short timer (milliseconds/TICK_COUNT_PER_MS)
+
+        Effectively TICK_COUNT_PER_MS is the highest resolution possible
+            with the current timer setup.
 
 ****************************************************************************/
-void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ten)
+void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksperms)
 {
     // Start timer
     for (int i = 0; i < NUM_TIMERS; i++)
@@ -284,7 +303,7 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ten)
         {
             Timers[i].timer_running_flag = true;
             Timers[i].ticks_since_start = 0;
-            Timers[i].ticks_remaining = time_in_ms_div_ten;
+            Timers[i].ticks_remaining = time_in_ms_div_ticksperms;
             break;
         }
     }
@@ -315,6 +334,13 @@ ISR(TIMER0_COMPA_vect)
 {
     // No need to clear interrupt b/c it is cleared in HW (p. 104)
 
+    // *Note: all timer cb functions need to execute within the resolution
+    //      of this timer. Otherwise, time will distort. An example is
+    //      if we get into this ISR and we take longer than the resolution,
+    //      then we will miss interrupts for ticks because they will be 
+    //      disabled while we are here. Then we would have to wait for the
+    //      timer to roll over which would cause time warp.
+
     // Write new value into output compare reg for next tick
     OCR0A = OCR0A + OC_T0_REG_VALUE;
 
@@ -342,16 +368,6 @@ ISR(TIMER0_COMPA_vect)
                 // If cb is not null, execute
                 if (Timers[i].timer_cb_func)
                 {
-                    // Overwrite our compare register to give us more time to process this stuff
-                    //  We will just read the time in the counter then add the OC_TO_REG_VALUE
-                    //  We make the assumption that we can get here from the last setting of
-                    //  the OCR0A register in lesser ticks than the OC_TO_TO_REG_VALUE
-                    // *Note: this will cause time to stretch, but not by much
-                    //  It is possible to account for time warp, by dynamically changing
-                    //      the OC_TO_REG_VALUE
-                    // @TODO: Implement time stretch factoring by counting number of ticks we've
-                    //          missed while in this ISR.
-                    OCR0A = TCNT0 + OC_T0_REG_VALUE;
                     // Execute callback
                     Timers[i].timer_cb_func(*(Timers[i].p_timer_id));
                 }
