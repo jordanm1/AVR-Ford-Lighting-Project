@@ -357,7 +357,7 @@ static void update_cmds(rect_vect_t requested_location)
         // Get slave base id for slave num
         temp_id = GET_SLAVE_BASE_ID(slave_num);
         // Compute the pointer to the correct location in command array
-        p_temp_cmd = (&(My_Command_Data[0]))+(slave_num-1)*LIN_PACKET_LEN;
+        p_temp_cmd = (&(My_Command_Data[0]))+(slave_num-LOWEST_SLAVE_NUMBER)*LIN_PACKET_LEN;
         // Run algorithm to compute the individual light settings
         Compute_Individual_Light_Settings(Get_Slave_Parameters(temp_id), p_temp_cmd, requested_location);
     }
