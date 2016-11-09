@@ -19,7 +19,7 @@
 // ------------ SYSTEM SETTINGS
 // #############################################################################
 
-#define NUM_SLAVES          1
+#define NUM_SLAVES          2
 
 // #############################################################################
 // ------------ NODE SETTINGS
@@ -73,6 +73,9 @@
 #define SLAVE_BASE_MASK         ~(0x01)
 
 // Define a macro to get the slave number based on ID
+// *Note: GET_SLAVE_NUMBER is agnostic to whether the ID is a command or request,
+//      the last bit is removed in either case so the number ends up being the 
+//      same
 #define GET_SLAVE_NUMBER(slave_id)              (slave_id>>1)
 #define GET_SLAVE_BASE_ID(slave_number)         (slave_number<<1)
 
@@ -81,13 +84,13 @@
 // #############################################################################
 
 // Command/status packet byte indices and lengths
-#define LIN_PACKET_LEN          (3)             // number of bytes in packet
-#define INTENSITY_DATA_INDEX    (0)             // Start index for this command
-#define POSITION_DATA_INDEX     (1)             // Start index for this command
-#define INTENSITY_DATA_LEN      (1)             // Number of bytes
-#define POSITION_DATA_LEN       (2)             // Number of bytes
-typedef uint8_t                 intensity_data_t;
-typedef uint16_t                position_data_t;
+#define LIN_PACKET_LEN          (3)                 // number of bytes in packet
+#define INTENSITY_DATA_INDEX    (0)                 // Start index for this command
+#define POSITION_DATA_INDEX     (1)                 // Start index for this command
+#define INTENSITY_DATA_LEN      (1)                 // Number of bytes
+#define POSITION_DATA_LEN       (2)                 // Number of bytes
+typedef uint8_t                 intensity_data_t;   // Right now we are encoding % intensity here
+typedef uint16_t                position_data_t;    // Right now we are encoding pulse width here
 
 // Specific Command Keywords
 #define INTENSITY_NON_COMMAND   (0xFF)       

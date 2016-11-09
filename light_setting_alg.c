@@ -366,7 +366,7 @@ static position_data_t interpolate_slave_position(const slave_parameters_t * p_s
             // Since the positions are increasing, we add to min position
             // @TODO: Make sure these won't overflow
             position_range = p_slave_params->position_max-p_slave_params->position_min;
-            result = p_slave_params->position_min + (uint32_t) (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
+            result = p_slave_params->position_min + (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta) * (uint32_t) position_range)/slave_range_degs));
         }
         // If positions are decreasing from min to max
         else if (p_slave_params->position_min > p_slave_params->position_max)
@@ -375,7 +375,7 @@ static position_data_t interpolate_slave_position(const slave_parameters_t * p_s
             // Since the positions are decreasing, we subtract from min position
             // @TODO: Make sure these won't overflow
             position_range = p_slave_params->position_min-p_slave_params->position_max;
-            result = p_slave_params->position_min - (uint32_t) (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
+            result = p_slave_params->position_min - (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta) * (uint32_t) position_range)/slave_range_degs));
         }
         else
         {

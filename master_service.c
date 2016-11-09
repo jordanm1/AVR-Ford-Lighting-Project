@@ -80,6 +80,8 @@
 static uint8_t My_Node_ID = 0;                              // This node's ID
 static uint8_t My_Command_Data[MASTER_DATA_LENGTH] = {0};   // Commands for slaves
 static uint8_t My_Status_Data[MASTER_DATA_LENGTH] = {0};    // Slaves' stati
+static uint8_t * p_My_Command_Data = My_Command_Data;
+static uint8_t * p_My_Status_Data = My_Status_Data;
 
 // Scheduling Timer
 static uint32_t Scheduling_Timer = NON_EVENT;
@@ -110,6 +112,8 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
                                                         {.x = 5, .y = 2},
                                                         {.x = 5, .y = 4},
                                                         };
+static position_data_t position_to_watch;
+static intensity_data_t intensity_to_watch;
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -147,14 +151,14 @@ void Init_Master_Service(void)
     clear_cmds();
 
     // Initialize LIN
-    MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
+    MS_LIN_Initialize(&My_Node_ID, p_My_Command_Data, p_My_Status_Data);
 
     // Register scheduling timer with ID_schedule_handler as 
     //      callback function
     Register_Timer(&Scheduling_Timer, ID_schedule_handler);
 
     // Kick off scheduling timer
-/*    Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);*/
+    Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
@@ -204,28 +208,9 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_TEST_TIMEOUT:
             // Just a test
-
-            //// TEST SERVO
-            //// Hold servo position
-            //Hold_Analog_Servo_Position(position_counter);
-            //if ((10 == position_counter) || (0 == position_counter)) {parity ^= 1;};
-            //if (parity)
-            //{
-                //position_counter--;
-            //}
-            //else
-            //{
-                //position_counter++;
-            //}
-            //for (int i = 0; i < NUM_SLAVES; i++)
-            //{
-                //uint8_t temp_index = i<<1;
-                //My_Command_Data[temp_index] = test_counter;
-                //My_Command_Data[temp_index+1] = 0xFF;
-            //}
 //
             // TEST PWM
-            Set_PWM_Duty_Cycle(pwm_channel_a, test_counter);
+            Set_PWM_Duty_Cycle(pwm_channel_a, 80);
             Hold_Analog_Servo_Position(750+position_counter);
             if ((1500 == position_counter) || (0 == position_counter)) {up_count ^= 1;};
             if (up_count)
@@ -238,16 +223,16 @@ void Run_Master_Service(uint32_t event_mask)
             }
 
             #if 1
-            parity ^= 1;
-            if (parity)
-            {
-                PORTB |= (1<<PINB6);
-            }
-            else
-            {
-                PORTB &= ~(1<<PINB6);
-            }
-            Start_Timer(&Testing_Timer, 25);
+//             parity ^= 1;
+//             if (parity)
+//             {
+//                 PORTB |= (1<<PINB6);
+//             }
+//             else
+//             {
+//                 PORTB &= ~(1<<PINB6);
+//             }
+            Start_Timer(&Testing_Timer, 500);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -258,11 +243,15 @@ void Run_Master_Service(uint32_t event_mask)
 //             Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
             // Begin updating the commands, which will
             //      be sent in the background
-//             PORTB |= (1<<PINB6);
-//             update_cmds(test_positions[test_counter]);
-//             test_counter++;
-//             if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
-//             PORTB &= ~(1<<PINB6);
+            PORTB |= (1<<PINB6);
+//             Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 98);
+//             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
+            update_cmds(test_positions[test_counter]);
+            position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
+            intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
+            test_counter++;
+            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
+            PORTB &= ~(1<<PINB6);
             // *Note: While we are sending, we will
             //      check to see if the slaves have
             //      obeyed whenever we receive a
@@ -343,8 +332,8 @@ static void clear_cmds(void)
     for (int slave_num = LOWEST_SLAVE_NUMBER; slave_num <= NUM_SLAVES; slave_num++)
     {
         // Write non-commands
-        Write_Intensity_Data(Get_Pointer_To_Slave_Data(My_Command_Data, slave_num), INTENSITY_NON_COMMAND);
-        Write_Position_Data(Get_Pointer_To_Slave_Data(My_Command_Data, slave_num), POSITION_NON_COMMAND);
+        Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), INTENSITY_NON_COMMAND);
+        Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), POSITION_NON_COMMAND);
     }
 }
 
@@ -366,7 +355,7 @@ static void update_cmds(rect_vect_t requested_location)
     {
         // Run algorithm to compute the individual light settings
         Compute_Individual_Light_Settings(Get_Pointer_To_Slave_Parameters(slave_num),
-            Get_Pointer_To_Slave_Data(My_Command_Data, slave_num), requested_location);
+            Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), requested_location);
     }
 }
 
@@ -395,10 +384,10 @@ static bool did_single_slave_obey(uint8_t slave_number)
 
     // IF The slave's intensity doesn't match my commanded intensity AND my command was valid
     // (if the command we sent was a NON_COMMAND, then we don't care about the slave's status)
-    if (    (Get_Intensity_Data(Get_Pointer_To_Slave_Data(My_Status_Data, slave_number))
-            != Get_Intensity_Data(Get_Pointer_To_Slave_Data(My_Command_Data, slave_number)))
+    if (    (Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Status_Data, slave_number))
+            != Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_number)))
             &&
-            (INTENSITY_NON_COMMAND != Get_Intensity_Data(Get_Pointer_To_Slave_Data(My_Command_Data, slave_number)))
+            (INTENSITY_NON_COMMAND != Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_number)))
        )
     {
         // The slave has not obeyed my intensity command, return false
@@ -407,10 +396,10 @@ static bool did_single_slave_obey(uint8_t slave_number)
     
      // IF The slave's position doesn't match my commanded position AND my command was valid
      // (if the command we sent was a NON_COMMAND, then we don't care about the slave's status)
-     if (    (Get_Position_Data(Get_Pointer_To_Slave_Data(My_Status_Data, slave_number))
-             != Get_Position_Data(Get_Pointer_To_Slave_Data(My_Command_Data, slave_number)))
+     if (    (Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Status_Data, slave_number))
+             != Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_number)))
              &&
-             (POSITION_NON_COMMAND != Get_Position_Data(Get_Pointer_To_Slave_Data(My_Command_Data, slave_number)))
+             (POSITION_NON_COMMAND != Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_number)))
         )
      {
         // The slave has not obeyed my position command, return false

@@ -60,9 +60,11 @@
 // #############################################################################
 
 // These values should only exist in a single module for each node
-static uint8_t My_Node_ID;                          // This node's ID
-static uint8_t My_Command_Data[LIN_PACKET_LEN];     // This node's current command
-static uint8_t My_Status_Data[LIN_PACKET_LEN];      // This node's status
+static uint8_t My_Node_ID;                              // This node's ID
+static uint8_t My_Command_Data[LIN_PACKET_LEN];         // This node's current command
+static uint8_t My_Status_Data[LIN_PACKET_LEN];          // This node's status
+static uint8_t * p_My_Command_Data = My_Command_Data;
+static uint8_t * p_My_Status_Data = My_Status_Data;
 
 // *Note: We have set up the system so the slaves don't need their parameters.
 // (We don't need a pointer to our slave parameters.)
@@ -94,14 +96,14 @@ void Init_Slave_Service(void)
 {
     // Initialize command and status arrays
     // TODO
-    Write_Intensity_Data(My_Command_Data, INTENSITY_NON_COMMAND);
-    Write_Position_Data(My_Command_Data, POSITION_NON_COMMAND);
-    Write_Intensity_Data(My_Status_Data, LIGHT_OFF);
-    Write_Position_Data(My_Status_Data, SERVO_STAY);
+    Write_Intensity_Data(p_My_Command_Data, INTENSITY_NON_COMMAND);
+    Write_Position_Data(p_My_Command_Data, POSITION_NON_COMMAND);
+    Write_Intensity_Data(p_My_Status_Data, LIGHT_OFF);
+    Write_Position_Data(p_My_Status_Data, SERVO_STAY);
 
     // Initialize ADC, read slave number, create & store slave ID in RAM
     // TODO
-    My_Node_ID = 0x02;
+    My_Node_ID = GET_SLAVE_BASE_ID(1);
 
     // Disable ADC
     // TODO
@@ -113,7 +115,7 @@ void Init_Slave_Service(void)
     // TODO
 
     // Initialize LIN
-    MS_LIN_Initialize(&My_Node_ID, &My_Command_Data[0], &My_Status_Data[0]);
+    MS_LIN_Initialize(&My_Node_ID, p_My_Command_Data, p_My_Status_Data);
 
     // Post an event that forces the slave to get a valid ID before moving on
     // We need to post an event because all initializers are in a critical
@@ -239,16 +241,16 @@ static void process_intensity_cmd(void)
         // General Flow:
         // If the command is valid, then we copy the command to our status
         //      then we execute whatever is in our status
-        if (INTENSITY_NON_COMMAND != Get_Intensity_Data(My_Command_Data))
+        if (INTENSITY_NON_COMMAND != Get_Intensity_Data(p_My_Command_Data))
         {
             // If command differs from our status execute intensity command
-            if (Get_Intensity_Data(My_Status_Data) != Get_Intensity_Data(My_Command_Data))
+            if (Get_Intensity_Data(p_My_Status_Data) != Get_Intensity_Data(p_My_Command_Data))
             {
                 // Update our status as the command
-                Write_Intensity_Data(My_Status_Data, Get_Intensity_Data(My_Command_Data));
+                Write_Intensity_Data(p_My_Status_Data, Get_Intensity_Data(p_My_Command_Data));
 
                 // Set light intensity
-                Set_Light_Intensity(Get_Intensity_Data(My_Status_Data));
+                Set_Light_Intensity(Get_Intensity_Data(p_My_Status_Data));
             }
         }
     }
@@ -274,16 +276,16 @@ static void process_position_cmd(void)
         // General Flow:
         // If the command is valid, then we copy the command to our status
         //      then we execute whatever is in our status
-        if (POSITION_NON_COMMAND != Get_Position_Data(My_Command_Data))
+        if (POSITION_NON_COMMAND != Get_Position_Data(p_My_Command_Data))
         {
             // If command differs from our status and position is valid, execute move command
-            if (Get_Position_Data(My_Status_Data) != Get_Position_Data(My_Command_Data))
+            if (Get_Position_Data(p_My_Status_Data) != Get_Position_Data(p_My_Command_Data))
             {
                 // Update our status as the command
-                Write_Position_Data(My_Status_Data, Get_Position_Data(My_Command_Data));
+                Write_Position_Data(p_My_Status_Data, Get_Position_Data(p_My_Command_Data));
 
                 // Change servo position, based on our new status
-                Move_Analog_Servo_To_Position(Get_Position_Data(My_Status_Data));
+                Move_Analog_Servo_To_Position(Get_Position_Data(p_My_Status_Data));
             }
         }
     }

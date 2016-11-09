@@ -72,7 +72,7 @@
 intensity_data_t Get_Intensity_Data(uint8_t * p_LIN_packet)
 {
     intensity_data_t result;
-    memcpy(&result, p_LIN_packet, INTENSITY_DATA_LEN);
+    memcpy(&result, p_LIN_packet+INTENSITY_DATA_INDEX, INTENSITY_DATA_LEN);
     return result;
 }
 
@@ -90,7 +90,7 @@ intensity_data_t Get_Intensity_Data(uint8_t * p_LIN_packet)
 position_data_t Get_Position_Data(uint8_t * p_LIN_packet)
 {
     position_data_t result;
-    memcpy(&result, p_LIN_packet, POSITION_DATA_LEN);
+    memcpy(&result, p_LIN_packet+POSITION_DATA_INDEX, POSITION_DATA_LEN);
     return result;
 }
 

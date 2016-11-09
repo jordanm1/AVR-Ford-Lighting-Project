@@ -36,6 +36,9 @@
 // Interrupts
 #include <avr/interrupt.h>
 
+// Command/Status helpers
+#include "cmd_sts_helpers.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -163,8 +166,7 @@ static void lin_id_task(void)
                 // Make sure we send the right command based on the slave ID.
                 // The master has a My_Command_Data array that is LIN_PACKET_LEN*n bytes long.
                 // Where n is the number of slaves in the system.
-                uint8_t * p_slave_command = p_My_Command_Data + ((GET_SLAVE_NUMBER(temp_id)-LOWEST_SLAVE_NUMBER)*LIN_PACKET_LEN);
-                lin_tx_response((OUR_LIN_SPEC), p_slave_command, (LIN_PACKET_LEN));
+                lin_tx_response((OUR_LIN_SPEC), Get_Pointer_To_Slave_Data(p_My_Command_Data, GET_SLAVE_NUMBER(temp_id)), (LIN_PACKET_LEN));
             }
             // Prepare LIN module for receive if we sent a request.
             else
@@ -198,7 +200,7 @@ static void lin_rx_task(void)
     if (MASTER_NODE_ID == *p_My_Node_ID)
     {
         // TODO: Not entirely sure if the ID is saved during the receive...
-        lin_get_response(p_My_Status_Data + ((GET_SLAVE_NUMBER(Lin_get_id() & SLAVE_BASE_MASK)-LOWEST_SLAVE_NUMBER)*LIN_PACKET_LEN));
+        lin_get_response(Get_Pointer_To_Slave_Data(p_My_Status_Data, GET_SLAVE_NUMBER(Lin_get_id())));
 
         // Post event
         Post_Event(EVT_MASTER_NEW_STS);
