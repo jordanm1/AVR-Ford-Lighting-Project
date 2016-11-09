@@ -146,6 +146,12 @@
     <Compile Include="analog_servo_drv.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="cmd_sts_helpers.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="cmd_sts_helpers.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>

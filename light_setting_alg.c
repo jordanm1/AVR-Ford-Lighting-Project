@@ -32,6 +32,11 @@
 #include "__template.h"
 
 // Include other files below:
+
+// Command/Status helpers
+#include "cmd_sts_helpers.h"
+
+// memcpy
 #include <string.h>
 
 // Light
@@ -63,7 +68,7 @@ uint16_t desired_theta, light_range;
 int16_t theta_light_min, theta_light_max;
 uint16_t norm2_desired_relative;
 rect_vect_t v_desired_relative;
-uint8_t result_settings[2];
+uint8_t result_settings[LIN_PACKET_LEN];
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -71,7 +76,7 @@ uint8_t result_settings[2];
 
 static uint16_t norm2_rect_vect(rect_vect_t vect);
 static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel);
-static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle);
+static position_data_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle);
 static uint16_t compute_cw_angular_distance(uint16_t start_angle, uint16_t end_angle);
 
 // #############################################################################
@@ -99,6 +104,7 @@ void Compute_Individual_Light_Settings(
 {
     // If NULL pointers, return immediately
     if (!p_slave_params) return;
+    if (!p_cmd_data) return;
 
 //     // INITIALIZE VARS:
 //     uint16_t desired_theta, light_range;
@@ -163,39 +169,43 @@ void Compute_Individual_Light_Settings(
         //  2. Set slave position via interpolation
 
         // Compute and set light intensity
-        result_settings[INTENSITY_INDEX] = (MAX_LIGHT_INTENSITY*INTENSITY_SCALING_FACTOR)/norm2_desired_relative;
-        if (MIN_LIGHT_INTENSITY > result_settings[INTENSITY_INDEX])
+        intensity_data_t temp_intensity = INTENSITY_NON_COMMAND;
+        temp_intensity = (MAX_LIGHT_INTENSITY*INTENSITY_SCALING_FACTOR)/norm2_desired_relative;
+        if (MIN_LIGHT_INTENSITY > temp_intensity)
         {
-            result_settings[INTENSITY_INDEX] = MIN_LIGHT_INTENSITY;
+            temp_intensity = MIN_LIGHT_INTENSITY;
         }
-        else if (MAX_LIGHT_INTENSITY < result_settings[INTENSITY_INDEX])
+        else if (MAX_LIGHT_INTENSITY < temp_intensity)
         {
-            result_settings[INTENSITY_INDEX] = MAX_LIGHT_INTENSITY;
+            temp_intensity = MAX_LIGHT_INTENSITY;
         }
         else
         {
             // Leave as is. Valid light intensity.
         }
+        Write_Intensity_Data(result_settings, temp_intensity);
 
         // Interpolate position between min and max if this slave is equipped to move
+        position_data_t temp_position = POSITION_NON_COMMAND;
         if (p_slave_params->move_equipped)
         {
-            result_settings[POSITION_INDEX] = interpolate_slave_position(p_slave_params, desired_theta);
+            temp_position = interpolate_slave_position(p_slave_params, desired_theta);
         }
         else
         {
             // This slave is not equipped to move so return a non-command, so the servo
             // doesn't move
-            result_settings[POSITION_INDEX] = NON_COMMAND;
+            temp_position = POSITION_NON_COMMAND;
         }
+        Write_Position_Data(result_settings, temp_position);
     }
     // Otherwise, this slave cannot put any light in the requested location
     else
     {
         // The desired position cannot be reached with light via this node.
         // Turn off the light and keep the servo where it is (send non command to servo)
-        result_settings[INTENSITY_INDEX] = LIGHT_OFF;
-        result_settings[POSITION_INDEX] = NON_COMMAND;
+        Write_Intensity_Data(result_settings, INTENSITY_NON_COMMAND);
+        Write_Position_Data(result_settings, POSITION_NON_COMMAND);
     }
 
     // *Note: after this algorithm runs, the light intensity will be set,
@@ -203,7 +213,7 @@ void Compute_Individual_Light_Settings(
     //  (either NON_COMMAND or a valid position)
 
     // Copy data to location provided by caller
-    memcpy(p_cmd_data, &result_settings, LIN_PACKET_LEN);
+    memcpy(p_cmd_data, result_settings, LIN_PACKET_LEN);
 }
 
 // #############################################################################
@@ -304,17 +314,17 @@ static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
         slave_parameters_t * p_slave_params
         uint16_t desired_angle
 
-        Keep in mind,
-            the range of 16-bit integer types is -32,768 through 32,767.
-
     Description
-        Returns the squared norm of a 2-D vector
+        Returns the position of a servo to get the servo as close
+            to the desired angle as possible. If the desired angle
+            is outside of the range, the servo will move to one of
+            its limits.
 
 ****************************************************************************/
-static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle)
+static position_data_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle)
 {
     // Initialize result
-    uint8_t result = NON_COMMAND;
+    position_data_t result = POSITION_NON_COMMAND;
 
     /* CALCULATE RANGE OF SLAVE IN DEGREES */
     // Calculate the range of degrees between min and max
@@ -322,7 +332,7 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
     slave_range_degs = compute_cw_angular_distance(p_slave_params->theta_min, p_slave_params->theta_max);
 
     /* COMPUTE RATIO OF DESIRED ANGLE ABOVE THE MINIMUM ANGLE*/
-    uint8_t position_range;
+    position_data_t position_range;
     // If the desired angle is outside of our move ability
     if  (   compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)
             >=
@@ -354,16 +364,18 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
         {
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are increasing, we add to min position
+            // @TODO: Make sure these won't overflow
             position_range = p_slave_params->position_max-p_slave_params->position_min;
-            result = p_slave_params->position_min+(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
+            result = p_slave_params->position_min + (uint32_t) (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
         }
         // If positions are decreasing from min to max
         else if (p_slave_params->position_min > p_slave_params->position_max)
         {
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are decreasing, we subtract from min position
+            // @TODO: Make sure these won't overflow
             position_range = p_slave_params->position_min-p_slave_params->position_max;
-            result = p_slave_params->position_min-(0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
+            result = p_slave_params->position_min - (uint32_t) (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)*position_range)/slave_range_degs));
         }
         else
         {
@@ -385,7 +397,7 @@ static uint8_t interpolate_slave_position(const slave_parameters_t * p_slave_par
     }
     else
     {
-        return NON_COMMAND;
+        return POSITION_NON_COMMAND;
     }
 }
 

@@ -11,9 +11,6 @@
 // ------------ SERVO DEFINITIONS
 // #############################################################################
 
-// Stay Command for Servo (does not cause servo to move)
-#define SERVO_STAY                  (NON_COMMAND)
-
 // Servo Control Pin, (Use PWM channel B)
 #define ANALOG_SERVO_PWM_CH         pwm_channel_b
 #define ANALOG_SERVO_PWM_EN         PWM_CH_B_PIN_ENABLE
@@ -37,9 +34,9 @@
 // #############################################################################
 
 void Init_Analog_Servo_Driver(void);
-void Move_Analog_Servo_To_Position(uint8_t requested_position);
-void Hold_Analog_Servo_Position(uint8_t requested_position);
+void Move_Analog_Servo_To_Position(position_data_t requested_position);
+void Hold_Analog_Servo_Position(position_data_t requested_position);
 void Release_Analog_Servo(void);
-bool Is_Servo_Position_Valid(const slave_parameters_t * p_slave_params, uint8_t requested_position);
+bool Is_Servo_Position_Valid(const slave_parameters_t * p_slave_params, position_data_t requested_position);
 
 #endif // ANALOG_SERVO_DRV_H

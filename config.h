@@ -28,6 +28,17 @@
 #define IS_MASTER_NODE      YES
 
 // #############################################################################
+// ------------ INCLUDES
+// #############################################################################
+
+// AVR Library
+#include <avr/io.h>                         // Use AVR-GCC library
+
+// Standard ANSI  99 C types for exact integer sizes and booleans
+#include <stdint.h>
+#include <stdbool.h>
+
+// #############################################################################
 // ------------ LIN ID MAP
 // #############################################################################
 
@@ -66,34 +77,38 @@
 #define GET_SLAVE_BASE_ID(slave_number)         (slave_number<<1)
 
 // #############################################################################
-// ------------ COMMANDS
+// ------------ COMMANDS AND STATI
 // #############################################################################
 
-// Command/status packet byte indices
-#define INTENSITY_INDEX         0               // Lower byte of array
-#define POSITION_INDEX          1               // Upper byte of array
+// Command/status packet byte indices and lengths
+#define LIN_PACKET_LEN          (3)             // number of bytes in packet
+#define INTENSITY_DATA_INDEX    (0)             // Start index for this command
+#define POSITION_DATA_INDEX     (1)             // Start index for this command
+#define INTENSITY_DATA_LEN      (1)             // Number of bytes
+#define POSITION_DATA_LEN       (2)             // Number of bytes
+typedef uint8_t                 intensity_data_t;
+typedef uint16_t                position_data_t;
 
 // Specific Command Keywords
-#define NON_COMMAND             (0xFF)          // All commands on master
+#define INTENSITY_NON_COMMAND   (0xFF)       
+#define POSITION_NON_COMMAND    (0xFFFF)        // All commands on master
                                                 //  should be initialized
-                                                //  to this value.                                      
-                                                                                                
-// #############################################################################
-// ------------ INCLUDES
-// #############################################################################
+                                                //  to this value.
 
-// AVR Library
-#include <avr/io.h>                         // Use AVR-GCC library
+// Extremes for Intensities, must be contained in INTENSITY_DATA_LEN
+#define LIGHT_OFF               (0x00)
+#define MIN_LIGHT_INTENSITY     (30)
+#define MAX_LIGHT_INTENSITY     (100)      
 
-// Standard ANSI  99 C types for exact integer sizes and booleans
-#include <stdint.h>
-#include <stdbool.h>
+// Stay Command for Servo (does not cause servo to move), must be contained
+//  in POSITION_DATA_LEN
+#define SERVO_STAY              (POSITION_NON_COMMAND)                 
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS
 // #############################################################################
 
-// node_type_t
+// node_type_t (unused)
 typedef enum
 {
     master_node = 0,
@@ -114,21 +129,14 @@ typedef struct
 // TODO: We need to define the origin.
 typedef struct
 {
-    rect_vect_t     rect_position;      // x,y position
-    uint16_t        theta_min;          // min movement angle
-    uint16_t        theta_max;          // max movement angle (always > theta_min)
-    uint8_t         position_min;       // min position on servo
-    uint8_t         position_max;       // max position on servo
-    uint16_t        fov;                // field of view of lens on light
-    bool            move_equipped;      // whether the node can move
+    rect_vect_t         rect_position;      // x,y position
+    uint16_t            theta_min;          // min movement angle
+    uint16_t            theta_max;          // max movement angle (always > theta_min)
+    position_data_t     position_min;       // min position on servo
+    position_data_t     position_max;       // max position on servo
+    uint16_t            fov;                // field of view of lens on light (angle)
+    bool                move_equipped;      // whether the node can move
 } slave_parameters_t;
-
-// slave_settings_t
-typedef struct 
-{
-    uint8_t         intensity;          // 0-100
-    uint8_t         position;           // 0-10 with current servo driver
-} slave_settings_t;
 
 // #############################################################################
 // ------------ DO NOT MODIFY
@@ -137,7 +145,6 @@ typedef struct
 // LIN Settings
 #define FOSC                    8000            // in KHz
 #define LIN_BAUDRATE            19200           // in bit/s
-#define LIN_PACKET_LEN          (2)             // always send 2 bytes of data
 
 // YES/NO directives
 #define NO                      0

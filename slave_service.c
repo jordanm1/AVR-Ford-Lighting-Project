@@ -31,6 +31,9 @@
 // LIN top layer
 #include "MS_LIN_top_layer.h"
 
+// Command and Status Helpers
+#include "cmd_sts_helpers.h"
+
 // ADC
 #include "ADC.h"
 
@@ -61,7 +64,8 @@ static uint8_t My_Node_ID;                          // This node's ID
 static uint8_t My_Command_Data[LIN_PACKET_LEN];     // This node's current command
 static uint8_t My_Status_Data[LIN_PACKET_LEN];      // This node's status
 
-static const slave_parameters_t * p_My_Parameters;  // Pointer to this node's parameters
+// *Note: We have set up the system so the slaves don't need their parameters.
+// (We don't need a pointer to our slave parameters.)
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -70,7 +74,6 @@ static const slave_parameters_t * p_My_Parameters;  // Pointer to this node's pa
 static void set_slave_id(void);
 static void process_intensity_cmd(void);
 static void process_position_cmd(void);
-static bool is_cmd_valid(uint8_t cmd_index);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -91,17 +94,14 @@ void Init_Slave_Service(void)
 {
     // Initialize command and status arrays
     // TODO
-    My_Command_Data[INTENSITY_INDEX] = NON_COMMAND;
-    My_Command_Data[POSITION_INDEX] = NON_COMMAND;
-    My_Status_Data[INTENSITY_INDEX] = LIGHT_OFF;
-    My_Status_Data[POSITION_INDEX] = SERVO_STAY;
+    Write_Intensity_Data(My_Command_Data, INTENSITY_NON_COMMAND);
+    Write_Position_Data(My_Command_Data, POSITION_NON_COMMAND);
+    Write_Intensity_Data(My_Status_Data, LIGHT_OFF);
+    Write_Position_Data(My_Status_Data, SERVO_STAY);
 
     // Initialize ADC, read slave number, create & store slave ID in RAM
     // TODO
     My_Node_ID = 0x02;
-
-    // Update the pointer to our slave parameters
-    p_My_Parameters = Get_Slave_Parameters(My_Node_ID);
 
     // Disable ADC
     // TODO
@@ -239,16 +239,16 @@ static void process_intensity_cmd(void)
         // General Flow:
         // If the command is valid, then we copy the command to our status
         //      then we execute whatever is in our status
-        if (is_cmd_valid(INTENSITY_INDEX))
+        if (INTENSITY_NON_COMMAND != Get_Intensity_Data(My_Command_Data))
         {
             // If command differs from our status execute intensity command
-            if (My_Status_Data[INTENSITY_INDEX] != My_Command_Data[INTENSITY_INDEX])
+            if (Get_Intensity_Data(My_Status_Data) != Get_Intensity_Data(My_Command_Data))
             {
                 // Update our status as the command
-                My_Status_Data[INTENSITY_INDEX] = My_Command_Data[INTENSITY_INDEX];
+                Write_Intensity_Data(My_Status_Data, Get_Intensity_Data(My_Command_Data));
 
                 // Set light intensity
-                Set_Light_Intensity(My_Status_Data[INTENSITY_INDEX]);
+                Set_Light_Intensity(Get_Intensity_Data(My_Status_Data));
             }
         }
     }
@@ -274,43 +274,20 @@ static void process_position_cmd(void)
         // General Flow:
         // If the command is valid, then we copy the command to our status
         //      then we execute whatever is in our status
-        if (is_cmd_valid(POSITION_INDEX))
+        if (POSITION_NON_COMMAND != Get_Position_Data(My_Command_Data))
         {
             // If command differs from our status and position is valid, execute move command
-            if (My_Status_Data[POSITION_INDEX] != My_Command_Data[POSITION_INDEX])
+            if (Get_Position_Data(My_Status_Data) != Get_Position_Data(My_Command_Data))
             {
                 // Update our status as the command
-                My_Status_Data[POSITION_INDEX] = My_Command_Data[POSITION_INDEX];
+                Write_Position_Data(My_Status_Data, Get_Position_Data(My_Command_Data));
 
-                // Change servo position
-                Move_Analog_Servo_To_Position(My_Status_Data[POSITION_INDEX]);
+                // Change servo position, based on our new status
+                Move_Analog_Servo_To_Position(Get_Position_Data(My_Status_Data));
             }
         }
     }
 }
 
-/****************************************************************************
-    Private Function
-        is_cmd_valid()
-
-    Parameters
-        cmd_index
-
-    Description
-        returns bool based on if command is enabled
-
-****************************************************************************/
-static bool is_cmd_valid(uint8_t cmd_index)
-{
-    // If command is valid
-    if (NON_COMMAND != My_Command_Data[cmd_index])
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-}
 
 

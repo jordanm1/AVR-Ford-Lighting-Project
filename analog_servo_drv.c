@@ -69,7 +69,7 @@ static uint8_t Step = 0;
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
-static uint8_t get_pulse_width(uint8_t this_position);
+static void set_pulse_width(position_data_t this_position);
 static void stop_signal(uint32_t unused);
 
 // #############################################################################
@@ -109,9 +109,6 @@ void Init_Analog_Servo_Driver(void)
     // Signal generation will occur when PWM gets enabled. But,
     //  first we will unlink the pin from the PWM module. So no
     //  signal will be generated.
-
-    // Testing
-    Set_PWM_Duty_Cycle(ANALOG_SERVO_PWM_CH, 40);
 }
 
 /****************************************************************************
@@ -126,13 +123,13 @@ void Init_Analog_Servo_Driver(void)
         when the SERVO_DRIVE_TIME_MS have elapsed
 
 ****************************************************************************/
-void Move_Analog_Servo_To_Position(uint8_t requested_position)
+void Move_Analog_Servo_To_Position(position_data_t requested_position)
 {
     // Only execute if position is valid
     if (SERVO_STAY != requested_position)
     {
-        // Change duty cycle of analog servo pwm channel
-
+        // Set pulse width for the requested position
+        set_pulse_width(requested_position);
 
         // Start move timer (this module will send signals for this amount of time)
         // The cb function for this timer is stop_signal()
@@ -151,13 +148,16 @@ void Move_Analog_Servo_To_Position(uint8_t requested_position)
         Holds the desired servo position by continuously sending servo commands
 
 ****************************************************************************/
-void Hold_Analog_Servo_Position(uint8_t requested_position)
+void Hold_Analog_Servo_Position(position_data_t requested_position)
 {
     // Only execute if position is valid
     if (SERVO_STAY != requested_position)
     {
-        // Change duty cycle of analog servo pwm channel
+        // Stop move timer in case it is running
+        Stop_Timer(&Move_Timer);
 
+        // Set pulse width for the requested position
+        set_pulse_width(requested_position);
     }
 }
 
@@ -190,59 +190,30 @@ void Release_Analog_Servo(void)
             based on the slave parameters
 
 ****************************************************************************/
-bool Is_Servo_Position_Valid(const slave_parameters_t * p_slave_params, uint8_t requested_position)
+bool Is_Servo_Position_Valid(const slave_parameters_t * p_slave_params, position_data_t requested_position)
 {
     // If requested position is servo stay, the position is immediately invalid
     if (SERVO_STAY == requested_position) return false;
 
-    // If the max position is greater than the min position
-    // (Example: min = 1, max = 6, requested = 10)
-    if (p_slave_params->position_max > p_slave_params->position_min)
+    // If the requested position is greater than both the max and min,
+    // or less than the max and min, then the position is invalid
+    if  (   (p_slave_params->position_max < requested_position)
+            &&
+            (p_slave_params->position_min < requested_position)
+        )
     {
-        if  (   (p_slave_params->position_min > requested_position)
-                ||
-                (p_slave_params->position_max < requested_position)
-            )
-        {
-            // Position is outside of possible range, return false
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return false;
     }
-    // If the min position is greater than the max position
-    // (Example: min = 8, max = 0, requested = 10)
-    else if (p_slave_params->position_min > p_slave_params->position_max)
+    else if (   (p_slave_params->position_max > requested_position)
+                &&
+                (p_slave_params->position_min > requested_position)
+            )
     {
-        if  (   (p_slave_params->position_min < requested_position)
-                ||
-                (p_slave_params->position_max > requested_position)
-            )
-        {
-            // Position is outside of possible range, return false
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return false;
     }
-    // Otherwise the positions are equal
-    // (Example: min = 5, max = 5, requested = 10)
     else
     {
-        if (p_slave_params->position_min != requested_position)
-        {
-            // The requested position does not match the single
-            //  possible position
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return true;
     }
 }
 
@@ -252,28 +223,23 @@ bool Is_Servo_Position_Valid(const slave_parameters_t * p_slave_params, uint8_t 
 
 /****************************************************************************
     Private Function
-        get_pulse_width
+        set_pulse_width
 
     Parameters
         None
 
     Description
-        Returns the pulse width in tenths of milliseconds based on
-        positions and min/max pulse lengths
+        Based on some position, we will set the pulse width via the
+            Output Compare Register
 
 ****************************************************************************/
-static uint8_t get_pulse_width(uint8_t this_position)
+static void set_pulse_width(position_data_t this_position)
 {
-//     // Example: Valid Inputs are 0-10 (11 positions)
-//     if ((MAX_PULSE_WIDTH_TENTHMS-MIN_PULSE_WIDTH_TENTHMS) < this_position)
-//     {
-//         return MAX_PULSE_WIDTH_TENTHMS;
-//     }
-//     else
-//     {
-//         return MIN_PULSE_WIDTH_TENTHMS+this_position;
-//     }
-    return 0;
+    // For now, the position input is the pulse width
+    uint16_t pulse_width = this_position;
+
+    // Compute what the register value should be for some pulse width
+    OCR1B = (TIMER_1_TOP-(((uint32_t) pulse_width*TIMER_1_TOP)/US_IN_PWM_PERIOD));
 }
 
 /****************************************************************************

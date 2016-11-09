@@ -7,6 +7,7 @@
 
 // Define PWM frequency
 #define PWM_FREQ                (200)       // 200 Hz
+#define US_IN_PWM_PERIOD        (5000)      // 1/PWM_FREQ/US_IN_SEC
 
 // Define timer 1 prescale amount
 #define TIMER_1_PRESCALE        ((0<<CS12)|(1<<CS11)|(0<<CS10))

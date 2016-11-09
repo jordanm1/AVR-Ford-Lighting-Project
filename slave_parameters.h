@@ -5,6 +5,6 @@
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-const slave_parameters_t * Get_Slave_Parameters(uint8_t slave_base_id);
+const slave_parameters_t * Get_Pointer_To_Slave_Parameters(uint8_t slave_num);
 
 #endif // SLAVE_PARAMETERS_H

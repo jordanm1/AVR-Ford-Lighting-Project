@@ -216,12 +216,12 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] =  {
         of the requested slave (based on the slave base ID).
 
 ****************************************************************************/
-const slave_parameters_t * Get_Slave_Parameters(uint8_t slave_base_id)
+const slave_parameters_t * Get_Pointer_To_Slave_Parameters(uint8_t slave_num)
 {
     // Ensure the slave_base_id is within slave bounds
-    if  (   (GET_SLAVE_BASE_ID(LOWEST_SLAVE_NUMBER) > slave_base_id)
+    if  (   (LOWEST_SLAVE_NUMBER > slave_num)
             ||
-            (GET_SLAVE_BASE_ID(HIGHEST_SLAVE_NUMBER) < slave_base_id)
+            (HIGHEST_SLAVE_NUMBER < slave_num)
         )
     {
         // Return false
@@ -229,7 +229,7 @@ const slave_parameters_t * Get_Slave_Parameters(uint8_t slave_base_id)
     }
 
     // Return the pointer to the requested slave parameters
-    return (Slave_Parameters+GET_SLAVE_NUMBER(slave_base_id)-LOWEST_SLAVE_NUMBER);
+    return (&Slave_Parameters[0]+slave_num-LOWEST_SLAVE_NUMBER);
 }
 
 // #############################################################################

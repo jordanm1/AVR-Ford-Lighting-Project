@@ -6,6 +6,8 @@ ADC.c
 
 analog_servo_drv.c
 
+cmd_sts_helpers.c
+
 events.c
 
 framework.c
