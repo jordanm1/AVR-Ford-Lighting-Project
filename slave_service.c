@@ -95,32 +95,23 @@ static void process_position_cmd(void);
 void Init_Slave_Service(void)
 {
     // Initialize command and status arrays
-    // TODO
     Write_Intensity_Data(p_My_Command_Data, INTENSITY_NON_COMMAND);
     Write_Position_Data(p_My_Command_Data, POSITION_NON_COMMAND);
     Write_Intensity_Data(p_My_Status_Data, LIGHT_OFF);
     Write_Position_Data(p_My_Status_Data, SERVO_STAY);
 
-    // Initialize ADC, read slave number, create & store slave ID in RAM
+    // Read our slave number from flash
     // TODO
     My_Node_ID = GET_SLAVE_BASE_ID(1);
 
-    // Disable ADC
-    // TODO
-
     // Initialize light to LIGHT_OFF
-    // TODO
+    Set_Light_Intensity(LIGHT_OFF);
 
-    // Initialize servo to SERVO_STAY
-    // TODO
+    // Release the servo so it does not move
+    Release_Analog_Servo();
 
     // Initialize LIN
     MS_LIN_Initialize(&My_Node_ID, p_My_Command_Data, p_My_Status_Data);
-
-    // Post an event that forces the slave to get a valid ID before moving on
-    // We need to post an event because all initializers are in a critical
-    //    section. Run_Events() occurs after enabling global interrupts.
-    Post_Event(EVT_SLAVE_GET_ID);
 }
 
 /****************************************************************************
