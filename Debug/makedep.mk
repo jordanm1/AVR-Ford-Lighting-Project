@@ -6,6 +6,8 @@ ADC.c
 
 analog_servo_drv.c
 
+CAN.c
+
 cmd_sts_helpers.c
 
 events.c
@@ -33,6 +35,10 @@ PWM.c
 slave_parameters.c
 
 slave_service.c
+
+SPI.c
+
+SPI_Service.c
 
 timer.c
 

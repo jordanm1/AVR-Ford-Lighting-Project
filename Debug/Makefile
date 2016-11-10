@@ -39,6 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../ADC.c \
 ../analog_servo_drv.c \
+../CAN.c \
 ../cmd_sts_helpers.c \
 ../events.c \
 ../framework.c \
@@ -53,6 +54,8 @@ C_SRCS +=  \
 ../PWM.c \
 ../slave_parameters.c \
 ../slave_service.c \
+../SPI.c \
+../SPI_Service.c \
 ../timer.c \
 ../__template.c
 
@@ -66,6 +69,7 @@ ASM_SRCS +=
 OBJS +=  \
 ADC.o \
 analog_servo_drv.o \
+CAN.o \
 cmd_sts_helpers.o \
 events.o \
 framework.o \
@@ -80,12 +84,15 @@ MS_LIN_top_layer.o \
 PWM.o \
 slave_parameters.o \
 slave_service.o \
+SPI.o \
+SPI_Service.o \
 timer.o \
 __template.o
 
 OBJS_AS_ARGS +=  \
 ADC.o \
 analog_servo_drv.o \
+CAN.o \
 cmd_sts_helpers.o \
 events.o \
 framework.o \
@@ -100,12 +107,15 @@ MS_LIN_top_layer.o \
 PWM.o \
 slave_parameters.o \
 slave_service.o \
+SPI.o \
+SPI_Service.o \
 timer.o \
 __template.o
 
 C_DEPS +=  \
 ADC.d \
 analog_servo_drv.d \
+CAN.d \
 cmd_sts_helpers.d \
 events.d \
 framework.d \
@@ -120,12 +130,15 @@ MS_LIN_top_layer.d \
 PWM.d \
 slave_parameters.d \
 slave_service.d \
+SPI.d \
+SPI_Service.d \
 timer.d \
 __template.d
 
 C_DEPS_AS_ARGS +=  \
 ADC.d \
 analog_servo_drv.d \
+CAN.d \
 cmd_sts_helpers.d \
 events.d \
 framework.d \
@@ -140,6 +153,8 @@ MS_LIN_top_layer.d \
 PWM.d \
 slave_parameters.d \
 slave_service.d \
+SPI.d \
+SPI_Service.d \
 timer.d \
 __template.d
 
@@ -157,6 +172,12 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 

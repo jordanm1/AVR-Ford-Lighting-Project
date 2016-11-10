@@ -39,7 +39,7 @@
       </framework-data>
     </AsfFrameworkConfig>
     <avrtool>com.atmel.avrdbg.tool.avrdragon</avrtool>
-    <avrtoolserialnumber>00A200063830</avrtoolserialnumber>
+    <avrtoolserialnumber>00A20006530A</avrtoolserialnumber>
     <avrdeviceexpectedsignature>0x1E9487</avrdeviceexpectedsignature>
     <com_atmel_avrdbg_tool_avrdragon>
       <ToolOptions>
@@ -49,7 +49,7 @@
         <InterfaceName>debugWIRE</InterfaceName>
       </ToolOptions>
       <ToolType>com.atmel.avrdbg.tool.avrdragon</ToolType>
-      <ToolNumber>00A200063830</ToolNumber>
+      <ToolNumber>00A20006530A</ToolNumber>
       <ToolName>AVR Dragon</ToolName>
     </com_atmel_avrdbg_tool_avrdragon>
     <avrtoolinterface>debugWIRE</avrtoolinterface>
@@ -146,6 +146,12 @@
     <Compile Include="analog_servo_drv.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="CAN.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="CAN.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="cmd_sts_helpers.c">
       <SubType>compile</SubType>
     </Compile>
@@ -206,6 +212,9 @@
     <Compile Include="master_service.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="MCP25625defs.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="MS_LIN_top_layer.c">
       <SubType>compile</SubType>
     </Compile>
@@ -228,6 +237,18 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="slave_service.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_Service.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SPI_Service.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="timer.c">

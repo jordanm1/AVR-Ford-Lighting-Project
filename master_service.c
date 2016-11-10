@@ -49,6 +49,9 @@
 // Slave Parameters
 #include "slave_parameters.h"
 
+// SPI Module
+#include "SPI.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -115,6 +118,13 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
 static position_data_t position_to_watch;
 static intensity_data_t intensity_to_watch;
 
+// SPI Test
+static uint8_t SPI_TX[3] = {0x0A, 0x02, 0x07};
+static uint8_t Recv1 = 0;
+static uint8_t Recv2 = 0;
+uint8_t* RecvList[2];
+
+
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
@@ -152,6 +162,9 @@ void Init_Master_Service(void)
 
     // Initialize LIN
     MS_LIN_Initialize(&My_Node_ID, p_My_Command_Data, p_My_Status_Data);
+	
+	// Initialize SPI
+	MS_SPI_Initialize(&My_Node_ID);
 
     // Register scheduling timer with ID_schedule_handler as 
     //      callback function
@@ -208,31 +221,37 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_TEST_TIMEOUT:
             // Just a test
+			RecvList[0] = &Recv1;
+			RecvList[1] = &Recv2;
+			// SPI Test
+			//
+			Write_SPI(3, 2, SPI_TX, &RecvList[0]);			
+			//Start_Timer(&Testing_Timer, 500);
 //
             // TEST PWM
-            Set_PWM_Duty_Cycle(pwm_channel_a, 80);
-            Hold_Analog_Servo_Position(750+position_counter);
-            if ((1500 == position_counter) || (0 == position_counter)) {up_count ^= 1;};
-            if (up_count)
-            {
-                position_counter++;
-            }
-            else
-            {
-                position_counter--;
-            }
+            //Set_PWM_Duty_Cycle(pwm_channel_a, 80);
+            //Hold_Analog_Servo_Position(750+position_counter);
+            //if ((1500 == position_counter) || (0 == position_counter)) {up_count ^= 1;};
+            //if (up_count)
+            //{
+                //position_counter++;
+            //}
+            //else
+            //{
+                //position_counter--;
+            //}
 
             #if 1
-//             parity ^= 1;
-//             if (parity)
-//             {
-//                 PORTB |= (1<<PINB6);
-//             }
-//             else
-//             {
-//                 PORTB &= ~(1<<PINB6);
-//             }
-            Start_Timer(&Testing_Timer, 500);
+             parity ^= 1;
+             if (parity)
+             {
+                 PORTB |= (1<<PINB6);
+             }
+             else
+             {
+                 PORTB &= ~(1<<PINB6);
+             }
+            Start_Timer(&Testing_Timer, 5);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -243,15 +262,15 @@ void Run_Master_Service(uint32_t event_mask)
 //             Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
             // Begin updating the commands, which will
             //      be sent in the background
-            PORTB |= (1<<PINB6);
-//             Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 98);
-//             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
-            update_cmds(test_positions[test_counter]);
-            position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
-            intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
-            test_counter++;
-            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
-            PORTB &= ~(1<<PINB6);
+            //PORTB |= (1<<PINB6);
+////             Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 98);
+////             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
+            //update_cmds(test_positions[test_counter]);
+            //position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
+            //intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
+            //test_counter++;
+            //if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
+            //PORTB &= ~(1<<PINB6);
             // *Note: While we are sending, we will
             //      check to see if the slaves have
             //      obeyed whenever we receive a

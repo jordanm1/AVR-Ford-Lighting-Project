@@ -15,7 +15,7 @@ MS_LIN_top_layer.d MS_LIN_top_layer.o: .././MS_LIN_top_layer.c \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
  .././analog_servo_drv.h .././master_service.h .././slave_service.h \
- .././MS_LIN_top_layer.h .././lin_drv.h \
+ .././SPI_Service.h .././MS_LIN_top_layer.h .././lin_drv.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  .././cmd_sts_helpers.h
 
@@ -66,6 +66,8 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././master_service.h:
 
 .././slave_service.h:
+
+.././SPI_Service.h:
 
 .././MS_LIN_top_layer.h:
 
