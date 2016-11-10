@@ -6,6 +6,8 @@ ADC.c
 
 analog_servo_drv.c
 
+CAN.c
+
 events.c
 
 framework.c

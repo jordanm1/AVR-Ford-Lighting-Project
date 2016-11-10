@@ -39,6 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../ADC.c \
 ../analog_servo_drv.c \
+../CAN.c \
 ../events.c \
 ../framework.c \
 ../IOC.c \
@@ -67,6 +68,7 @@ ASM_SRCS +=
 OBJS +=  \
 ADC.o \
 analog_servo_drv.o \
+CAN.o \
 events.o \
 framework.o \
 IOC.o \
@@ -88,6 +90,7 @@ __template.o
 OBJS_AS_ARGS +=  \
 ADC.o \
 analog_servo_drv.o \
+CAN.o \
 events.o \
 framework.o \
 IOC.o \
@@ -109,6 +112,7 @@ __template.o
 C_DEPS +=  \
 ADC.d \
 analog_servo_drv.d \
+CAN.d \
 events.d \
 framework.d \
 IOC.d \
@@ -130,6 +134,7 @@ __template.d
 C_DEPS_AS_ARGS +=  \
 ADC.d \
 analog_servo_drv.d \
+CAN.d \
 events.d \
 framework.d \
 IOC.d \
@@ -162,6 +167,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 

@@ -63,7 +63,7 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                  7
+#define NUM_EVENTS                  3
 
 #define NON_EVENT                   (0x00)
 

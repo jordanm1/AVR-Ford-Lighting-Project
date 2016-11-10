@@ -211,10 +211,10 @@ void Run_Master_Service(uint32_t event_mask)
         case EVT_TEST_TIMEOUT:
 			//RecvList[0] = &Recv1;
 			//RecvList[1] = &Recv2;
-			// SPI Test
-			
+			//// SPI Test
+			//
 			//Write_SPI(3, 2, SPI_TX, &RecvList[0]);
-			SPI_Transmit();
+			//SPI_Transmit();
 			Start_Timer(&Testing_Timer, 500);
 		
 		
@@ -247,7 +247,7 @@ void Run_Master_Service(uint32_t event_mask)
 
             // Not yet
             // Hold_Analog_Servo_Position(10);
-            #if 0
+            #if 1
             parity ^= 1;
             if (parity)
             {
