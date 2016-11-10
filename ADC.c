@@ -147,9 +147,7 @@ ISR(ADC_vect)
     //      no need for atomic because we are
     //      in an ISR which is technically an
     //      atomic section
-    Last_ADC_Value = 0;
-    Last_ADC_Value |= (ADCH<<8);
-    Last_ADC_Value |= ADCL;
+    Last_ADC_Value = ADC;
 }
 
 // #############################################################################
