@@ -66,7 +66,8 @@
 
 // First slave number
 #define LOWEST_SLAVE_NUMBER     (0x01)
-#define HIGHEST_SLAVE_NUMBER    (NUM_SLAVES)    
+#define HIGHEST_SLAVE_NUMBER    (NUM_SLAVES)
+#define INVALID_SLAVE_NUMBER    (0xFF) 
 
 // Request Mask (the LSB will be high for status requests)
 #define REQUEST_MASK            (0x01)

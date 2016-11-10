@@ -27,6 +27,8 @@
 
 #include "slave_service.h"
 
+#include "slave_number_setting_SM.h"
+
 // #############################################################################
 // ------------ INITIALIZATIONS (must be functions of type "void f(void)")
 // #############################################################################
@@ -47,6 +49,7 @@
     #define INITIALIZER_06          Init_Master_Service
 #else
     #define INITIALIZER_06          Init_Slave_Service
+    #define INITIALIZER_07          Init_Slave_Number_Setting_SM
 #endif
 
 // #############################################################################
@@ -57,6 +60,7 @@
     #define SERVICE_00		        Run_Master_Service
 #else
     #define SERVICE_00		        Run_Slave_Service
+    #define SERVICE_01              Run_Slave_Number_Setting_SM
 #endif
 
 // #############################################################################
@@ -64,23 +68,26 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                  7
+#define NUM_EVENTS                      13
 
-#define NON_EVENT                   EVENT_NULL
+#define NON_EVENT                       EVENT_NULL
+       
+#define EVT_SLAVE_NEW_CMD               EVENT_01
+#define EVT_SLAVE_OTHER                 EVENT_02
+#define EVT_SETTING_MODE_MAIN_TIMEOUT   EVENT_03
+#define EVT_SETTING_MODE_AUX_TIMEOUT    EVENT_04
+#define EVT_ENTERED_SETTING_MODE        EVENT_05
+#define EVT_EXITED_SETTING_MODE         EVENT_06
+#define EVT_SLAVE_NUM_SET               EVENT_07
 
-#define EVT_SLAVE_GET_ID            EVENT_01        // This will result in blocking
-                                                    //  code to get the slave ID
-                                                    //  before continuing with
-                                                    //  anything else.
-                                                    // This needs to have highest priority.
-#define EVT_SLAVE_NEW_CMD           EVENT_02
-#define EVT_SLAVE_OTHER             EVENT_03
+#define EVT_MASTER_SCH_TIMEOUT          EVENT_08
+#define EVT_MASTER_NEW_STS              EVENT_09
+#define EVT_MASTER_OTHER                EVENT_10
 
-#define EVT_MASTER_SCH_TIMEOUT      EVENT_04
-#define EVT_MASTER_NEW_STS          EVENT_05
-#define EVT_MASTER_OTHER            EVENT_06
+#define EVT_TEST_TIMEOUT                EVENT_11
 
-#define EVT_TEST_TIMEOUT            EVENT_07
+#define EVT_BTN_MISC_PRESS              EVENT_12
+#define EVT_BTN_MISC_RELEASE            EVENT_13
 
 // #############################################################################
 // ------------ END OF FILE
