@@ -19,15 +19,15 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 000016e1  00000000  00000000  00003f09  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   0000196b  00000000  00000000  000055ea  2**0
+  8 .debug_line   000018fb  00000000  00000000  000055ea  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  00000704  00000000  00000000  00006f58  2**2
+  9 .debug_frame  00000704  00000000  00000000  00006ee8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000dac  00000000  00000000  0000765c  2**0
+ 10 .debug_str    00000d81  00000000  00000000  000075ec  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000016d4  00000000  00000000  00008408  2**0
+ 11 .debug_loc    000016d4  00000000  00000000  0000836d  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000240  00000000  00000000  00009adc  2**0
+ 12 .debug_ranges 00000240  00000000  00000000  00009a41  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -643,10 +643,21 @@ ISR(INT0_vect)
  344:	18 95       	reti
 
 00000346 <lin_init>:
+//  Warning: none
+//------------------------------------------------------------------------------
+unsigned char lin_init (unsigned char l_type, unsigned long b_rate) {
+			
+    // Pull-up on TxLIN & RxLIN (one by one to use bit-addressing)
+    LIN_PORT_DIR &= ~(1<<LIN_INPUT_PIN );
  346:	08 98       	cbi	0x01, 0	; 1
+    LIN_PORT_DIR &= ~(1<<LIN_OUTPUT_PIN);
  348:	09 98       	cbi	0x01, 1	; 1
+    LIN_PORT_OUT |=  (1<<LIN_INPUT_PIN );
  34a:	10 9a       	sbi	0x02, 0	; 2
+    LIN_PORT_OUT |=  (1<<LIN_OUTPUT_PIN);
  34c:	11 9a       	sbi	0x02, 1	; 2
+
+    Lin_full_reset();
  34e:	90 e8       	ldi	r25, 0x80	; 128
  350:	90 93 c8 00 	sts	0x00C8, r25	; 0x8000c8 <__EEPROM_REGION_LENGTH__+0x7f00c8>
  354:	10 92 ca 00 	sts	0x00CA, r1	; 0x8000ca <__EEPROM_REGION_LENGTH__+0x7f00ca>
@@ -656,39 +667,84 @@ ISR(INT0_vect)
  35e:	ae ec       	ldi	r26, 0xCE	; 206
  360:	b0 e0       	ldi	r27, 0x00	; 0
  362:	1c 92       	st	X, r1
+    Lin_set_baudrate(b_rate);
  364:	25 2f       	mov	r18, r21
  366:	33 27       	eor	r19, r19
  368:	2c 93       	st	X, r18
  36a:	40 83       	st	Z, r20
+			
+    if (l_type == LIN_1X) {
  36c:	80 34       	cpi	r24, 0x40	; 64
  36e:	21 f4       	brne	.+8      	; 0x378 <lin_init+0x32>
+    			Lin_1x_enable();
  370:	88 e4       	ldi	r24, 0x48	; 72
  372:	80 93 c8 00 	sts	0x00C8, r24	; 0x8000c8 <__EEPROM_REGION_LENGTH__+0x7f00c8>
  376:	05 c0       	rjmp	.+10     	; 0x382 <lin_init+0x3c>
+    } else if (l_type == LIN_2X) {
  378:	81 11       	cpse	r24, r1
  37a:	0d c0       	rjmp	.+26     	; 0x396 <lin_init+0x50>
+    			Lin_2x_enable();
  37c:	88 e0       	ldi	r24, 0x08	; 8
  37e:	80 93 c8 00 	sts	0x00C8, r24	; 0x8000c8 <__EEPROM_REGION_LENGTH__+0x7f00c8>
+    } else {
+    			return 0;
+    }
+    // If LIN is interrupt driven, enable the 2 following lines
+    Lin_set_enable_it();
  382:	8f e0       	ldi	r24, 0x0F	; 15
  384:	80 93 ca 00 	sts	0x00CA, r24	; 0x8000ca <__EEPROM_REGION_LENGTH__+0x7f00ca>
+    // Disable resync for the master only
+    if (IS_MASTER_NODE)
+    {
+      // TODO: Look into this and decide if we NEED to disable autosync
+      // Disable autosync
+      LINBTR |= 1<<LDISR;
  388:	ec ec       	ldi	r30, 0xCC	; 204
  38a:	f0 e0       	ldi	r31, 0x00	; 0
  38c:	80 81       	ld	r24, Z
  38e:	80 68       	ori	r24, 0x80	; 128
  390:	80 83       	st	Z, r24
+    }
+    
+    return 1;
  392:	81 e0       	ldi	r24, 0x01	; 1
  394:	08 95       	ret
+    if (l_type == LIN_1X) {
+    			Lin_1x_enable();
+    } else if (l_type == LIN_2X) {
+    			Lin_2x_enable();
+    } else {
+    			return 0;
  396:	80 e0       	ldi	r24, 0x00	; 0
+      // Disable autosync
+      LINBTR |= 1<<LDISR;
+    }
+    
+    return 1;
+}
  398:	08 95       	ret
 
 0000039a <lin_tx_header>:
+//
+//  Warning: none
+//------------------------------------------------------------------------------
+unsigned char lin_tx_header (unsigned char l_type, unsigned char l_id, unsigned char l_len) {                                                                                        
+                                                                                                                                                                         
+    Lin_abort();    // Useful if controller is still in 'lin_tx_response'                                                        
  39a:	e8 ec       	ldi	r30, 0xC8	; 200
  39c:	f0 e0       	ldi	r31, 0x00	; 0
  39e:	90 81       	ld	r25, Z
  3a0:	9c 7f       	andi	r25, 0xFC	; 252
  3a2:	90 83       	st	Z, r25
+    				// or in 'lin_rx_response' mode. Note that when these                                                                    
+    				// modes are running, writing in LIN registers is                                                                        
+    				// disabled and the ID cannot be set in the controller.                                                                  
+    				// (c.f. “Break-in-Data” behavior”)
+    				
+    if (l_type == LIN_1X) {
  3a4:	80 34       	cpi	r24, 0x40	; 64
  3a6:	c1 f4       	brne	.+48     	; 0x3d8 <lin_tx_header+0x3e>
+        Lin_1x_set_id(l_id);                                                                                                                             
  3a8:	e0 ed       	ldi	r30, 0xD0	; 208
  3aa:	f0 e0       	ldi	r31, 0x00	; 0
  3ac:	80 81       	ld	r24, Z
@@ -698,6 +754,7 @@ ISR(INT0_vect)
  3b4:	6f 70       	andi	r22, 0x0F	; 15
  3b6:	68 2b       	or	r22, r24
  3b8:	60 83       	st	Z, r22
+        Lin_1x_set_len(l_len);
  3ba:	80 81       	ld	r24, Z
  3bc:	8f 7c       	andi	r24, 0xCF	; 207
  3be:	80 83       	st	Z, r24
@@ -713,8 +770,10 @@ ISR(INT0_vect)
  3d2:	48 2b       	or	r20, r24
  3d4:	40 83       	st	Z, r20
  3d6:	0b c0       	rjmp	.+22     	; 0x3ee <lin_tx_header+0x54>
+    } else if (l_type == LIN_2X) {
  3d8:	81 11       	cpse	r24, r1
  3da:	13 c0       	rjmp	.+38     	; 0x402 <__LOCK_REGION_LENGTH__+0x2>
+        Lin_2x_set_id(l_id);        // No length transported in LIN 2.X
  3dc:	e0 ed       	ldi	r30, 0xD0	; 208
  3de:	f0 e0       	ldi	r31, 0x00	; 0
  3e0:	80 81       	ld	r24, Z
@@ -724,6 +783,11 @@ ISR(INT0_vect)
  3e8:	6f 73       	andi	r22, 0x3F	; 63
  3ea:	68 2b       	or	r22, r24
  3ec:	60 83       	st	Z, r22
+    } else {
+        return 0;
+    }
+    
+    Lin_tx_header();            // Set command
  3ee:	e8 ec       	ldi	r30, 0xC8	; 200
  3f0:	f0 e0       	ldi	r31, 0x00	; 0
  3f2:	80 81       	ld	r24, Z
@@ -732,28 +796,55 @@ ISR(INT0_vect)
  3f8:	80 81       	ld	r24, Z
  3fa:	81 60       	ori	r24, 0x01	; 1
  3fc:	80 83       	st	Z, r24
+    return 1;
  3fe:	81 e0       	ldi	r24, 0x01	; 1
  400:	08 95       	ret
+        Lin_1x_set_id(l_id);                                                                                                                             
+        Lin_1x_set_len(l_len);
+    } else if (l_type == LIN_2X) {
+        Lin_2x_set_id(l_id);        // No length transported in LIN 2.X
+    } else {
+        return 0;
  402:	80 e0       	ldi	r24, 0x00	; 0
+    }
+    
+    Lin_tx_header();            // Set command
+    return 1;
+}
  404:	08 95       	ret
 
 00000406 <lin_rx_response>:
+//
+//  Warning: none
+//------------------------------------------------------------------------------
+unsigned char lin_rx_response (unsigned char l_type, unsigned char l_len) {                                                                                                         
+                                                                                                                                                                      
+    if (l_type == LIN_1X) {                                                                                                                                   
  406:	80 34       	cpi	r24, 0x40	; 64
  408:	31 f4       	brne	.+12     	; 0x416 <lin_rx_response+0x10>
+        Lin_1x_set_type();              // Change is necessary                                        
  40a:	e8 ec       	ldi	r30, 0xC8	; 200
  40c:	f0 e0       	ldi	r31, 0x00	; 0
  40e:	80 81       	ld	r24, Z
  410:	80 64       	ori	r24, 0x40	; 64
  412:	80 83       	st	Z, r24
  414:	09 c0       	rjmp	.+18     	; 0x428 <lin_rx_response+0x22>
+    } else if (l_type == LIN_2X) {                                                                                                                            
  416:	81 11       	cpse	r24, r1
  418:	11 c0       	rjmp	.+34     	; 0x43c <lin_rx_response+0x36>
+        Lin_2x_set_type();              // Change is necessary                                        
  41a:	e8 ec       	ldi	r30, 0xC8	; 200
  41c:	f0 e0       	ldi	r31, 0x00	; 0
  41e:	80 81       	ld	r24, Z
  420:	80 83       	st	Z, r24
+        Lin_set_rx_len(l_len);                                                                                                                        
  422:	6f 70       	andi	r22, 0x0F	; 15
  424:	60 93 cf 00 	sts	0x00CF, r22	; 0x8000cf <__EEPROM_REGION_LENGTH__+0x7f00cf>
+    } else {                                                                                                                                                  
+        return 0;                                                                                                                                     
+    }                                                                                                                                                         
+                                                                                                                                                              
+    Lin_rx_response();          // Set command                                                
  428:	e8 ec       	ldi	r30, 0xC8	; 200
  42a:	f0 e0       	ldi	r31, 0x00	; 0
  42c:	80 81       	ld	r24, Z
@@ -762,31 +853,59 @@ ISR(INT0_vect)
  432:	80 81       	ld	r24, Z
  434:	82 60       	ori	r24, 0x02	; 2
  436:	80 83       	st	Z, r24
+    return 1;                                                                                                                                                 
  438:	81 e0       	ldi	r24, 0x01	; 1
  43a:	08 95       	ret
+        Lin_1x_set_type();              // Change is necessary                                        
+    } else if (l_type == LIN_2X) {                                                                                                                            
+        Lin_2x_set_type();              // Change is necessary                                        
+        Lin_set_rx_len(l_len);                                                                                                                        
+    } else {                                                                                                                                                  
+        return 0;                                                                                                                                     
  43c:	80 e0       	ldi	r24, 0x00	; 0
+    }                                                                                                                                                         
+                                                                                                                                                              
+    Lin_rx_response();          // Set command                                                
+    return 1;                                                                                                                                                 
+}
  43e:	08 95       	ret
 
 00000440 <lin_tx_response>:
+//------------------------------------------------------------------------------
+unsigned char lin_tx_response (unsigned char l_type, unsigned char *l_data, unsigned char l_len) {                                                                                     
+                                                                                                                                                                         
+unsigned char i;                                                                                                                                                         
+                                                                                                                                                                         
+    if (l_type == LIN_1X) {                                                                                                                                      
  440:	80 34       	cpi	r24, 0x40	; 64
  442:	31 f4       	brne	.+12     	; 0x450 <lin_tx_response+0x10>
+        Lin_1x_set_type();              // Change is necessary                                           
  444:	e8 ec       	ldi	r30, 0xC8	; 200
  446:	f0 e0       	ldi	r31, 0x00	; 0
  448:	80 81       	ld	r24, Z
  44a:	80 64       	ori	r24, 0x40	; 64
  44c:	80 83       	st	Z, r24
  44e:	0b c0       	rjmp	.+22     	; 0x466 <lin_tx_response+0x26>
+    } else if (l_type == LIN_2X) {                                                                                                                               
  450:	81 11       	cpse	r24, r1
  452:	25 c0       	rjmp	.+74     	; 0x49e <lin_tx_response+0x5e>
+        Lin_2x_set_type();				// Change is necessary                                           
  454:	e8 ec       	ldi	r30, 0xC8	; 200
  456:	f0 e0       	ldi	r31, 0x00	; 0
  458:	80 81       	ld	r24, Z
  45a:	80 83       	st	Z, r24
+        Lin_set_tx_len(l_len);                                                                                                                           
  45c:	84 2f       	mov	r24, r20
  45e:	82 95       	swap	r24
  460:	80 7f       	andi	r24, 0xF0	; 240
  462:	80 93 cf 00 	sts	0x00CF, r24	; 0x8000cf <__EEPROM_REGION_LENGTH__+0x7f00cf>
+    } else {                                                                                                                                                     
+        return 0;                                                                                                                                        
+    }                                                                                                                                                            
+                                                                                                                                                                 
+    Lin_clear_index();                  // Data processing                                               
  466:	10 92 d1 00 	sts	0x00D1, r1	; 0x8000d1 <__EEPROM_REGION_LENGTH__+0x7f00d1>
+    for (i = 0; i < l_len; i++) {                                                                                                                                
  46a:	44 23       	and	r20, r20
  46c:	71 f0       	breq	.+28     	; 0x48a <lin_tx_response+0x4a>
  46e:	fb 01       	movw	r30, r22
@@ -796,13 +915,24 @@ ISR(INT0_vect)
  476:	5f 4f       	sbci	r21, 0xFF	; 255
  478:	64 0f       	add	r22, r20
  47a:	75 1f       	adc	r23, r21
+        Lin_set_data(*l_data++);                                                                                                                         
  47c:	a2 ed       	ldi	r26, 0xD2	; 210
  47e:	b0 e0       	ldi	r27, 0x00	; 0
  480:	81 91       	ld	r24, Z+
  482:	8c 93       	st	X, r24
+    } else {                                                                                                                                                     
+        return 0;                                                                                                                                        
+    }                                                                                                                                                            
+                                                                                                                                                                 
+    Lin_clear_index();                  // Data processing                                               
+    for (i = 0; i < l_len; i++) {                                                                                                                                
  484:	e6 17       	cp	r30, r22
  486:	f7 07       	cpc	r31, r23
  488:	d9 f7       	brne	.-10     	; 0x480 <lin_tx_response+0x40>
+        Lin_set_data(*l_data++);                                                                                                                         
+    }                                                                                                                                                            
+                                                                                                                                                                 
+    Lin_tx_response();          // Set command                                                   
  48a:	e8 ec       	ldi	r30, 0xC8	; 200
  48c:	f0 e0       	ldi	r31, 0x00	; 0
  48e:	80 81       	ld	r24, Z
@@ -811,15 +941,36 @@ ISR(INT0_vect)
  494:	80 81       	ld	r24, Z
  496:	83 60       	ori	r24, 0x03	; 3
  498:	80 83       	st	Z, r24
+    return 1;                                                                                                                                                    
  49a:	81 e0       	ldi	r24, 0x01	; 1
  49c:	08 95       	ret
+        Lin_1x_set_type();              // Change is necessary                                           
+    } else if (l_type == LIN_2X) {                                                                                                                               
+        Lin_2x_set_type();				// Change is necessary                                           
+        Lin_set_tx_len(l_len);                                                                                                                           
+    } else {                                                                                                                                                     
+        return 0;                                                                                                                                        
  49e:	80 e0       	ldi	r24, 0x00	; 0
+        Lin_set_data(*l_data++);                                                                                                                         
+    }                                                                                                                                                            
+                                                                                                                                                                 
+    Lin_tx_response();          // Set command                                                   
+    return 1;                                                                                                                                                    
+}
  4a0:	08 95       	ret
 
 000004a2 <lin_get_response>:
+//------------------------------------------------------------------------------
+void lin_get_response (unsigned char *l_data) {                                                                                                                 
+                                                                                                                                                                
+unsigned char i, l_len;                                                                                                                                         
+                                                                                                                                                                
+    l_len = Lin_get_len();                                                                                                                        
  4a2:	20 91 cf 00 	lds	r18, 0x00CF	; 0x8000cf <__EEPROM_REGION_LENGTH__+0x7f00cf>
  4a6:	2f 70       	andi	r18, 0x0F	; 15
+    Lin_clear_index();                                                                                                                                  
  4a8:	10 92 d1 00 	sts	0x00D1, r1	; 0x8000d1 <__EEPROM_REGION_LENGTH__+0x7f00d1>
+    for (i = 0; i < l_len; i++) {                                                                                                                       
  4ac:	22 23       	and	r18, r18
  4ae:	71 f0       	breq	.+28     	; 0x4cc <lin_get_response+0x2a>
  4b0:	fc 01       	movw	r30, r24
@@ -829,10 +980,17 @@ ISR(INT0_vect)
  4b8:	3f 4f       	sbci	r19, 0xFF	; 255
  4ba:	82 0f       	add	r24, r18
  4bc:	93 1f       	adc	r25, r19
+        (*l_data++) = Lin_get_data();                                                                                                           
  4be:	a2 ed       	ldi	r26, 0xD2	; 210
  4c0:	b0 e0       	ldi	r27, 0x00	; 0
  4c2:	2c 91       	ld	r18, X
  4c4:	21 93       	st	Z+, r18
+                                                                                                                                                                
+unsigned char i, l_len;                                                                                                                                         
+                                                                                                                                                                
+    l_len = Lin_get_len();                                                                                                                        
+    Lin_clear_index();                                                                                                                                  
+    for (i = 0; i < l_len; i++) {                                                                                                                       
  4c6:	e8 17       	cp	r30, r24
  4c8:	f9 07       	cpc	r31, r25
  4ca:	d9 f7       	brne	.-10     	; 0x4c2 <lin_get_response+0x20>

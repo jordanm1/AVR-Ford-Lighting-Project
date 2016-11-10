@@ -36,6 +36,9 @@
 // Include MCP25625 Header
 #include "MCP25625defs.h"
 
+// Include CAN Header
+#include "CAN.h"
+
 // Interrupts
 #include <avr/interrupt.h>
 
@@ -55,6 +58,7 @@
 // ------------ MODULE VARIABLES
 // #############################################################################
 
+static uint8_t TX_Data[1] = {0};
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -78,7 +82,50 @@
 ****************************************************************************/
 void MS_CAN_Initialize(void)
 {
-	
+    // Reset the CAN Module and enter in configuration mode
+    CAN_Reset();
+    
+    // Enter configuration mode, abort all pending transmissions and enable one shot mode
+    TX_Data[0] = (MODE_CONFIG|ABORT_TX|MODE_ONESHOT);
+    CAN_Write(MCP_CANCTRL, TX_Data);
+
+    // Disable CLKOUT
+    TX_Data[0] = CLKOUT_DISABLE;
+    uint8_t Mod_Data[1] = {2};
+    CAN_Bit_Modify(MCP_CANCTRL, Mod_Data, TX_Data);
+
+    // Set CNF Bit Time registers for Baud Rate = 500kb/s
+    TX_Data[0] = 0x41;
+    CAN_Write(MCP_CNF1, TX_Data);
+    TX_Data[0] = 0xF1;
+    CAN_Write(MCP_CNF2, TX_Data);
+    TX_Data[0] = 0x85;
+    CAN_Write(MCP_CNF3, TX_Data);
+
+    // Set interrupt registers
+
+    // Enable all interrupts
+    TX_Data[0] = 0xFF;
+    CAN_Write(MCP_CANINTE, TX_Data);
+
+    // Set up TX Buffer 0
+    TX_Data[0] = MCP_TXB_TXP10_M; // Highest message priority    
+    CAN_Write(MCP_TXB0CTRL, TX_Data);
+    
+    // Set RTS pins as digital inputs
+    TX_Data[0] = 0;
+    CAN_Write(MCP_RTSCTRL, TX_Data);
+    
+    // Set identifier of TX Buffer 0 to 1
+    TX_Data[0] = 0;
+    CAN_Write(MCP_TXB0SIDH, TX_Data);
+    TX_Data[0] = 0x20;
+    CAN_Write(MCP_TXB0SIDL, TX_Data);   
+    
+    // Set identifier of RX Buffer 0 to 0
+    TX_Data[0] = 0;
+    CAN_Write(MCP_RXF0SIDH, TX_Data);
+    CAN_Write(MCP_RXF0SIDL, TX_Data);	
 }
 
 /****************************************************************************
@@ -218,19 +265,17 @@ void CAN_Load_TX_Buffer(uint8_t choice, uint8_t* Value_2_Set)
 	if (choice == 1)
 	{
 		Data_2_Write[0] = MCP_LOAD_TX0;
-		Data_2_Write[1] = Value_2_Set[0];
 	}
 	else if (choice == 2)
 	{
 		Data_2_Write[0] = MCP_LOAD_TX1;
-		Data_2_Write[1] = Value_2_Set[0];	
 	}
 	else
 	{
 		Data_2_Write[0] = MCP_LOAD_TX2;
-		Data_2_Write[1] = Value_2_Set[0];	
 	}
-	
+	Data_2_Write[1] = Value_2_Set[0];
+
 	// Call SPI command
 	Write_SPI(LOAD_TX_LENGTH, LOAD_RX_LENGTH, Data_2_Write, NULL);
 }
@@ -335,9 +380,26 @@ void CAN_RX_Status(uint8_t** Variable_2_Set)
 
 ****************************************************************************/
 
-void CAN_Bit_Modify(void)
+void CAN_Bit_Modify(uint8_t Register_2_Set, uint8_t* Bits_2_Change, uint8_t* Value_2_Set)
 {
-	// Currently unused
+    // Define constants
+    #define BM_TX_LENGTH 4
+    #define BM_RX_LENGTH 0
+
+    // Initialize proposed mask
+    uint8_t Mask_Byte = 0;
+
+    // Set bits to be changed to 1 in mask
+    for (int i = 0; i < sizeof(Bits_2_Change)/sizeof(Bits_2_Change[0]); i++)
+    {
+        Mask_Byte |= (1 << Bits_2_Change[i]);
+    }
+    
+    // Value to Set
+    uint8_t Data_2_Write[BM_TX_LENGTH] = {MCP_BITMOD, Register_2_Set, Mask_Byte, Value_2_Set[0]};
+    
+    // Call SPI command
+    Write_SPI(BM_TX_LENGTH, BM_RX_LENGTH, Data_2_Write, NULL);
 }
 
 // #############################################################################

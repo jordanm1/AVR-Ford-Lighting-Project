@@ -22,5 +22,6 @@ void CAN_Load_TX_Buffer(uint8_t choice, uint8_t* Value_2_Set);
 void CAN_RTS(uint8_t choice);
 void CAN_Read_Status(uint8_t** Variable_2_Set);
 void CAN_RX_Status(uint8_t** Variable_2_Set);
+void CAN_Bit_Modify(uint8_t Register_2_Set, uint8_t* Bits_2_Change, uint8_t* Value_2_Set);
 
 #endif // CAN_H
