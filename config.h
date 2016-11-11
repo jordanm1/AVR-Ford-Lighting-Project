@@ -60,9 +60,18 @@
 //
 //      *Note: We will always service the slave nodes in numerical order,
 //          starting with slave number one (slave_base_id = 0x02)
+//
+//      There are 0-59 possible ID's under LIN 2.x
+//      We reserve 0-1 for the Master, so we have
+//          2-59 ID's left (58 unique ID's)
+//      We divide 58 by 2 to get the maximum number
+//          of slaves in this system as 29.
 
 // Master ID
 #define MASTER_NODE_ID          (0x00)          // Master is the first ID
+
+// Max number of slaves
+#define MAX_NUM_SLAVES          (29)
 
 // First slave number
 #define LOWEST_SLAVE_NUMBER     (0x01)

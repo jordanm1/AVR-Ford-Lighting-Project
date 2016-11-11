@@ -267,6 +267,9 @@ void Run_Slave_Number_Setting_SM(uint32_t event)
         This just returns whether the node is in the slave number 
         setting mode.
 
+        @TODO: This would ideally be solved using shared access
+                to the LED.
+
 ****************************************************************************/
 bool In_Slave_Number_Setting_Mode(void)
 {
@@ -287,7 +290,14 @@ bool In_Slave_Number_Setting_Mode(void)
 ****************************************************************************/
 uint8_t Get_Last_Set_Slave_Number(void)
 {
-    return Last_Set_Slave_Number;
+    if ((LOWEST_SLAVE_NUMBER <= Last_Set_Slave_Number) && (MAX_NUM_SLAVES >= Last_Set_Slave_Number))
+    {
+        return Last_Set_Slave_Number;
+    }
+    else
+    {
+        return INVALID_SLAVE_NUMBER;
+    }
 }
 
 // #############################################################################
