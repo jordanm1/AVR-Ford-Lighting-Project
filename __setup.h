@@ -23,6 +23,8 @@
 
 #include "analog_servo_drv.h"
 
+#include "buttons.h"
+
 #include "master_service.h"
 
 #include "slave_service.h"
@@ -45,22 +47,26 @@
 
 #define INITIALIZER_05              Init_Analog_Servo_Driver
 
+#define INITIALIZER_06              Init_Buttons
+
 #if IS_MASTER_NODE
-    #define INITIALIZER_06          Init_Master_Service
+    #define INITIALIZER_07          Init_Master_Service
 #else
-    #define INITIALIZER_06          Init_Slave_Service
-    #define INITIALIZER_07          Init_Slave_Number_Setting_SM
+    #define INITIALIZER_07          Init_Slave_Service
+    #define INITIALIZER_08          Init_Slave_Number_Setting_SM
 #endif
 
 // #############################################################################
 // ------------ SERVICES (must be functions of type "void f(uint32_t event)")
 // #############################################################################
 
+#define SERVICE_00                  Run_Buttons
+
 #if IS_MASTER_NODE
-    #define SERVICE_00		        Run_Master_Service
+    #define SERVICE_01		        Run_Master_Service
 #else
-    #define SERVICE_00		        Run_Slave_Service
-    #define SERVICE_01              Run_Slave_Number_Setting_SM
+    #define SERVICE_01		        Run_Slave_Service
+    #define SERVICE_02              Run_Slave_Number_Setting_SM
 #endif
 
 // #############################################################################
@@ -68,7 +74,7 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                      13
+#define NUM_EVENTS                      14
 
 #define NON_EVENT                       EVENT_NULL
        
@@ -76,8 +82,6 @@
 #define EVT_SLAVE_OTHER                 EVENT_02
 #define EVT_SETTING_MODE_MAIN_TIMEOUT   EVENT_03
 #define EVT_SETTING_MODE_AUX_TIMEOUT    EVENT_04
-#define EVT_ENTERED_SETTING_MODE        EVENT_05
-#define EVT_EXITED_SETTING_MODE         EVENT_06
 #define EVT_SLAVE_NUM_SET               EVENT_07
 
 #define EVT_MASTER_SCH_TIMEOUT          EVENT_08
@@ -88,6 +92,8 @@
 
 #define EVT_BTN_MISC_PRESS              EVENT_12
 #define EVT_BTN_MISC_RELEASE            EVENT_13
+
+#define EVT_BTN_DEBOUNCE_TIMEOUT        EVENT_14
 
 // #############################################################################
 // ------------ END OF FILE
