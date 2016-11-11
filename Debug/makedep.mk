@@ -6,6 +6,8 @@ ADC.c
 
 analog_servo_drv.c
 
+buttons.c
+
 cmd_sts_helpers.c
 
 events.c
@@ -29,6 +31,8 @@ master_service.c
 MS_LIN_top_layer.c
 
 PWM.c
+
+slave_number_setting_SM.c
 
 slave_parameters.c
 

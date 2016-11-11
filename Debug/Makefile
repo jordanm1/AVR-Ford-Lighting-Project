@@ -39,6 +39,7 @@ SUBDIRS :=
 C_SRCS +=  \
 ../ADC.c \
 ../analog_servo_drv.c \
+../buttons.c \
 ../cmd_sts_helpers.c \
 ../events.c \
 ../framework.c \
@@ -51,6 +52,7 @@ C_SRCS +=  \
 ../master_service.c \
 ../MS_LIN_top_layer.c \
 ../PWM.c \
+../slave_number_setting_SM.c \
 ../slave_parameters.c \
 ../slave_service.c \
 ../timer.c \
@@ -66,6 +68,7 @@ ASM_SRCS +=
 OBJS +=  \
 ADC.o \
 analog_servo_drv.o \
+buttons.o \
 cmd_sts_helpers.o \
 events.o \
 framework.o \
@@ -78,6 +81,7 @@ main.o \
 master_service.o \
 MS_LIN_top_layer.o \
 PWM.o \
+slave_number_setting_SM.o \
 slave_parameters.o \
 slave_service.o \
 timer.o \
@@ -86,6 +90,7 @@ __template.o
 OBJS_AS_ARGS +=  \
 ADC.o \
 analog_servo_drv.o \
+buttons.o \
 cmd_sts_helpers.o \
 events.o \
 framework.o \
@@ -98,6 +103,7 @@ main.o \
 master_service.o \
 MS_LIN_top_layer.o \
 PWM.o \
+slave_number_setting_SM.o \
 slave_parameters.o \
 slave_service.o \
 timer.o \
@@ -106,6 +112,7 @@ __template.o
 C_DEPS +=  \
 ADC.d \
 analog_servo_drv.d \
+buttons.d \
 cmd_sts_helpers.d \
 events.d \
 framework.d \
@@ -118,6 +125,7 @@ main.d \
 master_service.d \
 MS_LIN_top_layer.d \
 PWM.d \
+slave_number_setting_SM.d \
 slave_parameters.d \
 slave_service.d \
 timer.d \
@@ -126,6 +134,7 @@ __template.d
 C_DEPS_AS_ARGS +=  \
 ADC.d \
 analog_servo_drv.d \
+buttons.d \
 cmd_sts_helpers.d \
 events.d \
 framework.d \
@@ -138,6 +147,7 @@ main.d \
 master_service.d \
 MS_LIN_top_layer.d \
 PWM.d \
+slave_number_setting_SM.d \
 slave_parameters.d \
 slave_service.d \
 timer.d \
@@ -157,6 +167,10 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
 
 
 

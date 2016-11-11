@@ -1,4 +1,4 @@
-light_drv.d light_drv.o: .././light_drv.c \
+buttons.d buttons.o: .././buttons.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdbool.h \
@@ -15,7 +15,8 @@ light_drv.d light_drv.o: .././light_drv.c \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
  .././analog_servo_drv.h .././buttons.h .././master_service.h \
- .././slave_service.h .././slave_number_setting_SM.h .././light_drv.h
+ .././slave_service.h .././slave_number_setting_SM.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -69,4 +70,4 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././slave_number_setting_SM.h:
 
-.././light_drv.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
