@@ -32,6 +32,9 @@
 
 // Include other files below:
 
+// Program Memory
+#include <avr/pgmspace.h>
+
 // NULL
 #include <stddef.h>
 
@@ -46,7 +49,9 @@
 // #############################################################################
 
 // Array of structs to hold slave parameters
-static const slave_parameters_t Slave_Parameters[NUM_SLAVES] =  {
+// *Note: We store this array in flash to save space in RAM;
+//  each slave parameters member is 15 bytes
+static const slave_parameters_t Slave_Parameters[NUM_SLAVES] PROGMEM =  {
 
 // Slave One
 #if (1 <= NUM_SLAVES)
