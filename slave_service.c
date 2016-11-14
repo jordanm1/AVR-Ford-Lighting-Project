@@ -43,6 +43,9 @@
 // Servo
 #include "analog_servo_drv.h"
 
+// EEPROM
+#include "eeprom_storage.h"
+
 // Atomic Read/Write operations
 #include <util/atomic.h>
 
@@ -99,7 +102,7 @@ void Init_Slave_Service(void)
 
     // Read our slave number from flash
     // @TODO:
-    My_Node_ID = GET_SLAVE_BASE_ID(1);
+    Read_Data_From_EEPROM(0x0000, &My_Node_ID, 1);
 
     // Initialize light to LIGHT_OFF
     Set_Light_Intensity(LIGHT_OFF);
@@ -139,7 +142,7 @@ void Run_Slave_Service(uint32_t event_mask)
                 My_Node_ID = GET_SLAVE_BASE_ID(Get_Last_Set_Slave_Number());
 
                 // Save our new ID in flash memory
-                save_our_id_to_flash(&My_Node_ID);
+                Write_Data_To_EEPROM(0x0000, &My_Node_ID, 1);
             }
 
             break;

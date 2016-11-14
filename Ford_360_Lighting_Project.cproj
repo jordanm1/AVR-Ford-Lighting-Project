@@ -161,6 +161,12 @@
     <Compile Include="config.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="eeprom_storage.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="eeprom_storage.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="events.c">
       <SubType>compile</SubType>
     </Compile>
