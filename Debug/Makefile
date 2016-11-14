@@ -41,6 +41,7 @@ C_SRCS +=  \
 ../analog_servo_drv.c \
 ../buttons.c \
 ../cmd_sts_helpers.c \
+../eeprom_storage.c \
 ../events.c \
 ../framework.c \
 ../IOC.c \
@@ -70,6 +71,7 @@ ADC.o \
 analog_servo_drv.o \
 buttons.o \
 cmd_sts_helpers.o \
+eeprom_storage.o \
 events.o \
 framework.o \
 IOC.o \
@@ -92,6 +94,7 @@ ADC.o \
 analog_servo_drv.o \
 buttons.o \
 cmd_sts_helpers.o \
+eeprom_storage.o \
 events.o \
 framework.o \
 IOC.o \
@@ -114,6 +117,7 @@ ADC.d \
 analog_servo_drv.d \
 buttons.d \
 cmd_sts_helpers.d \
+eeprom_storage.d \
 events.d \
 framework.d \
 IOC.d \
@@ -136,6 +140,7 @@ ADC.d \
 analog_servo_drv.d \
 buttons.d \
 cmd_sts_helpers.d \
+eeprom_storage.d \
 events.d \
 framework.d \
 IOC.d \
@@ -167,6 +172,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 
