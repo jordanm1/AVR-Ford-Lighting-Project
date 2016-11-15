@@ -11,7 +11,8 @@
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-void MS_CAN_Initialize(void);
+void MS_CAN_Initialize_1(void);
+void MS_CAN_Initialize_2(void);
 
 // CAN Module SPI Commands
 void CAN_Reset(void);

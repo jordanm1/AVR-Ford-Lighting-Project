@@ -127,13 +127,7 @@ uint8_t TX_Data[1] = {0};
 static uint8_t Recv1 = 0;
 static uint8_t Recv2 = 0;
 uint8_t* RecvList[1];
-
-
-// SPI Test
-/*
-static uint8_t SPI_TX[3] = {0x0A, 0x02, 0x07};
-
-*/
+static bool Continue_Init = true;
 
 
 // #############################################################################
@@ -187,7 +181,7 @@ void Init_Master_Service(void)
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
 	
-	MS_CAN_Initialize();
+	MS_CAN_Initialize_1();
 	
     Start_Timer(&Testing_Timer, 5000);
     PORTB &= ~(1<<PINB2);
@@ -234,48 +228,30 @@ void Run_Master_Service(uint32_t event_mask)
             break;
 
         case EVT_TEST_TIMEOUT:
-			// Initialize CAN module
-			//MS_CAN_Initialize();
-		
 			
-			TX_Data[0] = 1;
-			CAN_Write(MCP_TXB0DLC, TX_Data);
-			TX_Data[0] = 0x67;
-			CAN_Write(MCP_TXB0D0, TX_Data);
-			TX_Data[0] = 0;
-			CAN_Write(MCP_CANINTF, TX_Data);
-			RecvList[0] = &Recv1;
-			CAN_Read(MCP_CANINTF, RecvList);
-			CAN_Read(MCP_EFLG, RecvList);
-			CAN_Read(MCP_CANCTRL, RecvList);
-			TX_Data[0] = 0xFF;
-			CAN_Bit_Modify(MCP_TXB0CTRL, (1 << 3), TX_Data); 
-			CAN_RTS(1);
-			Start_Timer(&Testing_Timer, 900);
-			
-			
-			// MS_CAN_Initialize();
-			
-            // Just a test
-			//RecvList[0] = &Recv1;
-			//RecvList[1] = &Recv2;
-			// SPI Test
-			//
-			//Write_SPI(3, 2, SPI_TX, &RecvList[0]);			
-			//Start_Timer(&Testing_Timer, 500);
-//
-            // TEST PWM
-            //Set_PWM_Duty_Cycle(pwm_channel_a, 80);
-            //Hold_Analog_Servo_Position(750+position_counter);
-            //if ((1500 == position_counter) || (0 == position_counter)) {up_count ^= 1;};
-            //if (up_count)
-            //{
-                //position_counter++;
-            //}
-            //else
-            //{
-                //position_counter--;
-            //}
+			if (Continue_Init)
+			{
+				MS_CAN_Initialize_2();
+				Continue_Init = false;
+				Start_Timer(&Testing_Timer, 5000);
+			}
+			else
+			{
+				TX_Data[0] = 1;
+				CAN_Write(MCP_TXB0DLC, TX_Data);
+				TX_Data[0] = 0x24;
+				CAN_Write(MCP_TXB0D0, TX_Data);
+				TX_Data[0] = 0;
+				CAN_Write(MCP_CANINTF, TX_Data);
+				RecvList[0] = &Recv1;
+				CAN_Read(MCP_CANINTF, RecvList);
+				CAN_Read(MCP_EFLG, RecvList);
+				CAN_Read(MCP_CANCTRL, RecvList);
+				TX_Data[0] = 0xFF;
+				CAN_Bit_Modify(MCP_TXB0CTRL, (1 << 3), TX_Data);
+				CAN_RTS(1);
+				Start_Timer(&Testing_Timer, 250);
+			}
 
             #if 1
              parity ^= 1;
