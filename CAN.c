@@ -59,6 +59,11 @@
 // #############################################################################
 
 static uint8_t TX_Data[1] = {0};
+static uint8_t* RX_Data[1] = {0};
+static uint8_t can_ctrl_value = 0;
+static uint8_t can_cnf1_value = 0;
+static uint8_t can_cnf2_value = 0;
+static uint8_t can_cnf3_value = 0;
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -85,25 +90,52 @@ void MS_CAN_Initialize(void)
     // Reset the CAN Module and enter in configuration mode
     CAN_Reset();
     
-    // Enter configuration mode, abort all pending transmissions and enable one shot mode
-    TX_Data[0] = (MODE_CONFIG|ABORT_TX|MODE_ONESHOT);
+    // Enter configuration mode, abort all pending transmissions and disable one shot mode
+    TX_Data[0] = (MODE_CONFIG|ABORT_TX);
     CAN_Write(MCP_CANCTRL, TX_Data);
-
+	
     // Disable CLKOUT
     TX_Data[0] = CLKOUT_DISABLE;
     uint8_t Mod_Data[1] = {2};
-    CAN_Bit_Modify(MCP_CANCTRL, Mod_Data, TX_Data);
-
+    CAN_Bit_Modify(MCP_CANCTRL, (1 << 2), TX_Data);
+	
+	
     // Set CNF Bit Time registers for Baud Rate = 500kb/s
-    TX_Data[0] = 0x41;
-    CAN_Write(MCP_CNF1, TX_Data);
-    TX_Data[0] = 0xF1;
-    CAN_Write(MCP_CNF2, TX_Data);
-    TX_Data[0] = 0x85;
+    //TX_Data[0] = 0x41;
+	TX_Data[0] = 0x41;
+	uint8_t Mod_Data_1[1] = {0};
+	CAN_Bit_Modify(MCP_CNF1, (1 << 0), TX_Data);
+    //CAN_Write(MCP_CNF1, TX_Data);
+	TX_Data[0] = 0xF1;
+	uint8_t Mod_Data_2[3] = {0, 1, 2};
+	CAN_Bit_Modify(MCP_CNF2, ((1 << 0)|(1 << 1)|(1 << 2)), TX_Data);
+	
+	TX_Data[0] = 0xF1;
+	uint8_t Mod_Data_3[3] = {3, 4, 5};
+	CAN_Bit_Modify(MCP_CNF2, ((1 << 3)|(1 << 4)|(1 << 5)), TX_Data);
+	
+	TX_Data[0] = 0xF1;
+	uint8_t Mod_Data_7[2] = {6,7};
+	CAN_Bit_Modify(MCP_CNF2, ((1 << 7)|(1 << 6)), TX_Data);
+	
+	TX_Data[0] = 0x85;
     CAN_Write(MCP_CNF3, TX_Data);
+	
+	TX_Data[0] = 0x41;
+	uint8_t Mod_Data_4[2] = {6,7};
+	CAN_Bit_Modify(MCP_CNF1, ((1 << 7)|(1 << 6)), TX_Data);
+	
+	/*
+	RX_Data[0] = &can_cnf1_value;
+	CAN_Read(MCP_CNF1, RX_Data);
+	RX_Data[0] = &can_cnf2_value;
+	CAN_Read(MCP_CNF2, RX_Data);
+	RX_Data[0] = &can_cnf3_value;
+	CAN_Read(MCP_CNF3, RX_Data);
+	*/
 
     // Set interrupt registers
-
+	
     // Enable all interrupts
     TX_Data[0] = 0xFF;
     CAN_Write(MCP_CANINTE, TX_Data);
@@ -125,7 +157,24 @@ void MS_CAN_Initialize(void)
     // Set identifier of RX Buffer 0 to 0
     TX_Data[0] = 0;
     CAN_Write(MCP_RXF0SIDH, TX_Data);
-    CAN_Write(MCP_RXF0SIDL, TX_Data);	
+    CAN_Write(MCP_RXF0SIDL, TX_Data);
+	
+	TX_Data[0] = 0x60;
+    CAN_Write(MCP_RXB0CTRL, TX_Data);
+	
+	
+	// Switch to Normal Mode
+	TX_Data[0] = (MCP_NORMAL);
+	uint8_t Mod_Data_5[3] = {5, 6, 7};
+	CAN_Bit_Modify(MCP_CANCTRL, ((1 << 5)|(1 << 6)|(1 << 7)), TX_Data);
+	
+	RX_Data[0] = &can_ctrl_value;
+	CAN_Read(MCP_CANSTAT, RX_Data);
+	
+	/*
+	RX_Data[0] = &can_ctrl_value;
+	CAN_Read(MCP_CANCTRL, RX_Data);
+	*/
 }
 
 /****************************************************************************
@@ -380,12 +429,13 @@ void CAN_RX_Status(uint8_t** Variable_2_Set)
 
 ****************************************************************************/
 
-void CAN_Bit_Modify(uint8_t Register_2_Set, uint8_t* Bits_2_Change, uint8_t* Value_2_Set)
+void CAN_Bit_Modify(uint8_t Register_2_Set, uint8_t Bits_2_Change, uint8_t* Value_2_Set)
 {
     // Define constants
     #define BM_TX_LENGTH 4
     #define BM_RX_LENGTH 0
-
+	
+	/*
     // Initialize proposed mask
     uint8_t Mask_Byte = 0;
 
@@ -394,9 +444,10 @@ void CAN_Bit_Modify(uint8_t Register_2_Set, uint8_t* Bits_2_Change, uint8_t* Val
     {
         Mask_Byte |= (1 << Bits_2_Change[i]);
     }
+	*/
     
     // Value to Set
-    uint8_t Data_2_Write[BM_TX_LENGTH] = {MCP_BITMOD, Register_2_Set, Mask_Byte, Value_2_Set[0]};
+    uint8_t Data_2_Write[BM_TX_LENGTH] = {MCP_BITMOD, Register_2_Set, Bits_2_Change, Value_2_Set[0]};
     
     // Call SPI command
     Write_SPI(BM_TX_LENGTH, BM_RX_LENGTH, Data_2_Write, NULL);

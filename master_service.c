@@ -52,6 +52,11 @@
 // SPI Module
 #include "SPI.h"
 
+// CAN Module
+#include "CAN.h"
+
+#include "MCP25625defs.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -118,11 +123,17 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
 static position_data_t position_to_watch;
 static intensity_data_t intensity_to_watch;
 
-// SPI Test
-static uint8_t SPI_TX[3] = {0x0A, 0x02, 0x07};
+uint8_t TX_Data[1] = {0};
 static uint8_t Recv1 = 0;
 static uint8_t Recv2 = 0;
-uint8_t* RecvList[2];
+uint8_t* RecvList[1];
+
+
+// SPI Test
+/*
+static uint8_t SPI_TX[3] = {0x0A, 0x02, 0x07};
+
+*/
 
 
 // #############################################################################
@@ -165,8 +176,8 @@ void Init_Master_Service(void)
 	
 	// Initialize SPI
 	MS_SPI_Initialize(&My_Node_ID);
-
-    // Register scheduling timer with ID_schedule_handler as 
+	
+	// Register scheduling timer with ID_schedule_handler as 
     //      callback function
     Register_Timer(&Scheduling_Timer, ID_schedule_handler);
 
@@ -175,9 +186,12 @@ void Init_Master_Service(void)
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
+	
+	MS_CAN_Initialize();
+	
     Start_Timer(&Testing_Timer, 5000);
-    PORTB &= ~(1<<PINB6);
-    DDRB |= (1<<PINB6);
+    PORTB &= ~(1<<PINB2);
+    DDRB |= (1<<PINB2);
     //Set_PWM_Duty_Cycle(pwm_channel_a, 10);
 }
 
@@ -220,12 +234,34 @@ void Run_Master_Service(uint32_t event_mask)
             break;
 
         case EVT_TEST_TIMEOUT:
-            // Just a test
+			// Initialize CAN module
+			//MS_CAN_Initialize();
+		
+			
+			TX_Data[0] = 1;
+			CAN_Write(MCP_TXB0DLC, TX_Data);
+			TX_Data[0] = 0x67;
+			CAN_Write(MCP_TXB0D0, TX_Data);
+			TX_Data[0] = 0;
+			CAN_Write(MCP_CANINTF, TX_Data);
 			RecvList[0] = &Recv1;
-			RecvList[1] = &Recv2;
+			CAN_Read(MCP_CANINTF, RecvList);
+			CAN_Read(MCP_EFLG, RecvList);
+			CAN_Read(MCP_CANCTRL, RecvList);
+			TX_Data[0] = 0xFF;
+			CAN_Bit_Modify(MCP_TXB0CTRL, (1 << 3), TX_Data); 
+			CAN_RTS(1);
+			Start_Timer(&Testing_Timer, 900);
+			
+			
+			// MS_CAN_Initialize();
+			
+            // Just a test
+			//RecvList[0] = &Recv1;
+			//RecvList[1] = &Recv2;
 			// SPI Test
 			//
-			Write_SPI(3, 2, SPI_TX, &RecvList[0]);			
+			//Write_SPI(3, 2, SPI_TX, &RecvList[0]);			
 			//Start_Timer(&Testing_Timer, 500);
 //
             // TEST PWM
@@ -245,13 +281,12 @@ void Run_Master_Service(uint32_t event_mask)
              parity ^= 1;
              if (parity)
              {
-                 PORTB |= (1<<PINB6);
+                 PORTB |= (1<<PINB2);
              }
              else
              {
-                 PORTB &= ~(1<<PINB6);
-             }
-            Start_Timer(&Testing_Timer, 5);
+                 PORTB &= ~(1<<PINB2);
+			 }
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;

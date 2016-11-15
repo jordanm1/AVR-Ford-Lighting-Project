@@ -12,6 +12,7 @@
 // #############################################################################
 
 void Init_IOC_Module(void);
+uint32_t query_counter(void);
 
 
 #endif // IOC_H

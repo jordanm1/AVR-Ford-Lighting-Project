@@ -106,6 +106,9 @@
 #define MCP_RTSCTRL     0x0D
 #define MCP_TXB0SIDH    0x31
 #define MCP_TXB0SIDL    0x32
+#define MCP_TXB0DLC		0x35
+#define MCP_TXB0D0		0x36
+#define MCP_RXB0D0		0x66
 
 
 #define MCP_TX_INT          0x1C                                    // Enable all transmit interrup ts

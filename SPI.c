@@ -38,6 +38,8 @@
 // Interrupts
 #include <avr/interrupt.h>
 
+#include "IOC.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -66,6 +68,8 @@ static uint8_t Expected_TX_Length = 0;	    // Set as Max TX Bytes
 static uint8_t Expected_RX_Length = 0;	    // Set as Max RX Bytes
 
 static bool In_Tx = false;					// This flag decides which buffer to fill
+
+static uint32_t counter_value = 0; 
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -221,7 +225,8 @@ void SPI_Transmit (void)
         Write_SPI
 
     Parameters
-        uint8_t TX_Length
+        uint8_t TX_Length		Buffer_Index	0x07	uint8_t{data}@0x0138
+
         uint8_t RX_Length
         uint8_t* Data_To_Write
 
@@ -231,6 +236,8 @@ void SPI_Transmit (void)
 
 void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8_t ** Data2Receive)
 {
+	counter_value = query_counter();
+	
     // Over all columns of next available command row
     for (int i = 0; i < (LENGTH_BYTES + TX_Length); i++)
     {
@@ -304,7 +311,14 @@ ISR(SPI_STC_vect)
             // If more bytes left to transmit post transmission event
 			if (TX_Index <= Expected_TX_Length)
 			{
-				Post_Event(EVT_SPI_SEND_BYTE);
+				if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
+				{
+					In_Tx = false;									
+				}
+				else
+				{
+					Post_Event(EVT_SPI_SEND_BYTE);
+				}
 			}
 			else
 			{
@@ -314,14 +328,16 @@ ISR(SPI_STC_vect)
 		
 		if (!In_Tx)
 		{
-			*(Receive_List[Buffer_Index][RX_Index]) = SPDR;
-			RX_Index++;
-			
+			if (Expected_RX_Length > 0)
+			{
+				*(Receive_List[Buffer_Index][RX_Index]) = SPDR;
+				RX_Index++;				
+			}
 			if (RX_Index < Expected_RX_Length)
 			{
 				Post_Event(EVT_SPI_RECV_BYTE);
 			}
-			else if (RX_Index == Expected_RX_Length)
+			else if (RX_Index >= Expected_RX_Length)
 			{
                 Update_Buffer_Index();
 				Post_Event(EVT_SPI_END);
