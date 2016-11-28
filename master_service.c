@@ -123,11 +123,17 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
 static position_data_t position_to_watch;
 static intensity_data_t intensity_to_watch;
 
-uint8_t TX_Data[1] = {0};
-static uint8_t Recv1 = 0;
-static uint8_t Recv2 = 0;
-uint8_t* RecvList[1];
+uint8_t TX_Data[3] = {0xA5, 0xB5, 0xD5};
 static bool Continue_Init = true;
+
+uint8_t Byte_1 = 0;
+uint8_t Byte_2 = 0;
+uint8_t Byte_3 = 0;
+uint8_t Byte_4 = 0;
+uint8_t Byte_5 = 0;
+uint8_t Byte_6 = 0;
+uint8_t Byte_7 = 0;
+uint8_t Byte_8 = 0;
 
 
 // #############################################################################
@@ -237,17 +243,13 @@ void Run_Master_Service(uint32_t event_mask)
 			}
 			else
 			{
-				TX_Data[0] = 1;
-				CAN_Write(MCP_TXB0DLC, TX_Data);
-				TX_Data[0] = 0x12;
-				CAN_Write(MCP_TXB0D0, TX_Data);
-				RecvList[0] = &Recv1;
+				/*
 				CAN_Read(MCP_TEC, RecvList);
 				CAN_Read(MCP_REC, RecvList);
 				CAN_Read(MCP_EFLG, RecvList);
 				CAN_Read(MCP_CANCTRL, RecvList);
-				TX_Data[0] = 0xFF;
-				CAN_Bit_Modify(MCP_TXB0CTRL, (1 << 3), TX_Data);
+				*/
+				CAN_Send_Message(3, TX_Data);
 				//CAN_RTS(1);
 				Start_Timer(&Testing_Timer, 250);
 			}
@@ -292,6 +294,30 @@ void Run_Master_Service(uint32_t event_mask)
         default:
             break;
     }
+}
+
+/****************************************************************************
+    Public Function
+        Fill_Variable_List
+
+    Parameters
+        None
+
+    Description
+        Fills in the variables the CAN Read command will set
+
+****************************************************************************/
+
+void Fill_Variable_List(uint8_t** Variable_List)
+{
+	Variable_List[0] = &Byte_1;
+	Variable_List[1] = &Byte_2;
+	Variable_List[2] = &Byte_3;
+	Variable_List[3] = &Byte_4;
+	Variable_List[4] = &Byte_5;
+	Variable_List[5] = &Byte_6;
+	Variable_List[6] = &Byte_7;
+	Variable_List[7] = &Byte_8;		
 }
 
 // #############################################################################

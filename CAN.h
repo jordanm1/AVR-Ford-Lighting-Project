@@ -25,4 +25,8 @@ void CAN_Read_Status(uint8_t** Variable_2_Set);
 void CAN_RX_Status(uint8_t** Variable_2_Set);
 void CAN_Bit_Modify(uint8_t Register_2_Set, uint8_t Bits_2_Change, uint8_t* Value_2_Set);
 
+// CAN User Commands
+void CAN_Send_Message(uint8_t Msg_Length, uint8_t* Transmit_Data);
+void CAN_Read_Message(uint8_t** Recv_Data);
+
 #endif // CAN_H

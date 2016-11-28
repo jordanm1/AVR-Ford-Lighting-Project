@@ -41,6 +41,8 @@
 
 #include "MCP25625defs.h"
 
+#include "master_service.h"
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -57,9 +59,6 @@
 // ------------ MODULE VARIABLES
 // #############################################################################
 static uint32_t counter = 0;
-static uint8_t Recv2 = 0;
-uint8_t* RecvList[1];
-
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -126,13 +125,11 @@ uint32_t query_counter(void)
 ISR(INT0_vect)
 {
 	counter++;
-    // Clear External Interrupt Flag
-    // EIFR |= (1<<INTF0);
-	RecvList[0] = &Recv2;
-	CAN_Read(MCP_RXB0D0, RecvList);
+	uint8_t* Variable_List[8] = {0};
+	Fill_Variable_List(&Variable_List[0]);
+	CAN_Read_Message(Variable_List);
 	uint8_t TX_Data[1] = {0};
 	CAN_Bit_Modify(MCP_CANINTF, 0xFF, TX_Data); 
-	//CAN_Write(MCP_CANINTF, TX_Data);	
 }
 
 // #############################################################################

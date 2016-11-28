@@ -421,23 +421,72 @@ void CAN_Bit_Modify(uint8_t Register_2_Set, uint8_t Bits_2_Change, uint8_t* Valu
     #define BM_TX_LENGTH 4
     #define BM_RX_LENGTH 0
 	
-	/*
-    // Initialize proposed mask
-    uint8_t Mask_Byte = 0;
-
-    // Set bits to be changed to 1 in mask
-    for (int i = 0; i < sizeof(Bits_2_Change)/sizeof(Bits_2_Change[0]); i++)
-    {
-        Mask_Byte |= (1 << Bits_2_Change[i]);
-    }
-	*/
-    
     // Value to Set
     uint8_t Data_2_Write[BM_TX_LENGTH] = {MCP_BITMOD, Register_2_Set, Bits_2_Change, Value_2_Set[0]};
     
     // Call SPI command
     Write_SPI(BM_TX_LENGTH, BM_RX_LENGTH, Data_2_Write, NULL);
 }
+
+/****************************************************************************
+    Public Function
+        CAN_Send_Message
+
+    Parameters
+		
+
+    Description
+        Sends a CAN Message on the CAN Bus
+
+****************************************************************************/
+
+void CAN_Send_Message(uint8_t Msg_Length, uint8_t* Transmit_Data)
+{	
+	// If invalid CAN Message Length don't perform transmit
+	if (Msg_Length > 8)
+	{
+		return;
+	}
+	// Set message length
+	TX_Data[0] = Msg_Length;
+	CAN_Write(MCP_TXB0DLC, TX_Data);
+	// Write in transmit data to required registers
+	for (int i = 0; i < Msg_Length; i++)
+	{
+		TX_Data[0] = Transmit_Data[i];
+		CAN_Write(MCP_TXB0D0 + i, TX_Data);
+	}
+	// Transmit message
+	TX_Data[0] = 0xFF;
+	CAN_Bit_Modify(MCP_TXB0CTRL, (1 << 3), TX_Data);
+}
+
+/****************************************************************************
+    Public Function
+        CAN_Read_Message
+
+    Parameters
+		
+
+    Description
+        Reads CAN message from the CAN Bus
+
+****************************************************************************/
+
+void CAN_Read_Message(uint8_t** Recv_Data)
+{
+	RX_Data[0] = &Recv_Byte;
+	CAN_Read(MCP_RXB0DLC, RX_Data);
+	
+	uint8_t Recv_Length = Recv_Byte;
+	
+	for (int i = 0; i < Recv_Length; i++)
+	{
+		RX_Data[0] = Recv_Data[i];
+		CAN_Read(MCP_RXB0D0 + i, RX_Data);
+	}	
+}
+
 
 // #############################################################################
 // ------------ PRIVATE FUNCTIONS
