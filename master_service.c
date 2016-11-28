@@ -239,17 +239,16 @@ void Run_Master_Service(uint32_t event_mask)
 			{
 				TX_Data[0] = 1;
 				CAN_Write(MCP_TXB0DLC, TX_Data);
-				TX_Data[0] = 0x24;
+				TX_Data[0] = 0x12;
 				CAN_Write(MCP_TXB0D0, TX_Data);
-				TX_Data[0] = 0;
-				CAN_Write(MCP_CANINTF, TX_Data);
 				RecvList[0] = &Recv1;
-				CAN_Read(MCP_CANINTF, RecvList);
+				CAN_Read(MCP_TEC, RecvList);
+				CAN_Read(MCP_REC, RecvList);
 				CAN_Read(MCP_EFLG, RecvList);
 				CAN_Read(MCP_CANCTRL, RecvList);
 				TX_Data[0] = 0xFF;
 				CAN_Bit_Modify(MCP_TXB0CTRL, (1 << 3), TX_Data);
-				CAN_RTS(1);
+				//CAN_RTS(1);
 				Start_Timer(&Testing_Timer, 250);
 			}
 
