@@ -163,8 +163,6 @@ void Init_Master_Service(void)
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
     Start_Timer(&Testing_Timer, 5000);
-    PORTB &= ~(1<<PINB6);
-    DDRB |= (1<<PINB6);
     //Set_PWM_Duty_Cycle(pwm_channel_a, 10);
 }
 
@@ -232,7 +230,7 @@ void Run_Master_Service(uint32_t event_mask)
 //             {
 //                 PORTB &= ~(1<<PINB6);
 //             }
-            Start_Timer(&Testing_Timer, 500);
+            Start_Timer(&Testing_Timer, 50);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -243,15 +241,15 @@ void Run_Master_Service(uint32_t event_mask)
 //             Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
             // Begin updating the commands, which will
             //      be sent in the background
-            PORTB |= (1<<PINB6);
 //             Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 98);
 //             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
-            update_cmds(test_positions[test_counter]);
+            // update_cmds(test_positions[test_counter]);
+            Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),50);
+            Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),750+position_counter);
             position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
             intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
             test_counter++;
             if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
-            PORTB &= ~(1<<PINB6);
             // *Note: While we are sending, we will
             //      check to see if the slaves have
             //      obeyed whenever we receive a
