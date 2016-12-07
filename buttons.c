@@ -50,8 +50,8 @@
 
 #if IS_MASTER_NODE
 #else
-    #define PB2_BUTTON_RISE_EVT         EVT_BTN_MISC_PRESS
-    #define PB2_BUTTON_FALL_EVT         EVT_BTN_MISC_RELEASE
+    #define PB6_BUTTON_RISE_EVT         EVT_BTN_MISC_PRESS
+    #define PB6_BUTTON_FALL_EVT         EVT_BTN_MISC_RELEASE
 #endif
 
 // #############################################################################
