@@ -268,6 +268,18 @@
     <Compile Include="timer.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="UART.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UART.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UART_Service.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UART_Service.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="__setup.h">
       <SubType>compile</SubType>
     </Compile>
