@@ -97,19 +97,19 @@ void UART_Initialize(uint8_t * p_this_node_id)
 {    
 	//***************************@TODO*************************************
 	
-    // UART Data Direction Register (DDR_UART) = DDRA
-    // Set MOSI, SS and SCK output, all others input
-    DDR_UART |= (1<<MOSI)|(1<<SCK)|(1<<SS);
-	//DDR_UART &= ~(1<<SS);
-
-    // Enable interrupt on transmission complete, enable UART and set as master,
-    // set clock rate io_clk/4, MSB transmitted first, Sample on rising edge 
-    SPCR = (1<<UARTE)|(1<<SPE)|(1<<MSTR);
-
-    // Raise SS from master at Init
-    PORTA |= (1<<SS);
-
-    // Reset indices
+	// Reset UART
+	LINCR |= (1<<LSWRES);
+	
+    // Set up LINCR with
+	// - Command Mode = TxRx Enabled
+	// - UART Enable
+	// - Odd Parity	
+	LINCR = (1<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(1<<LCONF1);
+	
+	// Set up LINBTR
+	LINBTR = (1<<LDSIR)|(1;
+    
+	// Reset indices
     Buffer_Index = 0;
     TX_Index = 0;
 	RX_Index = 0;
