@@ -230,7 +230,7 @@ void Run_Master_Service(uint32_t event_mask)
 //             {
 //                 PORTB &= ~(1<<PINB6);
 //             }
-            Start_Timer(&Testing_Timer, 50);
+            Start_Timer(&Testing_Timer, 2000);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -243,9 +243,9 @@ void Run_Master_Service(uint32_t event_mask)
             //      be sent in the background
 //             Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 98);
 //             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
-            // update_cmds(test_positions[test_counter]);
-            Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),50);
-            Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),750+position_counter);
+            update_cmds(test_positions[test_counter]);
+            //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),50);
+            //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),750+position_counter);
             position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
             intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
             test_counter++;
