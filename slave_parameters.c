@@ -49,7 +49,7 @@
 // #############################################################################
 
 // Array of structs to hold slave parameters
-// *Note: We store this array in flash to save space in RAM;
+// *Note: We store this array in program memory to save space in RAM;
 //  each slave parameters member is 15 bytes
 static const slave_parameters_t Slave_Parameters[NUM_SLAVES] PROGMEM =  {
 
@@ -218,7 +218,8 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] PROGMEM =  {
 
     Description
         Gives a pointer to a struct variable containing the parameters
-        of the requested slave (based on the slave base ID).
+        of the requested slave (based on the slave base ID), that resides
+        in the device's flash memory.
 
 ****************************************************************************/
 const slave_parameters_t * Get_Pointer_To_Slave_Parameters(uint8_t slave_num)

@@ -33,6 +33,9 @@
 
 // Include other files below:
 
+// Program Memory
+#include <avr/pgmspace.h>
+
 // Command/Status helpers
 #include "cmd_sts_helpers.h"
 
@@ -64,11 +67,12 @@
 // #############################################################################
 
 // INITIALIZE VARS:
-uint16_t desired_theta, light_range;
-int16_t theta_light_min, theta_light_max;
-uint16_t norm2_desired_relative;
-rect_vect_t v_desired_relative;
-uint8_t result_settings[LIN_PACKET_LEN];
+slave_parameters_t Slave_Parameters;
+slave_parameters_t * p_Slave_Parameters = &Slave_Parameters;
+uint16_t Desired_Theta, Light_Range, Theta_Light_Min, Theta_Light_Max, \
+            Norm2_Desired_Relative;
+rect_vect_t Vect_Desired_Relative;
+uint8_t Result_Settings[LIN_PACKET_LEN];
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -76,7 +80,7 @@ uint8_t result_settings[LIN_PACKET_LEN];
 
 static uint16_t norm2_rect_vect(rect_vect_t vect);
 static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel);
-static position_data_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle);
+static position_data_t interpolate_slave_position(void);
 static uint16_t compute_cw_angular_distance(uint16_t start_angle, uint16_t end_angle);
 
 // #############################################################################
@@ -98,20 +102,17 @@ static uint16_t compute_cw_angular_distance(uint16_t start_angle, uint16_t end_a
 
 ****************************************************************************/
 void Compute_Individual_Light_Settings(
-                                        const slave_parameters_t * p_slave_params,
+                                        const slave_parameters_t * p_target_slave_params,
                                         uint8_t * p_cmd_data,
                                         rect_vect_t v_desired_location)
 {
     // If NULL pointers, return immediately
-    if (!p_slave_params) return;
-    if (!p_cmd_data) return;
+    if (!p_target_slave_params) return;
+    if (!p_target_slave_params) return;
 
-//     // INITIALIZE VARS:
-//     uint16_t desired_theta, light_range;
-//     int16_t theta_light_min, theta_light_max;
-//     uint16_t norm2_desired_relative;
-//     rect_vect_t v_desired_relative;
-//     uint8_t result_settings[2];
+    // Copy the slave params struct from the program space to our instance
+    // in RAM.
+    memcpy_P(&Slave_Parameters, p_target_slave_params, sizeof(Slave_Parameters));
 
     // COMPUTE:
     // v_User_Relative = (v_User-v_Node)
@@ -120,48 +121,48 @@ void Compute_Individual_Light_Settings(
     //  loc. could be (0.8,1) and the angle would be within our bounds,
     //  but if we use the desired location relative to us, the angle would
     //  be outside of our bounds.
-    v_desired_relative.x = v_desired_location.x-p_slave_params->rect_position.x;
-    v_desired_relative.y = v_desired_location.y-p_slave_params->rect_position.y;
+    Vect_Desired_Relative.x = v_desired_location.x-p_Slave_Parameters->rect_position.x;
+    Vect_Desired_Relative.y = v_desired_location.y-p_Slave_Parameters->rect_position.y;
 
     // COMPUTE:
     // distance^2 from node to desired location
-    norm2_desired_relative = norm2_rect_vect(v_desired_relative);
+    Norm2_Desired_Relative = norm2_rect_vect(Vect_Desired_Relative);
 
     // COMPUTE:
     // the relative angle of the desired location to us
-    desired_theta = compute_our_rel_angle(v_desired_relative, norm2_desired_relative);
+    Desired_Theta = compute_our_rel_angle(Vect_Desired_Relative, Norm2_Desired_Relative);
 
     // COMPUTE:
     //  Light range in degs
-    if (p_slave_params->move_equipped)
+    if (p_Slave_Parameters->move_equipped)
     {
         // Theta_min/max can be anything, treats equal angles as full 360 movement capable
-        light_range = compute_cw_angular_distance(p_slave_params->theta_min, p_slave_params->theta_max)
-                        + p_slave_params->fov;
+        Light_Range = compute_cw_angular_distance(p_Slave_Parameters->theta_min, p_Slave_Parameters->theta_max)
+                        + p_Slave_Parameters->fov;
     }
     else
     {
         // The theta_min/max must be the same angle in slave_parameters
-        light_range = p_slave_params->fov;
+        Light_Range = p_Slave_Parameters->fov;
     }
 
     // COMPUTE:
     //  Theta_Light_Min = Theta_Node_Min - (Field_Of_View / 2)
     //  Theta_Light_Max = Theta_Node_Max + (Field_Of_View / 2)
-    theta_light_min = (p_slave_params->theta_min-(p_slave_params->fov/2)+DEGS_FULL_CIRCLE)%DEGS_FULL_CIRCLE;
-    theta_light_max = (p_slave_params->theta_max+(p_slave_params->fov/2)+DEGS_FULL_CIRCLE)%DEGS_FULL_CIRCLE;
+    Theta_Light_Min = (p_Slave_Parameters->theta_min-(p_Slave_Parameters->fov/2)+DEGS_FULL_CIRCLE)%DEGS_FULL_CIRCLE;
+    Theta_Light_Max = (p_Slave_Parameters->theta_max+(p_Slave_Parameters->fov/2)+DEGS_FULL_CIRCLE)%DEGS_FULL_CIRCLE;
 
     // CHECK TO SEE IF ANGLE IS BETWEEN MIN AND MAX:
     // COMPUTE:
     //  Distance from min to desired
     //  Distance from min to max
-    if  (   (compute_cw_angular_distance(theta_light_min, desired_theta)
+    if  (   (compute_cw_angular_distance(Theta_Light_Min, Desired_Theta)
             <=
-            compute_cw_angular_distance(theta_light_min, theta_light_max))
+            compute_cw_angular_distance(Theta_Light_Min, Theta_Light_Max))
 
             ||
 
-            (DEGS_FULL_CIRCLE <= light_range)
+            (DEGS_FULL_CIRCLE <= Light_Range)
         )
     {
         // The desired position can be reached with light via this node.
@@ -170,7 +171,7 @@ void Compute_Individual_Light_Settings(
 
         // Compute and set light intensity
         intensity_data_t temp_intensity = INTENSITY_NON_COMMAND;
-        temp_intensity = (MAX_LIGHT_INTENSITY*INTENSITY_SCALING_FACTOR)/norm2_desired_relative;
+        temp_intensity = (MAX_LIGHT_INTENSITY*INTENSITY_SCALING_FACTOR)/Norm2_Desired_Relative;
         if (MIN_LIGHT_INTENSITY > temp_intensity)
         {
             temp_intensity = MIN_LIGHT_INTENSITY;
@@ -183,13 +184,13 @@ void Compute_Individual_Light_Settings(
         {
             // Leave as is. Valid light intensity.
         }
-        Write_Intensity_Data(result_settings, temp_intensity);
+        Write_Intensity_Data(Result_Settings, temp_intensity);
 
         // Interpolate position between min and max if this slave is equipped to move
         position_data_t temp_position = POSITION_NON_COMMAND;
-        if (p_slave_params->move_equipped)
+        if (p_Slave_Parameters->move_equipped)
         {
-            temp_position = interpolate_slave_position(p_slave_params, desired_theta);
+            temp_position = interpolate_slave_position();
         }
         else
         {
@@ -197,15 +198,15 @@ void Compute_Individual_Light_Settings(
             // doesn't move
             temp_position = POSITION_NON_COMMAND;
         }
-        Write_Position_Data(result_settings, temp_position);
+        Write_Position_Data(Result_Settings, temp_position);
     }
     // Otherwise, this slave cannot put any light in the requested location
     else
     {
         // The desired position cannot be reached with light via this node.
         // Turn off the light and keep the servo where it is (send non command to servo)
-        Write_Intensity_Data(result_settings, INTENSITY_NON_COMMAND);
-        Write_Position_Data(result_settings, POSITION_NON_COMMAND);
+        Write_Intensity_Data(Result_Settings, INTENSITY_NON_COMMAND);
+        Write_Position_Data(Result_Settings, POSITION_NON_COMMAND);
     }
 
     // *Note: after this algorithm runs, the light intensity will be set,
@@ -213,7 +214,7 @@ void Compute_Individual_Light_Settings(
     //  (either NON_COMMAND or a valid position)
 
     // Copy data to location provided by caller
-    memcpy(p_cmd_data, result_settings, LIN_PACKET_LEN);
+    memcpy(p_cmd_data, Result_Settings, LIN_PACKET_LEN);
 }
 
 // #############################################################################
@@ -311,7 +312,7 @@ static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
         interpolate_slave_position
 
     Parameters
-        slave_parameters_t * p_slave_params
+        slave_parameters_t * p_Slave_Parameters
         uint16_t desired_angle
 
     Description
@@ -321,7 +322,7 @@ static uint16_t compute_our_rel_angle(rect_vect_t v_rel, uint16_t norm2_v_rel)
             its limits.
 
 ****************************************************************************/
-static position_data_t interpolate_slave_position(const slave_parameters_t * p_slave_params, uint16_t desired_angle)
+static position_data_t interpolate_slave_position(void)
 {
     // Initialize result
     position_data_t result = POSITION_NON_COMMAND;
@@ -329,30 +330,30 @@ static position_data_t interpolate_slave_position(const slave_parameters_t * p_s
     /* CALCULATE RANGE OF SLAVE IN DEGREES */
     // Calculate the range of degrees between min and max
     uint16_t slave_range_degs;
-    slave_range_degs = compute_cw_angular_distance(p_slave_params->theta_min, p_slave_params->theta_max);
+    slave_range_degs = compute_cw_angular_distance(p_Slave_Parameters->theta_min, p_Slave_Parameters->theta_max);
 
     /* COMPUTE RATIO OF DESIRED ANGLE ABOVE THE MINIMUM ANGLE*/
     position_data_t position_range;
     // If the desired angle is outside of our move ability
-    if  (   compute_cw_angular_distance(p_slave_params->theta_min, desired_theta)
+    if  (   compute_cw_angular_distance(p_Slave_Parameters->theta_min, Desired_Theta)
             >=
             slave_range_degs
         )
     {
         // If the desired angle is closer to our min
-        if  (   compute_cw_angular_distance(p_slave_params->theta_max, desired_theta)
+        if  (   compute_cw_angular_distance(p_Slave_Parameters->theta_max, Desired_Theta)
                 >
-                compute_cw_angular_distance(desired_theta, p_slave_params->theta_min)
+                compute_cw_angular_distance(Desired_Theta, p_Slave_Parameters->theta_min)
             )
         {
             // Return our min position
-            result = p_slave_params->position_min;
+            result = p_Slave_Parameters->position_min;
         }
         // Otherwise, the desired angle is closer to our max
         else
         {
             // Return our max position
-            result = p_slave_params->position_max;
+            result = p_Slave_Parameters->position_max;
         }
     }
     // Otherwise, angle is actually between our min and max (going CW)
@@ -360,22 +361,22 @@ static position_data_t interpolate_slave_position(const slave_parameters_t * p_s
     else
     {
         // If positions are increasing from min to max
-        if (p_slave_params->position_max > p_slave_params->position_min)
+        if (p_Slave_Parameters->position_max > p_Slave_Parameters->position_min)
         {
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are increasing, we add to min position
             // @TODO: Make sure these won't overflow
-            position_range = p_slave_params->position_max-p_slave_params->position_min;
-            result = p_slave_params->position_min + (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta) * (uint32_t) position_range)/slave_range_degs));
+            position_range = p_Slave_Parameters->position_max-p_Slave_Parameters->position_min;
+            result = p_Slave_Parameters->position_min + (0.5+((compute_cw_angular_distance(p_Slave_Parameters->theta_min, Desired_Theta) * (uint32_t) position_range)/slave_range_degs));
         }
         // If positions are decreasing from min to max
-        else if (p_slave_params->position_min > p_slave_params->position_max)
+        else if (p_Slave_Parameters->position_min > p_Slave_Parameters->position_max)
         {
             // Classic interpolation (add 0.5 to round to closest integer)
             // Since the positions are decreasing, we subtract from min position
             // @TODO: Make sure these won't overflow
-            position_range = p_slave_params->position_min-p_slave_params->position_max;
-            result = p_slave_params->position_min - (0.5+((compute_cw_angular_distance(p_slave_params->theta_min, desired_theta) * (uint32_t) position_range)/slave_range_degs));
+            position_range = p_Slave_Parameters->position_min-p_Slave_Parameters->position_max;
+            result = p_Slave_Parameters->position_min - (0.5+((compute_cw_angular_distance(p_Slave_Parameters->theta_min, Desired_Theta) * (uint32_t) position_range)/slave_range_degs));
         }
         else
         {
@@ -385,13 +386,13 @@ static position_data_t interpolate_slave_position(const slave_parameters_t * p_s
             //  two locations.
             // Anyways, just return the one position
             //  since it is constant across the angles
-            result = p_slave_params->position_min;
+            result = p_Slave_Parameters->position_min;
         }
     }
 
     // Check for position validity before returning
     // @TODO: We might want to still move it to the closest edge.
-    if (Is_Servo_Position_Valid(p_slave_params, result)) 
+    if (Is_Servo_Position_Valid(p_Slave_Parameters, result)) 
     {
         return result;
     }
@@ -464,31 +465,31 @@ static uint16_t compute_cw_angular_distance(uint16_t start_angle, uint16_t end_a
 // }
 
 //     // COMPUTE:
-//     //   desired_theta (angle between desired location and zero)
+//     //   Desired_Theta (angle between desired location and zero)
 //     //  Since our zero degrees vector is (0,1) the dot product is
-//     //      v_zero_degrees * v_desired_relative = v_desired_relative.y = cos(theta)
-//     if (0 == v_desired_relative.x)
+//     //      v_zero_degrees * Vect_Desired_Relative = Vect_Desired_Relative.y = cos(theta)
+//     if (0 == Vect_Desired_Relative.x)
 //     {
 //         // The requested location is along the vector (0,1)
 //         //  so the angle is zero degrees or 180
-//         if (0 <= v_desired_relative.y)
+//         if (0 <= Vect_Desired_Relative.y)
 //         {
-//             desired_theta = 0;
+//             Desired_Theta = 0;
 //         }
 //         else
 //         {
-//             desired_theta = 180;
+//             Desired_Theta = 180;
 //         }
 //     }
-//     else if (0 > v_desired_relative.x)
+//     else if (0 > Vect_Desired_Relative.x)
 //     {
 //         // The vector is in the left half
 //         // Subtract computed angle from 360
-//         desired_theta = DEGS_FULL_CIRCLE-invcos(v_desired_relative.y);
+//         Desired_Theta = DEGS_FULL_CIRCLE-invcos(Vect_Desired_Relative.y);
 //     }
 //     else
 //     {
 //         // The vector is in the right half.
 //         // Leave computed angle between as is
-//         desired_theta = invcos(v_desired_relative.y);
+//         Desired_Theta = invcos(Vect_Desired_Relative.y);
 //     }
