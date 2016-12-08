@@ -28,7 +28,7 @@ main.c
 
 master_service.c
 
-MS_LIN_top_layer.c
+ModemService.c
 
 PWM.c
 
@@ -41,6 +41,10 @@ SPI.c
 SPI_Service.c
 
 timer.c
+
+UART.c
+
+UART_Service.c
 
 __template.c
 

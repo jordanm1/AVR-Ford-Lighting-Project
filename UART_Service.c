@@ -29,7 +29,7 @@
 #include "UART.h"
 
 // This module's header file
-#include "UART_service.h"
+#include "UART_Service.h"
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS
@@ -41,7 +41,7 @@
 // #############################################################################
 
 // Always enter UART service with normal state
-static UART_State_t Current_State = NORMAL_STATE;
+static UART_State_t Current_State = NORMAL_UART_STATE;
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -66,7 +66,7 @@ static UART_State_t Current_State = NORMAL_STATE;
 void Init_UART_Service(void)
 {
 	// Start State Machine from normal state
-	Current_State = NORMAL_STATE;
+	Current_State = NORMAL_UART_STATE;
 }
 
 /****************************************************************************
@@ -84,13 +84,13 @@ void Run_UART_Service(uint32_t event_mask)
 {
 	switch(Current_State)
     {	
-		case NORMAL_STATE:
+		case NORMAL_UART_STATE:
 			if (EVT_UART_START == event_mask)
 			{			
                 // Initialize UART for particular command
                 UART_Start_Command();
 				// Switch to sending state
-				Current_State = SENDING_STATE;
+				Current_State = SENDING_UART_STATE;
 				// Post event to initiate transition
 				Post_Event(EVT_UART_SEND_BYTE);
 			}
@@ -108,12 +108,12 @@ void Run_UART_Service(uint32_t event_mask)
 			else if (EVT_UART_RECV_BYTE == event_mask)
 			{
                 UART_Transmit();
-				Current_State = RECEIVING_STATE;				
+				Current_State = RECEIVING_UART_STATE;				
 			}
 			else if (EVT_UART_END == event_mask)
 			{
                 UART_End_Command();
-				Current_State = NORMAL_STATE;
+				Current_State = NORMAL_UART_STATE;
 
 			}
             else
@@ -130,7 +130,7 @@ void Run_UART_Service(uint32_t event_mask)
             if (EVT_UART_END == event_mask)
             {
                 UART_End_Command();
-                Current_State = NORMAL_STATE;
+                Current_State = NORMAL_UART_STATE;
             }
 			break;
 			

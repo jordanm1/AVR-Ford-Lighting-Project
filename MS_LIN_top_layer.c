@@ -17,6 +17,8 @@
 // ------------ INCLUDES
 // #############################################################################
 
+# if 0
+
 // Standard ANSI  99 C types for exact integer sizes and booleans
 #include <stdint.h>
 #include <stdbool.h>
@@ -271,6 +273,7 @@ static void lin_err_task(void)
         Handles LIN specific interrupts
 
 ****************************************************************************/
+
 ISR(LIN_TC_vect)
 {
     // Get interrupt cause
@@ -307,3 +310,4 @@ ISR(LIN_ERR_vect)
     lin_err_task();
     Lin_clear_err_it();
 }
+# endif

@@ -15,7 +15,7 @@ analog_servo_drv.d analog_servo_drv.o: .././analog_servo_drv.c \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
  .././analog_servo_drv.h .././master_service.h .././slave_service.h \
- .././SPI_Service.h \
+ .././SPI_Service.h .././UART_Service.h .././ModemService.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stddef.h
 
@@ -68,6 +68,10 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 .././slave_service.h:
 
 .././SPI_Service.h:
+
+.././UART_Service.h:
+
+.././ModemService.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
 

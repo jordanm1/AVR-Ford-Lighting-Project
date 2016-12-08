@@ -38,13 +38,14 @@
 // Interrupts
 #include <avr/interrupt.h>
 
+// Program Memory
+#include <avr/pgmspace.h>
+
 #include "IOC.h"
 
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
-
-
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS
@@ -66,9 +67,18 @@ static uint8_t TX_Index = 0;				// Count TX_Bytes
 static uint8_t Expected_TX_Length = 0;	    // Set as Max TX Bytes
 static uint8_t Expected_RX_Length = 0;	    // Set as Max RX Bytes
 
+static uint8_t Text_Index = 0;
+
 static bool In_Tx = false;					// This flag decides which buffer to fill
 
+static bool modem_init = true;
+
 static uint32_t counter_value = 0; 
+
+static const char Init_Text[143] PROGMEM = "AT^SICA=1,3/rAT^SISS=0,\"srvType\",\"socket"
+										  "\"/rAT^SISS=0,\"conId\",3/rAT^SISS=0,\"address\""
+										  ",\"socktcp://listener:2000;etx=26;autoconnect"
+										  "=1\"/rAT^SISO=0/r";
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -93,10 +103,8 @@ static void Update_Buffer_Index(void);
         address
 
 ****************************************************************************/
-void UART_Initialize(uint8_t * p_this_node_id)
-{    
-	//***************************@TODO*************************************
-	
+void UART_Initialize()
+{    	
 	// Reset UART
 	LINCR |= (1<<LSWRES);
 	
@@ -104,11 +112,19 @@ void UART_Initialize(uint8_t * p_this_node_id)
 	// - Command Mode = TxRx Enabled
 	// - UART Enable
 	// - Odd Parity	
-	LINCR = (1<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(1<<LCONF1);
+	LINCR = (1<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
 	
 	// Set up LINBTR
-	LINBTR = (1<<LDSIR)|(1;
+	LINBTR = (1<<LDISR);
+	
+	// 19200 baud
+	LINBRRL = 12;//(1<<LDIV0);
+	LINBRRH = 0;
     
+	// LIN Interrupt Enable
+	//LINENIR = (1<<LENERR)|(1<<LENTXOK)|(1<<LENRXOK);
+	LINENIR = (1<<LENTXOK);
+	
 	// Reset indices
     Buffer_Index = 0;
     TX_Index = 0;
@@ -141,12 +157,6 @@ void UART_Start_Command (void)
 	
 	// State in TX
 	In_Tx = true;
-
-	
-	//***************************@TODO*************************************
-
-    // Set slave select low to indicate start of transmission
-    PORTA &= ~(1<<SS);
 }
 
 /****************************************************************************
@@ -162,10 +172,7 @@ void UART_Start_Command (void)
 
 void UART_End_Command (void)
 {
-	//***************************@TODO*************************************
-	
-    // Set slave select high to indicate end of transmission
-    PORTA |= (1<<SS);
+	// Do Nothing
 }
 
 
@@ -182,23 +189,27 @@ void UART_End_Command (void)
 
 void UART_Transmit (void)
 {
-	//***************************@TODO*************************************
-    // Send byte out
-    SPDR = Command_Buffer[Buffer_Index][TX_Index + LENGTH_BYTES];
-	
-	if (In_Tx)
+	if (!modem_init)
 	{
-		// Increment Transmit Index
-		TX_Index++;		
+		// Send byte out
+		LINDAT = Command_Buffer[Buffer_Index][TX_Index + LENGTH_BYTES];
+	
+		if (In_Tx)
+		{
+			// Increment Transmit Index
+			TX_Index++;		
+		}
+		else
+		{
+			// Increment Transmit Index
+			TX_Index++;
+		}
 	}
 	else
 	{
-		/*
-		// Increment Receive Index
-		RX_Index++;
-		*/
-		// Increment Transmit Index
-		TX_Index++;
+		char set_as = pgm_read_byte(&(Init_Text[Text_Index]));
+		LINDAT = set_as;
+		Text_Index++;
 	}
 }
 
@@ -207,8 +218,7 @@ void UART_Transmit (void)
         Write_UART
 
     Parameters
-        uint8_t TX_Length		Buffer_Index	0x07	uint8_t{data}@0x0138
-
+        uint8_t TX_Length	
         uint8_t RX_Length
         uint8_t* Data_To_Write
 
@@ -216,52 +226,62 @@ void UART_Transmit (void)
         Fills in current command into UART command buffer
 ****************************************************************************/
 
-void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8_t ** Data2Receive)
+void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8_t ** Data2Receive, bool Init_Seq)
 {
-	counter_value = query_counter();
-	
-    // Over all columns of next available command row
-    for (int i = 0; i < (LENGTH_BYTES + TX_Length); i++)
-    {
-        // Fill in expected TX length
-        if (i == TX_LENGTH_BYTE)
-        {
-            Command_Buffer[Next_Available_Row][TX_LENGTH_BYTE] = TX_Length;
-        }
-        // Fill in expected RX Length
-        else if (i == RX_LENGTH_BYTE)
-        {
-            Command_Buffer[Next_Available_Row][RX_LENGTH_BYTE] = RX_Length;
-        }
-        // Fill in remaining data to TX
-        else
-        {
-            Command_Buffer[Next_Available_Row][i] = *(Data2Write + (i - LENGTH_BYTES));
-        }   
-    }
-    // Data is expected to be received
-    if (RX_Length > 0)
-    {
-        for (int i = 0; i < RX_Length; i++)
-        {
-            // Add pointers to variables that shall be updated with receive data
-            Receive_List[Next_Available_Row][i] = *(Data2Receive + i);
-        }
-    }
-    // If reached Command Buffer end
-    if (Next_Available_Row == COMMAND_BUFFER_SIZE - 1)
-    {
-        Next_Available_Row = 0;
-    }
-    else
-    {
-        Next_Available_Row++;
-    }
-    // If UART is currently idling, start transmission
-    if (Query_UART_State() == NORMAL_STATE)
-    {
-        Post_Event(EVT_UART_START);
-    }
+	if (!Init_Seq)
+	{
+		modem_init = false;
+		counter_value = query_counter();
+		
+		// Over all columns of next available command row
+		for (int i = 0; i < (LENGTH_BYTES + TX_Length); i++)
+		{
+			// Fill in expected TX length
+			if (i == TX_LENGTH_BYTE)
+			{
+				Command_Buffer[Next_Available_Row][TX_LENGTH_BYTE] = TX_Length;
+			}
+			// Fill in expected RX Length
+			else if (i == RX_LENGTH_BYTE)
+			{
+				Command_Buffer[Next_Available_Row][RX_LENGTH_BYTE] = RX_Length;
+			}
+			// Fill in remaining data to TX
+			else
+			{
+				Command_Buffer[Next_Available_Row][i] = *(Data2Write + (i - LENGTH_BYTES));
+			}
+		}
+		// Data is expected to be received
+		if (RX_Length > 0)
+		{
+			for (int i = 0; i < RX_Length; i++)
+			{
+				// Add pointers to variables that shall be updated with receive data
+				Receive_List[Next_Available_Row][i] = *(Data2Receive + i);
+			}
+		}
+		// If reached Command Buffer end
+		if (Next_Available_Row == COMMAND_BUFFER_SIZE - 1)
+		{
+			Next_Available_Row = 0;
+		}
+		else
+		{
+			Next_Available_Row++;
+		}
+		// If UART is currently idling, start transmission
+		if (Query_UART_State() == NORMAL_UART_STATE)
+		{
+			Post_Event(EVT_UART_START);
+		}
+	}
+	else
+	{
+		modem_init = true;
+		Text_Index = 0;
+		UART_Transmit();
+	}	
 }
 
 // #############################################################################
@@ -280,53 +300,68 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 
 ****************************************************************************/
 
-ISR(UART_STC_vect)
+ISR(LIN_TC_vect)
 {
-	//***************************@TODO*************************************
-    // Clear the UART Interrupt Flag (is done by reading the SPSR Register)
-    uint8_t SPSR_Status = SPSR;
-		
-	// Once a transmit has been completed
-	if (In_Tx)
+	LINSIR = (1<<3)|(1<<2)|(1<<1)|(1<<0);
+	
+	while((LINSIR & (1<<LBUSY)) == (1<<LBUSY));
+	
+	if (!modem_init)
 	{
-        // If more bytes left to transmit post transmission event
-		if (TX_Index <= Expected_TX_Length)
+		// Once a transmit has been completed
+		if (In_Tx)
 		{
-			if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
+			// If more bytes left to transmit post transmission event
+			if (TX_Index <= Expected_TX_Length)
 			{
-				In_Tx = false;									
+				if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
+				{
+					In_Tx = false;
+				}
+				else
+				{
+					Post_Event(EVT_UART_SEND_BYTE);
+				}
 			}
 			else
 			{
-				Post_Event(EVT_UART_SEND_BYTE);
+				In_Tx = false;
 			}
 		}
-		else
+		
+		if (!In_Tx)
 		{
-			In_Tx = false;
+			if (Expected_RX_Length > 0)
+			{
+				*(Receive_List[Buffer_Index][RX_Index]) = LINDAT;
+				RX_Index++;
+			}
+			if (RX_Index < Expected_RX_Length)
+			{
+				// Do Nothing
+				// Post_Event(EVT_UART_RECV_BYTE);
+			}
+			else if (RX_Index >= Expected_RX_Length)
+			{
+				Update_Buffer_Index();
+				Post_Event(EVT_UART_END);
+			}
+			else
+			{
+				// Do Nothing. Should never get here.
+			}
 		}
 	}
-		
-	if (!In_Tx)
+	else
 	{
-		if (Expected_RX_Length > 0)
+		if (Text_Index >= sizeof(Init_Text)/sizeof(Init_Text[0]))
 		{
-			*(Receive_List[Buffer_Index][RX_Index]) = SPDR;
-			RX_Index++;				
-		}
-		if (RX_Index < Expected_RX_Length)
-		{
-			Post_Event(EVT_UART_RECV_BYTE);
-		}
-		else if (RX_Index >= Expected_RX_Length)
-		{
-            Update_Buffer_Index();
-			Post_Event(EVT_UART_END);
+			modem_init = false;
 		}
 		else
 		{
-			// Do Nothing. Should never get here.
-		}		
+			UART_Transmit();
+		}
 	}
 }
 

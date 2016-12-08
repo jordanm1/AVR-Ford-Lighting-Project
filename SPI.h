@@ -10,7 +10,7 @@
 
 #define COMMAND_BUFFER_SIZE 11
 #define MAX_COMMAND_TX_SIZE 6
-#define MAX_COMMAND_RX_SIZE 4
+#define MAX_COMMAND_RX_SIZE 1
 #define TX_LENGTH_BYTE      0
 #define RX_LENGTH_BYTE      1
 #define LENGTH_BYTES        2

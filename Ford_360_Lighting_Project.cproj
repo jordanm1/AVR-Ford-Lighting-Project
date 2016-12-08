@@ -226,10 +226,10 @@
     <Compile Include="MCP25625defs.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MS_LIN_top_layer.c">
+    <Compile Include="ModemService.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="MS_LIN_top_layer.h">
+    <Compile Include="ModemService.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="PWM.c">

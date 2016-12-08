@@ -10,7 +10,7 @@
 // ------------ TYPE DEFINITIONS
 // #############################################################################
 
-typedef enum {NORMAL_STATE, SENDING_STATE, RECEIVING_STATE} UART_State_t;
+typedef enum {NORMAL_UART_STATE, SENDING_UART_STATE, RECEIVING_UART_STATE} UART_State_t;
 
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES
