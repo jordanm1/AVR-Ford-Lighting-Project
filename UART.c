@@ -57,8 +57,8 @@
 // ------------ MODULE VARIABLES
 // #############################################################################
 
-static uint8_t Command_Buffer[COMMAND_BUFFER_SIZE][MAX_COMMAND_TX_SIZE]; // Create a command buffer to prevent overwrite
-static uint8_t * Receive_List[COMMAND_BUFFER_SIZE][MAX_COMMAND_RX_SIZE]; // List of pointers whose variables will be assigned based on UART receive
+static uint8_t Command_Buffer[UART_COMMAND_BUFFER_SIZE][UART_MAX_COMMAND_TX_SIZE]; // Create a command buffer to prevent overwrite
+static uint8_t * Receive_List[UART_RX_BUFFER_SIZE][UART_MAX_COMMAND_RX_SIZE]; // List of pointers whose variables will be assigned based on UART receive
 static uint8_t Buffer_Index = 0; // Command buffer index variable
 static uint8_t Next_Available_Row = 0; // Provides row to fill in next command
 
@@ -74,6 +74,14 @@ static bool In_Tx = false;					// This flag decides which buffer to fill
 static bool modem_init = true;
 
 static uint32_t counter_value = 0; 
+
+static bool first_byte_T = false;
+static bool second_byte_slash_n = false;
+static bool third_slash_r = false;
+
+static uint8_t byte_space_counter = 0;
+
+static uint8_t Modem_Recv_Data [4] = {0};
 
 static const char Init_Text[143] PROGMEM = "AT^SICA=1,3/rAT^SISS=0,\"srvType\",\"socket"
 										  "\"/rAT^SISS=0,\"conId\",3/rAT^SISS=0,\"address\""
@@ -123,8 +131,7 @@ void UART_Initialize()
     
 	// LIN Interrupt Enable
 	//LINENIR = (1<<LENERR)|(1<<LENTXOK)|(1<<LENRXOK);
-	LINENIR = (1<<LENTXOK);
-	
+	LINENIR = (1<<LENTXOK)|(1<<LENRXOK);
 	// Reset indices
     Buffer_Index = 0;
     TX_Index = 0;
@@ -146,8 +153,8 @@ void UART_Initialize()
 
 void UART_Start_Command (void)
 {
-	Expected_TX_Length = Command_Buffer[Buffer_Index][TX_LENGTH_BYTE];
-	Expected_RX_Length = Command_Buffer[Buffer_Index][RX_LENGTH_BYTE];
+	Expected_TX_Length = Command_Buffer[Buffer_Index][UART_TX_LENGTH_BYTE];
+	Expected_RX_Length = Command_Buffer[Buffer_Index][UART_RX_LENGTH_BYTE];
 	
 	// Set RX data index
 	RX_Index = 0;
@@ -192,7 +199,7 @@ void UART_Transmit (void)
 	if (!modem_init)
 	{
 		// Send byte out
-		LINDAT = Command_Buffer[Buffer_Index][TX_Index + LENGTH_BYTES];
+		LINDAT = Command_Buffer[Buffer_Index][TX_Index + UART_LENGTH_BYTES];
 	
 		if (In_Tx)
 		{
@@ -234,22 +241,22 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 		counter_value = query_counter();
 		
 		// Over all columns of next available command row
-		for (int i = 0; i < (LENGTH_BYTES + TX_Length); i++)
+		for (int i = 0; i < (UART_LENGTH_BYTES + TX_Length); i++)
 		{
 			// Fill in expected TX length
-			if (i == TX_LENGTH_BYTE)
+			if (i == UART_TX_LENGTH_BYTE)
 			{
-				Command_Buffer[Next_Available_Row][TX_LENGTH_BYTE] = TX_Length;
+				Command_Buffer[Next_Available_Row][UART_TX_LENGTH_BYTE] = TX_Length;
 			}
 			// Fill in expected RX Length
-			else if (i == RX_LENGTH_BYTE)
+			else if (i == UART_RX_LENGTH_BYTE)
 			{
-				Command_Buffer[Next_Available_Row][RX_LENGTH_BYTE] = RX_Length;
+				Command_Buffer[Next_Available_Row][UART_RX_LENGTH_BYTE] = RX_Length;
 			}
 			// Fill in remaining data to TX
 			else
 			{
-				Command_Buffer[Next_Available_Row][i] = *(Data2Write + (i - LENGTH_BYTES));
+				Command_Buffer[Next_Available_Row][i] = *(Data2Write + (i - UART_LENGTH_BYTES));
 			}
 		}
 		// Data is expected to be received
@@ -262,7 +269,7 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 			}
 		}
 		// If reached Command Buffer end
-		if (Next_Available_Row == COMMAND_BUFFER_SIZE - 1)
+		if (Next_Available_Row == UART_COMMAND_BUFFER_SIZE - 1)
 		{
 			Next_Available_Row = 0;
 		}
@@ -304,65 +311,99 @@ ISR(LIN_TC_vect)
 {
 	LINSIR = (1<<3)|(1<<2)|(1<<1)|(1<<0);
 	
-	while((LINSIR & (1<<LBUSY)) == (1<<LBUSY));
-	
-	if (!modem_init)
+	if (!modem_init && !In_Tx)
 	{
-		// Once a transmit has been completed
-		if (In_Tx)
+		if (first_byte_T && second_byte_slash_n && third_slash_r)
 		{
-			// If more bytes left to transmit post transmission event
-			if (TX_Index <= Expected_TX_Length)
+			Modem_Recv_Data[byte_space_counter - 1] = LINDAT;
+			if (byte_space_counter >= MAX_MODEM_RECEIVE + 1)
 			{
-				if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
-				{
-					In_Tx = false;
-				}
-				else
-				{
-					Post_Event(EVT_UART_SEND_BYTE);
-				}
-			}
-			else
-			{
-				In_Tx = false;
+				first_byte_T = false;
+				second_byte_slash_n = false;
+				third_slash_r = false;
 			}
 		}
-		
-		if (!In_Tx)
+		else
 		{
-			if (Expected_RX_Length > 0)
+			uint8_t Current_Read = LINDAT;
+			if (Current_Read == 0x54)
 			{
-				*(Receive_List[Buffer_Index][RX_Index]) = LINDAT;
-				RX_Index++;
+				byte_space_counter = 0;
+				first_byte_T = true;
 			}
-			if (RX_Index < Expected_RX_Length)
+			if (first_byte_T && byte_space_counter == 2 && Current_Read == 0X6E)
 			{
-				// Do Nothing
-				// Post_Event(EVT_UART_RECV_BYTE);
+				second_byte_slash_n = true;
+				byte_space_counter = 0;
 			}
-			else if (RX_Index >= Expected_RX_Length)
+			if (first_byte_T && second_byte_slash_n && byte_space_counter == 2 && Current_Read == 0X72)
 			{
-				Update_Buffer_Index();
-				Post_Event(EVT_UART_END);
+				third_slash_r = true;
+				byte_space_counter = 0;
 			}
-			else
-			{
-				// Do Nothing. Should never get here.
-			}
+			byte_space_counter++;
 		}
 	}
 	else
 	{
-		if (Text_Index >= sizeof(Init_Text)/sizeof(Init_Text[0]))
+		if (!modem_init)
 		{
-			modem_init = false;
+			// Once a transmit has been completed
+			if (In_Tx)
+			{
+				// If more bytes left to transmit post transmission event
+				if (TX_Index <= Expected_TX_Length)
+				{
+					if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
+					{
+						In_Tx = false;
+					}
+					else
+					{
+						Post_Event(EVT_UART_SEND_BYTE);
+					}
+				}
+				else
+				{
+					In_Tx = false;
+				}
+			}
+			
+			if (!In_Tx)
+			{
+				if (Expected_RX_Length > 0)
+				{
+					*(Receive_List[Buffer_Index][RX_Index]) = LINDAT;
+					RX_Index++;
+				}
+				if (RX_Index < Expected_RX_Length)
+				{
+					// Do Nothing
+					// Post_Event(EVT_UART_RECV_BYTE);
+				}
+				else if (RX_Index >= Expected_RX_Length)
+				{
+					Update_Buffer_Index();
+					Post_Event(EVT_UART_END);
+				}
+				else
+				{
+					// Do Nothing. Should never get here.
+				}
+			}
 		}
 		else
 		{
-			UART_Transmit();
+			if (Text_Index >= sizeof(Init_Text)/sizeof(Init_Text[0]))
+			{
+				modem_init = false;
+			}
+			else
+			{
+				UART_Transmit();
+			}
 		}
-	}
+	}	
 }
 
 // #############################################################################
@@ -384,15 +425,15 @@ ISR(LIN_TC_vect)
 
 static void Reset_Command_Receive_Buffer(void)
 {
-    for (int row = 0; row < COMMAND_BUFFER_SIZE; row++)
+    for (int row = 0; row < UART_COMMAND_BUFFER_SIZE; row++)
     {
         // Set all bytes of Command_Buffer to 0xff = UNASSIGNED
-        for (int col = 0; col < MAX_COMMAND_TX_SIZE; col++)
+        for (int col = 0; col < UART_MAX_COMMAND_TX_SIZE; col++)
         {
             Command_Buffer[row][col] = 0xFF;    // Set as unassigned
         }
         // Set all pointers of Receive List to NULL 
-        for (int col = 0; col < MAX_COMMAND_RX_SIZE; col++)
+        for (int col = 0; col < UART_MAX_COMMAND_RX_SIZE; col++)
         {
             Receive_List[row][col] = NULL;     // Set as unassigned
         }
@@ -415,17 +456,17 @@ static void Reset_Command_Receive_Buffer(void)
 static void Update_Buffer_Index(void)
 {
     // Set current row of command buffer to unassigned (0xFF)
-    for (int i = 0; i < MAX_COMMAND_TX_SIZE; i++)
+    for (int i = 0; i < UART_MAX_COMMAND_TX_SIZE; i++)
     {
         Command_Buffer[Buffer_Index][i] = 0xFF;
     }
     // Point current receive list row to NULL
-    for (int i = 0; i < MAX_COMMAND_RX_SIZE; i++)
+    for (int i = 0; i < UART_MAX_COMMAND_RX_SIZE; i++)
     {
         Receive_List[Buffer_Index][i] = NULL;
     }
     // If at end of buffer
-    if (Buffer_Index == COMMAND_BUFFER_SIZE - 1)
+    if (Buffer_Index == UART_COMMAND_BUFFER_SIZE - 1)
     {
         Buffer_Index = 0;
     }
@@ -434,7 +475,7 @@ static void Update_Buffer_Index(void)
         Buffer_Index++;
     }
     // If buffer has pending transmits
-    if (Command_Buffer[Buffer_Index][TX_LENGTH_BYTE] != 0xFF)
+    if (Command_Buffer[Buffer_Index][UART_TX_LENGTH_BYTE] != 0xFF)
     {
         Post_Event(EVT_UART_START);
     }

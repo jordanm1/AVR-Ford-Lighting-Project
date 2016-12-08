@@ -5,14 +5,17 @@
 // ------------ SPI DEFINITIONS
 // #############################################################################
 
-#define COMMAND_BUFFER_SIZE		11
-#define MAX_COMMAND_TX_SIZE		6
-#define MAX_COMMAND_RX_SIZE		4
-#define TX_LENGTH_BYTE			0
-#define RX_LENGTH_BYTE			1
-#define LENGTH_BYTES			2
+#define UART_COMMAND_BUFFER_SIZE		2
+#define UART_MAX_COMMAND_TX_SIZE		4
+#define UART_MAX_COMMAND_RX_SIZE		1
+#define UART_RX_BUFFER_SIZE				2
+#define UART_TX_LENGTH_BYTE				0
+#define UART_RX_LENGTH_BYTE				1
+#define UART_LENGTH_BYTES				2
 
-#define MAX_UART_DATA_LENGTH	10
+#define	MAX_MODEM_RECEIVE				4
+
+#define MAX_UART_DATA_LENGTH			10
 
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES

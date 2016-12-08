@@ -56,7 +56,7 @@ AT^SISO=0/r
 static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
 static uint8_t Recv_Byte = 0;
 static uint8_t* RX_Data[1] = {&Recv_Byte};
-static uint8_t TX_Data[3] = {0xA5, 0xB5, 0xD5};
+static uint8_t TX_Data[2] = {0xA5, 0xB5};
 
 static bool do_init_modem = true;
 static bool flipper = true;
@@ -113,7 +113,7 @@ void Run_Modem_Service(uint32_t event_mask)
 			}
 			else
 			{
-				Write_UART(3, 0, &TX_Data[0], &RX_Data[0], false);
+				Write_UART(2, 0, &TX_Data[0], &RX_Data[0], false);
 			}
 			
 			if (flipper)
