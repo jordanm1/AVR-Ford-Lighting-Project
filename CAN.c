@@ -73,7 +73,7 @@ static uint8_t Recv_Byte = 0;
 
 /****************************************************************************
     Public Function
-        MS_CAN_Initialize
+        CAN_Initialize_1
 
     Parameters
 		
@@ -82,7 +82,7 @@ static uint8_t Recv_Byte = 0;
         Initializes the CAN module MCP25625
 
 ****************************************************************************/
-void MS_CAN_Initialize_1(void)
+void CAN_Initialize_1(void)
 {
     // Reset the CAN Module and enter in configuration mode
     CAN_Reset();
@@ -112,7 +112,7 @@ void MS_CAN_Initialize_1(void)
 
 /****************************************************************************
     Public Function
-        MS_CAN_Initialize_2
+        CAN_Initialize_2
 
     Parameters
 		
@@ -122,7 +122,7 @@ void MS_CAN_Initialize_1(void)
 
 ****************************************************************************/
 
-void MS_CAN_Initialize_2(void)
+void CAN_Initialize_2(void)
 {
     // Set interrupt registers
     

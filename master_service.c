@@ -34,6 +34,9 @@
 // LIN top layer
 #include "MS_LIN_top_layer.h"
 
+// CAN layer
+#include "CAN.h"
+
 // Command and Status Helpers
 #include "cmd_sts_helpers.h"
 
@@ -72,6 +75,9 @@
 // *Note:
 //      Our schedule service time is then 2*#Slave_Nodes*SCHEDULE_INTERVAL_MS
 
+// Time in ms it takes to complete the CAN step 1 initializations
+#define CAN_INIT_1_MS           (200)
+
 // #############################################################################
 // ------------ MODULE VARIABLES
 // #############################################################################
@@ -97,6 +103,15 @@ static uint32_t Scheduling_Timer = NON_EVENT;
 //    Z. Request status from Slave Node #N (ID = (NUM_SLAVES*2)+1)
 //    >>> Repeat 1-X.
 static uint8_t Curr_Schedule_ID = SCHEDULE_START_ID;
+
+// CAN_Init_1 Timer
+static uint32_t CAN_Init_1_Timer = EVT_CAN_INIT_1_COMPLETE;
+
+// Arrays to hold CAN packets
+// @TODO: if the packet is short, we should host
+// a previous copy to reduce compute overhead if the
+// new CAN packet is the same
+static uint8_t CAN_Message[5] = {0};
 
 // TEST TIMER
 static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
@@ -160,6 +175,16 @@ void Init_Master_Service(void)
     // Kick off scheduling timer
     Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
+    // Register CAN Init 1 timer with Post_Event()
+    Register_Timer(&CAN_Init_1_Timer, Post_Event);
+
+    // Kick off CAN Init 1 Timer
+    Start_Timer(&CAN_Init_1_Timer, CAN_INIT_1_MS);
+
+    // Call 1st step of the CAN initialization
+    // This will only start once we exit initialization context
+    CAN_Initialize_1();
+
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
     Start_Timer(&Testing_Timer, 5000);
@@ -184,6 +209,30 @@ void Run_Master_Service(uint32_t event_mask)
 
         // *Note: we should make sure all slaves are online before sending
         //      legitimate commands (blocking code?)
+
+        case EVT_CAN_INIT_1_COMPLETE:
+            // The time for CAN 1 has expired
+
+            // Call step two of the CAN init
+            CAN_Initialize_2();
+
+            // Do not restart the timer!
+            
+            break;
+
+        case EVT_MASTER_NEW_CAN_MSG:
+            // We received a new CAN message
+
+            // Check to see if the message is different than
+            // our current instance of the message
+            // @TODO
+            //  IF CAN MSG TYPE == USER_REQ_LIGHT_POS
+            //      Call command to run algo on all slave nodes
+            //  @TODO
+            //  IF CAN MSG TYPE == SLAVE_CMD_PACKET
+            //      Update only this slave's command
+        
+            break;
 
         case EVT_MASTER_NEW_STS:
             // New status

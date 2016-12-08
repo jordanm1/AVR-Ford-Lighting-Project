@@ -8,6 +8,8 @@ analog_servo_drv.c
 
 buttons.c
 
+CAN.c
+
 cmd_sts_helpers.c
 
 eeprom_storage.c
@@ -39,6 +41,10 @@ slave_number_setting_SM.c
 slave_parameters.c
 
 slave_service.c
+
+SPI.c
+
+SPI_Service.c
 
 timer.c
 

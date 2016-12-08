@@ -304,6 +304,8 @@ ISR(SPI_STC_vect)
     {
         // Clear the SPI Interrupt Flag (is done by reading the SPSR Register)
         uint8_t SPSR_Status = SPSR;
+        // Do nothing if statement to "use" the variable
+        if (SPSR_Status);
 		
 		// Once a transmit has been completed
 		if (In_Tx)

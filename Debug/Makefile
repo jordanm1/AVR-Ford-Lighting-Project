@@ -40,6 +40,7 @@ C_SRCS +=  \
 ../ADC.c \
 ../analog_servo_drv.c \
 ../buttons.c \
+../CAN.c \
 ../cmd_sts_helpers.c \
 ../eeprom_storage.c \
 ../events.c \
@@ -56,6 +57,8 @@ C_SRCS +=  \
 ../slave_number_setting_SM.c \
 ../slave_parameters.c \
 ../slave_service.c \
+../SPI.c \
+../SPI_Service.c \
 ../timer.c \
 ../__template.c
 
@@ -70,6 +73,7 @@ OBJS +=  \
 ADC.o \
 analog_servo_drv.o \
 buttons.o \
+CAN.o \
 cmd_sts_helpers.o \
 eeprom_storage.o \
 events.o \
@@ -86,6 +90,8 @@ PWM.o \
 slave_number_setting_SM.o \
 slave_parameters.o \
 slave_service.o \
+SPI.o \
+SPI_Service.o \
 timer.o \
 __template.o
 
@@ -93,6 +99,7 @@ OBJS_AS_ARGS +=  \
 ADC.o \
 analog_servo_drv.o \
 buttons.o \
+CAN.o \
 cmd_sts_helpers.o \
 eeprom_storage.o \
 events.o \
@@ -109,6 +116,8 @@ PWM.o \
 slave_number_setting_SM.o \
 slave_parameters.o \
 slave_service.o \
+SPI.o \
+SPI_Service.o \
 timer.o \
 __template.o
 
@@ -116,6 +125,7 @@ C_DEPS +=  \
 ADC.d \
 analog_servo_drv.d \
 buttons.d \
+CAN.d \
 cmd_sts_helpers.d \
 eeprom_storage.d \
 events.d \
@@ -132,6 +142,8 @@ PWM.d \
 slave_number_setting_SM.d \
 slave_parameters.d \
 slave_service.d \
+SPI.d \
+SPI_Service.d \
 timer.d \
 __template.d
 
@@ -139,6 +151,7 @@ C_DEPS_AS_ARGS +=  \
 ADC.d \
 analog_servo_drv.d \
 buttons.d \
+CAN.d \
 cmd_sts_helpers.d \
 eeprom_storage.d \
 events.d \
@@ -155,6 +168,8 @@ PWM.d \
 slave_number_setting_SM.d \
 slave_parameters.d \
 slave_service.d \
+SPI.d \
+SPI_Service.d \
 timer.d \
 __template.d
 
@@ -172,6 +187,12 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
+
+
+
+
 
 
 

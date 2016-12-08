@@ -114,7 +114,6 @@ void Run_SPI_Service(uint32_t event_mask)
 			{
                 SPI_End_Command();
 				Current_State = NORMAL_STATE;
-
 			}
             else
             {

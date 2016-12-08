@@ -126,7 +126,7 @@ ISR(INT0_vect)
 {
 	counter++;
 	uint8_t* Variable_List[8] = {0};
-	Fill_Variable_List(&Variable_List[0]);
+	Post_Event(EVT_MASTER_NEW_CAN_MSG);
 	CAN_Read_Message(Variable_List);
 	uint8_t TX_Data[1] = {0};
 	CAN_Bit_Modify(MCP_CANINTF, 0xFF, TX_Data); 
