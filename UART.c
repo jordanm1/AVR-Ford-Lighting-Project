@@ -113,6 +113,8 @@ static void Update_Buffer_Index(void);
 ****************************************************************************/
 void UART_Initialize()
 {    	
+	DDRA &= (1<<PINA0);
+	
 	// Reset UART
 	LINCR |= (1<<LSWRES);
 	
@@ -214,7 +216,16 @@ void UART_Transmit (void)
 	}
 	else
 	{
-		char set_as = pgm_read_byte(&(Init_Text[Text_Index]));
+		char set_as;
+		if (pgm_read_byte(&(Init_Text[Text_Index])) == '/')
+		{
+			set_as = '/r';
+			Text_Index++;	
+		}
+		else
+		{
+			set_as = pgm_read_byte(&(Init_Text[Text_Index]));	
+		}
 		LINDAT = set_as;
 		Text_Index++;
 	}
@@ -326,17 +337,17 @@ ISR(LIN_TC_vect)
 		else
 		{
 			uint8_t Current_Read = LINDAT;
-			if (Current_Read == 0x54)
+			if (Current_Read == 'T')
 			{
 				byte_space_counter = 0;
 				first_byte_T = true;
 			}
-			if (first_byte_T && byte_space_counter == 2 && Current_Read == 0X6E)
+			if (first_byte_T && byte_space_counter == 1 && Current_Read == '/n')
 			{
 				second_byte_slash_n = true;
 				byte_space_counter = 0;
 			}
-			if (first_byte_T && second_byte_slash_n && byte_space_counter == 2 && Current_Read == 0X72)
+			if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == '/r')
 			{
 				third_slash_r = true;
 				byte_space_counter = 0;

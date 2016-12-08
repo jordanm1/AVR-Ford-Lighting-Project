@@ -3,31 +3,31 @@ Ford_360_Lighting_Project.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         0000000e  00800100  00000f70  00001004  2**0
+  0 .data         0000000e  00800100  00000f30  00000fc4  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         00000f70  00000000  00000000  00000094  2**1
+  1 .text         00000f30  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          00000108  0080010e  0080010e  00001012  2**0
+  2 .bss          00000108  0080010e  0080010e  00000fd2  2**0
                   ALLOC
-  3 .comment      00000030  00000000  00000000  00001012  2**0
+  3 .comment      00000030  00000000  00000000  00000fd2  2**0
                   CONTENTS, READONLY
-  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00001044  2**2
+  4 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00001004  2**2
                   CONTENTS, READONLY
-  5 .debug_aranges 00000380  00000000  00000000  00001080  2**0
+  5 .debug_aranges 00000380  00000000  00000000  00001040  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00003785  00000000  00000000  00001400  2**0
+  6 .debug_info   000037b3  00000000  00000000  000013c0  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 000018b1  00000000  00000000  00004b85  2**0
+  7 .debug_abbrev 000018be  00000000  00000000  00004b73  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00001d32  00000000  00000000  00006436  2**0
+  8 .debug_line   00001cec  00000000  00000000  00006431  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000008d0  00000000  00000000  00008168  2**2
+  9 .debug_frame  000008d0  00000000  00000000  00008120  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000f30  00000000  00000000  00008a38  2**0
+ 10 .debug_str    00000f30  00000000  00000000  000089f0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    00001ca2  00000000  00000000  00009968  2**0
+ 11 .debug_loc    00001cc9  00000000  00000000  00009920  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000002d8  00000000  00000000  0000b60a  2**0
+ 12 .debug_ranges 000002c0  00000000  00000000  0000b5e9  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -45,7 +45,7 @@ Disassembly of section .text:
   24:	0c 94 ae 00 	jmp	0x15c	; 0x15c <__vector_9>
   28:	0c 94 fb 04 	jmp	0x9f6	; 0x9f6 <__vector_10>
   2c:	0c 94 8d 00 	jmp	0x11a	; 0x11a <__bad_interrupt>
-  30:	0c 94 65 06 	jmp	0xcca	; 0xcca <__vector_12>
+  30:	0c 94 71 06 	jmp	0xce2	; 0xce2 <__vector_12>
   34:	0c 94 8d 00 	jmp	0x11a	; 0x11a <__bad_interrupt>
   38:	0c 94 97 03 	jmp	0x72e	; 0x72e <__vector_14>
   3c:	0c 94 8f 00 	jmp	0x11e	; 0x11e <__vector_15>
@@ -140,7 +140,7 @@ Disassembly of section .text:
   ec:	11 e0       	ldi	r17, 0x01	; 1
   ee:	a0 e0       	ldi	r26, 0x00	; 0
   f0:	b1 e0       	ldi	r27, 0x01	; 1
-  f2:	e0 e7       	ldi	r30, 0x70	; 112
+  f2:	e0 e3       	ldi	r30, 0x30	; 48
   f4:	ff e0       	ldi	r31, 0x0F	; 15
   f6:	02 c0       	rjmp	.+4      	; 0xfc <__do_copy_data+0x10>
   f8:	05 90       	lpm	r0, Z+
@@ -163,7 +163,7 @@ Disassembly of section .text:
  10e:	b2 07       	cpc	r27, r18
  110:	e1 f7       	brne	.-8      	; 0x10a <.do_clear_bss_loop>
  112:	0e 94 a5 02 	call	0x54a	; 0x54a <main>
- 116:	0c 94 b6 07 	jmp	0xf6c	; 0xf6c <_exit>
+ 116:	0c 94 96 07 	jmp	0xf2c	; 0xf2c <_exit>
 
 0000011a <__bad_interrupt>:
  11a:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -658,7 +658,7 @@ void Initialize_Framework(void)
     #endif
     #ifdef INITIALIZER_02
     INITIALIZER_02();
- 3da:	0e 94 65 07 	call	0xeca	; 0xeca <Init_UART_Service>
+ 3da:	0e 94 45 07 	call	0xe8a	; 0xe8a <Init_UART_Service>
     #endif
     #ifdef INITIALIZER_03
     INITIALIZER_03();
@@ -691,7 +691,7 @@ void Run_Services(uint32_t event)
     SERVICE_01(event);
  3f8:	c7 01       	movw	r24, r14
  3fa:	b6 01       	movw	r22, r12
- 3fc:	0e 94 68 07 	call	0xed0	; 0xed0 <Run_UART_Service>
+ 3fc:	0e 94 48 07 	call	0xe90	; 0xe90 <Run_UART_Service>
     SERVICE_14(event);
     #endif
     #ifdef SERVICE_15
@@ -1080,7 +1080,7 @@ void Run_Modem_Service(uint32_t event_mask)
  5ec:	51 e0       	ldi	r21, 0x01	; 1
  5ee:	60 e0       	ldi	r22, 0x00	; 0
  5f0:	83 e0       	ldi	r24, 0x03	; 3
- 5f2:	0e 94 e7 05 	call	0xbce	; 0xbce <Write_UART>
+ 5f2:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <Write_UART>
 				do_init_modem = false;
  5f6:	10 92 03 01 	sts	0x0103, r1	; 0x800103 <do_init_modem>
  5fa:	09 c0       	rjmp	.+18     	; 0x60e <Run_Modem_Service+0x3e>
@@ -1095,7 +1095,7 @@ void Run_Modem_Service(uint32_t event_mask)
  604:	51 e0       	ldi	r21, 0x01	; 1
  606:	60 e0       	ldi	r22, 0x00	; 0
  608:	82 e0       	ldi	r24, 0x02	; 2
- 60a:	0e 94 e7 05 	call	0xbce	; 0xbce <Write_UART>
+ 60a:	0e 94 f3 05 	call	0xbe6	; 0xbe6 <Write_UART>
 			}
 			
 			if (flipper)
@@ -1935,902 +1935,866 @@ ISR(TIMER0_COMPA_vect)
  ade:	18 95       	reti
 
 00000ae0 <UART_Initialize>:
+        address
 
 ****************************************************************************/
 void UART_Initialize()
 {    	
+	DDRA &= (1<<PINA0);
+ ae0:	81 b1       	in	r24, 0x01	; 1
+ ae2:	81 70       	andi	r24, 0x01	; 1
+ ae4:	81 b9       	out	0x01, r24	; 1
+	
 	// Reset UART
 	LINCR |= (1<<LSWRES);
- ae0:	e8 ec       	ldi	r30, 0xC8	; 200
- ae2:	f0 e0       	ldi	r31, 0x00	; 0
- ae4:	80 81       	ld	r24, Z
- ae6:	80 68       	ori	r24, 0x80	; 128
- ae8:	80 83       	st	Z, r24
+ ae6:	e8 ec       	ldi	r30, 0xC8	; 200
+ ae8:	f0 e0       	ldi	r31, 0x00	; 0
+ aea:	80 81       	ld	r24, Z
+ aec:	80 68       	ori	r24, 0x80	; 128
+ aee:	80 83       	st	Z, r24
 	
     // Set up LINCR with
 	// - Command Mode = TxRx Enabled
 	// - UART Enable
 	// - Odd Parity	
 	LINCR = (1<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
- aea:	8f e0       	ldi	r24, 0x0F	; 15
- aec:	80 83       	st	Z, r24
+ af0:	8f e0       	ldi	r24, 0x0F	; 15
+ af2:	80 83       	st	Z, r24
 	
 	// Set up LINBTR
 	LINBTR = (1<<LDISR);
- aee:	80 e8       	ldi	r24, 0x80	; 128
- af0:	80 93 cc 00 	sts	0x00CC, r24	; 0x8000cc <__EEPROM_REGION_LENGTH__+0x7f00cc>
+ af4:	80 e8       	ldi	r24, 0x80	; 128
+ af6:	80 93 cc 00 	sts	0x00CC, r24	; 0x8000cc <__EEPROM_REGION_LENGTH__+0x7f00cc>
 	
 	// 19200 baud
 	LINBRRL = 12;//(1<<LDIV0);
- af4:	8c e0       	ldi	r24, 0x0C	; 12
- af6:	80 93 cd 00 	sts	0x00CD, r24	; 0x8000cd <__EEPROM_REGION_LENGTH__+0x7f00cd>
+ afa:	8c e0       	ldi	r24, 0x0C	; 12
+ afc:	80 93 cd 00 	sts	0x00CD, r24	; 0x8000cd <__EEPROM_REGION_LENGTH__+0x7f00cd>
 	LINBRRH = 0;
- afa:	10 92 ce 00 	sts	0x00CE, r1	; 0x8000ce <__EEPROM_REGION_LENGTH__+0x7f00ce>
+ b00:	10 92 ce 00 	sts	0x00CE, r1	; 0x8000ce <__EEPROM_REGION_LENGTH__+0x7f00ce>
     
 	// LIN Interrupt Enable
 	//LINENIR = (1<<LENERR)|(1<<LENTXOK)|(1<<LENRXOK);
 	LINENIR = (1<<LENTXOK)|(1<<LENRXOK);
- afe:	83 e0       	ldi	r24, 0x03	; 3
- b00:	80 93 ca 00 	sts	0x00CA, r24	; 0x8000ca <__EEPROM_REGION_LENGTH__+0x7f00ca>
+ b04:	83 e0       	ldi	r24, 0x03	; 3
+ b06:	80 93 ca 00 	sts	0x00CA, r24	; 0x8000ca <__EEPROM_REGION_LENGTH__+0x7f00ca>
 	// Reset indices
     Buffer_Index = 0;
- b04:	10 92 08 02 	sts	0x0208, r1	; 0x800208 <Buffer_Index>
+ b0a:	10 92 08 02 	sts	0x0208, r1	; 0x800208 <Buffer_Index>
     TX_Index = 0;
- b08:	10 92 05 02 	sts	0x0205, r1	; 0x800205 <TX_Index>
+ b0e:	10 92 05 02 	sts	0x0205, r1	; 0x800205 <TX_Index>
 	RX_Index = 0;
- b0c:	10 92 06 02 	sts	0x0206, r1	; 0x800206 <RX_Index>
+ b12:	10 92 06 02 	sts	0x0206, r1	; 0x800206 <RX_Index>
     for (int row = 0; row < UART_COMMAND_BUFFER_SIZE; row++)
     {
         // Set all bytes of Command_Buffer to 0xff = UNASSIGNED
         for (int col = 0; col < UART_MAX_COMMAND_TX_SIZE; col++)
         {
             Command_Buffer[row][col] = 0xFF;    // Set as unassigned
- b10:	ed e0       	ldi	r30, 0x0D	; 13
- b12:	f2 e0       	ldi	r31, 0x02	; 2
- b14:	8f ef       	ldi	r24, 0xFF	; 255
- b16:	80 83       	st	Z, r24
- b18:	81 83       	std	Z+1, r24	; 0x01
- b1a:	82 83       	std	Z+2, r24	; 0x02
- b1c:	83 83       	std	Z+3, r24	; 0x03
+ b16:	ed e0       	ldi	r30, 0x0D	; 13
+ b18:	f2 e0       	ldi	r31, 0x02	; 2
+ b1a:	8f ef       	ldi	r24, 0xFF	; 255
+ b1c:	80 83       	st	Z, r24
+ b1e:	81 83       	std	Z+1, r24	; 0x01
+ b20:	82 83       	std	Z+2, r24	; 0x02
+ b22:	83 83       	std	Z+3, r24	; 0x03
         }
         // Set all pointers of Receive List to NULL 
         for (int col = 0; col < UART_MAX_COMMAND_RX_SIZE; col++)
         {
             Receive_List[row][col] = NULL;     // Set as unassigned
- b1e:	a9 e0       	ldi	r26, 0x09	; 9
- b20:	b2 e0       	ldi	r27, 0x02	; 2
- b22:	11 96       	adiw	r26, 0x01	; 1
- b24:	1c 92       	st	X, r1
- b26:	1e 92       	st	-X, r1
+ b24:	a9 e0       	ldi	r26, 0x09	; 9
+ b26:	b2 e0       	ldi	r27, 0x02	; 2
+ b28:	11 96       	adiw	r26, 0x01	; 1
+ b2a:	1c 92       	st	X, r1
+ b2c:	1e 92       	st	-X, r1
     for (int row = 0; row < UART_COMMAND_BUFFER_SIZE; row++)
     {
         // Set all bytes of Command_Buffer to 0xff = UNASSIGNED
         for (int col = 0; col < UART_MAX_COMMAND_TX_SIZE; col++)
         {
             Command_Buffer[row][col] = 0xFF;    // Set as unassigned
- b28:	84 83       	std	Z+4, r24	; 0x04
- b2a:	85 83       	std	Z+5, r24	; 0x05
- b2c:	86 83       	std	Z+6, r24	; 0x06
- b2e:	87 83       	std	Z+7, r24	; 0x07
+ b2e:	84 83       	std	Z+4, r24	; 0x04
+ b30:	85 83       	std	Z+5, r24	; 0x05
+ b32:	86 83       	std	Z+6, r24	; 0x06
+ b34:	87 83       	std	Z+7, r24	; 0x07
         }
         // Set all pointers of Receive List to NULL 
         for (int col = 0; col < UART_MAX_COMMAND_RX_SIZE; col++)
         {
             Receive_List[row][col] = NULL;     // Set as unassigned
- b30:	13 96       	adiw	r26, 0x03	; 3
- b32:	1c 92       	st	X, r1
- b34:	1e 92       	st	-X, r1
- b36:	12 97       	sbiw	r26, 0x02	; 2
- b38:	08 95       	ret
+ b36:	13 96       	adiw	r26, 0x03	; 3
+ b38:	1c 92       	st	X, r1
+ b3a:	1e 92       	st	-X, r1
+ b3c:	12 97       	sbiw	r26, 0x02	; 2
+ b3e:	08 95       	ret
 
-00000b3a <UART_Start_Command>:
+00000b40 <UART_Start_Command>:
 
 ****************************************************************************/
 
 void UART_Start_Command (void)
 {
 	Expected_TX_Length = Command_Buffer[Buffer_Index][UART_TX_LENGTH_BYTE];
- b3a:	e0 91 08 02 	lds	r30, 0x0208	; 0x800208 <Buffer_Index>
- b3e:	f0 e0       	ldi	r31, 0x00	; 0
- b40:	ee 0f       	add	r30, r30
- b42:	ff 1f       	adc	r31, r31
- b44:	ee 0f       	add	r30, r30
- b46:	ff 1f       	adc	r31, r31
- b48:	e3 5f       	subi	r30, 0xF3	; 243
- b4a:	fd 4f       	sbci	r31, 0xFD	; 253
- b4c:	80 81       	ld	r24, Z
- b4e:	80 93 04 02 	sts	0x0204, r24	; 0x800204 <Expected_TX_Length>
+ b40:	e0 91 08 02 	lds	r30, 0x0208	; 0x800208 <Buffer_Index>
+ b44:	f0 e0       	ldi	r31, 0x00	; 0
+ b46:	ee 0f       	add	r30, r30
+ b48:	ff 1f       	adc	r31, r31
+ b4a:	ee 0f       	add	r30, r30
+ b4c:	ff 1f       	adc	r31, r31
+ b4e:	e3 5f       	subi	r30, 0xF3	; 243
+ b50:	fd 4f       	sbci	r31, 0xFD	; 253
+ b52:	80 81       	ld	r24, Z
+ b54:	80 93 04 02 	sts	0x0204, r24	; 0x800204 <Expected_TX_Length>
 	Expected_RX_Length = Command_Buffer[Buffer_Index][UART_RX_LENGTH_BYTE];
- b52:	81 81       	ldd	r24, Z+1	; 0x01
- b54:	80 93 03 02 	sts	0x0203, r24	; 0x800203 <Expected_RX_Length>
+ b58:	81 81       	ldd	r24, Z+1	; 0x01
+ b5a:	80 93 03 02 	sts	0x0203, r24	; 0x800203 <Expected_RX_Length>
 	
 	// Set RX data index
 	RX_Index = 0;
- b58:	10 92 06 02 	sts	0x0206, r1	; 0x800206 <RX_Index>
+ b5e:	10 92 06 02 	sts	0x0206, r1	; 0x800206 <RX_Index>
 	
     // Set TX data index
     TX_Index = 0;
- b5c:	10 92 05 02 	sts	0x0205, r1	; 0x800205 <TX_Index>
+ b62:	10 92 05 02 	sts	0x0205, r1	; 0x800205 <TX_Index>
 	
 	// State in TX
 	In_Tx = true;
- b60:	81 e0       	ldi	r24, 0x01	; 1
- b62:	80 93 01 02 	sts	0x0201, r24	; 0x800201 <In_Tx>
- b66:	08 95       	ret
+ b66:	81 e0       	ldi	r24, 0x01	; 1
+ b68:	80 93 01 02 	sts	0x0201, r24	; 0x800201 <In_Tx>
+ b6c:	08 95       	ret
 
-00000b68 <UART_End_Command>:
+00000b6e <UART_End_Command>:
         Ends UART Transmission by setting SS high
 
 ****************************************************************************/
 
 void UART_End_Command (void)
 {
- b68:	08 95       	ret
+ b6e:	08 95       	ret
 
-00000b6a <UART_Transmit>:
+00000b70 <UART_Transmit>:
 
 ****************************************************************************/
 
 void UART_Transmit (void)
 {
 	if (!modem_init)
- b6a:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <modem_init>
- b6e:	81 11       	cpse	r24, r1
- b70:	20 c0       	rjmp	.+64     	; 0xbb2 <UART_Transmit+0x48>
+ b70:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <modem_init>
+ b74:	81 11       	cpse	r24, r1
+ b76:	20 c0       	rjmp	.+64     	; 0xbb8 <UART_Transmit+0x48>
 	{
 		// Send byte out
 		LINDAT = Command_Buffer[Buffer_Index][TX_Index + UART_LENGTH_BYTES];
- b72:	e0 91 08 02 	lds	r30, 0x0208	; 0x800208 <Buffer_Index>
- b76:	f0 e0       	ldi	r31, 0x00	; 0
- b78:	80 91 05 02 	lds	r24, 0x0205	; 0x800205 <TX_Index>
- b7c:	ee 0f       	add	r30, r30
- b7e:	ff 1f       	adc	r31, r31
- b80:	ee 0f       	add	r30, r30
- b82:	ff 1f       	adc	r31, r31
- b84:	e3 5f       	subi	r30, 0xF3	; 243
- b86:	fd 4f       	sbci	r31, 0xFD	; 253
- b88:	e8 0f       	add	r30, r24
- b8a:	f1 1d       	adc	r31, r1
- b8c:	82 81       	ldd	r24, Z+2	; 0x02
- b8e:	80 93 d2 00 	sts	0x00D2, r24	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
+ b78:	e0 91 08 02 	lds	r30, 0x0208	; 0x800208 <Buffer_Index>
+ b7c:	f0 e0       	ldi	r31, 0x00	; 0
+ b7e:	80 91 05 02 	lds	r24, 0x0205	; 0x800205 <TX_Index>
+ b82:	ee 0f       	add	r30, r30
+ b84:	ff 1f       	adc	r31, r31
+ b86:	ee 0f       	add	r30, r30
+ b88:	ff 1f       	adc	r31, r31
+ b8a:	e3 5f       	subi	r30, 0xF3	; 243
+ b8c:	fd 4f       	sbci	r31, 0xFD	; 253
+ b8e:	e8 0f       	add	r30, r24
+ b90:	f1 1d       	adc	r31, r1
+ b92:	82 81       	ldd	r24, Z+2	; 0x02
+ b94:	80 93 d2 00 	sts	0x00D2, r24	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
 	
 		if (In_Tx)
- b92:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <In_Tx>
- b96:	88 23       	and	r24, r24
- b98:	31 f0       	breq	.+12     	; 0xba6 <UART_Transmit+0x3c>
+ b98:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <In_Tx>
+ b9c:	88 23       	and	r24, r24
+ b9e:	31 f0       	breq	.+12     	; 0xbac <UART_Transmit+0x3c>
 		{
 			// Increment Transmit Index
 			TX_Index++;		
- b9a:	80 91 05 02 	lds	r24, 0x0205	; 0x800205 <TX_Index>
- b9e:	8f 5f       	subi	r24, 0xFF	; 255
- ba0:	80 93 05 02 	sts	0x0205, r24	; 0x800205 <TX_Index>
- ba4:	08 95       	ret
+ ba0:	80 91 05 02 	lds	r24, 0x0205	; 0x800205 <TX_Index>
+ ba4:	8f 5f       	subi	r24, 0xFF	; 255
+ ba6:	80 93 05 02 	sts	0x0205, r24	; 0x800205 <TX_Index>
+ baa:	08 95       	ret
 		}
 		else
 		{
 			// Increment Transmit Index
 			TX_Index++;
- ba6:	80 91 05 02 	lds	r24, 0x0205	; 0x800205 <TX_Index>
- baa:	8f 5f       	subi	r24, 0xFF	; 255
- bac:	80 93 05 02 	sts	0x0205, r24	; 0x800205 <TX_Index>
- bb0:	08 95       	ret
+ bac:	80 91 05 02 	lds	r24, 0x0205	; 0x800205 <TX_Index>
+ bb0:	8f 5f       	subi	r24, 0xFF	; 255
+ bb2:	80 93 05 02 	sts	0x0205, r24	; 0x800205 <TX_Index>
+ bb6:	08 95       	ret
 		}
 	}
 	else
 	{
-		char set_as = pgm_read_byte(&(Init_Text[Text_Index]));
- bb2:	e0 91 02 02 	lds	r30, 0x0202	; 0x800202 <Text_Index>
- bb6:	f0 e0       	ldi	r31, 0x00	; 0
- bb8:	e0 5b       	subi	r30, 0xB0	; 176
- bba:	ff 4f       	sbci	r31, 0xFF	; 255
- bbc:	e4 91       	lpm	r30, Z
+		char set_as;
+		if (pgm_read_byte(&(Init_Text[Text_Index])) == '/')
+ bb8:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <Text_Index>
+ bbc:	e8 2f       	mov	r30, r24
+ bbe:	f0 e0       	ldi	r31, 0x00	; 0
+ bc0:	e0 5b       	subi	r30, 0xB0	; 176
+ bc2:	ff 4f       	sbci	r31, 0xFF	; 255
+ bc4:	94 91       	lpm	r25, Z
+ bc6:	9f 32       	cpi	r25, 0x2F	; 47
+ bc8:	29 f4       	brne	.+10     	; 0xbd4 <UART_Transmit+0x64>
+		{
+			set_as = '/r';
+			Text_Index++;	
+ bca:	8f 5f       	subi	r24, 0xFF	; 255
+ bcc:	80 93 02 02 	sts	0x0202, r24	; 0x800202 <Text_Index>
+	else
+	{
+		char set_as;
+		if (pgm_read_byte(&(Init_Text[Text_Index])) == '/')
+		{
+			set_as = '/r';
+ bd0:	e2 e7       	ldi	r30, 0x72	; 114
+ bd2:	01 c0       	rjmp	.+2      	; 0xbd6 <UART_Transmit+0x66>
+			Text_Index++;	
+		}
+		else
+		{
+			set_as = pgm_read_byte(&(Init_Text[Text_Index]));	
+ bd4:	e4 91       	lpm	r30, Z
+		}
 		LINDAT = set_as;
- bbe:	e0 93 d2 00 	sts	0x00D2, r30	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
+ bd6:	e0 93 d2 00 	sts	0x00D2, r30	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
 		Text_Index++;
- bc2:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <Text_Index>
- bc6:	8f 5f       	subi	r24, 0xFF	; 255
- bc8:	80 93 02 02 	sts	0x0202, r24	; 0x800202 <Text_Index>
- bcc:	08 95       	ret
+ bda:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <Text_Index>
+ bde:	8f 5f       	subi	r24, 0xFF	; 255
+ be0:	80 93 02 02 	sts	0x0202, r24	; 0x800202 <Text_Index>
+ be4:	08 95       	ret
 
-00000bce <Write_UART>:
+00000be6 <Write_UART>:
     Description
         Fills in current command into UART command buffer
 ****************************************************************************/
 
 void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8_t ** Data2Receive, bool Init_Seq)
 {
- bce:	cf 92       	push	r12
- bd0:	df 92       	push	r13
- bd2:	ef 92       	push	r14
- bd4:	ff 92       	push	r15
- bd6:	0f 93       	push	r16
- bd8:	1f 93       	push	r17
- bda:	cf 93       	push	r28
- bdc:	df 93       	push	r29
- bde:	d8 2e       	mov	r13, r24
- be0:	c6 2e       	mov	r12, r22
- be2:	ea 01       	movw	r28, r20
- be4:	79 01       	movw	r14, r18
+ be6:	cf 92       	push	r12
+ be8:	df 92       	push	r13
+ bea:	ef 92       	push	r14
+ bec:	ff 92       	push	r15
+ bee:	0f 93       	push	r16
+ bf0:	1f 93       	push	r17
+ bf2:	cf 93       	push	r28
+ bf4:	df 93       	push	r29
+ bf6:	d8 2e       	mov	r13, r24
+ bf8:	c6 2e       	mov	r12, r22
+ bfa:	ea 01       	movw	r28, r20
+ bfc:	79 01       	movw	r14, r18
 	if (!Init_Seq)
- be6:	01 11       	cpse	r16, r1
- be8:	4f c0       	rjmp	.+158    	; 0xc88 <Write_UART+0xba>
+ bfe:	01 11       	cpse	r16, r1
+ c00:	4f c0       	rjmp	.+158    	; 0xca0 <Write_UART+0xba>
 	{
 		modem_init = false;
- bea:	10 92 0c 01 	sts	0x010C, r1	; 0x80010c <modem_init>
+ c02:	10 92 0c 01 	sts	0x010C, r1	; 0x80010c <modem_init>
 		counter_value = query_counter();
- bee:	0e 94 11 02 	call	0x422	; 0x422 <query_counter>
- bf2:	60 93 fd 01 	sts	0x01FD, r22	; 0x8001fd <counter_value>
- bf6:	70 93 fe 01 	sts	0x01FE, r23	; 0x8001fe <counter_value+0x1>
- bfa:	80 93 ff 01 	sts	0x01FF, r24	; 0x8001ff <counter_value+0x2>
- bfe:	90 93 00 02 	sts	0x0200, r25	; 0x800200 <counter_value+0x3>
+ c06:	0e 94 11 02 	call	0x422	; 0x422 <query_counter>
+ c0a:	60 93 fd 01 	sts	0x01FD, r22	; 0x8001fd <counter_value>
+ c0e:	70 93 fe 01 	sts	0x01FE, r23	; 0x8001fe <counter_value+0x1>
+ c12:	80 93 ff 01 	sts	0x01FF, r24	; 0x8001ff <counter_value+0x2>
+ c16:	90 93 00 02 	sts	0x0200, r25	; 0x800200 <counter_value+0x3>
 		
 		// Over all columns of next available command row
 		for (int i = 0; i < (UART_LENGTH_BYTES + TX_Length); i++)
- c02:	0d 2d       	mov	r16, r13
- c04:	10 e0       	ldi	r17, 0x00	; 0
- c06:	0e 5f       	subi	r16, 0xFE	; 254
- c08:	1f 4f       	sbci	r17, 0xFF	; 255
+ c1a:	0d 2d       	mov	r16, r13
+ c1c:	10 e0       	ldi	r17, 0x00	; 0
+ c1e:	0e 5f       	subi	r16, 0xFE	; 254
+ c20:	1f 4f       	sbci	r17, 0xFF	; 255
 		{
 			// Fill in expected TX length
 			if (i == UART_TX_LENGTH_BYTE)
 			{
 				Command_Buffer[Next_Available_Row][UART_TX_LENGTH_BYTE] = TX_Length;
- c0a:	20 91 07 02 	lds	r18, 0x0207	; 0x800207 <Next_Available_Row>
- c0e:	30 e0       	ldi	r19, 0x00	; 0
- c10:	de 01       	movw	r26, r28
- c12:	12 97       	sbiw	r26, 0x02	; 2
- c14:	c9 01       	movw	r24, r18
- c16:	88 0f       	add	r24, r24
- c18:	99 1f       	adc	r25, r25
- c1a:	88 0f       	add	r24, r24
- c1c:	99 1f       	adc	r25, r25
- c1e:	e0 e0       	ldi	r30, 0x00	; 0
- c20:	f0 e0       	ldi	r31, 0x00	; 0
+ c22:	20 91 07 02 	lds	r18, 0x0207	; 0x800207 <Next_Available_Row>
+ c26:	30 e0       	ldi	r19, 0x00	; 0
+ c28:	de 01       	movw	r26, r28
+ c2a:	12 97       	sbiw	r26, 0x02	; 2
+ c2c:	c9 01       	movw	r24, r18
+ c2e:	88 0f       	add	r24, r24
+ c30:	99 1f       	adc	r25, r25
+ c32:	88 0f       	add	r24, r24
+ c34:	99 1f       	adc	r25, r25
+ c36:	e0 e0       	ldi	r30, 0x00	; 0
+ c38:	f0 e0       	ldi	r31, 0x00	; 0
 			}
 			// Fill in expected RX Length
 			else if (i == UART_RX_LENGTH_BYTE)
 			{
 				Command_Buffer[Next_Available_Row][UART_RX_LENGTH_BYTE] = RX_Length;
- c22:	9c 01       	movw	r18, r24
- c24:	23 5f       	subi	r18, 0xF3	; 243
- c26:	3d 4f       	sbci	r19, 0xFD	; 253
- c28:	a9 01       	movw	r20, r18
- c2a:	4f 5f       	subi	r20, 0xFF	; 255
- c2c:	5f 4f       	sbci	r21, 0xFF	; 255
+ c3a:	9c 01       	movw	r18, r24
+ c3c:	23 5f       	subi	r18, 0xF3	; 243
+ c3e:	3d 4f       	sbci	r19, 0xFD	; 253
+ c40:	a9 01       	movw	r20, r18
+ c42:	4f 5f       	subi	r20, 0xFF	; 255
+ c44:	5f 4f       	sbci	r21, 0xFF	; 255
 		
 		// Over all columns of next available command row
 		for (int i = 0; i < (UART_LENGTH_BYTES + TX_Length); i++)
 		{
 			// Fill in expected TX length
 			if (i == UART_TX_LENGTH_BYTE)
- c2e:	30 97       	sbiw	r30, 0x00	; 0
- c30:	19 f4       	brne	.+6      	; 0xc38 <Write_UART+0x6a>
+ c46:	30 97       	sbiw	r30, 0x00	; 0
+ c48:	19 f4       	brne	.+6      	; 0xc50 <Write_UART+0x6a>
 			{
 				Command_Buffer[Next_Available_Row][UART_TX_LENGTH_BYTE] = TX_Length;
- c32:	e9 01       	movw	r28, r18
- c34:	d8 82       	st	Y, r13
- c36:	0d c0       	rjmp	.+26     	; 0xc52 <Write_UART+0x84>
+ c4a:	e9 01       	movw	r28, r18
+ c4c:	d8 82       	st	Y, r13
+ c4e:	0d c0       	rjmp	.+26     	; 0xc6a <Write_UART+0x84>
 			}
 			// Fill in expected RX Length
 			else if (i == UART_RX_LENGTH_BYTE)
- c38:	e1 30       	cpi	r30, 0x01	; 1
- c3a:	f1 05       	cpc	r31, r1
- c3c:	19 f4       	brne	.+6      	; 0xc44 <Write_UART+0x76>
+ c50:	e1 30       	cpi	r30, 0x01	; 1
+ c52:	f1 05       	cpc	r31, r1
+ c54:	19 f4       	brne	.+6      	; 0xc5c <Write_UART+0x76>
 			{
 				Command_Buffer[Next_Available_Row][UART_RX_LENGTH_BYTE] = RX_Length;
- c3e:	ea 01       	movw	r28, r20
- c40:	c8 82       	st	Y, r12
- c42:	07 c0       	rjmp	.+14     	; 0xc52 <Write_UART+0x84>
+ c56:	ea 01       	movw	r28, r20
+ c58:	c8 82       	st	Y, r12
+ c5a:	07 c0       	rjmp	.+14     	; 0xc6a <Write_UART+0x84>
 			}
 			// Fill in remaining data to TX
 			else
 			{
 				Command_Buffer[Next_Available_Row][i] = *(Data2Write + (i - UART_LENGTH_BYTES));
- c44:	6c 91       	ld	r22, X
- c46:	ef 01       	movw	r28, r30
- c48:	c8 0f       	add	r28, r24
- c4a:	d9 1f       	adc	r29, r25
- c4c:	c3 5f       	subi	r28, 0xF3	; 243
- c4e:	dd 4f       	sbci	r29, 0xFD	; 253
- c50:	68 83       	st	Y, r22
+ c5c:	6c 91       	ld	r22, X
+ c5e:	ef 01       	movw	r28, r30
+ c60:	c8 0f       	add	r28, r24
+ c62:	d9 1f       	adc	r29, r25
+ c64:	c3 5f       	subi	r28, 0xF3	; 243
+ c66:	dd 4f       	sbci	r29, 0xFD	; 253
+ c68:	68 83       	st	Y, r22
 	{
 		modem_init = false;
 		counter_value = query_counter();
 		
 		// Over all columns of next available command row
 		for (int i = 0; i < (UART_LENGTH_BYTES + TX_Length); i++)
- c52:	31 96       	adiw	r30, 0x01	; 1
- c54:	11 96       	adiw	r26, 0x01	; 1
- c56:	e0 17       	cp	r30, r16
- c58:	f1 07       	cpc	r31, r17
- c5a:	4c f3       	brlt	.-46     	; 0xc2e <Write_UART+0x60>
- c5c:	2a c0       	rjmp	.+84     	; 0xcb2 <Write_UART+0xe4>
+ c6a:	31 96       	adiw	r30, 0x01	; 1
+ c6c:	11 96       	adiw	r26, 0x01	; 1
+ c6e:	e0 17       	cp	r30, r16
+ c70:	f1 07       	cpc	r31, r17
+ c72:	4c f3       	brlt	.-46     	; 0xc46 <Write_UART+0x60>
+ c74:	2a c0       	rjmp	.+84     	; 0xcca <Write_UART+0xe4>
 				// Add pointers to variables that shall be updated with receive data
 				Receive_List[Next_Available_Row][i] = *(Data2Receive + i);
 			}
 		}
 		// If reached Command Buffer end
 		if (Next_Available_Row == UART_COMMAND_BUFFER_SIZE - 1)
- c5e:	80 91 07 02 	lds	r24, 0x0207	; 0x800207 <Next_Available_Row>
- c62:	81 30       	cpi	r24, 0x01	; 1
- c64:	19 f4       	brne	.+6      	; 0xc6c <Write_UART+0x9e>
+ c76:	80 91 07 02 	lds	r24, 0x0207	; 0x800207 <Next_Available_Row>
+ c7a:	81 30       	cpi	r24, 0x01	; 1
+ c7c:	19 f4       	brne	.+6      	; 0xc84 <Write_UART+0x9e>
 		{
 			Next_Available_Row = 0;
- c66:	10 92 07 02 	sts	0x0207, r1	; 0x800207 <Next_Available_Row>
- c6a:	03 c0       	rjmp	.+6      	; 0xc72 <Write_UART+0xa4>
+ c7e:	10 92 07 02 	sts	0x0207, r1	; 0x800207 <Next_Available_Row>
+ c82:	03 c0       	rjmp	.+6      	; 0xc8a <Write_UART+0xa4>
 		}
 		else
 		{
 			Next_Available_Row++;
- c6c:	8f 5f       	subi	r24, 0xFF	; 255
- c6e:	80 93 07 02 	sts	0x0207, r24	; 0x800207 <Next_Available_Row>
+ c84:	8f 5f       	subi	r24, 0xFF	; 255
+ c86:	80 93 07 02 	sts	0x0207, r24	; 0x800207 <Next_Available_Row>
 		}
 		// If UART is currently idling, start transmission
 		if (Query_UART_State() == NORMAL_UART_STATE)
- c72:	0e 94 b3 07 	call	0xf66	; 0xf66 <Query_UART_State>
- c76:	81 11       	cpse	r24, r1
- c78:	1f c0       	rjmp	.+62     	; 0xcb8 <Write_UART+0xea>
+ c8a:	0e 94 93 07 	call	0xf26	; 0xf26 <Query_UART_State>
+ c8e:	81 11       	cpse	r24, r1
+ c90:	1f c0       	rjmp	.+62     	; 0xcd0 <Write_UART+0xea>
 		{
 			Post_Event(EVT_UART_START);
- c7a:	60 e8       	ldi	r22, 0x80	; 128
- c7c:	70 e0       	ldi	r23, 0x00	; 0
- c7e:	80 e0       	ldi	r24, 0x00	; 0
- c80:	90 e0       	ldi	r25, 0x00	; 0
- c82:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
- c86:	18 c0       	rjmp	.+48     	; 0xcb8 <Write_UART+0xea>
+ c92:	60 e8       	ldi	r22, 0x80	; 128
+ c94:	70 e0       	ldi	r23, 0x00	; 0
+ c96:	80 e0       	ldi	r24, 0x00	; 0
+ c98:	90 e0       	ldi	r25, 0x00	; 0
+ c9a:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
+ c9e:	18 c0       	rjmp	.+48     	; 0xcd0 <Write_UART+0xea>
 		}
 	}
 	else
 	{
 		modem_init = true;
- c88:	81 e0       	ldi	r24, 0x01	; 1
- c8a:	80 93 0c 01 	sts	0x010C, r24	; 0x80010c <modem_init>
+ ca0:	81 e0       	ldi	r24, 0x01	; 1
+ ca2:	80 93 0c 01 	sts	0x010C, r24	; 0x80010c <modem_init>
 		Text_Index = 0;
- c8e:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <Text_Index>
+ ca6:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <Text_Index>
 		UART_Transmit();
- c92:	0e 94 b5 05 	call	0xb6a	; 0xb6a <UART_Transmit>
- c96:	10 c0       	rjmp	.+32     	; 0xcb8 <Write_UART+0xea>
+ caa:	0e 94 b8 05 	call	0xb70	; 0xb70 <UART_Transmit>
+ cae:	10 c0       	rjmp	.+32     	; 0xcd0 <Write_UART+0xea>
 		if (RX_Length > 0)
 		{
 			for (int i = 0; i < RX_Length; i++)
 			{
 				// Add pointers to variables that shall be updated with receive data
 				Receive_List[Next_Available_Row][i] = *(Data2Receive + i);
- c98:	e0 91 07 02 	lds	r30, 0x0207	; 0x800207 <Next_Available_Row>
- c9c:	f0 e0       	ldi	r31, 0x00	; 0
- c9e:	ee 0f       	add	r30, r30
- ca0:	ff 1f       	adc	r31, r31
- ca2:	e7 5f       	subi	r30, 0xF7	; 247
- ca4:	fd 4f       	sbci	r31, 0xFD	; 253
- ca6:	d7 01       	movw	r26, r14
- ca8:	8d 91       	ld	r24, X+
- caa:	9c 91       	ld	r25, X
- cac:	91 83       	std	Z+1, r25	; 0x01
- cae:	80 83       	st	Z, r24
- cb0:	d6 cf       	rjmp	.-84     	; 0xc5e <Write_UART+0x90>
+ cb0:	e0 91 07 02 	lds	r30, 0x0207	; 0x800207 <Next_Available_Row>
+ cb4:	f0 e0       	ldi	r31, 0x00	; 0
+ cb6:	ee 0f       	add	r30, r30
+ cb8:	ff 1f       	adc	r31, r31
+ cba:	e7 5f       	subi	r30, 0xF7	; 247
+ cbc:	fd 4f       	sbci	r31, 0xFD	; 253
+ cbe:	d7 01       	movw	r26, r14
+ cc0:	8d 91       	ld	r24, X+
+ cc2:	9c 91       	ld	r25, X
+ cc4:	91 83       	std	Z+1, r25	; 0x01
+ cc6:	80 83       	st	Z, r24
+ cc8:	d6 cf       	rjmp	.-84     	; 0xc76 <Write_UART+0x90>
 			{
 				Command_Buffer[Next_Available_Row][i] = *(Data2Write + (i - UART_LENGTH_BYTES));
 			}
 		}
 		// Data is expected to be received
 		if (RX_Length > 0)
- cb2:	c1 10       	cpse	r12, r1
- cb4:	f1 cf       	rjmp	.-30     	; 0xc98 <Write_UART+0xca>
- cb6:	d3 cf       	rjmp	.-90     	; 0xc5e <Write_UART+0x90>
+ cca:	c1 10       	cpse	r12, r1
+ ccc:	f1 cf       	rjmp	.-30     	; 0xcb0 <Write_UART+0xca>
+ cce:	d3 cf       	rjmp	.-90     	; 0xc76 <Write_UART+0x90>
 	{
 		modem_init = true;
 		Text_Index = 0;
 		UART_Transmit();
 	}	
 }
- cb8:	df 91       	pop	r29
- cba:	cf 91       	pop	r28
- cbc:	1f 91       	pop	r17
- cbe:	0f 91       	pop	r16
- cc0:	ff 90       	pop	r15
- cc2:	ef 90       	pop	r14
- cc4:	df 90       	pop	r13
- cc6:	cf 90       	pop	r12
- cc8:	08 95       	ret
+ cd0:	df 91       	pop	r29
+ cd2:	cf 91       	pop	r28
+ cd4:	1f 91       	pop	r17
+ cd6:	0f 91       	pop	r16
+ cd8:	ff 90       	pop	r15
+ cda:	ef 90       	pop	r14
+ cdc:	df 90       	pop	r13
+ cde:	cf 90       	pop	r12
+ ce0:	08 95       	ret
 
-00000cca <__vector_12>:
+00000ce2 <__vector_12>:
         Handles UART transmission completed interrupts
 
 ****************************************************************************/
 
 ISR(LIN_TC_vect)
 {
- cca:	1f 92       	push	r1
- ccc:	0f 92       	push	r0
- cce:	0f b6       	in	r0, 0x3f	; 63
- cd0:	0f 92       	push	r0
- cd2:	11 24       	eor	r1, r1
- cd4:	2f 93       	push	r18
- cd6:	3f 93       	push	r19
- cd8:	4f 93       	push	r20
- cda:	5f 93       	push	r21
- cdc:	6f 93       	push	r22
- cde:	7f 93       	push	r23
- ce0:	8f 93       	push	r24
- ce2:	9f 93       	push	r25
- ce4:	af 93       	push	r26
- ce6:	bf 93       	push	r27
- ce8:	ef 93       	push	r30
- cea:	ff 93       	push	r31
+ ce2:	1f 92       	push	r1
+ ce4:	0f 92       	push	r0
+ ce6:	0f b6       	in	r0, 0x3f	; 63
+ ce8:	0f 92       	push	r0
+ cea:	11 24       	eor	r1, r1
+ cec:	2f 93       	push	r18
+ cee:	3f 93       	push	r19
+ cf0:	4f 93       	push	r20
+ cf2:	5f 93       	push	r21
+ cf4:	6f 93       	push	r22
+ cf6:	7f 93       	push	r23
+ cf8:	8f 93       	push	r24
+ cfa:	9f 93       	push	r25
+ cfc:	af 93       	push	r26
+ cfe:	bf 93       	push	r27
+ d00:	ef 93       	push	r30
+ d02:	ff 93       	push	r31
 	LINSIR = (1<<3)|(1<<2)|(1<<1)|(1<<0);
- cec:	8f e0       	ldi	r24, 0x0F	; 15
- cee:	80 93 c9 00 	sts	0x00C9, r24	; 0x8000c9 <__EEPROM_REGION_LENGTH__+0x7f00c9>
+ d04:	8f e0       	ldi	r24, 0x0F	; 15
+ d06:	80 93 c9 00 	sts	0x00C9, r24	; 0x8000c9 <__EEPROM_REGION_LENGTH__+0x7f00c9>
 	
 	if (!modem_init && !In_Tx)
- cf2:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <modem_init>
- cf6:	81 11       	cpse	r24, r1
- cf8:	c2 c0       	rjmp	.+388    	; 0xe7e <__vector_12+0x1b4>
- cfa:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <In_Tx>
- cfe:	81 11       	cpse	r24, r1
- d00:	4e c0       	rjmp	.+156    	; 0xd9e <__vector_12+0xd4>
+ d0a:	80 91 0c 01 	lds	r24, 0x010C	; 0x80010c <modem_init>
+ d0e:	81 11       	cpse	r24, r1
+ d10:	a2 c0       	rjmp	.+324    	; 0xe56 <__vector_12+0x174>
+ d12:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <In_Tx>
+ d16:	81 11       	cpse	r24, r1
+ d18:	2e c0       	rjmp	.+92     	; 0xd76 <__vector_12+0x94>
 	{
 		if (first_byte_T && second_byte_slash_n && third_slash_r)
- d02:	80 91 fc 01 	lds	r24, 0x01FC	; 0x8001fc <first_byte_T>
- d06:	88 23       	and	r24, r24
- d08:	e9 f0       	breq	.+58     	; 0xd44 <__vector_12+0x7a>
- d0a:	80 91 fb 01 	lds	r24, 0x01FB	; 0x8001fb <second_byte_slash_n>
- d0e:	88 23       	and	r24, r24
- d10:	09 f4       	brne	.+2      	; 0xd14 <__vector_12+0x4a>
- d12:	bf c0       	rjmp	.+382    	; 0xe92 <__vector_12+0x1c8>
- d14:	80 91 fa 01 	lds	r24, 0x01FA	; 0x8001fa <third_slash_r>
- d18:	88 23       	and	r24, r24
- d1a:	09 f4       	brne	.+2      	; 0xd1e <__vector_12+0x54>
- d1c:	ba c0       	rjmp	.+372    	; 0xe92 <__vector_12+0x1c8>
+ d1a:	80 91 fc 01 	lds	r24, 0x01FC	; 0x8001fc <first_byte_T>
+ d1e:	88 23       	and	r24, r24
+ d20:	d9 f0       	breq	.+54     	; 0xd58 <__vector_12+0x76>
+ d22:	80 91 fb 01 	lds	r24, 0x01FB	; 0x8001fb <second_byte_slash_n>
+ d26:	88 23       	and	r24, r24
+ d28:	b9 f0       	breq	.+46     	; 0xd58 <__vector_12+0x76>
+ d2a:	80 91 fa 01 	lds	r24, 0x01FA	; 0x8001fa <third_slash_r>
+ d2e:	88 23       	and	r24, r24
+ d30:	99 f0       	breq	.+38     	; 0xd58 <__vector_12+0x76>
 		{
 			Modem_Recv_Data[byte_space_counter - 1] = LINDAT;
- d1e:	80 91 f9 01 	lds	r24, 0x01F9	; 0x8001f9 <byte_space_counter>
- d22:	90 91 d2 00 	lds	r25, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
- d26:	e8 2f       	mov	r30, r24
- d28:	f0 e0       	ldi	r31, 0x00	; 0
- d2a:	ec 50       	subi	r30, 0x0C	; 12
- d2c:	fe 4f       	sbci	r31, 0xFE	; 254
- d2e:	90 83       	st	Z, r25
+ d32:	80 91 f9 01 	lds	r24, 0x01F9	; 0x8001f9 <byte_space_counter>
+ d36:	90 91 d2 00 	lds	r25, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
+ d3a:	e8 2f       	mov	r30, r24
+ d3c:	f0 e0       	ldi	r31, 0x00	; 0
+ d3e:	ec 50       	subi	r30, 0x0C	; 12
+ d40:	fe 4f       	sbci	r31, 0xFE	; 254
+ d42:	90 83       	st	Z, r25
 			if (byte_space_counter >= MAX_MODEM_RECEIVE + 1)
- d30:	85 30       	cpi	r24, 0x05	; 5
- d32:	08 f4       	brcc	.+2      	; 0xd36 <__vector_12+0x6c>
- d34:	b9 c0       	rjmp	.+370    	; 0xea8 <__vector_12+0x1de>
+ d44:	85 30       	cpi	r24, 0x05	; 5
+ d46:	08 f4       	brcc	.+2      	; 0xd4a <__vector_12+0x68>
+ d48:	8f c0       	rjmp	.+286    	; 0xe68 <__vector_12+0x186>
 			{
 				first_byte_T = false;
- d36:	10 92 fc 01 	sts	0x01FC, r1	; 0x8001fc <first_byte_T>
+ d4a:	10 92 fc 01 	sts	0x01FC, r1	; 0x8001fc <first_byte_T>
 				second_byte_slash_n = false;
- d3a:	10 92 fb 01 	sts	0x01FB, r1	; 0x8001fb <second_byte_slash_n>
+ d4e:	10 92 fb 01 	sts	0x01FB, r1	; 0x8001fb <second_byte_slash_n>
 				third_slash_r = false;
- d3e:	10 92 fa 01 	sts	0x01FA, r1	; 0x8001fa <third_slash_r>
- d42:	b2 c0       	rjmp	.+356    	; 0xea8 <__vector_12+0x1de>
+ d52:	10 92 fa 01 	sts	0x01FA, r1	; 0x8001fa <third_slash_r>
+ d56:	88 c0       	rjmp	.+272    	; 0xe68 <__vector_12+0x186>
 			}
 		}
 		else
 		{
 			uint8_t Current_Read = LINDAT;
- d44:	80 91 d2 00 	lds	r24, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
-			if (Current_Read == 0x54)
- d48:	84 35       	cpi	r24, 0x54	; 84
- d4a:	19 f5       	brne	.+70     	; 0xd92 <__vector_12+0xc8>
+ d58:	80 91 d2 00 	lds	r24, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
+			if (Current_Read == 'T')
+ d5c:	84 35       	cpi	r24, 0x54	; 84
+ d5e:	29 f4       	brne	.+10     	; 0xd6a <__vector_12+0x88>
 			{
 				byte_space_counter = 0;
- d4c:	10 92 f9 01 	sts	0x01F9, r1	; 0x8001f9 <byte_space_counter>
+ d60:	10 92 f9 01 	sts	0x01F9, r1	; 0x8001f9 <byte_space_counter>
 				first_byte_T = true;
- d50:	81 e0       	ldi	r24, 0x01	; 1
- d52:	80 93 fc 01 	sts	0x01FC, r24	; 0x8001fc <first_byte_T>
-			if (first_byte_T && byte_space_counter == 2 && Current_Read == 0X6E)
-			{
-				second_byte_slash_n = true;
-				byte_space_counter = 0;
-			}
-			if (first_byte_T && second_byte_slash_n && byte_space_counter == 2 && Current_Read == 0X72)
- d56:	80 91 fb 01 	lds	r24, 0x01FB	; 0x8001fb <second_byte_slash_n>
- d5a:	81 11       	cpse	r24, r1
- d5c:	0e c0       	rjmp	.+28     	; 0xd7a <__vector_12+0xb0>
- d5e:	19 c0       	rjmp	.+50     	; 0xd92 <__vector_12+0xc8>
-			if (Current_Read == 0x54)
-			{
-				byte_space_counter = 0;
-				first_byte_T = true;
-			}
-			if (first_byte_T && byte_space_counter == 2 && Current_Read == 0X6E)
- d60:	90 91 f9 01 	lds	r25, 0x01F9	; 0x8001f9 <byte_space_counter>
- d64:	92 30       	cpi	r25, 0x02	; 2
- d66:	a9 f4       	brne	.+42     	; 0xd92 <__vector_12+0xc8>
- d68:	8e 36       	cpi	r24, 0x6E	; 110
- d6a:	09 f0       	breq	.+2      	; 0xd6e <__vector_12+0xa4>
- d6c:	98 c0       	rjmp	.+304    	; 0xe9e <__vector_12+0x1d4>
-			{
-				second_byte_slash_n = true;
- d6e:	81 e0       	ldi	r24, 0x01	; 1
- d70:	80 93 fb 01 	sts	0x01FB, r24	; 0x8001fb <second_byte_slash_n>
-				byte_space_counter = 0;
- d74:	10 92 f9 01 	sts	0x01F9, r1	; 0x8001f9 <byte_space_counter>
- d78:	0c c0       	rjmp	.+24     	; 0xd92 <__vector_12+0xc8>
-			}
-			if (first_byte_T && second_byte_slash_n && byte_space_counter == 2 && Current_Read == 0X72)
- d7a:	80 91 f9 01 	lds	r24, 0x01F9	; 0x8001f9 <byte_space_counter>
- d7e:	82 30       	cpi	r24, 0x02	; 2
- d80:	41 f4       	brne	.+16     	; 0xd92 <__vector_12+0xc8>
- d82:	84 e5       	ldi	r24, 0x54	; 84
- d84:	82 37       	cpi	r24, 0x72	; 114
- d86:	29 f4       	brne	.+10     	; 0xd92 <__vector_12+0xc8>
+ d64:	81 e0       	ldi	r24, 0x01	; 1
+ d66:	80 93 fc 01 	sts	0x01FC, r24	; 0x8001fc <first_byte_T>
+			if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == '/r')
 			{
 				third_slash_r = true;
- d88:	81 e0       	ldi	r24, 0x01	; 1
- d8a:	80 93 fa 01 	sts	0x01FA, r24	; 0x8001fa <third_slash_r>
 				byte_space_counter = 0;
- d8e:	10 92 f9 01 	sts	0x01F9, r1	; 0x8001f9 <byte_space_counter>
 			}
 			byte_space_counter++;
- d92:	80 91 f9 01 	lds	r24, 0x01F9	; 0x8001f9 <byte_space_counter>
- d96:	8f 5f       	subi	r24, 0xFF	; 255
- d98:	80 93 f9 01 	sts	0x01F9, r24	; 0x8001f9 <byte_space_counter>
- d9c:	85 c0       	rjmp	.+266    	; 0xea8 <__vector_12+0x1de>
+ d6a:	80 91 f9 01 	lds	r24, 0x01F9	; 0x8001f9 <byte_space_counter>
+ d6e:	8f 5f       	subi	r24, 0xFF	; 255
+ d70:	80 93 f9 01 	sts	0x01F9, r24	; 0x8001f9 <byte_space_counter>
+ d74:	79 c0       	rjmp	.+242    	; 0xe68 <__vector_12+0x186>
 		{
 			// Once a transmit has been completed
 			if (In_Tx)
 			{
 				// If more bytes left to transmit post transmission event
 				if (TX_Index <= Expected_TX_Length)
- d9e:	90 91 05 02 	lds	r25, 0x0205	; 0x800205 <TX_Index>
- da2:	80 91 04 02 	lds	r24, 0x0204	; 0x800204 <Expected_TX_Length>
- da6:	89 17       	cp	r24, r25
- da8:	a0 f0       	brcs	.+40     	; 0xdd2 <__vector_12+0x108>
+ d76:	90 91 05 02 	lds	r25, 0x0205	; 0x800205 <TX_Index>
+ d7a:	80 91 04 02 	lds	r24, 0x0204	; 0x800204 <Expected_TX_Length>
+ d7e:	89 17       	cp	r24, r25
+ d80:	a0 f0       	brcs	.+40     	; 0xdaa <__vector_12+0xc8>
 				{
 					if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
- daa:	98 13       	cpse	r25, r24
- dac:	07 c0       	rjmp	.+14     	; 0xdbc <__vector_12+0xf2>
- dae:	80 91 03 02 	lds	r24, 0x0203	; 0x800203 <Expected_RX_Length>
- db2:	81 11       	cpse	r24, r1
- db4:	03 c0       	rjmp	.+6      	; 0xdbc <__vector_12+0xf2>
+ d82:	98 13       	cpse	r25, r24
+ d84:	07 c0       	rjmp	.+14     	; 0xd94 <__vector_12+0xb2>
+ d86:	80 91 03 02 	lds	r24, 0x0203	; 0x800203 <Expected_RX_Length>
+ d8a:	81 11       	cpse	r24, r1
+ d8c:	03 c0       	rjmp	.+6      	; 0xd94 <__vector_12+0xb2>
 					{
 						In_Tx = false;
- db6:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <In_Tx>
- dba:	0d c0       	rjmp	.+26     	; 0xdd6 <__vector_12+0x10c>
+ d8e:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <In_Tx>
+ d92:	0d c0       	rjmp	.+26     	; 0xdae <__vector_12+0xcc>
 					}
 					else
 					{
 						Post_Event(EVT_UART_SEND_BYTE);
- dbc:	60 e0       	ldi	r22, 0x00	; 0
- dbe:	71 e0       	ldi	r23, 0x01	; 1
- dc0:	80 e0       	ldi	r24, 0x00	; 0
- dc2:	90 e0       	ldi	r25, 0x00	; 0
- dc4:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
+ d94:	60 e0       	ldi	r22, 0x00	; 0
+ d96:	71 e0       	ldi	r23, 0x01	; 1
+ d98:	80 e0       	ldi	r24, 0x00	; 0
+ d9a:	90 e0       	ldi	r25, 0x00	; 0
+ d9c:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
 				{
 					In_Tx = false;
 				}
 			}
 			
 			if (!In_Tx)
- dc8:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <In_Tx>
- dcc:	81 11       	cpse	r24, r1
- dce:	6c c0       	rjmp	.+216    	; 0xea8 <__vector_12+0x1de>
- dd0:	02 c0       	rjmp	.+4      	; 0xdd6 <__vector_12+0x10c>
+ da0:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <In_Tx>
+ da4:	81 11       	cpse	r24, r1
+ da6:	60 c0       	rjmp	.+192    	; 0xe68 <__vector_12+0x186>
+ da8:	02 c0       	rjmp	.+4      	; 0xdae <__vector_12+0xcc>
 						Post_Event(EVT_UART_SEND_BYTE);
 					}
 				}
 				else
 				{
 					In_Tx = false;
- dd2:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <In_Tx>
+ daa:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <In_Tx>
 				}
 			}
 			
 			if (!In_Tx)
 			{
 				if (Expected_RX_Length > 0)
- dd6:	90 91 03 02 	lds	r25, 0x0203	; 0x800203 <Expected_RX_Length>
- dda:	99 23       	and	r25, r25
- ddc:	c1 f0       	breq	.+48     	; 0xe0e <__vector_12+0x144>
+ dae:	90 91 03 02 	lds	r25, 0x0203	; 0x800203 <Expected_RX_Length>
+ db2:	99 23       	and	r25, r25
+ db4:	c1 f0       	breq	.+48     	; 0xde6 <__vector_12+0x104>
 				{
 					*(Receive_List[Buffer_Index][RX_Index]) = LINDAT;
- dde:	80 91 06 02 	lds	r24, 0x0206	; 0x800206 <RX_Index>
- de2:	20 91 08 02 	lds	r18, 0x0208	; 0x800208 <Buffer_Index>
- de6:	e8 2f       	mov	r30, r24
- de8:	f0 e0       	ldi	r31, 0x00	; 0
- dea:	e2 0f       	add	r30, r18
- dec:	f1 1d       	adc	r31, r1
- dee:	ee 0f       	add	r30, r30
- df0:	ff 1f       	adc	r31, r31
- df2:	e7 5f       	subi	r30, 0xF7	; 247
- df4:	fd 4f       	sbci	r31, 0xFD	; 253
- df6:	01 90       	ld	r0, Z+
- df8:	f0 81       	ld	r31, Z
- dfa:	e0 2d       	mov	r30, r0
- dfc:	20 91 d2 00 	lds	r18, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
- e00:	20 83       	st	Z, r18
+ db6:	80 91 06 02 	lds	r24, 0x0206	; 0x800206 <RX_Index>
+ dba:	20 91 08 02 	lds	r18, 0x0208	; 0x800208 <Buffer_Index>
+ dbe:	e8 2f       	mov	r30, r24
+ dc0:	f0 e0       	ldi	r31, 0x00	; 0
+ dc2:	e2 0f       	add	r30, r18
+ dc4:	f1 1d       	adc	r31, r1
+ dc6:	ee 0f       	add	r30, r30
+ dc8:	ff 1f       	adc	r31, r31
+ dca:	e7 5f       	subi	r30, 0xF7	; 247
+ dcc:	fd 4f       	sbci	r31, 0xFD	; 253
+ dce:	01 90       	ld	r0, Z+
+ dd0:	f0 81       	ld	r31, Z
+ dd2:	e0 2d       	mov	r30, r0
+ dd4:	20 91 d2 00 	lds	r18, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
+ dd8:	20 83       	st	Z, r18
 					RX_Index++;
- e02:	8f 5f       	subi	r24, 0xFF	; 255
- e04:	80 93 06 02 	sts	0x0206, r24	; 0x800206 <RX_Index>
+ dda:	8f 5f       	subi	r24, 0xFF	; 255
+ ddc:	80 93 06 02 	sts	0x0206, r24	; 0x800206 <RX_Index>
 				if (RX_Index < Expected_RX_Length)
 				{
 					// Do Nothing
 					// Post_Event(EVT_UART_RECV_BYTE);
 				}
 				else if (RX_Index >= Expected_RX_Length)
- e08:	89 17       	cp	r24, r25
- e0a:	08 f4       	brcc	.+2      	; 0xe0e <__vector_12+0x144>
- e0c:	4d c0       	rjmp	.+154    	; 0xea8 <__vector_12+0x1de>
+ de0:	89 17       	cp	r24, r25
+ de2:	08 f4       	brcc	.+2      	; 0xde6 <__vector_12+0x104>
+ de4:	41 c0       	rjmp	.+130    	; 0xe68 <__vector_12+0x186>
 static void Update_Buffer_Index(void)
 {
     // Set current row of command buffer to unassigned (0xFF)
     for (int i = 0; i < UART_MAX_COMMAND_TX_SIZE; i++)
     {
         Command_Buffer[Buffer_Index][i] = 0xFF;
- e0e:	20 91 08 02 	lds	r18, 0x0208	; 0x800208 <Buffer_Index>
- e12:	82 2f       	mov	r24, r18
- e14:	90 e0       	ldi	r25, 0x00	; 0
- e16:	fc 01       	movw	r30, r24
- e18:	ee 0f       	add	r30, r30
- e1a:	ff 1f       	adc	r31, r31
- e1c:	ee 0f       	add	r30, r30
- e1e:	ff 1f       	adc	r31, r31
- e20:	e3 5f       	subi	r30, 0xF3	; 243
- e22:	fd 4f       	sbci	r31, 0xFD	; 253
- e24:	3f ef       	ldi	r19, 0xFF	; 255
- e26:	30 83       	st	Z, r19
- e28:	31 83       	std	Z+1, r19	; 0x01
- e2a:	32 83       	std	Z+2, r19	; 0x02
- e2c:	33 83       	std	Z+3, r19	; 0x03
+ de6:	20 91 08 02 	lds	r18, 0x0208	; 0x800208 <Buffer_Index>
+ dea:	82 2f       	mov	r24, r18
+ dec:	90 e0       	ldi	r25, 0x00	; 0
+ dee:	fc 01       	movw	r30, r24
+ df0:	ee 0f       	add	r30, r30
+ df2:	ff 1f       	adc	r31, r31
+ df4:	ee 0f       	add	r30, r30
+ df6:	ff 1f       	adc	r31, r31
+ df8:	e3 5f       	subi	r30, 0xF3	; 243
+ dfa:	fd 4f       	sbci	r31, 0xFD	; 253
+ dfc:	3f ef       	ldi	r19, 0xFF	; 255
+ dfe:	30 83       	st	Z, r19
+ e00:	31 83       	std	Z+1, r19	; 0x01
+ e02:	32 83       	std	Z+2, r19	; 0x02
+ e04:	33 83       	std	Z+3, r19	; 0x03
     }
     // Point current receive list row to NULL
     for (int i = 0; i < UART_MAX_COMMAND_RX_SIZE; i++)
     {
         Receive_List[Buffer_Index][i] = NULL;
- e2e:	88 0f       	add	r24, r24
- e30:	99 1f       	adc	r25, r25
- e32:	fc 01       	movw	r30, r24
- e34:	e7 5f       	subi	r30, 0xF7	; 247
- e36:	fd 4f       	sbci	r31, 0xFD	; 253
- e38:	11 82       	std	Z+1, r1	; 0x01
- e3a:	10 82       	st	Z, r1
+ e06:	88 0f       	add	r24, r24
+ e08:	99 1f       	adc	r25, r25
+ e0a:	fc 01       	movw	r30, r24
+ e0c:	e7 5f       	subi	r30, 0xF7	; 247
+ e0e:	fd 4f       	sbci	r31, 0xFD	; 253
+ e10:	11 82       	std	Z+1, r1	; 0x01
+ e12:	10 82       	st	Z, r1
     }
     // If at end of buffer
     if (Buffer_Index == UART_COMMAND_BUFFER_SIZE - 1)
- e3c:	21 30       	cpi	r18, 0x01	; 1
- e3e:	19 f4       	brne	.+6      	; 0xe46 <__vector_12+0x17c>
+ e14:	21 30       	cpi	r18, 0x01	; 1
+ e16:	19 f4       	brne	.+6      	; 0xe1e <__vector_12+0x13c>
     {
         Buffer_Index = 0;
- e40:	10 92 08 02 	sts	0x0208, r1	; 0x800208 <Buffer_Index>
- e44:	03 c0       	rjmp	.+6      	; 0xe4c <__vector_12+0x182>
+ e18:	10 92 08 02 	sts	0x0208, r1	; 0x800208 <Buffer_Index>
+ e1c:	03 c0       	rjmp	.+6      	; 0xe24 <__vector_12+0x142>
     }
     else
     {
         Buffer_Index++;
- e46:	2f 5f       	subi	r18, 0xFF	; 255
- e48:	20 93 08 02 	sts	0x0208, r18	; 0x800208 <Buffer_Index>
+ e1e:	2f 5f       	subi	r18, 0xFF	; 255
+ e20:	20 93 08 02 	sts	0x0208, r18	; 0x800208 <Buffer_Index>
     }
     // If buffer has pending transmits
     if (Command_Buffer[Buffer_Index][UART_TX_LENGTH_BYTE] != 0xFF)
- e4c:	e0 91 08 02 	lds	r30, 0x0208	; 0x800208 <Buffer_Index>
- e50:	f0 e0       	ldi	r31, 0x00	; 0
- e52:	ee 0f       	add	r30, r30
- e54:	ff 1f       	adc	r31, r31
- e56:	ee 0f       	add	r30, r30
- e58:	ff 1f       	adc	r31, r31
- e5a:	e3 5f       	subi	r30, 0xF3	; 243
- e5c:	fd 4f       	sbci	r31, 0xFD	; 253
- e5e:	80 81       	ld	r24, Z
- e60:	8f 3f       	cpi	r24, 0xFF	; 255
- e62:	31 f0       	breq	.+12     	; 0xe70 <__vector_12+0x1a6>
+ e24:	e0 91 08 02 	lds	r30, 0x0208	; 0x800208 <Buffer_Index>
+ e28:	f0 e0       	ldi	r31, 0x00	; 0
+ e2a:	ee 0f       	add	r30, r30
+ e2c:	ff 1f       	adc	r31, r31
+ e2e:	ee 0f       	add	r30, r30
+ e30:	ff 1f       	adc	r31, r31
+ e32:	e3 5f       	subi	r30, 0xF3	; 243
+ e34:	fd 4f       	sbci	r31, 0xFD	; 253
+ e36:	80 81       	ld	r24, Z
+ e38:	8f 3f       	cpi	r24, 0xFF	; 255
+ e3a:	31 f0       	breq	.+12     	; 0xe48 <__vector_12+0x166>
     {
         Post_Event(EVT_UART_START);
- e64:	60 e8       	ldi	r22, 0x80	; 128
- e66:	70 e0       	ldi	r23, 0x00	; 0
- e68:	80 e0       	ldi	r24, 0x00	; 0
- e6a:	90 e0       	ldi	r25, 0x00	; 0
- e6c:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
+ e3c:	60 e8       	ldi	r22, 0x80	; 128
+ e3e:	70 e0       	ldi	r23, 0x00	; 0
+ e40:	80 e0       	ldi	r24, 0x00	; 0
+ e42:	90 e0       	ldi	r25, 0x00	; 0
+ e44:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
 					// Post_Event(EVT_UART_RECV_BYTE);
 				}
 				else if (RX_Index >= Expected_RX_Length)
 				{
 					Update_Buffer_Index();
 					Post_Event(EVT_UART_END);
- e70:	60 e0       	ldi	r22, 0x00	; 0
- e72:	74 e0       	ldi	r23, 0x04	; 4
- e74:	80 e0       	ldi	r24, 0x00	; 0
- e76:	90 e0       	ldi	r25, 0x00	; 0
- e78:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
- e7c:	15 c0       	rjmp	.+42     	; 0xea8 <__vector_12+0x1de>
+ e48:	60 e0       	ldi	r22, 0x00	; 0
+ e4a:	74 e0       	ldi	r23, 0x04	; 4
+ e4c:	80 e0       	ldi	r24, 0x00	; 0
+ e4e:	90 e0       	ldi	r25, 0x00	; 0
+ e50:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
+ e54:	09 c0       	rjmp	.+18     	; 0xe68 <__vector_12+0x186>
 				}
 			}
 		}
 		else
 		{
 			if (Text_Index >= sizeof(Init_Text)/sizeof(Init_Text[0]))
- e7e:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <Text_Index>
- e82:	8f 38       	cpi	r24, 0x8F	; 143
- e84:	18 f0       	brcs	.+6      	; 0xe8c <__vector_12+0x1c2>
+ e56:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <Text_Index>
+ e5a:	8f 38       	cpi	r24, 0x8F	; 143
+ e5c:	18 f0       	brcs	.+6      	; 0xe64 <__vector_12+0x182>
 			{
 				modem_init = false;
- e86:	10 92 0c 01 	sts	0x010C, r1	; 0x80010c <modem_init>
- e8a:	0e c0       	rjmp	.+28     	; 0xea8 <__vector_12+0x1de>
+ e5e:	10 92 0c 01 	sts	0x010C, r1	; 0x80010c <modem_init>
+ e62:	02 c0       	rjmp	.+4      	; 0xe68 <__vector_12+0x186>
 			}
 			else
 			{
 				UART_Transmit();
- e8c:	0e 94 b5 05 	call	0xb6a	; 0xb6a <UART_Transmit>
- e90:	0b c0       	rjmp	.+22     	; 0xea8 <__vector_12+0x1de>
-				third_slash_r = false;
-			}
-		}
-		else
-		{
-			uint8_t Current_Read = LINDAT;
- e92:	80 91 d2 00 	lds	r24, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
-			if (Current_Read == 0x54)
- e96:	84 35       	cpi	r24, 0x54	; 84
- e98:	09 f0       	breq	.+2      	; 0xe9c <__vector_12+0x1d2>
- e9a:	62 cf       	rjmp	.-316    	; 0xd60 <__vector_12+0x96>
- e9c:	57 cf       	rjmp	.-338    	; 0xd4c <__vector_12+0x82>
-			if (first_byte_T && byte_space_counter == 2 && Current_Read == 0X6E)
-			{
-				second_byte_slash_n = true;
-				byte_space_counter = 0;
-			}
-			if (first_byte_T && second_byte_slash_n && byte_space_counter == 2 && Current_Read == 0X72)
- e9e:	90 91 fb 01 	lds	r25, 0x01FB	; 0x8001fb <second_byte_slash_n>
- ea2:	91 11       	cpse	r25, r1
- ea4:	6f cf       	rjmp	.-290    	; 0xd84 <__vector_12+0xba>
- ea6:	75 cf       	rjmp	.-278    	; 0xd92 <__vector_12+0xc8>
-			{
-				UART_Transmit();
+ e64:	0e 94 b8 05 	call	0xb70	; 0xb70 <UART_Transmit>
 			}
 		}
 	}	
 }
- ea8:	ff 91       	pop	r31
- eaa:	ef 91       	pop	r30
- eac:	bf 91       	pop	r27
- eae:	af 91       	pop	r26
- eb0:	9f 91       	pop	r25
- eb2:	8f 91       	pop	r24
- eb4:	7f 91       	pop	r23
- eb6:	6f 91       	pop	r22
- eb8:	5f 91       	pop	r21
- eba:	4f 91       	pop	r20
- ebc:	3f 91       	pop	r19
- ebe:	2f 91       	pop	r18
- ec0:	0f 90       	pop	r0
- ec2:	0f be       	out	0x3f, r0	; 63
- ec4:	0f 90       	pop	r0
- ec6:	1f 90       	pop	r1
- ec8:	18 95       	reti
+ e68:	ff 91       	pop	r31
+ e6a:	ef 91       	pop	r30
+ e6c:	bf 91       	pop	r27
+ e6e:	af 91       	pop	r26
+ e70:	9f 91       	pop	r25
+ e72:	8f 91       	pop	r24
+ e74:	7f 91       	pop	r23
+ e76:	6f 91       	pop	r22
+ e78:	5f 91       	pop	r21
+ e7a:	4f 91       	pop	r20
+ e7c:	3f 91       	pop	r19
+ e7e:	2f 91       	pop	r18
+ e80:	0f 90       	pop	r0
+ e82:	0f be       	out	0x3f, r0	; 63
+ e84:	0f 90       	pop	r0
+ e86:	1f 90       	pop	r1
+ e88:	18 95       	reti
 
-00000eca <Init_UART_Service>:
+00000e8a <Init_UART_Service>:
 
 ****************************************************************************/
 void Init_UART_Service(void)
 {
 	// Start State Machine from normal state
 	Current_State = NORMAL_UART_STATE;
- eca:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <Current_State>
- ece:	08 95       	ret
+ e8a:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <Current_State>
+ e8e:	08 95       	ret
 
-00000ed0 <Run_UART_Service>:
+00000e90 <Run_UART_Service>:
         Processes events for UART Message transmit/receive
 
 ****************************************************************************/
 void Run_UART_Service(uint32_t event_mask)
 {
 	switch(Current_State)
- ed0:	20 91 15 02 	lds	r18, 0x0215	; 0x800215 <Current_State>
- ed4:	21 30       	cpi	r18, 0x01	; 1
- ed6:	a9 f0       	breq	.+42     	; 0xf02 <Run_UART_Service+0x32>
- ed8:	18 f0       	brcs	.+6      	; 0xee0 <Run_UART_Service+0x10>
- eda:	22 30       	cpi	r18, 0x02	; 2
- edc:	89 f1       	breq	.+98     	; 0xf40 <Run_UART_Service+0x70>
- ede:	08 95       	ret
+ e90:	20 91 15 02 	lds	r18, 0x0215	; 0x800215 <Current_State>
+ e94:	21 30       	cpi	r18, 0x01	; 1
+ e96:	a9 f0       	breq	.+42     	; 0xec2 <Run_UART_Service+0x32>
+ e98:	18 f0       	brcs	.+6      	; 0xea0 <Run_UART_Service+0x10>
+ e9a:	22 30       	cpi	r18, 0x02	; 2
+ e9c:	89 f1       	breq	.+98     	; 0xf00 <Run_UART_Service+0x70>
+ e9e:	08 95       	ret
     {	
 		case NORMAL_UART_STATE:
 			if (EVT_UART_START == event_mask)
- ee0:	60 38       	cpi	r22, 0x80	; 128
- ee2:	71 05       	cpc	r23, r1
- ee4:	81 05       	cpc	r24, r1
- ee6:	91 05       	cpc	r25, r1
- ee8:	e9 f5       	brne	.+122    	; 0xf64 <Run_UART_Service+0x94>
+ ea0:	60 38       	cpi	r22, 0x80	; 128
+ ea2:	71 05       	cpc	r23, r1
+ ea4:	81 05       	cpc	r24, r1
+ ea6:	91 05       	cpc	r25, r1
+ ea8:	e9 f5       	brne	.+122    	; 0xf24 <Run_UART_Service+0x94>
 			{			
                 // Initialize UART for particular command
                 UART_Start_Command();
- eea:	0e 94 9d 05 	call	0xb3a	; 0xb3a <UART_Start_Command>
+ eaa:	0e 94 a0 05 	call	0xb40	; 0xb40 <UART_Start_Command>
 				// Switch to sending state
 				Current_State = SENDING_UART_STATE;
- eee:	81 e0       	ldi	r24, 0x01	; 1
- ef0:	80 93 15 02 	sts	0x0215, r24	; 0x800215 <Current_State>
+ eae:	81 e0       	ldi	r24, 0x01	; 1
+ eb0:	80 93 15 02 	sts	0x0215, r24	; 0x800215 <Current_State>
 				// Post event to initiate transition
 				Post_Event(EVT_UART_SEND_BYTE);
- ef4:	60 e0       	ldi	r22, 0x00	; 0
- ef6:	71 e0       	ldi	r23, 0x01	; 1
- ef8:	80 e0       	ldi	r24, 0x00	; 0
- efa:	90 e0       	ldi	r25, 0x00	; 0
- efc:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
- f00:	08 95       	ret
+ eb4:	60 e0       	ldi	r22, 0x00	; 0
+ eb6:	71 e0       	ldi	r23, 0x01	; 1
+ eb8:	80 e0       	ldi	r24, 0x00	; 0
+ eba:	90 e0       	ldi	r25, 0x00	; 0
+ ebc:	0e 94 73 01 	call	0x2e6	; 0x2e6 <Post_Event>
+ ec0:	08 95       	ret
                 // Do Nothing
             }	
 			break;
 		
 		case SENDING_STATE:
 			if (EVT_UART_SEND_BYTE == event_mask)
- f02:	61 15       	cp	r22, r1
- f04:	21 e0       	ldi	r18, 0x01	; 1
- f06:	72 07       	cpc	r23, r18
- f08:	81 05       	cpc	r24, r1
- f0a:	91 05       	cpc	r25, r1
- f0c:	19 f4       	brne	.+6      	; 0xf14 <Run_UART_Service+0x44>
+ ec2:	61 15       	cp	r22, r1
+ ec4:	21 e0       	ldi	r18, 0x01	; 1
+ ec6:	72 07       	cpc	r23, r18
+ ec8:	81 05       	cpc	r24, r1
+ eca:	91 05       	cpc	r25, r1
+ ecc:	19 f4       	brne	.+6      	; 0xed4 <Run_UART_Service+0x44>
 			{
     			UART_Transmit();
- f0e:	0e 94 b5 05 	call	0xb6a	; 0xb6a <UART_Transmit>
- f12:	08 95       	ret
+ ece:	0e 94 b8 05 	call	0xb70	; 0xb70 <UART_Transmit>
+ ed2:	08 95       	ret
 			}
 			else if (EVT_UART_RECV_BYTE == event_mask)
- f14:	61 15       	cp	r22, r1
- f16:	22 e0       	ldi	r18, 0x02	; 2
- f18:	72 07       	cpc	r23, r18
- f1a:	81 05       	cpc	r24, r1
- f1c:	91 05       	cpc	r25, r1
- f1e:	31 f4       	brne	.+12     	; 0xf2c <Run_UART_Service+0x5c>
+ ed4:	61 15       	cp	r22, r1
+ ed6:	22 e0       	ldi	r18, 0x02	; 2
+ ed8:	72 07       	cpc	r23, r18
+ eda:	81 05       	cpc	r24, r1
+ edc:	91 05       	cpc	r25, r1
+ ede:	31 f4       	brne	.+12     	; 0xeec <Run_UART_Service+0x5c>
 			{
                 UART_Transmit();
- f20:	0e 94 b5 05 	call	0xb6a	; 0xb6a <UART_Transmit>
+ ee0:	0e 94 b8 05 	call	0xb70	; 0xb70 <UART_Transmit>
 				Current_State = RECEIVING_UART_STATE;				
- f24:	82 e0       	ldi	r24, 0x02	; 2
- f26:	80 93 15 02 	sts	0x0215, r24	; 0x800215 <Current_State>
- f2a:	08 95       	ret
+ ee4:	82 e0       	ldi	r24, 0x02	; 2
+ ee6:	80 93 15 02 	sts	0x0215, r24	; 0x800215 <Current_State>
+ eea:	08 95       	ret
 			}
 			else if (EVT_UART_END == event_mask)
- f2c:	61 15       	cp	r22, r1
- f2e:	74 40       	sbci	r23, 0x04	; 4
- f30:	81 05       	cpc	r24, r1
- f32:	91 05       	cpc	r25, r1
- f34:	b9 f4       	brne	.+46     	; 0xf64 <Run_UART_Service+0x94>
+ eec:	61 15       	cp	r22, r1
+ eee:	74 40       	sbci	r23, 0x04	; 4
+ ef0:	81 05       	cpc	r24, r1
+ ef2:	91 05       	cpc	r25, r1
+ ef4:	b9 f4       	brne	.+46     	; 0xf24 <Run_UART_Service+0x94>
 			{
                 UART_End_Command();
- f36:	0e 94 b4 05 	call	0xb68	; 0xb68 <UART_End_Command>
+ ef6:	0e 94 b7 05 	call	0xb6e	; 0xb6e <UART_End_Command>
 				Current_State = NORMAL_UART_STATE;
- f3a:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <Current_State>
- f3e:	08 95       	ret
+ efa:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <Current_State>
+ efe:	08 95       	ret
                 // Do Nothing
             }
 			break;
 		
 		case RECEIVING_STATE:
             if (EVT_UART_RECV_BYTE == event_mask)
- f40:	61 15       	cp	r22, r1
- f42:	22 e0       	ldi	r18, 0x02	; 2
- f44:	72 07       	cpc	r23, r18
- f46:	81 05       	cpc	r24, r1
- f48:	91 05       	cpc	r25, r1
- f4a:	19 f4       	brne	.+6      	; 0xf52 <Run_UART_Service+0x82>
+ f00:	61 15       	cp	r22, r1
+ f02:	22 e0       	ldi	r18, 0x02	; 2
+ f04:	72 07       	cpc	r23, r18
+ f06:	81 05       	cpc	r24, r1
+ f08:	91 05       	cpc	r25, r1
+ f0a:	19 f4       	brne	.+6      	; 0xf12 <Run_UART_Service+0x82>
             {
                 UART_Transmit();
- f4c:	0e 94 b5 05 	call	0xb6a	; 0xb6a <UART_Transmit>
- f50:	08 95       	ret
+ f0c:	0e 94 b8 05 	call	0xb70	; 0xb70 <UART_Transmit>
+ f10:	08 95       	ret
             }
             if (EVT_UART_END == event_mask)
- f52:	61 15       	cp	r22, r1
- f54:	74 40       	sbci	r23, 0x04	; 4
- f56:	81 05       	cpc	r24, r1
- f58:	91 05       	cpc	r25, r1
- f5a:	21 f4       	brne	.+8      	; 0xf64 <Run_UART_Service+0x94>
+ f12:	61 15       	cp	r22, r1
+ f14:	74 40       	sbci	r23, 0x04	; 4
+ f16:	81 05       	cpc	r24, r1
+ f18:	91 05       	cpc	r25, r1
+ f1a:	21 f4       	brne	.+8      	; 0xf24 <Run_UART_Service+0x94>
             {
                 UART_End_Command();
- f5c:	0e 94 b4 05 	call	0xb68	; 0xb68 <UART_End_Command>
+ f1c:	0e 94 b7 05 	call	0xb6e	; 0xb6e <UART_End_Command>
                 Current_State = NORMAL_UART_STATE;
- f60:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <Current_State>
- f64:	08 95       	ret
+ f20:	10 92 15 02 	sts	0x0215, r1	; 0x800215 <Current_State>
+ f24:	08 95       	ret
 
-00000f66 <Query_UART_State>:
+00000f26 <Query_UART_State>:
 ****************************************************************************/
 
 UART_State_t Query_UART_State(void)
 {
     return Current_State;
 }
- f66:	80 91 15 02 	lds	r24, 0x0215	; 0x800215 <Current_State>
- f6a:	08 95       	ret
+ f26:	80 91 15 02 	lds	r24, 0x0215	; 0x800215 <Current_State>
+ f2a:	08 95       	ret
 
-00000f6c <_exit>:
- f6c:	f8 94       	cli
+00000f2c <_exit>:
+ f2c:	f8 94       	cli
 
-00000f6e <__stop_program>:
- f6e:	ff cf       	rjmp	.-2      	; 0xf6e <__stop_program>
+00000f2e <__stop_program>:
+ f2e:	ff cf       	rjmp	.-2      	; 0xf2e <__stop_program>
