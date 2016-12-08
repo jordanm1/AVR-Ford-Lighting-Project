@@ -113,7 +113,7 @@ void Run_Modem_Service(uint32_t event_mask)
 			}
 			else
 			{
-				Write_UART(2, 0, &TX_Data[0], &RX_Data[0], false);
+				//Write_UART(2, 0, &TX_Data[0], &RX_Data[0], false);
 			}
 			
 			if (flipper)

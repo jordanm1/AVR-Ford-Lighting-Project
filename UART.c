@@ -219,7 +219,7 @@ void UART_Transmit (void)
 		char set_as;
 		if (pgm_read_byte(&(Init_Text[Text_Index])) == '/')
 		{
-			set_as = '/r';
+			set_as = 0x0D;
 			Text_Index++;	
 		}
 		else
@@ -342,12 +342,12 @@ ISR(LIN_TC_vect)
 				byte_space_counter = 0;
 				first_byte_T = true;
 			}
-			if (first_byte_T && byte_space_counter == 1 && Current_Read == '/n')
+			if (first_byte_T && byte_space_counter == 1 && Current_Read == 0x0A)
 			{
 				second_byte_slash_n = true;
 				byte_space_counter = 0;
 			}
-			if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == '/r')
+			if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == 0x0D)
 			{
 				third_slash_r = true;
 				byte_space_counter = 0;
