@@ -53,7 +53,8 @@
 // ------------ MODULE DEFINITIONS
 // #############################################################################
 
-
+#define NODE_ID_LEN         1               // One Byte long
+#define NODE_ID_ADDR        (E2START+0)     // First address in EEPROM
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -94,21 +95,21 @@ static void process_position_cmd(void);
 ****************************************************************************/
 void Init_Slave_Service(void)
 {
-    // Initialize command and status arrays
+    // First, initialize light to LIGHT_OFF
+    Set_Light_Intensity(LIGHT_OFF);
+
+    // Second, release the servo so it does not move
+    // (i.e. stop the PPM commands to the servo)
+    Release_Analog_Servo();
+
+    // Initialize command and status arrays to reflect our state
     Write_Intensity_Data(p_My_Command_Data, INTENSITY_NON_COMMAND);
     Write_Position_Data(p_My_Command_Data, POSITION_NON_COMMAND);
     Write_Intensity_Data(p_My_Status_Data, LIGHT_OFF);
     Write_Position_Data(p_My_Status_Data, SERVO_STAY);
 
     // Read our slave number from flash
-    // @TODO:
-    Read_Data_From_EEPROM(0x0000, &My_Node_ID, 1);
-
-    // Initialize light to LIGHT_OFF
-    Set_Light_Intensity(LIGHT_OFF);
-
-    // Release the servo so it does not move
-    Release_Analog_Servo();
+    Read_Data_From_EEPROM(NODE_ID_ADDR, &My_Node_ID, NODE_ID_LEN);
 
     // Initialize LIN
     MS_LIN_Initialize(&My_Node_ID, p_My_Command_Data, p_My_Status_Data);
@@ -122,7 +123,7 @@ void Init_Slave_Service(void)
         None
 
     Description
-        Processes events for the this slave node
+        Processes events for this slave node
 
 ****************************************************************************/
 void Run_Slave_Service(uint32_t event_mask)
@@ -130,7 +131,7 @@ void Run_Slave_Service(uint32_t event_mask)
     switch(event_mask)
     {
         case EVT_SLAVE_NUM_SET:
-            // A new ID has been set for us.
+            // A new slave number has been set for us.
 
             // Only do something if the # is different than our current #
             if  (   (Get_Last_Set_Slave_Number() != GET_SLAVE_NUMBER(My_Node_ID))
@@ -142,7 +143,7 @@ void Run_Slave_Service(uint32_t event_mask)
                 My_Node_ID = GET_SLAVE_BASE_ID(Get_Last_Set_Slave_Number());
 
                 // Save our new ID in flash memory
-                Write_Data_To_EEPROM(0x0000, &My_Node_ID, 1);
+                Write_Data_To_EEPROM(NODE_ID_ADDR, &My_Node_ID, NODE_ID_LEN);
             }
 
             break;
@@ -173,23 +174,6 @@ void Run_Slave_Service(uint32_t event_mask)
 // #############################################################################
 // ------------ PRIVATE FUNCTIONS
 // #############################################################################
-
-/****************************************************************************
-    Private Function
-        save_our_id_to_flash()
-
-    Parameters
-        None
-
-    Description
-        Saves our current ID to flash
-
-****************************************************************************/
-static void save_our_id_to_flash(uint8_t * p_node_id)
-{
-    // @TODO: call external module that handles flash storage
-    return;
-}
 
 /****************************************************************************
     Private Function
