@@ -110,7 +110,7 @@ typedef uint16_t                position_data_t;    // Right now we are encoding
 
 // Extremes for Intensities, must be contained in INTENSITY_DATA_LEN
 #define LIGHT_OFF               (0x00)
-#define MIN_LIGHT_INTENSITY     (30)
+#define MIN_LIGHT_INTENSITY     (0)
 #define MAX_LIGHT_INTENSITY     (100)      
 
 // Stay Command for Servo (does not cause servo to move), must be contained
