@@ -119,13 +119,16 @@ static uint16_t test_counter = 0;
 static uint8_t up_count = 1;
 static uint16_t position_counter = 1;
 static uint8_t parity = 0;
-#define NUM_TEST_POSITIONS          5
+#define NUM_TEST_POSITIONS          8
 static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
-                                                        {.x = 5, .y = -4},
-                                                        {.x = 5, .y = -2},
-                                                        {.x = 5, .y = 0},
-                                                        {.x = 5, .y = 2},
-                                                        {.x = 5, .y = 4},
+                                                        {.x = 0, .y = -100},
+                                                        {.x = 70, .y = -70},
+                                                        {.x = 100, .y = 0},
+                                                        {.x = 70, .y = 70},
+                                                        {.x = 0, .y = 100},
+                                                        {.x = -70, .y = 70},
+                                                        {.x = -100, .y = 0},
+                                                        {.x = -70, .y = -70},
                                                         };
 static position_data_t position_to_watch;
 static intensity_data_t intensity_to_watch;
@@ -255,31 +258,62 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_TEST_TIMEOUT:
             // Just a test
-//
+            
+            // Restart test timer
+            Start_Timer(&Testing_Timer, 1000);
+
             // TEST PWM
             Set_PWM_Duty_Cycle(pwm_channel_a, 80);
             Hold_Analog_Servo_Position(750+position_counter);
-            if ((1500 == position_counter) || (0 == position_counter)) {up_count ^= 1;};
+            if ((1 == position_counter) || (4 == position_counter)) {up_count ^= 1;};
             if (up_count)
-            {
-                position_counter++;
-            }
-            else
             {
                 position_counter--;
             }
+            else
+            {
+                position_counter++;
+            }
+
+            //#if 0
+            //parity ^= 1;
+            //if (parity)
+            //{
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),75);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),2250);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),75);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),2250);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),75);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),2250);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),75);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),2250);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),75);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),2250);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),75);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),2250);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),75);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),2250);
+            //}
+            //else
+            //{
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),0);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1450);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),0);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),1450);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),0);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),1450);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),0);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),1450);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),0);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),1450);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),0);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),1450);
+                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),0);
+                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),1450);
+            //}
+            //#endif
 
             #if 1
-//             parity ^= 1;
-//             if (parity)
-//             {
-//                 PORTB |= (1<<PINB6);
-//             }
-//             else
-//             {
-//                 PORTB &= ~(1<<PINB6);
-//             }
-            Start_Timer(&Testing_Timer, 2000);
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
@@ -294,9 +328,9 @@ void Run_Master_Service(uint32_t event_mask)
 //             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
             update_cmds(test_positions[test_counter]);
             //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),50);
-            //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),750+position_counter);
-            position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
-            intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
+            //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),2250);
+            //position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
+            //intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
             test_counter++;
             if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
             // *Note: While we are sending, we will
