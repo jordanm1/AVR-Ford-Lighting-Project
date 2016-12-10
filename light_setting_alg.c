@@ -184,7 +184,7 @@ void Compute_Individual_Light_Settings(
         {
             // Leave as is. Valid light intensity.
         }
-        Write_Intensity_Data(Result_Settings, temp_intensity);
+        Write_Intensity_Data(Result_Settings, 35);
 
         // Interpolate position between min and max if this slave is equipped to move
         position_data_t temp_position = POSITION_NON_COMMAND;
