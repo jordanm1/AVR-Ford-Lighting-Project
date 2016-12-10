@@ -205,7 +205,7 @@ void Compute_Individual_Light_Settings(
     {
         // The desired position cannot be reached with light via this node.
         // Turn off the light and keep the servo where it is (send non command to servo)
-        Write_Intensity_Data(Result_Settings, INTENSITY_NON_COMMAND);
+        Write_Intensity_Data(Result_Settings, LIGHT_OFF);
         Write_Position_Data(Result_Settings, POSITION_NON_COMMAND);
     }
 
