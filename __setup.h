@@ -47,14 +47,13 @@
 
 #define INITIALIZER_04              Init_ADC_Module
 
-#define INITIALIZER_05              Init_Analog_Servo_Driver
-
-#define INITIALIZER_06              Init_Buttons
+#define INITIALIZER_05              Init_Buttons
 
 #if IS_MASTER_NODE
-    #define INITIALIZER_07          Init_SPI_Service
-    #define INITIALIZER_08          Init_Master_Service
+    #define INITIALIZER_06          Init_SPI_Service
+    #define INITIALIZER_07          Init_Master_Service
 #else
+    #define INITIALIZER_06          Init_Analog_Servo_Driver
     #define INITIALIZER_07          Init_Slave_Service
     #define INITIALIZER_08          Init_Slave_Number_Setting_SM
 #endif
