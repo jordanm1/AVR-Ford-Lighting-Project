@@ -67,12 +67,12 @@
 // #############################################################################
 
 // INITIALIZE VARS:
-slave_parameters_t Slave_Parameters;
-slave_parameters_t * p_Slave_Parameters = &Slave_Parameters;
-uint16_t Desired_Theta, Light_Range, Theta_Light_Min, Theta_Light_Max, \
+static slave_parameters_t Slave_Parameters;
+static slave_parameters_t * p_Slave_Parameters = &Slave_Parameters;
+static uint16_t Desired_Theta, Light_Range, Theta_Light_Min, Theta_Light_Max,
             Norm2_Desired_Relative;
-rect_vect_t Vect_Desired_Relative;
-uint8_t Result_Settings[LIN_PACKET_LEN];
+static rect_vect_t Vect_Desired_Relative;
+static uint8_t Result_Settings[LIN_PACKET_LEN];
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
