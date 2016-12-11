@@ -62,6 +62,10 @@ static uint8_t TX_Data[1] = {0};
 static uint8_t* RX_Data[1] = {0};
 static uint8_t Recv_Byte = 0;
 
+// The address to the array of addresses where we will store the incoming
+// CAN messages
+static uint8_t * * a_p_Recv_List;
+
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
@@ -82,8 +86,12 @@ static uint8_t Recv_Byte = 0;
         Initializes the CAN module MCP25625
 
 ****************************************************************************/
-void CAN_Initialize_1(void)
-{
+void CAN_Initialize_1(uint8_t * * p_data_store)
+{   
+    // Save away the address to the array of addresses to the locations we will
+    // fill in data
+    a_p_Recv_List = p_data_store;
+
     // Reset the CAN Module and enter in configuration mode
     CAN_Reset();
     
@@ -473,22 +481,12 @@ void CAN_Send_Message(uint8_t Msg_Length, uint8_t* Transmit_Data)
 
 ****************************************************************************/
 
-void CAN_Read_Message(uint8_t** Recv_Data)
+void CAN_Read_Message(void)
 {
-	RX_Data[0] = &Recv_Byte;
-	//CAN_Read(MCP_RXB0DLC, RX_Data);
-	
-	uint8_t Recv_Length = Recv_Byte;
-    Recv_Length = 3;
-    if (Recv_Length == 0)
-    {
-        return;
-    }
-	for (int i = 0; i < Recv_Length; i++)
+	for (int i = 0; i < 1; i++)
 	{
-		RX_Data[0] = Recv_Data[i];
-		CAN_Read(MCP_RXB0D0 + i, RX_Data);
-	}	
+		CAN_Read(MCP_RXB0D0 + i, &(*(a_p_Recv_List+i)));
+	}
 }
 
 

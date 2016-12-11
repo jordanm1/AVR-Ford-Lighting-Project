@@ -90,7 +90,7 @@
 #define GET_SLAVE_BASE_ID(slave_number)         (slave_number<<1)
 
 // #############################################################################
-// ------------ COMMANDS AND STATI
+// ------------ LIN COMMANDS AND STATI
 // #############################################################################
 
 // Command/status packet byte indices and lengths
@@ -104,9 +104,9 @@ typedef uint16_t                position_data_t;    // Right now we are encoding
 
 // Specific Command Keywords
 #define INTENSITY_NON_COMMAND   (0xFF)       
-#define POSITION_NON_COMMAND    (0xFFFF)        // All commands on master
-                                                //  should be initialized
-                                                //  to this value.
+#define POSITION_NON_COMMAND    (0xFFFF)            // All commands on master
+                                                    //  should be initialized
+                                                    //  to this value.
 
 // Extremes for Intensities, must be contained in INTENSITY_DATA_LEN
 #define LIGHT_OFF               (0x00)
@@ -115,7 +115,17 @@ typedef uint16_t                position_data_t;    // Right now we are encoding
 
 // Stay Command for Servo (does not cause servo to move), must be contained
 //  in POSITION_DATA_LEN
-#define SERVO_STAY              (POSITION_NON_COMMAND)                 
+#define SERVO_STAY              (POSITION_NON_COMMAND)     
+
+// #############################################################################
+// ------------ CAN COMMANDS AND STATI
+// #############################################################################
+
+// CAN Packet Size
+#define CAN_MODEM_PACKET_LEN    5           // 5 bytes
+
+// Indices in CAN packet
+#define CAN_MODEM_TYPE_IDX      0           // First byte is the type
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS

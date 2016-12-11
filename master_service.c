@@ -111,7 +111,14 @@ static uint32_t CAN_Init_1_Timer = EVT_CAN_INIT_1_COMPLETE;
 // @TODO: if the packet is short, we should host
 // a previous copy to reduce compute overhead if the
 // new CAN packet is the same
-static uint8_t CAN_Message[5] = {0};
+static uint8_t CAN_Volatile_Msg[CAN_MODEM_PACKET_LEN] = {0};
+static uint8_t * a_p_CAN_Volatile_Msg[CAN_MODEM_PACKET_LEN] = 
+    {&CAN_Volatile_Msg[0],
+    &CAN_Volatile_Msg[1],
+    &CAN_Volatile_Msg[2],
+    &CAN_Volatile_Msg[3],
+    &CAN_Volatile_Msg[4]};
+static uint8_t CAN_Current_Msg[CAN_MODEM_PACKET_LEN] = {0};
 
 // TEST TIMER
 static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
@@ -186,7 +193,7 @@ void Init_Master_Service(void)
 
     // Call 1st step of the CAN initialization
     // This will only start once we exit initialization context
-    CAN_Initialize_1();
+    CAN_Initialize_1(a_p_CAN_Volatile_Msg);
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);

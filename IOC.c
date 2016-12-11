@@ -125,20 +125,20 @@ uint32_t query_counter(void)
 ISR(INT0_vect)
 {
 	counter++;
-    uint8_t byte1 = 0;
-    uint8_t byte2 = 0;
-    uint8_t byte3 = 0;
-	uint8_t* Variable_List[3] = {&byte1, &byte2, &byte3};
-    uint8_t* RX_Data[1];
-    RX_Data[0] = &byte1;
-	Post_Event(EVT_MASTER_NEW_CAN_MSG);
-	CAN_Read_Message(Variable_List);
-    CAN_Read(MCP_EFLG, RX_Data);
+    // uint8_t interrupt_read = 0;
+    // uint8_t * RX_Data[1];
+    // RX_Data[0] = &interrupt_read;
+	// Post_Event(EVT_MASTER_NEW_CAN_MSG);
+    // CAN_Read(MCP_CANINTF, RX_Data);
+    // Fill in message only if the interrupt is a receive interrupt
+    // if (interrupt_read & (1<<MCP_STAT_RX0IF)) 
+    CAN_Read_Message();
+    // CAN_Read(MCP_EFLG, RX_Data);
     uint8_t TX_Data[1] = {0};
     CAN_Bit_Modify(MCP_EFLG, (1<<6), TX_Data);
-    CAN_Read(MCP_EFLG_TXEP, RX_Data);
-    CAN_Read(MCP_EFLG_RXEP, RX_Data);
-	CAN_Bit_Modify(MCP_CANINTF, 0xFF, TX_Data); 
+    //CAN_Read(MCP_EFLG_TXEP, RX_Data);
+    //CAN_Read(MCP_EFLG_RXEP, RX_Data);
+    CAN_Bit_Modify(MCP_CANINTF, 0xFF, TX_Data); 
 }
 
 // #############################################################################
