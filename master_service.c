@@ -137,8 +137,6 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
                                                         {.x = -100, .y = 0},
                                                         {.x = -70, .y = -70},
                                                         };
-static position_data_t position_to_watch;
-static intensity_data_t intensity_to_watch;
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -267,17 +265,23 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_TEST_TIMEOUT:
             // Just a test
+
+            if (0 != CAN_Volatile_Msg[0])
+            {
+                position_counter = 400;
+            }
             
             // Restart test timer
             Start_Timer(&Testing_Timer, 400);
-            uint8_t TX_Away[3] = {0x12, 0x13, 0X14};
-            CAN_Send_Message(3, TX_Away);
+            uint8_t TX_Away[1] = {0x11};
+            //uint8_t TX_Away[1] = {0xaa};
+            ////////uint8_t TX_Away[5] = {0xaa, 0xbb, 0Xcc, 0xdd, 0xee};
+            CAN_Send_Message(1, TX_Away);
 
 
             // TEST PWM
             /*
             Set_PWM_Duty_Cycle(pwm_channel_a, 80);
-            Hold_Analog_Servo_Position(750+position_counter);
             if ((1 == position_counter) || (4 == position_counter)) {up_count ^= 1;};
             if (up_count)
             {
@@ -339,7 +343,7 @@ void Run_Master_Service(uint32_t event_mask)
             }
             #endif
 
-            #if 0
+            #if 1
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
