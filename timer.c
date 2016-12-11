@@ -49,7 +49,9 @@
 // Define number of timers used
 // This should be based on a project wide search for the 
 //  number of unique Register_Timer() calls
-#define NUM_TIMERS          (8)
+// Master has 5
+// Slave has 5
+#define NUM_TIMERS          (5)
 
 // Null cb func
 #define NULL_TIMER_CB       ((timer_cb_t) 0)
