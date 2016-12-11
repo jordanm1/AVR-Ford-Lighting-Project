@@ -134,9 +134,10 @@ ISR(INT0_vect)
 	Post_Event(EVT_MASTER_NEW_CAN_MSG);
 	CAN_Read_Message(Variable_List);
     CAN_Read(MCP_EFLG, RX_Data);
+    uint8_t TX_Data[1] = {0};
+    CAN_Bit_Modify(MCP_EFLG, (1<<6), TX_Data);
     CAN_Read(MCP_EFLG_TXEP, RX_Data);
     CAN_Read(MCP_EFLG_RXEP, RX_Data);
-	uint8_t TX_Data[1] = {0};
 	CAN_Bit_Modify(MCP_CANINTF, 0xFF, TX_Data); 
 }
 

@@ -192,6 +192,8 @@ void Init_Master_Service(void)
     Register_Timer(&Testing_Timer, Post_Event);
     Start_Timer(&Testing_Timer, 5000);
     //Set_PWM_Duty_Cycle(pwm_channel_a, 10);
+    PORTB &= ~(1<<PORTB2);
+    DDRB |= (1<<PORTB2);
 }
 
 /****************************************************************************
@@ -261,8 +263,9 @@ void Run_Master_Service(uint32_t event_mask)
             
             // Restart test timer
             Start_Timer(&Testing_Timer, 400);
-            uint8_t TX_Away[3] = {0xAA, 0xBB, 0XCC};
+            uint8_t TX_Away[3] = {0x12, 0x13, 0X14};
             CAN_Send_Message(3, TX_Away);
+
 
             // TEST PWM
             /*
@@ -279,45 +282,57 @@ void Run_Master_Service(uint32_t event_mask)
             }
             */
 
-            //#if 0
-            //parity ^= 1;
-            //if (parity)
-            //{
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),75);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),2250);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),75);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),2250);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),75);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),2250);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),75);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),2250);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),75);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),2250);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),75);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),2250);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),75);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),2250);
-            //}
-            //else
-            //{
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),0);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1450);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),0);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),1450);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),0);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),1450);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),0);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),1450);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),0);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),1450);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),0);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),1450);
-                //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),0);
-                //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),1450);
-            //}
-            //#endif
-
             #if 1
+            parity ^= 1;
+            if (parity)
+            {
+                PORTB |= (1<<PORTB2);
+            }
+            else
+            {
+                PORTB &= ~(1<<PORTB2);
+            }
+            #endif
+
+            #if 0
+            parity ^= 1;
+            if (parity)
+            {
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),75);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),2250);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),75);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),2250);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),75);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),2250);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),75);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),2250);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),75);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),2250);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),75);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),2250);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),75);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),2250);
+            }
+            else
+            {
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),0);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1450);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),0);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),1450);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),0);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),1450);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),0);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),1450);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),0);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),1450);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),0);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),1450);
+                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),0);
+                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),1450);
+            }
+            #endif
+
+            #if 0
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
