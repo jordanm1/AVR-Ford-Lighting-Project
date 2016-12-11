@@ -29,7 +29,7 @@
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-void MS_SPI_Initialize(uint8_t * p_this_node_id);
+void SPI_Initialize(void);
 void SPI_Transmit(void);
 void SPI_Start_Command (void);
 void SPI_End_Command (void);

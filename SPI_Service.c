@@ -67,6 +67,9 @@ void Init_SPI_Service(void)
 {
 	// Start State Machine from normal state
 	Current_State = NORMAL_STATE;
+
+    // Initialize SPI
+    SPI_Initialize();
 }
 
 /****************************************************************************

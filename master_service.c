@@ -260,9 +260,12 @@ void Run_Master_Service(uint32_t event_mask)
             // Just a test
             
             // Restart test timer
-            Start_Timer(&Testing_Timer, 1000);
+            Start_Timer(&Testing_Timer, 400);
+            uint8_t TX_Away[3] = {0xAA, 0xBB, 0XCC};
+            CAN_Send_Message(3, TX_Away);
 
             // TEST PWM
+            /*
             Set_PWM_Duty_Cycle(pwm_channel_a, 80);
             Hold_Analog_Servo_Position(750+position_counter);
             if ((1 == position_counter) || (4 == position_counter)) {up_count ^= 1;};
@@ -274,6 +277,7 @@ void Run_Master_Service(uint32_t event_mask)
             {
                 position_counter++;
             }
+            */
 
             //#if 0
             //parity ^= 1;

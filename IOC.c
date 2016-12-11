@@ -125,9 +125,17 @@ uint32_t query_counter(void)
 ISR(INT0_vect)
 {
 	counter++;
-	uint8_t* Variable_List[8] = {0};
+    uint8_t byte1 = 0;
+    uint8_t byte2 = 0;
+    uint8_t byte3 = 0;
+	uint8_t* Variable_List[3] = {&byte1, &byte2, &byte3};
+    uint8_t* RX_Data[1];
+    RX_Data[0] = &byte1;
 	Post_Event(EVT_MASTER_NEW_CAN_MSG);
 	CAN_Read_Message(Variable_List);
+    CAN_Read(MCP_EFLG, RX_Data);
+    CAN_Read(MCP_EFLG_TXEP, RX_Data);
+    CAN_Read(MCP_EFLG_RXEP, RX_Data);
 	uint8_t TX_Data[1] = {0};
 	CAN_Bit_Modify(MCP_CANINTF, 0xFF, TX_Data); 
 }

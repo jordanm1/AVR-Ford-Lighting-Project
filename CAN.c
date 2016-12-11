@@ -476,10 +476,14 @@ void CAN_Send_Message(uint8_t Msg_Length, uint8_t* Transmit_Data)
 void CAN_Read_Message(uint8_t** Recv_Data)
 {
 	RX_Data[0] = &Recv_Byte;
-	CAN_Read(MCP_RXB0DLC, RX_Data);
+	//CAN_Read(MCP_RXB0DLC, RX_Data);
 	
 	uint8_t Recv_Length = Recv_Byte;
-	
+    Recv_Length = 3;
+    if (Recv_Length == 0)
+    {
+        return;
+    }
 	for (int i = 0; i < Recv_Length; i++)
 	{
 		RX_Data[0] = Recv_Data[i];

@@ -52,8 +52,8 @@
 #define INITIALIZER_06              Init_Buttons
 
 #if IS_MASTER_NODE
-    #define INITIALIZER_07          Init_Master_Service
-    #define INITIALIZER_08          Init_SPI_Service
+    #define INITIALIZER_07          Init_SPI_Service
+    #define INITIALIZER_08          Init_Master_Service
 #else
     #define INITIALIZER_07          Init_Slave_Service
     #define INITIALIZER_08          Init_Slave_Number_Setting_SM
