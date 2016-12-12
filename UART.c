@@ -365,7 +365,7 @@ ISR(LIN_TC_vect)
 				first_byte_T = false;
 				second_byte_slash_n = false;
 				third_slash_r = false;
-				//Post_Event(EVT_MODEM_NEW_PACKAGE);
+				Post_Event(EVT_MODEM_NEW_PACKAGE);
 			}
 		}
 		
@@ -378,15 +378,20 @@ ISR(LIN_TC_vect)
 				byte_space_counter = 0;
 				first_byte_T = true;
 			}
-			if (first_byte_T && byte_space_counter == 1 && Current_Read == 0x0A)
+			else if (first_byte_T && byte_space_counter == 1 && Current_Read == 0x0D)
 			{
 				second_byte_slash_n = true;
 				byte_space_counter = 0;
 			}
-			if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == 0x0D)
+			else if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == 0x0A)
 			{
 				third_slash_r = true;
 				byte_space_counter = 0;
+			}
+			else {
+				first_byte_T = false;
+				second_byte_slash_n = false;
+				third_slash_r = false;
 			}
 			byte_space_counter++;
 		}
