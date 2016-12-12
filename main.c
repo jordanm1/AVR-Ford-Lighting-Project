@@ -46,7 +46,8 @@ int main(void)
     // *******************************
     // MICROCONTROLLER INITIALIZATIONS
     // *******************************
-    // Disable global interrupts        asm("cli");
+    // Disable global interrupts
+    asm("cli");
 
     // Setup system clock
     // (per p. 26)
