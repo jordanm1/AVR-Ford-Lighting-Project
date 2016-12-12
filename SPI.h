@@ -8,7 +8,7 @@
 #define SPI_MASTER      0
 #define SPI_SLAVE       1
 
-#define COMMAND_BUFFER_SIZE 14
+#define COMMAND_BUFFER_SIZE 10
 #define MAX_COMMAND_TX_SIZE 6
 #define MAX_COMMAND_RX_SIZE 1
 #define TX_LENGTH_BYTE      0
