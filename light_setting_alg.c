@@ -136,9 +136,20 @@ void Compute_Individual_Light_Settings(
     //  Light range in degs
     if (p_Slave_Parameters->move_equipped)
     {
-        // Theta_min/max can be anything, treats equal angles as full 360 movement capable
-        Light_Range = compute_cw_angular_distance(p_Slave_Parameters->theta_min, p_Slave_Parameters->theta_max)
+        if (p_Slave_Parameters->theta_min == p_Slave_Parameters->theta_max)
+        {
+            Light_Range = DEGS_FULL_CIRCLE;
+        }
+        else
+        {
+            Light_Range = compute_cw_angular_distance(p_Slave_Parameters->theta_min, p_Slave_Parameters->theta_max)
                         + p_Slave_Parameters->fov;
+            // When we compute cw_angular_distance here we want it to return 360 if the angles are the same, but we can
+            // pretty easily check for this
+
+            // Constrain Light_Range to [0,359]
+            Light_Range %= DEGS_FULL_CIRCLE;
+        }
     }
     else
     {
@@ -158,12 +169,13 @@ void Compute_Individual_Light_Settings(
     //  Distance from min to max
     if  (   (compute_cw_angular_distance(Theta_Light_Min, Desired_Theta)
             <=
-            compute_cw_angular_distance(Theta_Light_Min, Theta_Light_Max))
+            Light_Range)
 
             ||
 
             (DEGS_FULL_CIRCLE <= Light_Range)
         )
+        // When we compute cw_angular_distance here we want it to return 0 if the angles are the same
     {
         // The desired position can be reached with light via this node.
         //  1. Set slave settings with some intensity > 0 and <= 100
@@ -330,7 +342,16 @@ static position_data_t interpolate_slave_position(void)
     /* CALCULATE RANGE OF SLAVE IN DEGREES */
     // Calculate the range of degrees between min and max
     uint16_t slave_range_degs;
-    slave_range_degs = compute_cw_angular_distance(p_Slave_Parameters->theta_min, p_Slave_Parameters->theta_max);
+    if ( (p_Slave_Parameters->move_equipped) && (p_Slave_Parameters->theta_min == p_Slave_Parameters->theta_max) )
+    {
+        slave_range_degs = DEGS_FULL_CIRCLE;
+    }
+    else
+    {
+        slave_range_degs = compute_cw_angular_distance(p_Slave_Parameters->theta_min, p_Slave_Parameters->theta_max);
+        // When we compute cw_angular_distance here we want it to return 360 if the angles are the same, but we can
+        // pretty easily check for this
+    }
 
     /* COMPUTE RATIO OF DESIRED ANGLE ABOVE THE MINIMUM ANGLE*/
     position_data_t position_range;
@@ -339,12 +360,14 @@ static position_data_t interpolate_slave_position(void)
             >=
             slave_range_degs
         )
+        // When we compute cw_angular_distance here we want it to return zero if the angles are the same
     {
         // If the desired angle is closer to our min
         if  (   compute_cw_angular_distance(p_Slave_Parameters->theta_max, Desired_Theta)
                 >
                 compute_cw_angular_distance(Desired_Theta, p_Slave_Parameters->theta_min)
             )
+            // When we compute cw_angular_distance here we want it to return zero if the angles are the same
         {
             // Return our min position
             result = p_Slave_Parameters->position_min;
@@ -368,6 +391,7 @@ static position_data_t interpolate_slave_position(void)
             // @TODO: Make sure these won't overflow
             position_range = p_Slave_Parameters->position_max-p_Slave_Parameters->position_min;
             result = p_Slave_Parameters->position_min + (0.5+((compute_cw_angular_distance(p_Slave_Parameters->theta_min, Desired_Theta) * (uint32_t) position_range)/slave_range_degs));
+            // When we compute cw_angular_distance here we want it to return zero if the angles are the same
         }
         // If positions are decreasing from min to max
         else if (p_Slave_Parameters->position_min > p_Slave_Parameters->position_max)
@@ -377,6 +401,7 @@ static position_data_t interpolate_slave_position(void)
             // @TODO: Make sure these won't overflow
             position_range = p_Slave_Parameters->position_min-p_Slave_Parameters->position_max;
             result = p_Slave_Parameters->position_min - (0.5+((compute_cw_angular_distance(p_Slave_Parameters->theta_min, Desired_Theta) * (uint32_t) position_range)/slave_range_degs));
+            // When we compute cw_angular_distance here we want it to return zero if the angles are the same
         }
         else
         {
@@ -436,7 +461,9 @@ static uint16_t compute_cw_angular_distance(uint16_t start_angle, uint16_t end_a
     else
     {
         // The angles are equal
-        return DEGS_FULL_CIRCLE;
+        // We can either return zero or 360!
+        // Dec. 11, 2016: Choose to return zero after inspection of uses.
+        return 0;
     }
 }
 
