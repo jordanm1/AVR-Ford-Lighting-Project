@@ -113,7 +113,7 @@ void Run_Modem_Service(uint32_t event_mask)
 			}
 			else
 			{
-				Write_UART(2, 0, &TX_Data[0], &RX_Data[0], false);
+				//Write_UART(2, 0, &TX_Data[0], &RX_Data[0], false);
 			}
 			
 			if (flipper)
@@ -129,7 +129,11 @@ void Run_Modem_Service(uint32_t event_mask)
 				
 			Start_Timer(&Testing_Timer, 250);
 			break;
-
+		
+		case EVT_MODEM_NEW_PACKAGE:
+			
+			break;
+		
         default:
             break;
     }

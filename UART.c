@@ -70,6 +70,7 @@ static uint8_t Expected_RX_Length = 0;	    // Set as Max RX Bytes
 static uint8_t Text_Index = 0;
 
 static bool In_Tx = false;					// This flag decides which buffer to fill
+static bool In_Rx = false;
 
 static bool modem_init = true;
 
@@ -81,12 +82,16 @@ static bool third_slash_r = false;
 
 static uint8_t byte_space_counter = 0;
 
-static uint8_t Modem_Recv_Data [4] = {0};
+static uint8_t Modem_Recv_Data [MAX_MODEM_RECEIVE] = {0};
 
-static const char Init_Text[143] PROGMEM = "AT^SICA=1,3/rAT^SISS=0,\"srvType\",\"socket"
+static const char Init_Text[149] PROGMEM = "ATE1/rAT^SICA=1,3/rAT^SISS=0,\"srvType\",\"socket"
 										  "\"/rAT^SISS=0,\"conId\",3/rAT^SISS=0,\"address\""
 										  ",\"socktcp://listener:2000;etx=26;autoconnect"
 										  "=1\"/rAT^SISO=0/r";
+//static const char Init_Text[10] PROGMEM = "AT^SICA?\r";						
+//static const char Init_Text[13] PROGMEM = "AT+CGDCONT?\r";	
+//static const char Init_Text[40] PROGMEM = "AT+CGDCONT=3,\"IPV4V6\",\"MW01.VZWSTATIC\"/r";				
+//static const char Init_Text[11] PROGMEM = "AT^SISC=0\r";				
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -113,7 +118,13 @@ static void Update_Buffer_Index(void);
 ****************************************************************************/
 void UART_Initialize()
 {    	
-	DDRA &= (1<<PINA0);
+	// Rx -> A0
+	// Tx -> A1
+	
+	//DDRA &= ~(1<<PINA0);
+	//PORTA &= ~(1<<PINA0);
+	PORTB &= ~(1<<PINB5);
+	DDRB |= (1<<PINB5);
 	
 	// Reset UART
 	LINCR |= (1<<LSWRES);
@@ -122,7 +133,7 @@ void UART_Initialize()
 	// - Command Mode = TxRx Enabled
 	// - UART Enable
 	// - Odd Parity	
-	LINCR = (1<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
+	LINCR = (0<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
 	
 	// Set up LINBTR
 	LINBTR = (1<<LDISR);
@@ -133,7 +144,7 @@ void UART_Initialize()
     
 	// LIN Interrupt Enable
 	//LINENIR = (1<<LENERR)|(1<<LENTXOK)|(1<<LENRXOK);
-	LINENIR = (1<<LENTXOK)|(1<<LENRXOK);
+	LINENIR = (0<<LENTXOK)|(1<<LENRXOK);
 	// Reset indices
     Buffer_Index = 0;
     TX_Index = 0;
@@ -202,25 +213,33 @@ void UART_Transmit (void)
 	{
 		// Send byte out
 		LINDAT = Command_Buffer[Buffer_Index][TX_Index + UART_LENGTH_BYTES];
-	
-		if (In_Tx)
-		{
-			// Increment Transmit Index
-			TX_Index++;		
-		}
-		else
-		{
-			// Increment Transmit Index
-			TX_Index++;
-		}
+		TX_Index++;
+		
+		//if (In_Tx)
+		//{
+			//// Increment Transmit Index
+			//TX_Index++;		
+		//}
+		//else
+		//{
+			//// Increment Transmit Index
+			//TX_Index++;
+		//}
 	}
 	else
 	{
 		char set_as;
 		if (pgm_read_byte(&(Init_Text[Text_Index])) == '/')
 		{
-			set_as = '/r';
-			Text_Index++;	
+			// If an escape sequence, skip slash and send special character
+			if (pgm_read_byte(&(Init_Text[Text_Index+1])) == 'r') {
+				set_as = 0x0D;
+				Text_Index++;
+			}
+			
+			else {
+				set_as = '/';	
+			}
 		}
 		else
 		{
@@ -228,6 +247,12 @@ void UART_Transmit (void)
 		}
 		LINDAT = set_as;
 		Text_Index++;
+		
+		//int i = 0;
+		//while (true) {
+			//i++;
+			//if (i > 20000) break;
+		//}
 	}
 }
 
@@ -320,20 +345,31 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 
 ISR(LIN_TC_vect)
 {
-	LINSIR = (1<<3)|(1<<2)|(1<<1)|(1<<0);
+	//LINSIR = (1<<3)|(1<<2)|(1<<1)|(1<<0);
 	
-	if (!modem_init && !In_Tx)
+	// Received a byte
+	if (LINSIR & RX_ISR_FLAG)	
+	//if (!modem_init && !In_Tx)
 	{
+		LINSIR |= RX_ISR_FLAG;	// Clear Receive Flag
+		
+		// If the correct sequence was received, prepare to store packet sent from phone
 		if (first_byte_T && second_byte_slash_n && third_slash_r)
 		{
 			Modem_Recv_Data[byte_space_counter - 1] = LINDAT;
+			byte_space_counter++;
+			
 			if (byte_space_counter >= MAX_MODEM_RECEIVE + 1)
 			{
+				PORTB |= (1<<PINB5);
 				first_byte_T = false;
 				second_byte_slash_n = false;
 				third_slash_r = false;
+				//Post_Event(EVT_MODEM_NEW_PACKAGE);
 			}
 		}
+		
+		// Check for correct sequence from modem to see if a packet is coming
 		else
 		{
 			uint8_t Current_Read = LINDAT;
@@ -342,12 +378,12 @@ ISR(LIN_TC_vect)
 				byte_space_counter = 0;
 				first_byte_T = true;
 			}
-			if (first_byte_T && byte_space_counter == 1 && Current_Read == '/n')
+			if (first_byte_T && byte_space_counter == 1 && Current_Read == 0x0A)
 			{
 				second_byte_slash_n = true;
 				byte_space_counter = 0;
 			}
-			if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == '/r')
+			if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == 0x0D)
 			{
 				third_slash_r = true;
 				byte_space_counter = 0;
@@ -355,8 +391,11 @@ ISR(LIN_TC_vect)
 			byte_space_counter++;
 		}
 	}
-	else
+	
+	// Completed transmission of a byte
+	else if (LINSIR && TX_ISR_FLAG)
 	{
+		LINSIR |= TX_ISR_FLAG;	// Clear Transmit flag
 		if (!modem_init)
 		{
 			// Once a transmit has been completed
@@ -403,6 +442,8 @@ ISR(LIN_TC_vect)
 				}
 			}
 		}
+		
+		// If in startup sequence for modem commands
 		else
 		{
 			if (Text_Index >= sizeof(Init_Text)/sizeof(Init_Text[0]))
@@ -411,6 +452,11 @@ ISR(LIN_TC_vect)
 			}
 			else
 			{
+				int i = 0;
+				while (true) {
+					i++;
+					if (i > 20000) break;
+				}
 				UART_Transmit();
 			}
 		}
