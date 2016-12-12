@@ -483,7 +483,7 @@ void CAN_Send_Message(uint8_t Msg_Length, uint8_t* Transmit_Data)
 
 void CAN_Read_Message(void)
 {
-	for (int i = 0; i < 1; i++)
+	for (int i = 0; i < CAN_MODEM_PACKET_LEN; i++)
 	{
 		CAN_Read(MCP_RXB0D0 + i, &(*(a_p_Recv_List+i)));
 	}

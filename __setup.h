@@ -91,7 +91,7 @@
 #define EVT_MASTER_NEW_STS              EVENT_07
 #define EVT_MASTER_OTHER                EVENT_08
 #define EVT_CAN_INIT_1_COMPLETE         EVENT_09
-#define EVT_MASTER_NEW_CAN_MSG          EVENT_10
+#define EVT_CAN_POLLING_TIMEOUT         EVENT_10
 
 #define EVT_TEST_TIMEOUT                EVENT_11
 

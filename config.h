@@ -122,10 +122,15 @@ typedef uint16_t                position_data_t;    // Right now we are encoding
 // #############################################################################
 
 // CAN Packet Size
-#define CAN_MODEM_PACKET_LEN    5           // 5 bytes
+#define CAN_MODEM_PACKET_LEN        5           // 5 bytes
 
 // Indices in CAN packet
-#define CAN_MODEM_TYPE_IDX      0           // First byte is the type
+#define CAN_MODEM_TYPE_IDX          0           // First byte is the type
+#define CAN_MODEM_POS_TYPE          (0xa0)      // Msg to request light in position
+#define CAN_MODEM_SPEC_TYPE         (0x4d)      // Msg to control specific node
+#define CAN_MODEM_POS_VECT_IDX      (1)         // For pos type, the index starts at byte 1
+#define CAN_MODEM_SPEC_NUM_IDX      (1)         // For spec type, the slave num starts at byte 1
+#define CAN_MODEM_SPEC_CMD_INDEX    (2)         // For spec type, the equiv cmd packet starts at byte 2
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS

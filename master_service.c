@@ -78,6 +78,13 @@
 // Time in ms it takes to complete the CAN step 1 initializations
 #define CAN_INIT_1_MS           (200)
 
+// Time interval that passes between polling our volatile instance of the CAN
+// message
+#define CAN_POLL_INTERVAL_MS    (50)
+
+// MEMCMP equal
+#define MEMCMP_EQUAL            (0)
+
 // #############################################################################
 // ------------ MODULE VARIABLES
 // #############################################################################
@@ -105,7 +112,7 @@ static uint32_t Scheduling_Timer = NON_EVENT;
 static uint8_t Curr_Schedule_ID = SCHEDULE_START_ID;
 
 // CAN_Init_1 Timer
-static uint32_t CAN_Init_1_Timer = EVT_CAN_INIT_1_COMPLETE;
+static uint32_t CAN_Timer = EVT_CAN_INIT_1_COMPLETE;
 
 // Arrays to hold CAN packets
 // @TODO: if the packet is short, we should host
@@ -118,7 +125,7 @@ static uint8_t * a_p_CAN_Volatile_Msg[CAN_MODEM_PACKET_LEN] =
     &CAN_Volatile_Msg[2],
     &CAN_Volatile_Msg[3],
     &CAN_Volatile_Msg[4]};
-static uint8_t CAN_Current_Msg[CAN_MODEM_PACKET_LEN] = {0};
+static uint8_t CAN_Last_Processed_Msg[CAN_MODEM_PACKET_LEN] = {0};
 
 // TEST TIMER
 static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
@@ -149,6 +156,10 @@ static void update_cmds(rect_vect_t requested_location);
 static bool did_single_slave_obey(uint8_t slave_number);
 static bool did_all_slaves_obey(void);
 static void put_LIN_to_sleep(void);
+static rect_vect_t get_CAN_pos_vect(void);
+static void write_rect_vect(uint8_t * p_target, rect_vect_t vect);
+static intensity_data_t get_CAN_spec_intensity_data(void);
+static position_data_t get_CAN_spec_position_data(void);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -184,10 +195,10 @@ void Init_Master_Service(void)
     Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
 
     // Register CAN Init 1 timer with Post_Event()
-    Register_Timer(&CAN_Init_1_Timer, Post_Event);
+    Register_Timer(&CAN_Timer, Post_Event);
 
     // Kick off CAN Init 1 Timer
-    Start_Timer(&CAN_Init_1_Timer, CAN_INIT_1_MS);
+    Start_Timer(&CAN_Timer, CAN_INIT_1_MS);
 
     // Call 1st step of the CAN initialization
     // This will only start once we exit initialization context
@@ -226,21 +237,56 @@ void Run_Master_Service(uint32_t event_mask)
             // Call step two of the CAN init
             CAN_Initialize_2();
 
-            // Do not restart the timer!
+            // Change the Event type that the CAN timer will post
+            CAN_Timer = EVT_CAN_POLLING_TIMEOUT;
+
+            // Start the CAN timer which will now be used to poll our CAN msg var
+            Start_Timer(&CAN_Timer, CAN_INIT_1_MS);
             
             break;
 
-        case EVT_MASTER_NEW_CAN_MSG:
-            // We received a new CAN message
+        case EVT_CAN_POLLING_TIMEOUT:
+            // The CAN polling timer has expired
 
-            // Check to see if the message is different than
-            // our current instance of the message
-            // @TODO
-            //  IF CAN MSG TYPE == USER_REQ_LIGHT_POS
-            //      Call command to run algo on all slave nodes
-            //  @TODO
-            //  IF CAN MSG TYPE == SLAVE_CMD_PACKET
-            //      Update only this slave's command
+            // Check to see if the volatile instance of the message is 
+            // different than the last processed instance of the message
+            if (0) // MEMCMP_EQUAL != memcmp(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN))
+            {
+                // The message is new. Process the message.
+                
+                // If the ID is something we expect...
+                if  (   (CAN_MODEM_POS_TYPE == CAN_Volatile_Msg[CAN_MODEM_TYPE_IDX])
+                        ||
+                        (CAN_MODEM_SPEC_TYPE == CAN_Volatile_Msg[CAN_MODEM_TYPE_IDX])
+                    )
+                {
+                    // Copy the message
+                    // @TODO: This might need to be in a critical section
+                    memcpy(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN);
+
+                    // Execute the action specified by the message
+                    if (CAN_MODEM_POS_TYPE == CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
+                    {
+                        // Run light setting algo for all slave nodes
+                        update_cmds(get_CAN_pos_vect());
+                    }
+                    else if (CAN_MODEM_SPEC_TYPE == CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
+                    {
+                        // Update the command for only the slave specified
+                        Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
+                            get_CAN_spec_intensity_data());
+                        Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
+                            get_CAN_spec_position_data());
+                    }
+                    else
+                    {
+                        // This is impossible...
+                    }
+                }
+            }
+
+            // Restart the CAN polling timer
+            Start_Timer(&CAN_Timer, CAN_POLL_INTERVAL_MS);
         
             break;
 
@@ -273,10 +319,19 @@ void Run_Master_Service(uint32_t event_mask)
             
             // Restart test timer
             Start_Timer(&Testing_Timer, 400);
-            uint8_t TX_Away[1] = {0x11};
+            //uint8_t TX_Away[1] = {0x11};
             //uint8_t TX_Away[1] = {0xaa};
-            ////////uint8_t TX_Away[5] = {0xaa, 0xbb, 0Xcc, 0xdd, 0xee};
-            CAN_Send_Message(1, TX_Away);
+
+            // RIGHT
+            #if 0
+            uint8_t TX_Away[5] = {CAN_MODEM_POS_TYPE, 0x00, 0x00, 0x00, 0x00};
+            write_rect_vect(&TX_Away[CAN_MODEM_POS_VECT_IDX], test_positions[test_counter]);
+            CAN_Send_Message(5, TX_Away);
+            #endif
+
+            // LEFT, !!! DO NOT SEND ANYTHING
+            //uint8_t TX_Away[5] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee};
+            //CAN_Send_Message(5, TX_Away);
 
 
             // TEST PWM
@@ -566,4 +621,95 @@ static void put_LIN_to_sleep(void)
     Stop_Timer(&Scheduling_Timer);
 
     // @TODO: More housekeeping to put the bus to sleep
+}
+
+/****************************************************************************
+    Private Function
+        get_CAN_pos_vect
+
+    Parameters
+        None
+
+    Description
+        This returns an instance of the rect vect from a CAN user position 
+        frame
+
+****************************************************************************/
+static rect_vect_t get_CAN_pos_vect(void)
+{
+    // Init result position as the origin (all zeros)
+    rect_vect_t result = {0};
+    // Ensure the CAN message type is a position type
+    if (CAN_MODEM_POS_TYPE == CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
+    {
+        // Copy the vector info from CAN message into result
+        memcpy(&result, &CAN_Last_Processed_Msg[CAN_MODEM_POS_VECT_IDX], sizeof(result));
+    }
+    // Return result
+    return result;
+}
+
+/****************************************************************************
+    Private Function
+        write_rect_vect
+
+    Parameters
+        None
+
+    Description
+        This writes the vect info to the location of target
+
+****************************************************************************/
+static void write_rect_vect(uint8_t * p_target, rect_vect_t vect)
+{
+    // Copy the vector into the location provided by the caller
+    memcpy(p_target, &vect, sizeof(vect));
+}
+
+/****************************************************************************
+    Private Function
+        get_CAN_spec_intensity_data
+
+    Parameters
+        None
+
+    Description
+        This returns an instance of the intensity data from a CAN slave spec 
+        frame
+
+****************************************************************************/
+static intensity_data_t get_CAN_spec_intensity_data(void)
+{
+    // Ensure the CAN message type is a slave specific type
+    if (CAN_MODEM_SPEC_TYPE == CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
+    {
+        // Return the intensity data only
+        return Get_Intensity_Data(&CAN_Last_Processed_Msg[CAN_MODEM_SPEC_CMD_INDEX]);
+    }
+    // Return non command if the message type isn't a slave spec frame
+    return INTENSITY_NON_COMMAND;
+}
+
+/****************************************************************************
+    Private Function
+        get_CAN_spec_position_data
+
+    Parameters
+        None
+
+    Description
+        This returns an instance of the position data from a CAN slave spec 
+        frame
+
+****************************************************************************/
+static position_data_t get_CAN_spec_position_data(void)
+{
+    // Ensure the CAN message type is a slave specific type
+    if (CAN_MODEM_SPEC_TYPE == CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
+    {
+        // Return the position data only
+        return Get_Position_Data(&CAN_Last_Processed_Msg[CAN_MODEM_SPEC_CMD_INDEX]);
+    }
+    // Return non command if the message type isn't a slave spec frame
+    return POSITION_NON_COMMAND;
 }
