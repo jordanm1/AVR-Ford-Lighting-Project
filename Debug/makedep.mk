@@ -14,8 +14,6 @@ cmd_sts_helpers.c
 
 eeprom_storage.c
 
-events.c
-
 framework.c
 
 IOC.c

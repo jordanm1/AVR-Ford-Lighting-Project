@@ -15,10 +15,10 @@ IOC.d IOC.o: .././IOC.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\version.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\fuse.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
- .././framework.h .././events.h .././__setup.h .././timer.h \
- .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
- .././analog_servo_drv.h .././buttons.h .././master_service.h \
- .././SPI_Service.h .././slave_service.h .././slave_number_setting_SM.h \
+ .././framework.h .././__setup.h .././timer.h .././LIN_XCVR_WD_Kicker.h \
+ .././PWM.h .././IOC.h .././ADC.h .././analog_servo_drv.h .././buttons.h \
+ .././master_service.h .././SPI_Service.h .././slave_service.h \
+ .././slave_number_setting_SM.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  .././SPI.h .././CAN.h .././MCP25625defs.h
 
@@ -55,8 +55,6 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h:
 
 .././framework.h:
-
-.././events.h:
 
 .././__setup.h:
 

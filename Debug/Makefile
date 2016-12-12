@@ -43,7 +43,6 @@ C_SRCS +=  \
 ../CAN.c \
 ../cmd_sts_helpers.c \
 ../eeprom_storage.c \
-../events.c \
 ../framework.c \
 ../IOC.c \
 ../light_drv.c \
@@ -76,7 +75,6 @@ buttons.o \
 CAN.o \
 cmd_sts_helpers.o \
 eeprom_storage.o \
-events.o \
 framework.o \
 IOC.o \
 light_drv.o \
@@ -102,7 +100,6 @@ buttons.o \
 CAN.o \
 cmd_sts_helpers.o \
 eeprom_storage.o \
-events.o \
 framework.o \
 IOC.o \
 light_drv.o \
@@ -128,7 +125,6 @@ buttons.d \
 CAN.d \
 cmd_sts_helpers.d \
 eeprom_storage.d \
-events.d \
 framework.d \
 IOC.d \
 light_drv.d \
@@ -154,7 +150,6 @@ buttons.d \
 CAN.d \
 cmd_sts_helpers.d \
 eeprom_storage.d \
-events.d \
 framework.d \
 IOC.d \
 light_drv.d \
@@ -187,8 +182,6 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
-
-
 
 
 
