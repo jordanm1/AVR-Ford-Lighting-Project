@@ -88,10 +88,9 @@ int main(void)
     asm("sei");
 
     // *******************************
-    // RUN EVENTS SERVICE
+    // RUN SERVICES
     // *******************************
-    // Run the events service
-    Run_Events();
+    Run_Services();
 
     // *******************************
     // C NECESSARY RETURN

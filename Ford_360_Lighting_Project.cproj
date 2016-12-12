@@ -173,12 +173,6 @@
     <Compile Include="eeprom_storage.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="events.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="events.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="framework.c">
       <SubType>compile</SubType>
     </Compile>
