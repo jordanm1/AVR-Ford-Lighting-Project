@@ -145,6 +145,10 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
                                                         {.x = -70, .y = -70},
                                                         };
 
+static rect_vect_t vect_2_watch = {0};
+static position_data_t position_2_watch;
+static intensity_data_t intensity_2_watch;
+
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
@@ -411,9 +415,13 @@ void Run_Master_Service(uint32_t event_mask)
             //      be sent in the background
 //             Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 98);
 //             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
-            update_cmds(test_positions[test_counter]);
-            //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),50);
-            //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),2250);
+            memcpy(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN);
+            vect_2_watch = get_CAN_pos_vect();
+            intensity_2_watch = get_CAN_spec_intensity_data();
+            position_2_watch = get_CAN_spec_position_data();
+            update_cmds(vect_2_watch);
+            //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),intensity_2_watch);
+            //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),position_2_watch);
             //position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
             //intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
             test_counter++;
