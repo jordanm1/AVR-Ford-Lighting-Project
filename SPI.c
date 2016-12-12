@@ -156,6 +156,11 @@ void SPI_Start_Command (void)
 {
 	Expected_TX_Length = Command_Buffer[Buffer_Index][TX_LENGTH_BYTE];
 	Expected_RX_Length = Command_Buffer[Buffer_Index][RX_LENGTH_BYTE];
+
+    // If somehow the expected lengths are invalid, set them to 
+    // reasonable values
+    if (Expected_TX_Length == 0xff) Expected_TX_Length = 1;
+    if (Expected_RX_Length == 0xff) Expected_RX_Length = 0;
 	
 	// Set RX data index
 	RX_Index = 0;
@@ -338,7 +343,14 @@ ISR(SPI_STC_vect)
 		{
 			if (Expected_RX_Length > 0)
 			{
-				*(Receive_List[Buffer_Index][RX_Index]) = SPDR;
+                if (Receive_List[Buffer_Index][RX_Index] == NULL)
+                {
+                    if (SPDR);
+                }
+                else
+                {
+                    *(Receive_List[Buffer_Index][RX_Index]) = SPDR;
+                }
 				RX_Index++;				
 			}
 			if (RX_Index < Expected_RX_Length)
