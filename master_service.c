@@ -254,7 +254,7 @@ void Run_Master_Service(uint32_t event_mask)
 
             // Check to see if the volatile instance of the message is 
             // different than the last processed instance of the message
-            if (0) // MEMCMP_EQUAL != memcmp(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN))
+            if (MEMCMP_EQUAL != memcmp(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN))
             {
                 // The message is new. Process the message.
                 
@@ -322,15 +322,17 @@ void Run_Master_Service(uint32_t event_mask)
             }
             
             // Restart test timer
-            Start_Timer(&Testing_Timer, 400);
+            Start_Timer(&Testing_Timer, 2000);
             //uint8_t TX_Away[1] = {0x11};
             //uint8_t TX_Away[1] = {0xaa};
 
             // RIGHT
-            #if 0
+            #if 1
             uint8_t TX_Away[5] = {CAN_MODEM_POS_TYPE, 0x00, 0x00, 0x00, 0x00};
             write_rect_vect(&TX_Away[CAN_MODEM_POS_VECT_IDX], test_positions[test_counter]);
             CAN_Send_Message(5, TX_Away);
+            test_counter++;
+            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
             #endif
 
             // LEFT, !!! DO NOT SEND ANYTHING
@@ -402,7 +404,7 @@ void Run_Master_Service(uint32_t event_mask)
             }
             #endif
 
-            #if 1
+            #if 0
             // EXAMPLE FOR NEW_REQ_LOCATION over CAN
 //             // Reset the schedule counter
 //             Curr_Schedule_ID = SCHEDULE_START_ID;
