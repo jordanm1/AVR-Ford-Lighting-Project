@@ -52,6 +52,9 @@
 // Slave Parameters
 #include "slave_parameters.h"
 
+// Atomic Read/Write operations
+#include <util/atomic.h>
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -252,45 +255,77 @@ void Run_Master_Service(uint32_t event_mask)
         case EVT_CAN_POLLING_TIMEOUT:
             // The CAN polling timer has expired
 
-            // Check to see if the volatile instance of the message is 
-            // different than the last processed instance of the message
-            if (MEMCMP_EQUAL != memcmp(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN))
+            #if 1
+            parity ^= 1;
+            if (parity)
             {
-                // The message is new. Process the message.
-                
-                // If the ID is something we expect...
-                if  (   (CAN_MODEM_POS_TYPE == CAN_Volatile_Msg[CAN_MODEM_TYPE_IDX])
-                        ||
-                        (CAN_MODEM_SPEC_TYPE == CAN_Volatile_Msg[CAN_MODEM_TYPE_IDX])
-                    )
-                {
-                    // Copy the message
-                    // @TODO: This might need to be in a critical section
-                    memcpy(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN);
+                PORTB |= (1<<PORTB2);
+            }
+            else
+            {
+                PORTB &= ~(1<<PORTB2);
+            }
+            #endif
 
-                    // Execute the action specified by the message
-                    if (CAN_MODEM_POS_TYPE == CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
+            // Restart the CAN polling timer
+            Start_Timer(&CAN_Timer, CAN_POLL_INTERVAL_MS);
+
+            // Set new message flag to false
+            ;
+            bool new_msg = false;
+
+            // Enter critical section so the message we check is the same as the message we copy
+            ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+            {
+                // Check to see if the volatile instance of the message is 
+                // different than the last processed instance of the message
+                if (MEMCMP_EQUAL != memcmp(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN))
+                {
+                    // The message is new. Process the message.
+                
+                    // If the ID is something we expect...
+                    switch (CAN_Volatile_Msg[CAN_MODEM_TYPE_IDX])
                     {
-                        // Run light setting algo for all slave nodes
-                        update_cmds(get_CAN_pos_vect());
-                    }
-                    else if (CAN_MODEM_SPEC_TYPE == CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
-                    {
-                        // Update the command for only the slave specified
-                        Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
-                            get_CAN_spec_intensity_data());
-                        Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
-                            get_CAN_spec_position_data());
-                    }
-                    else
-                    {
-                        // This is impossible...
+                        case CAN_MODEM_POS_TYPE:
+                        case CAN_MODEM_SPEC_TYPE:
+                            // Copy the message
+                            // @TODO: This might need to be in a critical section
+                            memcpy(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN);
+                            // Set flag to alert us to continue
+                            new_msg = true;
+                            break;
+
+                        default:
+                            break;
                     }
                 }
             }
 
-            // Restart the CAN polling timer
-            Start_Timer(&CAN_Timer, CAN_POLL_INTERVAL_MS);
+            // If we have a new message
+            if (new_msg)
+            {
+                // Process based on the message type
+                switch (CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
+                {
+                    case CAN_MODEM_POS_TYPE:
+                        // Run light setting algo for all slave nodes
+                        update_cmds(get_CAN_pos_vect());
+                        break;
+
+                    case CAN_MODEM_SPEC_TYPE:
+                        // Update the command for only the slave specified
+                        Write_Intensity_Data(   Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
+                                                get_CAN_spec_intensity_data()
+                                                );
+                        Write_Position_Data(    Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
+                                                get_CAN_spec_position_data()
+                                                );
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         
             break;
 
@@ -327,7 +362,7 @@ void Run_Master_Service(uint32_t event_mask)
             //uint8_t TX_Away[1] = {0xaa};
 
             // RIGHT
-            #if 1
+            #if 0
             uint8_t TX_Away[5] = {CAN_MODEM_POS_TYPE, 0x00, 0x00, 0x00, 0x00};
             write_rect_vect(&TX_Away[CAN_MODEM_POS_VECT_IDX], test_positions[test_counter]);
             CAN_Send_Message(5, TX_Away);
@@ -354,7 +389,7 @@ void Run_Master_Service(uint32_t event_mask)
             }
             */
 
-            #if 1
+            #if 0
             parity ^= 1;
             if (parity)
             {
