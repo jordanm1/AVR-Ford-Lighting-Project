@@ -249,7 +249,7 @@ void Init_Master_Service(void)
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
-    Start_Timer(&Testing_Timer, 5000);
+    if (SYSTEM_ENABLED == System_State) Start_Timer(&Testing_Timer, 1000);
     //Set_PWM_Duty_Cycle(pwm_channel_a, 10);
     PORTB &= ~(1<<PORTB2);
     DDRB |= (1<<PORTB2);
@@ -433,6 +433,8 @@ void Run_Master_Service(uint32_t event_mask)
                 // Honing
                 case 1:
                     write_all_data_cmds(anim_honing_intensity, 1450);
+                    Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 9),1295);
+                    Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1295);
                     if (anim_honing_count_up)
                     {
                         anim_honing_intensity += 1;
@@ -465,7 +467,8 @@ void Run_Master_Service(uint32_t event_mask)
                     {
                         write_all_data_cmds(75, 1450);
                     }
-
+                    Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 9),1295);
+                    Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1295);
                     anim_ambulance_on_off ^= 1;
                     anim_ambulance_num_cycles += 1;
 

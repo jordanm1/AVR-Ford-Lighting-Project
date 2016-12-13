@@ -88,8 +88,8 @@
 #define ULTRAFIRE_XM_L_FOV          (30)        // [degrees]
 #define MG995_POSITION_LIMIT_MIN    (600)       // [microseconds]
 #define MG995_POSITION_LIMIT_MAX    (2250)      // [microseconds]
-#define JOYSWAY_POSITION_LIMIT_MIN  (1500)      // [microseconds]
-#define JOYSWAY_POSITION_LIMIT_MAX  (1500)      // [microseconds]
+#define JOYSWAY_POSITION_LIMIT_MIN  (960)       // [microseconds]
+#define JOYSWAY_POSITION_LIMIT_MAX  (1630)      // [microseconds]
 
 #define Y_POS_1_9                   (-48)
 #define Y_POS_2_8                   (-21)
@@ -112,7 +112,7 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] PROGMEM =  {
 
     .move_equipped =    true,
 
-    .theta_min =        0,
+    .theta_min =        270,
     .position_min =     JOYSWAY_POSITION_LIMIT_MIN,
 
     .theta_max =        270,
@@ -259,7 +259,7 @@ static const slave_parameters_t Slave_Parameters[NUM_SLAVES] PROGMEM =  {
     .theta_min =        90,
     .position_min =     JOYSWAY_POSITION_LIMIT_MIN,
 
-    .theta_max =        0,
+    .theta_max =        90,
     .position_max =     JOYSWAY_POSITION_LIMIT_MAX
 },
 #endif
