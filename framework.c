@@ -84,6 +84,9 @@ void Initialize_Framework(void)
     INITIALIZER_07();
     #endif
     #ifdef INITIALIZER_08
+    INITIALIZER_08();
+    #endif
+    #ifdef INITIALIZER_09
     INITIALIZER_09();
     #endif
     #ifdef INITIALIZER_10
@@ -103,9 +106,6 @@ void Initialize_Framework(void)
     #endif
     #ifdef INITIALIZER_15
     INITIALIZER_15();
-    #endif
-    #ifdef INITIALIZER_16
-    INITIALIZER_16();
     #endif
 }
 

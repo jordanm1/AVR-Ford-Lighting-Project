@@ -94,10 +94,10 @@ static void Update_Buffer_Index(void);
         address
 
 ****************************************************************************/
-void MS_SPI_Initialize(uint8_t * p_this_node_id)
+void SPI_Initialize(void)
 {
     // Identify node type
-    Master_Slave_Identifier = *p_this_node_id;
+    Master_Slave_Identifier = SPI_MASTER;
     
     if (SPI_MASTER == Master_Slave_Identifier)
     {
@@ -156,6 +156,11 @@ void SPI_Start_Command (void)
 {
 	Expected_TX_Length = Command_Buffer[Buffer_Index][TX_LENGTH_BYTE];
 	Expected_RX_Length = Command_Buffer[Buffer_Index][RX_LENGTH_BYTE];
+
+    // If somehow the expected lengths are invalid, set them to 
+    // reasonable values
+    if (Expected_TX_Length == 0xff) Expected_TX_Length = 1;
+    if (Expected_RX_Length == 0xff) Expected_RX_Length = 0;
 	
 	// Set RX data index
 	RX_Index = 0;
@@ -165,6 +170,12 @@ void SPI_Start_Command (void)
 	
 	// State in TX
 	In_Tx = true;
+
+    //Debug line
+    if (Expected_TX_Length == 0xff)
+    {
+        counter_value++;
+    }
 
     // Set slave select low to indicate start of transmission
     PORTA &= ~(1<<SS);
@@ -276,7 +287,7 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
         Next_Available_Row++;
     }
     // If SPI is currently idling, start transmission
-    if (Query_SPI_State() == NORMAL_STATE)
+    if (Query_SPI_State() == NORMAL_STATE && Command_Buffer[Buffer_Index][TX_LENGTH_BYTE] != 0xFF )
     {
         Post_Event(EVT_SPI_START);
     }
@@ -304,6 +315,8 @@ ISR(SPI_STC_vect)
     {
         // Clear the SPI Interrupt Flag (is done by reading the SPSR Register)
         uint8_t SPSR_Status = SPSR;
+        // Do nothing if statement to "use" the variable
+        if (SPSR_Status);
 		
 		// Once a transmit has been completed
 		if (In_Tx)
@@ -330,7 +343,14 @@ ISR(SPI_STC_vect)
 		{
 			if (Expected_RX_Length > 0)
 			{
-				*(Receive_List[Buffer_Index][RX_Index]) = SPDR;
+                if (Receive_List[Buffer_Index][RX_Index] == NULL)
+                {
+                    if (SPDR);
+                }
+                else
+                {
+                    *(Receive_List[Buffer_Index][RX_Index]) = SPDR;
+                }
 				RX_Index++;				
 			}
 			if (RX_Index < Expected_RX_Length)

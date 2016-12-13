@@ -21,14 +21,6 @@
 // Max time for servo to move between extreme positions
 #define SERVO_DRIVE_TIME_MS         2000
 
-// Servo command min pulse width, max pulse width
-#define MIN_PULSE_WIDTH_US          1000
-#define MAX_PULSE_WIDTH_US          2000
-
-// *Note: Number of positions possible is 20
-//  (we can have 1% duty cycle resolution and 1ms to 2ms pulse width is 
-//  20% to 40% DC so we have 40-20 positions)
-
 // #############################################################################
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################

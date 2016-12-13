@@ -19,7 +19,7 @@
 // ------------ SYSTEM SETTINGS
 // #############################################################################
 
-#define NUM_SLAVES          2
+#define NUM_SLAVES          9
 
 // #############################################################################
 // ------------ NODE SETTINGS
@@ -60,13 +60,23 @@
 //
 //      *Note: We will always service the slave nodes in numerical order,
 //          starting with slave number one (slave_base_id = 0x02)
+//
+//      There are 0-59 possible ID's under LIN 2.x
+//      We reserve 0-1 for the Master, so we have
+//          2-59 ID's left (58 unique ID's)
+//      We divide 58 by 2 to get the maximum number
+//          of slaves in this system as 29.
 
 // Master ID
 #define MASTER_NODE_ID          (0x00)          // Master is the first ID
 
+// Max number of slaves
+#define MAX_NUM_SLAVES          (29)
+
 // First slave number
 #define LOWEST_SLAVE_NUMBER     (0x01)
-#define HIGHEST_SLAVE_NUMBER    (NUM_SLAVES)    
+#define HIGHEST_SLAVE_NUMBER    (NUM_SLAVES)
+#define INVALID_SLAVE_NUMBER    (0xFF) 
 
 // Request Mask (the LSB will be high for status requests)
 #define REQUEST_MASK            (0x01)
@@ -80,7 +90,7 @@
 #define GET_SLAVE_BASE_ID(slave_number)         (slave_number<<1)
 
 // #############################################################################
-// ------------ COMMANDS AND STATI
+// ------------ LIN COMMANDS AND STATI
 // #############################################################################
 
 // Command/status packet byte indices and lengths
@@ -94,18 +104,33 @@ typedef uint16_t                position_data_t;    // Right now we are encoding
 
 // Specific Command Keywords
 #define INTENSITY_NON_COMMAND   (0xFF)       
-#define POSITION_NON_COMMAND    (0xFFFF)        // All commands on master
-                                                //  should be initialized
-                                                //  to this value.
+#define POSITION_NON_COMMAND    (0xFFFF)            // All commands on master
+                                                    //  should be initialized
+                                                    //  to this value.
 
 // Extremes for Intensities, must be contained in INTENSITY_DATA_LEN
 #define LIGHT_OFF               (0x00)
-#define MIN_LIGHT_INTENSITY     (30)
+#define MIN_LIGHT_INTENSITY     (0)
 #define MAX_LIGHT_INTENSITY     (100)      
 
 // Stay Command for Servo (does not cause servo to move), must be contained
 //  in POSITION_DATA_LEN
-#define SERVO_STAY              (POSITION_NON_COMMAND)                 
+#define SERVO_STAY              (POSITION_NON_COMMAND)     
+
+// #############################################################################
+// ------------ CAN COMMANDS AND STATI
+// #############################################################################
+
+// CAN Packet Size
+#define CAN_MODEM_PACKET_LEN        5           // 5 bytes
+
+// Indices in CAN packet
+#define CAN_MODEM_TYPE_IDX          0           // First byte is the type
+#define CAN_MODEM_POS_TYPE          (0xa0)      // Msg to request light in position
+#define CAN_MODEM_SPEC_TYPE         (0x4d)      // Msg to control specific node
+#define CAN_MODEM_POS_VECT_IDX      (1)         // For pos type, the index starts at byte 1
+#define CAN_MODEM_SPEC_NUM_IDX      (1)         // For spec type, the slave num starts at byte 1
+#define CAN_MODEM_SPEC_CMD_INDEX    (2)         // For spec type, the equiv cmd packet starts at byte 2
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS

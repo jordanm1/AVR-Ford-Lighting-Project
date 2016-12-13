@@ -28,6 +28,9 @@
 // This module's header file
 #include "events.h"
 
+// Atomic Read/Write operations
+#include <util/atomic.h>
+
 // #############################################################################
 // ------------ DEFINITIONS
 // #############################################################################
@@ -47,7 +50,6 @@ static uint32_t Pending_Events = 0;     // Each bit corresponds to type of event
 // #############################################################################
 
 static void process_event_if_pending(uint32_t event_mask);
-static bool is_event_pending(uint32_t event_mask);
 
 // #############################################################################
 // ------------ PUBLIC FUNCTIONS
@@ -66,8 +68,15 @@ static bool is_event_pending(uint32_t event_mask);
 ****************************************************************************/
 void Post_Event(uint32_t event_mask)
 {
-    // Set flag in event list
-    Pending_Events |= event_mask;
+    // We must enter a critical section here, because it is possible that
+    // while we are modifying the pending events, an interrupt may occur and 
+    // post an event. In this situation, we would lose the new event that 
+    // was posted.
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+    {
+        // Set flag in event list
+        Pending_Events |= event_mask;
+    }
 }
 
 /****************************************************************************
@@ -204,39 +213,26 @@ void Run_Events(void)
 ****************************************************************************/
 static void process_event_if_pending(uint32_t event_mask)
 {
-    // If event is pending
-    if (is_event_pending(event_mask))
+    // Initialize event pending flag to false
+    bool event_pending = false;
+
+    // We must enter a critical section here, because it is possible that
+    // while we are clearing the event, an interrupt may occur and post an 
+    // event. In this situation, we would lose the new event that was posted.
+    ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
     {
-        // Run the services with this event
-        Run_Services(event_mask);
+        // If this event is pending
+        if (event_mask == (Pending_Events & event_mask))
+        {
+            // Set flag
+            event_pending = true;
+
+            // Clear the event
+            Pending_Events &= ~event_mask;
+        }           
     }
+
+    // If the event is pending, run all services to process the event.
+    if (event_pending) Run_Services(event_mask);
 }
 
-/****************************************************************************
-    Private Function
-        is_event_pending()
-
-    Parameters
-        Event Mask
-
-    Description
-        Checks if an particular event is pending and if so, clears it
-
-****************************************************************************/
-static bool is_event_pending(uint32_t event_mask)
-{
-    // If this event is pending
-    if (event_mask == (Pending_Events & event_mask))
-    {
-        // Clear Event
-        Pending_Events &= ~event_mask;
-
-        // Return true
-        return true;
-    }
-    // This event is not pending
-    else
-    {
-        return false;
-    }
-}

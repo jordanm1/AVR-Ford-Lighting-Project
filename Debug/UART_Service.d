@@ -1,4 +1,4 @@
-UART_Service.d UART_Service.o: .././UART_Service.c \
+MS_LIN_top_layer.d MS_LIN_top_layer.o: .././MS_LIN_top_layer.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdint.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdbool.h \
@@ -14,8 +14,11 @@ UART_Service.d UART_Service.o: .././UART_Service.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
- .././analog_servo_drv.h .././master_service.h .././slave_service.h \
- .././SPI_Service.h .././UART_Service.h .././ModemService.h .././UART.h
+ .././analog_servo_drv.h .././buttons.h .././master_service.h \
+ .././SPI_Service.h .././slave_service.h .././slave_number_setting_SM.h \
+ .././MS_LIN_top_layer.h .././lin_drv.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
+ .././cmd_sts_helpers.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -61,14 +64,20 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././analog_servo_drv.h:
 
-.././master_service.h:
+.././buttons.h:
 
-.././slave_service.h:
+.././master_service.h:
 
 .././SPI_Service.h:
 
-.././UART_Service.h:
+.././slave_service.h:
 
-.././ModemService.h:
+.././slave_number_setting_SM.h:
 
-.././UART.h:
+.././MS_LIN_top_layer.h:
+
+.././lin_drv.h:
+
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:
+
+.././cmd_sts_helpers.h:

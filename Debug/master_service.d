@@ -14,12 +14,14 @@ master_service.d master_service.o: .././master_service.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
- .././analog_servo_drv.h .././master_service.h .././slave_service.h \
- .././SPI_Service.h .././UART_Service.h .././ModemService.h \
+ .././analog_servo_drv.h .././buttons.h .././master_service.h \
+ .././SPI_Service.h .././slave_service.h .././slave_number_setting_SM.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stddef.h \
- .././MS_LIN_top_layer.h .././cmd_sts_helpers.h .././light_setting_alg.h \
- .././slave_parameters.h .././SPI.h .././CAN.h .././MCP25625defs.h
+ .././MS_LIN_top_layer.h .././CAN.h .././cmd_sts_helpers.h \
+ .././light_setting_alg.h .././slave_parameters.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\atomic.h \
+ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -65,15 +67,15 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././analog_servo_drv.h:
 
-.././master_service.h:
+.././buttons.h:
 
-.././slave_service.h:
+.././master_service.h:
 
 .././SPI_Service.h:
 
-.././UART_Service.h:
+.././slave_service.h:
 
-.././ModemService.h:
+.././slave_number_setting_SM.h:
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\string.h:
 
@@ -81,14 +83,14 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\
 
 .././MS_LIN_top_layer.h:
 
+.././CAN.h:
+
 .././cmd_sts_helpers.h:
 
 .././light_setting_alg.h:
 
 .././slave_parameters.h:
 
-.././SPI.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\atomic.h:
 
-.././CAN.h:
-
-.././MCP25625defs.h:
+c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h:

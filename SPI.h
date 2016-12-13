@@ -8,7 +8,7 @@
 #define SPI_MASTER      0
 #define SPI_SLAVE       1
 
-#define COMMAND_BUFFER_SIZE 11
+#define COMMAND_BUFFER_SIZE 10
 #define MAX_COMMAND_TX_SIZE 6
 #define MAX_COMMAND_RX_SIZE 1
 #define TX_LENGTH_BYTE      0
@@ -29,7 +29,7 @@
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-void MS_SPI_Initialize(uint8_t * p_this_node_id);
+void SPI_Initialize(void);
 void SPI_Transmit(void);
 void SPI_Start_Command (void);
 void SPI_End_Command (void);

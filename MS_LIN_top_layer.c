@@ -88,9 +88,14 @@ static void lin_err_task(void);
 void MS_LIN_Initialize(uint8_t * p_this_node_id, uint8_t * p_command_data, \
     uint8_t * p_status_data)
 {
-    // 0. Enable the LIN transceiver via PA4 which is connected on ENABLE
-    PORTA |= (1<<PINA4);
-    DDRA |= (1<<PINA4);
+    // 0. Enable the LIN transceiver via PB0 which is connected to 
+    // ENABLE (ATA6617C: Pin 18) on our custom PCBs.
+    // For the development boards we need to use an external wire jumper.
+    // For the chip we use to interface with the modem, we can just disable
+    // the entire LIN XCVR because we are using the LIN peripheral for UART
+    // and thus do not need to use the XCVR.
+    PORTB |= (1<<PINB0);
+    DDRB |= (1<<PINB0);
 
     // 1. Call the LIN init function from the driver layer
     // * Arguments are found in lin_drv.h, config.h

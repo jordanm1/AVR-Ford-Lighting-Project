@@ -54,17 +54,6 @@
     </com_atmel_avrdbg_tool_avrdragon>
     <avrtoolinterface>debugWIRE</avrtoolinterface>
     <avrtoolinterfaceclock>125000</avrtoolinterfaceclock>
-    <custom>
-      <ToolOptions xmlns="">
-        <InterfaceProperties>
-        </InterfaceProperties>
-        <InterfaceName>debugWIRE</InterfaceName>
-      </ToolOptions>
-      <ToolType xmlns="">custom</ToolType>
-      <ToolNumber xmlns="">
-      </ToolNumber>
-      <ToolName xmlns="">Custom Programming Tool</ToolName>
-    </custom>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
     <ToolchainSettings>
@@ -157,6 +146,12 @@
     <Compile Include="analog_servo_drv.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="buttons.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="buttons.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="CAN.c">
       <SubType>compile</SubType>
     </Compile>
@@ -170,6 +165,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="config.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="eeprom_storage.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="eeprom_storage.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="events.c">
@@ -236,6 +237,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="PWM.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="slave_number_setting_SM.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="slave_number_setting_SM.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="slave_parameters.c">

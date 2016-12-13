@@ -8,6 +8,15 @@
         The current implementation can be off by +- 0.5 ms.
             (That is, if a function started a timer for 0.5ms, the 
             timer could expire in the next clock cycle via an interrupt)
+
+        We must enter a critical sections whenever we modify the timer 
+        variable, because it is possible that while we are modifying 
+        the timers, an tick interrupt may occur and cause extraneous 
+        expiration events. For example, the running flag may be set to
+        true and the remaining ticks may still be zero, then an interrupt
+        may occur which will service the timers and will see that a timer
+        is running with zero remaining ticks, which will cause a false
+        timer expiration event.
     
     External Functions Required:
 
@@ -42,6 +51,9 @@
 // Interrupts
 #include <avr/interrupt.h>
 
+// Atomic Read/Write operations
+#include <util/atomic.h>
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -49,7 +61,9 @@
 // Define number of timers used
 // This should be based on a project wide search for the 
 //  number of unique Register_Timer() calls
-#define NUM_TIMERS          (8)
+// Master has 5
+// Slave has 5
+#define NUM_TIMERS          (5)
 
 // Null cb func
 #define NULL_TIMER_CB       ((timer_cb_t) 0)
@@ -184,11 +198,14 @@ void Register_Timer(uint32_t * p_new_timer, timer_cb_t new_timer_cb_func)
         {
             if (0 == Timers[i].p_timer_id)
             {
-                Timers[i].p_timer_id = p_new_timer;
-                Timers[i].timer_cb_func = new_timer_cb_func;
-                Timers[i].timer_running_flag = false;
-                Timers[i].ticks_since_start = 0;
-                Timers[i].ticks_remaining = 0;
+                ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+                {
+                    Timers[i].p_timer_id = p_new_timer;
+                    Timers[i].timer_cb_func = new_timer_cb_func;
+                    Timers[i].timer_running_flag = false;
+                    Timers[i].ticks_since_start = 0;
+                    Timers[i].ticks_remaining = 0;
+                }
                 break;
             }
         }
@@ -217,9 +234,12 @@ void Start_Timer(uint32_t * p_this_timer, uint32_t time_in_ms)
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            Timers[i].timer_running_flag = true;
-            Timers[i].ticks_since_start = 0;
-            Timers[i].ticks_remaining = (time_in_ms*TICK_COUNT_PER_MS);
+            ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+            {
+                Timers[i].timer_running_flag = true;
+                Timers[i].ticks_since_start = 0;
+                Timers[i].ticks_remaining = (time_in_ms*TICK_COUNT_PER_MS);
+            }
             break;
         }
     }
@@ -273,7 +293,10 @@ void Stop_Timer(uint32_t * p_this_timer)
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            Timers[i].timer_running_flag = false;
+            ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+            {
+                Timers[i].timer_running_flag = false;
+            }
             break;
         }
     }
@@ -301,9 +324,12 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksper
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            Timers[i].timer_running_flag = true;
-            Timers[i].ticks_since_start = 0;
-            Timers[i].ticks_remaining = time_in_ms_div_ticksperms;
+            ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+            {
+                Timers[i].timer_running_flag = true;
+                Timers[i].ticks_since_start = 0;
+                Timers[i].ticks_remaining = time_in_ms_div_ticksperms;
+            }
             break;
         }
     }

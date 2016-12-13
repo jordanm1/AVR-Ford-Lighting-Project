@@ -6,9 +6,13 @@ ADC.c
 
 analog_servo_drv.c
 
+buttons.c
+
 CAN.c
 
 cmd_sts_helpers.c
+
+eeprom_storage.c
 
 events.c
 
@@ -31,6 +35,8 @@ master_service.c
 ModemService.c
 
 PWM.c
+
+slave_number_setting_SM.c
 
 slave_parameters.c
 

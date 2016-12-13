@@ -34,17 +34,17 @@
 // Command and Status Helpers
 #include "cmd_sts_helpers.h"
 
-// ADC
-#include "ADC.h"
-
-// Slave Parameters
-#include "slave_parameters.h"
+// Slave Number Setting
+#include "slave_number_setting_SM.h"
 
 // Light
 #include "light_drv.h"
 
 // Servo
 #include "analog_servo_drv.h"
+
+// EEPROM
+#include "eeprom_storage.h"
 
 // Atomic Read/Write operations
 #include <util/atomic.h>
@@ -53,7 +53,8 @@
 // ------------ MODULE DEFINITIONS
 // #############################################################################
 
-
+#define NODE_ID_LEN         1               // One Byte long
+#define NODE_ID_ADDR        (E2START+0)     // First address in EEPROM
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -73,7 +74,7 @@ static uint8_t * p_My_Status_Data = My_Status_Data;
 // ------------ PRIVATE FUNCTION PROTOTYPES
 // #############################################################################
 
-static void set_slave_id(void);
+static void save_our_id_to_flash(uint8_t * p_node_id);
 static void process_intensity_cmd(void);
 static void process_position_cmd(void);
 
@@ -94,21 +95,21 @@ static void process_position_cmd(void);
 ****************************************************************************/
 void Init_Slave_Service(void)
 {
-    // Initialize command and status arrays
+    // First, initialize light to LIGHT_OFF
+    Set_Light_Intensity(LIGHT_OFF);
+
+    // Second, release the servo so it does not move
+    // (i.e. stop the PPM commands to the servo)
+    Release_Analog_Servo();
+
+    // Initialize command and status arrays to reflect our state
     Write_Intensity_Data(p_My_Command_Data, INTENSITY_NON_COMMAND);
     Write_Position_Data(p_My_Command_Data, POSITION_NON_COMMAND);
     Write_Intensity_Data(p_My_Status_Data, LIGHT_OFF);
     Write_Position_Data(p_My_Status_Data, SERVO_STAY);
 
     // Read our slave number from flash
-    // TODO
-    My_Node_ID = GET_SLAVE_BASE_ID(1);
-
-    // Initialize light to LIGHT_OFF
-    Set_Light_Intensity(LIGHT_OFF);
-
-    // Release the servo so it does not move
-    Release_Analog_Servo();
+    Read_Data_From_EEPROM(NODE_ID_ADDR, &My_Node_ID, NODE_ID_LEN);
 
     // Initialize LIN
     MS_LIN_Initialize(&My_Node_ID, p_My_Command_Data, p_My_Status_Data);
@@ -122,31 +123,43 @@ void Init_Slave_Service(void)
         None
 
     Description
-        Processes events for the this slave node
+        Processes events for this slave node
 
 ****************************************************************************/
 void Run_Slave_Service(uint32_t event_mask)
 {
     switch(event_mask)
     {
-        case EVT_SLAVE_GET_ID:
-            // We need to get this slave's ID before continuing
-            // This function calls blocking code
-            // TODO: Temporarily comment this out.
-            // set_slave_id();
+        case EVT_SLAVE_NUM_SET:
+            // A new slave number has been set for us.
 
-            // Get the pointer to our parameters struct
-            // p_My_Parameters = Get_Slave_Parameters(My_Node_ID);
+            // Only do something if the # is different than our current #
+            if  (   (Get_Last_Set_Slave_Number() != GET_SLAVE_NUMBER(My_Node_ID))
+                    &&
+                    (INVALID_SLAVE_NUMBER != Get_Last_Set_Slave_Number())
+                )
+            {
+                // Set our ID based on the user set slave number
+                My_Node_ID = GET_SLAVE_BASE_ID(Get_Last_Set_Slave_Number());
+
+                // Save our new ID in flash memory
+                Write_Data_To_EEPROM(NODE_ID_ADDR, &My_Node_ID, NODE_ID_LEN);
+            }
+
             break;
 
         case EVT_SLAVE_NEW_CMD:
-            // We got a new command
+            // We got a new command.
 
-            // Always process intensity command
-            process_intensity_cmd();
+            // Process commands if we're not in the setting mode
+            if (!In_Slave_Number_Setting_Mode())
+            {
+                // Process the intensity command
+                process_intensity_cmd();
 
-            // Alway process the position command,
-            process_position_cmd();
+                // Process the position command,
+                process_position_cmd();
+            }
 
             break;
 
@@ -161,56 +174,6 @@ void Run_Slave_Service(uint32_t event_mask)
 // #############################################################################
 // ------------ PRIVATE FUNCTIONS
 // #############################################################################
-
-/****************************************************************************
-    Private Function
-        set_slave_id()
-
-    Parameters
-        None
-
-    Description
-        Polls the ADC until a reasonable value is obtained,
-        then sets this slave's id number based on the ADC count
-
-****************************************************************************/
-static void set_slave_id(void)
-{
-    // Kick off ADC measurement
-    Start_ADC_Measurement();
-
-    // Wait until we get a legitimate ADC count
-    while (IMPOSSIBLE_ADC_COUNT == Get_ADC_Result())
-    {
-        // Do nothing, just wait and block.
-    }
-
-    // Update our ID based on the ADC count
-    // There are 0-59 possible ID's under LIN 2.x
-    // We reserve 0-1 for the Master, so we have
-    //    2-59 ID's left (58 unique ID's)
-    // We divide 58 by 2 to get the maximum number
-    //    of slaves in this system as 29.
-    // Thus, to get 29 unique ID's, we only need
-    //    the top 5 bits of the ADC data.
-    
-    // Shift the ADC count right by 5
-    uint8_t temp_ADC_count = (Get_ADC_Result()>>5);
-
-    // Set our ID to ADC count
-    if (30 > temp_ADC_count)
-    {
-        // Set this node's ID
-        My_Node_ID = temp_ADC_count;
-    }
-    else
-    {
-        // Invalid ADC count, we only support 29 ID's.
-        // Do nothing.
-    }
-
-    // *Note: it is 33 counts per ID, #1 = 33, #2 = 66, ... , #29 = 957
-}
 
 /****************************************************************************
     Private Function

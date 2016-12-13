@@ -39,8 +39,10 @@ SUBDIRS :=
 C_SRCS +=  \
 ../ADC.c \
 ../analog_servo_drv.c \
+../buttons.c \
 ../CAN.c \
 ../cmd_sts_helpers.c \
+../eeprom_storage.c \
 ../events.c \
 ../framework.c \
 ../IOC.c \
@@ -50,15 +52,14 @@ C_SRCS +=  \
 ../LIN_XCVR_WD_Kicker.c \
 ../main.c \
 ../master_service.c \
-../ModemService.c \
+../MS_LIN_top_layer.c \
 ../PWM.c \
+../slave_number_setting_SM.c \
 ../slave_parameters.c \
 ../slave_service.c \
 ../SPI.c \
 ../SPI_Service.c \
 ../timer.c \
-../UART.c \
-../UART_Service.c \
 ../__template.c
 
 
@@ -71,8 +72,10 @@ ASM_SRCS +=
 OBJS +=  \
 ADC.o \
 analog_servo_drv.o \
+buttons.o \
 CAN.o \
 cmd_sts_helpers.o \
+eeprom_storage.o \
 events.o \
 framework.o \
 IOC.o \
@@ -82,22 +85,23 @@ lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
 master_service.o \
-ModemService.o \
+MS_LIN_top_layer.o \
 PWM.o \
+slave_number_setting_SM.o \
 slave_parameters.o \
 slave_service.o \
 SPI.o \
 SPI_Service.o \
 timer.o \
-UART.o \
-UART_Service.o \
 __template.o
 
 OBJS_AS_ARGS +=  \
 ADC.o \
 analog_servo_drv.o \
+buttons.o \
 CAN.o \
 cmd_sts_helpers.o \
+eeprom_storage.o \
 events.o \
 framework.o \
 IOC.o \
@@ -107,22 +111,23 @@ lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
 master_service.o \
-ModemService.o \
+MS_LIN_top_layer.o \
 PWM.o \
+slave_number_setting_SM.o \
 slave_parameters.o \
 slave_service.o \
 SPI.o \
 SPI_Service.o \
 timer.o \
-UART.o \
-UART_Service.o \
 __template.o
 
 C_DEPS +=  \
 ADC.d \
 analog_servo_drv.d \
+buttons.d \
 CAN.d \
 cmd_sts_helpers.d \
+eeprom_storage.d \
 events.d \
 framework.d \
 IOC.d \
@@ -132,22 +137,23 @@ lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
 master_service.d \
-ModemService.d \
+MS_LIN_top_layer.d \
 PWM.d \
+slave_number_setting_SM.d \
 slave_parameters.d \
 slave_service.d \
 SPI.d \
 SPI_Service.d \
 timer.d \
-UART.d \
-UART_Service.d \
 __template.d
 
 C_DEPS_AS_ARGS +=  \
 ADC.d \
 analog_servo_drv.d \
+buttons.d \
 CAN.d \
 cmd_sts_helpers.d \
+eeprom_storage.d \
 events.d \
 framework.d \
 IOC.d \
@@ -157,15 +163,14 @@ lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
 master_service.d \
-ModemService.d \
+MS_LIN_top_layer.d \
 PWM.d \
+slave_number_setting_SM.d \
 slave_parameters.d \
 slave_service.d \
 SPI.d \
 SPI_Service.d \
 timer.d \
-UART.d \
-UART_Service.d \
 __template.d
 
 OUTPUT_FILE_PATH +=Ford_360_Lighting_Project.elf
@@ -182,6 +187,8 @@ LINKER_SCRIPT_DEP+=
 
 
 # AVR32/GNU C Compiler
+
+
 
 
 
