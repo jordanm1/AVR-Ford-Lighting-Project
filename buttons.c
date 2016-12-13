@@ -49,6 +49,8 @@
 //  where Z is the port letter, n is the pin number
 
 #if IS_MASTER_NODE
+    #define PB4_BUTTON_RISE_EVT         EVT_BTN_SYS_ON
+    #define PB4_BUTTON_FALL_EVT         EVT_BTN_SYS_OFF
 #else
     #define PB6_BUTTON_RISE_EVT         EVT_BTN_MISC_PRESS
     #define PB6_BUTTON_FALL_EVT         EVT_BTN_MISC_RELEASE

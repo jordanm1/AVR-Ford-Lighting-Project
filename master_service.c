@@ -88,6 +88,10 @@
 // MEMCMP equal
 #define MEMCMP_EQUAL            (0)
 
+// System State On/Off
+#define SYSTEM_ENABLED          (1)
+#define SYSTEM_DISABLED          (0)
+
 // #############################################################################
 // ------------ MODULE VARIABLES
 // #############################################################################
@@ -129,6 +133,10 @@ static uint8_t * a_p_CAN_Volatile_Msg[CAN_MODEM_PACKET_LEN] =
     &CAN_Volatile_Msg[3],
     &CAN_Volatile_Msg[4]};
 static uint8_t CAN_Last_Processed_Msg[CAN_MODEM_PACKET_LEN] = {0};
+static rect_vect_t Last_Processed_User_Position = {0};
+
+// State of whether we allow processing of CAN messages
+static uint8_t System_State = SYSTEM_DISABLED;
 
 // TEST TIMER
 static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
@@ -148,6 +156,28 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
                                                         {.x = -70, .y = -70},
                                                         };
 
+#define NUM_ANIM_HONING_POSITIONS 8                                                       
+static rect_vect_t anim_honing_positions[NUM_TEST_POSITIONS] = {
+    {.x = 0, .y = -100},
+    {.x = 70, .y = -70},
+    {.x = 100, .y = 0},
+    {.x = 70, .y = 70},
+    {.x = 0, .y = 100},
+    {.x = -70, .y = 70},
+    {.x = -100, .y = 0},
+    {.x = -70, .y = -70},
+};
+static uint8_t anim_radial_position_index = 0;    
+static uint8_t anim_radial_num_cycles_completed = 0;                                              
+static intensity_data_t anim_honing_intensity = 0;
+static bool anim_honing_count_up = true;
+static uint8_t anim_honing_num_cycles_completed = 0;
+
+static uint8_t anim_ambulance_on_off = 0;
+static uint8_t anim_ambulance_num_cycles = 0;
+
+static uint8_t anim_state = 0;
+
 static rect_vect_t vect_2_watch = {0};
 static position_data_t position_2_watch;
 static intensity_data_t intensity_2_watch;
@@ -160,6 +190,8 @@ static void ID_schedule_handler(uint32_t unused);           // Called from int c
 static void update_curr_schedule_id(void);
 static void clear_cmds(void);
 static void update_cmds(rect_vect_t requested_location);
+static void write_all_off_cmds(void);
+static void write_all_data_cmds(intensity_data_t intensity, position_data_t position);
 static bool did_single_slave_obey(uint8_t slave_number);
 static bool did_all_slaves_obey(void);
 static void put_LIN_to_sleep(void);
@@ -210,6 +242,10 @@ void Init_Master_Service(void)
     // Call 1st step of the CAN initialization
     // This will only start once we exit initialization context
     CAN_Initialize_1(a_p_CAN_Volatile_Msg);
+
+    // Read state of system switch
+    System_State = SYSTEM_DISABLED;
+    if ((1<<PINB4) == (PINB & (1<<PINB4))) System_State = SYSTEM_ENABLED;
 
     // Register test timer & start
     Register_Timer(&Testing_Timer, Post_Event);
@@ -301,15 +337,17 @@ void Run_Master_Service(uint32_t event_mask)
                 }
             }
 
-            // If we have a new message
-            if (new_msg)
+            // If we have a new message and the system is enabled
+            if (new_msg && (SYSTEM_ENABLED == System_State))
             {
                 // Process based on the message type
                 switch (CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
                 {
                     case CAN_MODEM_POS_TYPE:
+                        // Set last processed location
+                        Last_Processed_User_Position = get_CAN_pos_vect();
                         // Run light setting algo for all slave nodes
-                        update_cmds(get_CAN_pos_vect());
+                        update_cmds(Last_Processed_User_Position);
                         break;
 
                     case CAN_MODEM_SPEC_TYPE:
@@ -327,6 +365,24 @@ void Run_Master_Service(uint32_t event_mask)
                 }
             }
         
+            break;
+
+        case EVT_BTN_SYS_ON:
+            // Set system state to be enabled
+            System_State = SYSTEM_ENABLED;
+            // Run light setting algo for all slave nodes
+            update_cmds(Last_Processed_User_Position);
+            // Start the testing timer
+            Start_Timer(&Testing_Timer, 100);
+            break;
+
+        case EVT_BTN_SYS_OFF:
+            // Set system state to be disabled
+            System_State = SYSTEM_DISABLED;
+            // Stop the timer
+            Stop_Timer(&Testing_Timer);
+            // Write commands to turn off all lights
+            write_all_off_cmds();
             break;
 
         case EVT_MASTER_NEW_STS:
@@ -355,14 +411,88 @@ void Run_Master_Service(uint32_t event_mask)
             {
                 position_counter = 400;
             }
+
+            #if 1
+            switch (anim_state)
+            {
+                // Radial Travel
+                case 0:
+                    update_cmds(anim_honing_positions[anim_radial_position_index]);
+                    anim_radial_position_index++;
+                    if (0 == (anim_radial_position_index%NUM_ANIM_HONING_POSITIONS)) anim_radial_num_cycles_completed++;
+                    anim_radial_position_index %= NUM_ANIM_HONING_POSITIONS;
+                    if (2 <= anim_radial_num_cycles_completed)
+                    {
+                        anim_state += 1;
+                        anim_radial_position_index = 0;
+                        anim_radial_num_cycles_completed = 0;
+                    }
+                    Start_Timer(&Testing_Timer, 1000);
+                    break;
+
+                // Honing
+                case 1:
+                    write_all_data_cmds(anim_honing_intensity, 1450);
+                    if (anim_honing_count_up)
+                    {
+                        anim_honing_intensity += 1;
+                    }
+                    else
+                    {
+                        anim_honing_intensity -= 1;
+                    }
+                    if ((0 == anim_honing_intensity) || (100 == anim_honing_intensity))
+                    {
+                        anim_honing_count_up ^= 1;
+                        anim_honing_num_cycles_completed += 1;
+                    }
+                    if (16 == anim_honing_num_cycles_completed)
+                    {
+                        anim_state += 1;
+                        anim_honing_intensity = 0;
+                        anim_honing_num_cycles_completed = 0;
+                    }
+                    Start_Timer(&Testing_Timer, 10);
+                    break;
+
+                // Ambulance
+                case 2:
+                    if (anim_ambulance_on_off)
+                    {
+                        write_all_data_cmds(0, 1450);
+                    }
+                    else
+                    {
+                        write_all_data_cmds(75, 1450);
+                    }
+
+                    anim_ambulance_on_off ^= 1;
+                    anim_ambulance_num_cycles += 1;
+
+                    if (100 == anim_ambulance_num_cycles)
+                    {
+                        anim_state += 1;
+                        anim_ambulance_on_off = 0;
+                        anim_ambulance_num_cycles = 0;
+                    }
+                    Start_Timer(&Testing_Timer, 100);
+                    break;
+
+                default:
+                    anim_state = 0;
+                    Start_Timer(&Testing_Timer, 1000);
+                    break;
+            }
+            #endif
             
             // Restart test timer
-            Start_Timer(&Testing_Timer, 2000);
+            // Start_Timer(&Testing_Timer, 2000);
             //uint8_t TX_Away[1] = {0x11};
             //uint8_t TX_Away[1] = {0xaa};
 
             // RIGHT
             #if 0
+            Start_Timer(&Testing_Timer, 2000);
             uint8_t TX_Away[5] = {CAN_MODEM_POS_TYPE, 0x00, 0x00, 0x00, 0x00};
             write_rect_vect(&TX_Away[CAN_MODEM_POS_VECT_IDX], test_positions[test_counter]);
             CAN_Send_Message(5, TX_Away);
@@ -545,6 +675,50 @@ static void clear_cmds(void)
         // Write non-commands
         Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), INTENSITY_NON_COMMAND);
         Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), POSITION_NON_COMMAND);
+    }
+}
+
+/****************************************************************************
+    Private Function
+       write_all_off_cmds()
+
+    Parameters
+        None
+
+    Description
+        Updates all commands for slaves to be LIGHT_OFF
+
+****************************************************************************/
+static void write_all_off_cmds(void)
+{
+    // Loop through all slaves
+    for (int slave_num = LOWEST_SLAVE_NUMBER; slave_num <= NUM_SLAVES; slave_num++)
+    {
+        // Write non-commands
+        Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), LIGHT_OFF);
+        Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), POSITION_NON_COMMAND);
+    }
+}
+
+/****************************************************************************
+    Private Function
+       write_all_data_cmds()
+
+    Parameters
+        None
+
+    Description
+        Updates all commands for slaves to be LIGHT_OFF
+
+****************************************************************************/
+static void write_all_data_cmds(intensity_data_t intensity, position_data_t position)
+{
+    // Loop through all slaves
+    for (int slave_num = LOWEST_SLAVE_NUMBER; slave_num <= NUM_SLAVES; slave_num++)
+    {
+        // Write non-commands
+        Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), intensity);
+        Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, slave_num), position);
     }
 }
 

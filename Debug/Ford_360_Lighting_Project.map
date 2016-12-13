@@ -131,7 +131,7 @@ Discarded input sections
                 0x00000000       0x20 light_drv.o
  .debug_ranges  0x00000000       0x10 light_drv.o
  .debug_line    0x00000000       0xc8 light_drv.o
- .debug_str     0x00000000      0x1c6 light_drv.o
+ .debug_str     0x00000000      0x1d6 light_drv.o
  .comment       0x00000000       0x31 light_drv.o
  .debug_frame   0x00000000       0x24 light_drv.o
  .text          0x00000000        0x0 light_setting_alg.o
@@ -185,7 +185,7 @@ Discarded input sections
                 0x00000000       0x38 slave_number_setting_SM.o
  .debug_ranges  0x00000000       0x28 slave_number_setting_SM.o
  .debug_line    0x00000000      0x215 slave_number_setting_SM.o
- .debug_str     0x00000000      0x2e4 slave_number_setting_SM.o
+ .debug_str     0x00000000      0x2f4 slave_number_setting_SM.o
  .comment       0x00000000       0x31 slave_number_setting_SM.o
  .debug_frame   0x00000000       0x54 slave_number_setting_SM.o
  .text          0x00000000        0x0 slave_parameters.o
@@ -211,7 +211,7 @@ Discarded input sections
                 0x00000000       0x28 slave_service.o
  .debug_ranges  0x00000000       0x18 slave_service.o
  .debug_line    0x00000000      0x282 slave_service.o
- .debug_str     0x00000000      0x37b slave_service.o
+ .debug_str     0x00000000      0x38b slave_service.o
  .comment       0x00000000       0x31 slave_service.o
  .debug_frame   0x00000000       0x44 slave_service.o
  .text          0x00000000        0x0 SPI.o
@@ -225,8 +225,6 @@ Discarded input sections
  .bss           0x00000000        0x0 timer.o
  .text.Get_Time_Timer
                 0x00000000       0x48 timer.o
- .text.Stop_Timer
-                0x00000000       0x5a timer.o
  .text.Start_Short_Timer
                 0x00000000       0x6c timer.o
  .text          0x00000000        0x0 __template.o
@@ -242,7 +240,7 @@ Discarded input sections
                 0x00000000       0x20 __template.o
  .debug_ranges  0x00000000       0x10 __template.o
  .debug_line    0x00000000       0xa8 __template.o
- .debug_str     0x00000000      0x1a2 __template.o
+ .debug_str     0x00000000      0x1b2 __template.o
  .comment       0x00000000       0x31 __template.o
  .debug_frame   0x00000000       0x24 __template.o
  .text          0x00000000        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
@@ -593,7 +591,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000     0x1f28
+.text           0x00000000     0x22d4
  *(.vectors)
  .vectors       0x00000000       0x50 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
                 0x00000000                __vector_default
@@ -680,263 +678,272 @@ END GROUP
                 0x000001c6       0x52 analog_servo_drv.o
                 0x000001c6                __vector_9
  .text.Init_Buttons
-                0x00000218       0x2c buttons.o
+                0x00000218       0x38 buttons.o
                 0x00000218                Init_Buttons
  .text.Run_Buttons
-                0x00000244       0x2a buttons.o
-                0x00000244                Run_Buttons
+                0x00000250       0x66 buttons.o
+                0x00000250                Run_Buttons
  .text.__vector_3
-                0x0000026e       0x5e buttons.o
-                0x0000026e                __vector_3
+                0x000002b6       0x5e buttons.o
+                0x000002b6                __vector_3
  .text.__vector_4
-                0x000002cc       0x5e buttons.o
-                0x000002cc                __vector_4
+                0x00000314       0x5e buttons.o
+                0x00000314                __vector_4
  .text.CAN_Reset
-                0x0000032a       0x28 CAN.o
-                0x0000032a                CAN_Reset
+                0x00000372       0x28 CAN.o
+                0x00000372                CAN_Reset
  .text.CAN_Read
-                0x00000352       0x2a CAN.o
-                0x00000352                CAN_Read
+                0x0000039a       0x2a CAN.o
+                0x0000039a                CAN_Read
  .text.CAN_Write
-                0x0000037c       0x36 CAN.o
-                0x0000037c                CAN_Write
+                0x000003c4       0x36 CAN.o
+                0x000003c4                CAN_Write
  .text.CAN_Bit_Modify
-                0x000003b2       0x3a CAN.o
-                0x000003b2                CAN_Bit_Modify
+                0x000003fa       0x3a CAN.o
+                0x000003fa                CAN_Bit_Modify
  .text.CAN_Initialize_1
-                0x000003ec       0x9a CAN.o
-                0x000003ec                CAN_Initialize_1
+                0x00000434       0x9a CAN.o
+                0x00000434                CAN_Initialize_1
  .text.CAN_Initialize_2
-                0x00000486       0x9a CAN.o
-                0x00000486                CAN_Initialize_2
+                0x000004ce       0x9a CAN.o
+                0x000004ce                CAN_Initialize_2
  .text.CAN_Read_Message
-                0x00000520       0x30 CAN.o
-                0x00000520                CAN_Read_Message
+                0x00000568       0x30 CAN.o
+                0x00000568                CAN_Read_Message
  .text.Get_Intensity_Data
-                0x00000550        0x6 cmd_sts_helpers.o
-                0x00000550                Get_Intensity_Data
+                0x00000598        0x6 cmd_sts_helpers.o
+                0x00000598                Get_Intensity_Data
  .text.Get_Position_Data
-                0x00000556        0x8 cmd_sts_helpers.o
-                0x00000556                Get_Position_Data
+                0x0000059e        0x8 cmd_sts_helpers.o
+                0x0000059e                Get_Position_Data
  .text.Write_Intensity_Data
-                0x0000055e        0x6 cmd_sts_helpers.o
-                0x0000055e                Write_Intensity_Data
+                0x000005a6        0x6 cmd_sts_helpers.o
+                0x000005a6                Write_Intensity_Data
  .text.Write_Position_Data
-                0x00000564        0x8 cmd_sts_helpers.o
-                0x00000564                Write_Position_Data
+                0x000005ac        0x8 cmd_sts_helpers.o
+                0x000005ac                Write_Position_Data
  .text.Get_Pointer_To_Slave_Data
-                0x0000056c       0x16 cmd_sts_helpers.o
-                0x0000056c                Get_Pointer_To_Slave_Data
+                0x000005b4       0x16 cmd_sts_helpers.o
+                0x000005b4                Get_Pointer_To_Slave_Data
  .text.start_eeprom_write_byte
-                0x00000582       0x1e eeprom_storage.o
-                0x00000582                start_eeprom_write_byte
+                0x000005ca       0x1e eeprom_storage.o
+                0x000005ca                start_eeprom_write_byte
  .text.__vector_16
-                0x000005a0       0x82 eeprom_storage.o
-                0x000005a0                __vector_16
+                0x000005e8       0x82 eeprom_storage.o
+                0x000005e8                __vector_16
+ .text.process_event_if_pending
+                0x0000066a       0x6c events.o
  .text.Post_Event
-                0x00000622       0x44 events.o
-                0x00000622                Post_Event
+                0x000006d6       0x44 events.o
+                0x000006d6                Post_Event
  .text.Run_Events
-                0x00000666       0x96 events.o
-                0x00000666                Run_Events
+                0x0000071a       0xf2 events.o
+                0x0000071a                Run_Events
  .text.Initialize_Framework
-                0x000006fc       0x22 framework.o
-                0x000006fc                Initialize_Framework
+                0x0000080c       0x22 framework.o
+                0x0000080c                Initialize_Framework
  .text.Run_Services
-                0x0000071e       0x2a framework.o
-                0x0000071e                Run_Services
+                0x0000082e       0x2a framework.o
+                0x0000082e                Run_Services
  .text.Init_IOC_Module
-                0x00000748       0x18 IOC.o
-                0x00000748                Init_IOC_Module
+                0x00000858       0x18 IOC.o
+                0x00000858                Init_IOC_Module
  .text.query_counter
-                0x00000760       0x12 IOC.o
-                0x00000760                query_counter
+                0x00000870       0x12 IOC.o
+                0x00000870                query_counter
  .text.__vector_1
-                0x00000772       0x9c IOC.o
-                0x00000772                __vector_1
+                0x00000882       0x9c IOC.o
+                0x00000882                __vector_1
  .text.compute_cw_angular_distance
-                0x0000080e       0x28 light_setting_alg.o
+                0x0000091e       0x28 light_setting_alg.o
  .text.Compute_Individual_Light_Settings
-                0x00000836      0x472 light_setting_alg.o
-                0x00000836                Compute_Individual_Light_Settings
+                0x00000946      0x472 light_setting_alg.o
+                0x00000946                Compute_Individual_Light_Settings
  .text.lin_init
-                0x00000ca8       0x54 lin_drv.o
-                0x00000ca8                lin_init
+                0x00000db8       0x54 lin_drv.o
+                0x00000db8                lin_init
  .text.lin_tx_header
-                0x00000cfc       0x6c lin_drv.o
-                0x00000cfc                lin_tx_header
+                0x00000e0c       0x6c lin_drv.o
+                0x00000e0c                lin_tx_header
  .text.lin_rx_response
-                0x00000d68       0x3a lin_drv.o
-                0x00000d68                lin_rx_response
+                0x00000e78       0x3a lin_drv.o
+                0x00000e78                lin_rx_response
  .text.lin_tx_response
-                0x00000da2       0x62 lin_drv.o
-                0x00000da2                lin_tx_response
+                0x00000eb2       0x62 lin_drv.o
+                0x00000eb2                lin_tx_response
  .text.lin_get_response
-                0x00000e04       0x2c lin_drv.o
-                0x00000e04                lin_get_response
+                0x00000f14       0x2c lin_drv.o
+                0x00000f14                lin_get_response
  .text.kick_LIN_XCVR_WD
-                0x00000e30       0x38 LIN_XCVR_WD_Kicker.o
+                0x00000f40       0x38 LIN_XCVR_WD_Kicker.o
  .text.Init_LIN_XCVR_WD_Kicker
-                0x00000e68       0x22 LIN_XCVR_WD_Kicker.o
-                0x00000e68                Init_LIN_XCVR_WD_Kicker
- .text.main     0x00000e8a       0x1c main.o
-                0x00000e8a                main
+                0x00000f78       0x22 LIN_XCVR_WD_Kicker.o
+                0x00000f78                Init_LIN_XCVR_WD_Kicker
+ .text.main     0x00000f9a       0x1c main.o
+                0x00000f9a                main
  .text.ID_schedule_handler
-                0x00000ea6       0x30 master_service.o
+                0x00000fb6       0x30 master_service.o
+ .text.write_all_data_cmds
+                0x00000fe6       0x3e master_service.o
+ .text.update_cmds
+                0x00001024       0x46 master_service.o
  .text.Init_Master_Service
-                0x00000ed6       0xa4 master_service.o
-                0x00000ed6                Init_Master_Service
+                0x0000106a       0xb2 master_service.o
+                0x0000106a                Init_Master_Service
  .text.Run_Master_Service
-                0x00000f7a      0x194 master_service.o
-                0x00000f7a                Run_Master_Service
+                0x0000111c      0x344 master_service.o
+                0x0000111c                Run_Master_Service
  .text.MS_LIN_Initialize
-                0x0000110e       0x4a MS_LIN_top_layer.o
-                0x0000110e                MS_LIN_Initialize
+                0x00001460       0x4a MS_LIN_top_layer.o
+                0x00001460                MS_LIN_Initialize
  .text.Master_LIN_Broadcast_ID
-                0x00001158        0xc MS_LIN_top_layer.o
-                0x00001158                Master_LIN_Broadcast_ID
+                0x000014aa        0xc MS_LIN_top_layer.o
+                0x000014aa                Master_LIN_Broadcast_ID
  .text.__vector_12
-                0x00001164      0x126 MS_LIN_top_layer.o
-                0x00001164                __vector_12
+                0x000014b6      0x126 MS_LIN_top_layer.o
+                0x000014b6                __vector_12
  .text.__vector_13
-                0x0000128a       0x2c MS_LIN_top_layer.o
-                0x0000128a                __vector_13
+                0x000015dc       0x2c MS_LIN_top_layer.o
+                0x000015dc                __vector_13
  .text.Init_PWM_Module
-                0x000012b6       0x50 PWM.o
-                0x000012b6                Init_PWM_Module
+                0x00001608       0x50 PWM.o
+                0x00001608                Init_PWM_Module
  .text.Get_Pointer_To_Slave_Parameters
-                0x00001306       0x2a slave_parameters.o
-                0x00001306                Get_Pointer_To_Slave_Parameters
+                0x00001658       0x2a slave_parameters.o
+                0x00001658                Get_Pointer_To_Slave_Parameters
  .text.SPI_Initialize
-                0x00001330       0x58 SPI.o
-                0x00001330                SPI_Initialize
+                0x00001682       0x58 SPI.o
+                0x00001682                SPI_Initialize
  .text.SPI_Start_Command
-                0x00001388       0x7a SPI.o
-                0x00001388                SPI_Start_Command
+                0x000016da       0x7a SPI.o
+                0x000016da                SPI_Start_Command
  .text.SPI_End_Command
-                0x00001402        0x4 SPI.o
-                0x00001402                SPI_End_Command
+                0x00001754        0x4 SPI.o
+                0x00001754                SPI_End_Command
  .text.SPI_Transmit
-                0x00001406       0x46 SPI.o
-                0x00001406                SPI_Transmit
+                0x00001758       0x46 SPI.o
+                0x00001758                SPI_Transmit
  .text.Write_SPI
-                0x0000144c      0x114 SPI.o
-                0x0000144c                Write_SPI
+                0x0000179e      0x114 SPI.o
+                0x0000179e                Write_SPI
  .text.__vector_14
-                0x00001560      0x162 SPI.o
-                0x00001560                __vector_14
+                0x000018b2      0x162 SPI.o
+                0x000018b2                __vector_14
  .text.Init_SPI_Service
-                0x000016c2        0xa SPI_Service.o
-                0x000016c2                Init_SPI_Service
+                0x00001a14        0xa SPI_Service.o
+                0x00001a14                Init_SPI_Service
  .text.Run_SPI_Service
-                0x000016cc       0x96 SPI_Service.o
-                0x000016cc                Run_SPI_Service
+                0x00001a1e       0x96 SPI_Service.o
+                0x00001a1e                Run_SPI_Service
  .text.Query_SPI_State
-                0x00001762        0x6 SPI_Service.o
-                0x00001762                Query_SPI_State
+                0x00001ab4        0x6 SPI_Service.o
+                0x00001ab4                Query_SPI_State
  .text.Init_Timer_Module
-                0x00001768       0x4c timer.o
-                0x00001768                Init_Timer_Module
+                0x00001aba       0x4c timer.o
+                0x00001aba                Init_Timer_Module
  .text.Register_Timer
-                0x000017b4       0xa0 timer.o
-                0x000017b4                Register_Timer
+                0x00001b06       0xa0 timer.o
+                0x00001b06                Register_Timer
  .text.Start_Timer
-                0x00001854       0x88 timer.o
-                0x00001854                Start_Timer
+                0x00001ba6       0x88 timer.o
+                0x00001ba6                Start_Timer
+ .text.Stop_Timer
+                0x00001c2e       0x5a timer.o
+                0x00001c2e                Stop_Timer
  .text.__vector_10
-                0x000018dc       0xea timer.o
-                0x000018dc                __vector_10
+                0x00001c88       0xea timer.o
+                0x00001c88                __vector_10
  .text.avr-libc.fplib
-                0x000019c6        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
-                0x000019c6                __subsf3
-                0x000019c8                __addsf3
+                0x00001d72        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3.o)
+                0x00001d72                __subsf3
+                0x00001d74                __addsf3
  .text.avr-libc.fplib
-                0x000019d4       0xcc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o)
-                0x000019f6                __addsf3x
+                0x00001d80       0xcc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(addsf3x.o)
+                0x00001da2                __addsf3x
  .text.avr-libc.fplib
-                0x00001aa0        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o)
-                0x00001aa0                __nesf2
-                0x00001aa0                __eqsf2
-                0x00001aa0                __cmpsf2
-                0x00001aa0                __ltsf2
-                0x00001aa0                __lesf2
+                0x00001e4c        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(cmpsf2.o)
+                0x00001e4c                __nesf2
+                0x00001e4c                __eqsf2
+                0x00001e4c                __cmpsf2
+                0x00001e4c                __ltsf2
+                0x00001e4c                __lesf2
  .text.avr-libc.fplib
-                0x00001aaa       0x5e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fixunssfsi.o)
-                0x00001aaa                __fixunssfsi
+                0x00001e56       0x5e c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fixunssfsi.o)
+                0x00001e56                __fixunssfsi
  .text.avr-libc.fplib
-                0x00001b08       0x7a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(floatsisf.o)
-                0x00001b08                __floatunsisf
-                0x00001b0c                __floatsisf
+                0x00001eb4       0x7a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(floatsisf.o)
+                0x00001eb4                __floatunsisf
+                0x00001eb8                __floatsisf
  .text.avr-libc.fplib
-                0x00001b82       0x48 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_cmp.o)
-                0x00001b82                __fp_cmp
+                0x00001f2e       0x48 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_cmp.o)
+                0x00001f2e                __fp_cmp
  .text.avr-libc.fplib
-                0x00001bca        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_inf.o)
-                0x00001bca                __fp_inf
+                0x00001f76        0xc c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_inf.o)
+                0x00001f76                __fp_inf
  .text.avr-libc.fplib
-                0x00001bd6        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_nan.o)
-                0x00001bd6                __fp_nan
+                0x00001f82        0x6 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_nan.o)
+                0x00001f82                __fp_nan
  .text.avr-libc.fplib
-                0x00001bdc        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscA.o)
-                0x00001bdc                __fp_pscA
+                0x00001f88        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscA.o)
+                0x00001f88                __fp_pscA
  .text.avr-libc.fplib
-                0x00001bea        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscB.o)
-                0x00001bea                __fp_pscB
+                0x00001f96        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_pscB.o)
+                0x00001f96                __fp_pscB
  .text.avr-libc.fplib
-                0x00001bf8       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_round.o)
-                0x00001bf8                __fp_round
+                0x00001fa4       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_round.o)
+                0x00001fa4                __fp_round
  .text.avr-libc.fplib
-                0x00001c1a       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_split3.o)
-                0x00001c1a                __fp_split3
-                0x00001c2a                __fp_splitA
+                0x00001fc6       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_split3.o)
+                0x00001fc6                __fp_split3
+                0x00001fd6                __fp_splitA
  .text.avr-libc.fplib
-                0x00001c5e        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_zero.o)
-                0x00001c5e                __fp_zero
-                0x00001c60                __fp_szero
+                0x0000200a        0xe c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(fp_zero.o)
+                0x0000200a                __fp_zero
+                0x0000200c                __fp_szero
  .text.avr-libc.fplib
-                0x00001c6c        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(gesf2.o)
-                0x00001c6c                __gesf2
-                0x00001c6c                __gtsf2
+                0x00002018        0xa c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(gesf2.o)
+                0x00002018                __gesf2
+                0x00002018                __gtsf2
  .text.avr-libc.fplib
-                0x00001c76        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o)
-                0x00001c76                __mulsf3
+                0x00002022        0x8 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3.o)
+                0x00002022                __mulsf3
  .text.avr-libc.fplib
-                0x00001c7e       0xe2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3x.o)
-                0x00001c9a                __mulsf3x
-                0x00001ca0                __mulsf3_pse
+                0x0000202a       0xe2 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libm.a(mulsf3x.o)
+                0x00002046                __mulsf3x
+                0x0000204c                __mulsf3_pse
  .text.libgcc.mul
-                0x00001d60       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
-                0x00001d60                __mulhi3
+                0x0000210c       0x22 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulhi3.o)
+                0x0000210c                __mulhi3
  .text.libgcc.div
-                0x00001d82       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
-                0x00001d82                __udivmodhi4
+                0x0000212e       0x28 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodhi4.o)
+                0x0000212e                __udivmodhi4
  .text.libgcc.div
-                0x00001daa       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
-                0x00001daa                __udivmodsi4
+                0x00002156       0x44 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_udivmodsi4.o)
+                0x00002156                __udivmodsi4
  .text.libgcc.mul
-                0x00001dee       0x40 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulsidi3.o)
-                0x00001dee                __mulsidi3
-                0x00001df2                __umulsidi3
+                0x0000219a       0x40 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_mulsidi3.o)
+                0x0000219a                __mulsidi3
+                0x0000219e                __umulsidi3
  .text.libgcc.prologue
-                0x00001e2e       0x38 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_prologue.o)
-                0x00001e2e                __prologue_saves__
+                0x000021da       0x38 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_prologue.o)
+                0x000021da                __prologue_saves__
  .text.libgcc.prologue
-                0x00001e66       0x36 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_epilogue.o)
-                0x00001e66                __epilogue_restores__
+                0x00002212       0x36 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_epilogue.o)
+                0x00002212                __epilogue_restores__
  .text.libgcc.mul
-                0x00001e9c       0x5c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_muldi3.o)
-                0x00001e9c                __muldi3
+                0x00002248       0x5c c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_muldi3.o)
+                0x00002248                __muldi3
  .text.avr-libc
-                0x00001ef8       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memcpy_P.o)
-                0x00001ef8                memcpy_P
+                0x000022a4       0x12 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memcpy_P.o)
+                0x000022a4                memcpy_P
  .text.avr-libc
-                0x00001f0a       0x1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memcmp.o)
-                0x00001f0a                memcmp
-                0x00001f24                . = ALIGN (0x2)
+                0x000022b6       0x1a c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/../../../../avr/lib/avr35\libc.a(memcmp.o)
+                0x000022b6                memcmp
+                0x000022d0                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00001f24        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
-                0x00001f24                _exit
-                0x00001f24                exit
+ .fini9         0x000022d0        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+                0x000022d0                _exit
+                0x000022d0                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -955,11 +962,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00001f24        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .fini0         0x000022d0        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
  *(.fini0)
-                0x00001f28                _etext = .
+                0x000022d4                _etext = .
 
-.data           0x00800100       0x1c load address 0x00001f28
+.data           0x00800100       0x3c load address 0x000022d4
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -967,127 +974,148 @@ END GROUP
                 0x00800100        0x2 ADC.o
  .data.Debounce_Timer
                 0x00800102        0x4 buttons.o
+ .data.anim_honing_count_up
+                0x00800106        0x1 master_service.o
  .data.position_counter
-                0x00800106        0x2 master_service.o
+                0x00800107        0x2 master_service.o
  .data.Testing_Timer
-                0x00800108        0x4 master_service.o
+                0x00800109        0x4 master_service.o
  .data.a_p_CAN_Volatile_Msg
-                0x0080010c        0xa master_service.o
+                0x0080010d        0xa master_service.o
  .data.CAN_Timer
-                0x00800116        0x4 master_service.o
+                0x00800117        0x4 master_service.o
  .data.Curr_Schedule_ID
-                0x0080011a        0x1 master_service.o
+                0x0080011b        0x1 master_service.o
  *(.rodata)
  *(.rodata*)
+ .rodata.anim_honing_positions
+                0x0080011c       0x20 master_service.o
  *(.gnu.linkonce.d*)
-                0x0080011c                . = ALIGN (0x2)
- *fill*         0x0080011b        0x1 
-                0x0080011c                _edata = .
-                0x0080011c                PROVIDE (__data_end, .)
+                0x0080013c                . = ALIGN (0x2)
+                0x0080013c                _edata = .
+                0x0080013c                PROVIDE (__data_end, .)
 
-.bss            0x0080011c      0x12a
-                0x0080011c                PROVIDE (__bss_start, .)
+.bss            0x0080013c      0x136
+                0x0080013c                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
- .bss.Step      0x0080011c        0x1 analog_servo_drv.o
+ .bss.Step      0x0080013c        0x1 analog_servo_drv.o
  .bss.Current_Port_B_State
-                0x0080011d        0x1 buttons.o
+                0x0080013d        0x1 buttons.o
  .bss.Current_Port_A_State
-                0x0080011e        0x1 buttons.o
+                0x0080013e        0x1 buttons.o
  .bss.Last_Port_B_State
-                0x0080011f        0x1 buttons.o
+                0x0080013f        0x1 buttons.o
  .bss.Last_Port_A_State
-                0x00800120        0x1 buttons.o
+                0x00800140        0x1 buttons.o
  .bss.a_p_Recv_List
-                0x00800121        0x2 CAN.o
+                0x00800141        0x2 CAN.o
  .bss.Recv_Byte
-                0x00800123        0x1 CAN.o
- .bss.RX_Data   0x00800124        0x2 CAN.o
- .bss.TX_Data   0x00800126        0x1 CAN.o
+                0x00800143        0x1 CAN.o
+ .bss.RX_Data   0x00800144        0x2 CAN.o
+ .bss.TX_Data   0x00800146        0x1 CAN.o
  .bss.p_Caller_Values
-                0x00800127        0x2 eeprom_storage.o
+                0x00800147        0x2 eeprom_storage.o
  .bss.p_Target_EEPROM_Address
-                0x00800129        0x2 eeprom_storage.o
+                0x00800149        0x2 eeprom_storage.o
  .bss.Num_Bytes_Requested
-                0x0080012b        0x1 eeprom_storage.o
+                0x0080014b        0x1 eeprom_storage.o
  .bss.Num_Bytes_Executed
-                0x0080012c        0x1 eeprom_storage.o
- .bss.IsBusy    0x0080012d        0x1 eeprom_storage.o
+                0x0080014c        0x1 eeprom_storage.o
+ .bss.IsBusy    0x0080014d        0x1 eeprom_storage.o
  .bss.Pending_Events
-                0x0080012e        0x4 events.o
- .bss.counter   0x00800132        0x4 IOC.o
+                0x0080014e        0x4 events.o
+ .bss.counter   0x00800152        0x4 IOC.o
  .bss.Result_Settings
-                0x00800136        0x3 light_setting_alg.o
+                0x00800156        0x3 light_setting_alg.o
  .bss.Vect_Desired_Relative
-                0x00800139        0x4 light_setting_alg.o
+                0x00800159        0x4 light_setting_alg.o
  .bss.Norm2_Desired_Relative
-                0x0080013d        0x2 light_setting_alg.o
+                0x0080015d        0x2 light_setting_alg.o
  .bss.Theta_Light_Max
-                0x0080013f        0x2 light_setting_alg.o
+                0x0080015f        0x2 light_setting_alg.o
  .bss.Theta_Light_Min
-                0x00800141        0x2 light_setting_alg.o
+                0x00800161        0x2 light_setting_alg.o
  .bss.Light_Range
-                0x00800143        0x2 light_setting_alg.o
+                0x00800163        0x2 light_setting_alg.o
  .bss.Desired_Theta
-                0x00800145        0x2 light_setting_alg.o
+                0x00800165        0x2 light_setting_alg.o
  .bss.Slave_Parameters
-                0x00800147        0xf light_setting_alg.o
- .bss.Parity    0x00800156        0x1 LIN_XCVR_WD_Kicker.o
+                0x00800167        0xf light_setting_alg.o
+ .bss.Parity    0x00800176        0x1 LIN_XCVR_WD_Kicker.o
  .bss.LIN_XCVR_Kick_Timer
-                0x00800157        0x4 LIN_XCVR_WD_Kicker.o
- .bss.parity    0x0080015b        0x1 master_service.o
+                0x00800177        0x4 LIN_XCVR_WD_Kicker.o
+ .bss.anim_state
+                0x0080017b        0x1 master_service.o
+ .bss.anim_ambulance_num_cycles
+                0x0080017c        0x1 master_service.o
+ .bss.anim_ambulance_on_off
+                0x0080017d        0x1 master_service.o
+ .bss.anim_honing_num_cycles_completed
+                0x0080017e        0x1 master_service.o
+ .bss.anim_honing_intensity
+                0x0080017f        0x1 master_service.o
+ .bss.anim_radial_num_cycles_completed
+                0x00800180        0x1 master_service.o
+ .bss.anim_radial_position_index
+                0x00800181        0x1 master_service.o
+ .bss.parity    0x00800182        0x1 master_service.o
+ .bss.System_State
+                0x00800183        0x1 master_service.o
+ .bss.Last_Processed_User_Position
+                0x00800184        0x4 master_service.o
  .bss.CAN_Last_Processed_Msg
-                0x0080015c        0x5 master_service.o
+                0x00800188        0x5 master_service.o
  .bss.CAN_Volatile_Msg
-                0x00800161        0x5 master_service.o
+                0x0080018d        0x5 master_service.o
  .bss.Scheduling_Timer
-                0x00800166        0x4 master_service.o
+                0x00800192        0x4 master_service.o
  .bss.My_Status_Data
-                0x0080016a       0x1b master_service.o
+                0x00800196       0x1b master_service.o
  .bss.My_Command_Data
-                0x00800185       0x1b master_service.o
+                0x008001b1       0x1b master_service.o
  .bss.My_Node_ID
-                0x008001a0        0x1 master_service.o
+                0x008001cc        0x1 master_service.o
  .bss.My_LIN_Error_Count
-                0x008001a1        0x1 MS_LIN_top_layer.o
+                0x008001cd        0x1 MS_LIN_top_layer.o
  .bss.p_My_Status_Data
-                0x008001a2        0x2 MS_LIN_top_layer.o
+                0x008001ce        0x2 MS_LIN_top_layer.o
  .bss.p_My_Command_Data
-                0x008001a4        0x2 MS_LIN_top_layer.o
+                0x008001d0        0x2 MS_LIN_top_layer.o
  .bss.p_My_Node_ID
-                0x008001a6        0x2 MS_LIN_top_layer.o
+                0x008001d2        0x2 MS_LIN_top_layer.o
  .bss.counter_value
-                0x008001a8        0x4 SPI.o
- .bss.In_Tx     0x008001ac        0x1 SPI.o
+                0x008001d4        0x4 SPI.o
+ .bss.In_Tx     0x008001d8        0x1 SPI.o
  .bss.Expected_RX_Length
-                0x008001ad        0x1 SPI.o
+                0x008001d9        0x1 SPI.o
  .bss.Expected_TX_Length
-                0x008001ae        0x1 SPI.o
- .bss.TX_Index  0x008001af        0x1 SPI.o
- .bss.RX_Index  0x008001b0        0x1 SPI.o
+                0x008001da        0x1 SPI.o
+ .bss.TX_Index  0x008001db        0x1 SPI.o
+ .bss.RX_Index  0x008001dc        0x1 SPI.o
  .bss.Next_Available_Row
-                0x008001b1        0x1 SPI.o
+                0x008001dd        0x1 SPI.o
  .bss.Buffer_Index
-                0x008001b2        0x1 SPI.o
+                0x008001de        0x1 SPI.o
  .bss.Receive_List
-                0x008001b3       0x14 SPI.o
+                0x008001df       0x14 SPI.o
  .bss.Command_Buffer
-                0x008001c7       0x3c SPI.o
+                0x008001f3       0x3c SPI.o
  .bss.Master_Slave_Identifier
-                0x00800203        0x1 SPI.o
+                0x0080022f        0x1 SPI.o
  .bss.Current_State
-                0x00800204        0x1 SPI_Service.o
- .bss.Timers    0x00800205       0x41 timer.o
+                0x00800230        0x1 SPI_Service.o
+ .bss.Timers    0x00800231       0x41 timer.o
  *(COMMON)
-                0x00800246                PROVIDE (__bss_end, .)
-                0x00001f28                __data_load_start = LOADADDR (.data)
-                0x00001f44                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00800272                PROVIDE (__bss_end, .)
+                0x000022d4                __data_load_start = LOADADDR (.data)
+                0x00002310                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800246        0x0
+.noinit         0x00800272        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800246                _end = .
+                0x00800272                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -1171,7 +1199,7 @@ END GROUP
 .debug_sfnames
  *(.debug_sfnames)
 
-.debug_aranges  0x00000000      0x460
+.debug_aranges  0x00000000      0x478
  *(.debug_aranges)
  .debug_aranges
                 0x00000000       0x38 ADC.o
@@ -1186,110 +1214,110 @@ END GROUP
  .debug_aranges
                 0x00000180       0x38 eeprom_storage.o
  .debug_aranges
-                0x000001b8       0x28 events.o
+                0x000001b8       0x30 events.o
  .debug_aranges
-                0x000001e0       0x28 framework.o
+                0x000001e8       0x28 framework.o
  .debug_aranges
-                0x00000208       0x30 IOC.o
+                0x00000210       0x30 IOC.o
  .debug_aranges
-                0x00000238       0x28 light_setting_alg.o
+                0x00000240       0x28 light_setting_alg.o
  .debug_aranges
-                0x00000260       0x40 lin_drv.o
+                0x00000268       0x40 lin_drv.o
  .debug_aranges
-                0x000002a0       0x28 LIN_XCVR_WD_Kicker.o
+                0x000002a8       0x28 LIN_XCVR_WD_Kicker.o
  .debug_aranges
-                0x000002c8       0x20 main.o
+                0x000002d0       0x20 main.o
  .debug_aranges
-                0x000002e8       0x30 master_service.o
+                0x000002f0       0x40 master_service.o
  .debug_aranges
-                0x00000318       0x38 MS_LIN_top_layer.o
+                0x00000330       0x38 MS_LIN_top_layer.o
  .debug_aranges
-                0x00000350       0x28 PWM.o
+                0x00000368       0x28 PWM.o
  .debug_aranges
-                0x00000378       0x20 slave_parameters.o
+                0x00000390       0x20 slave_parameters.o
  .debug_aranges
-                0x00000398       0x48 SPI.o
+                0x000003b0       0x48 SPI.o
  .debug_aranges
-                0x000003e0       0x30 SPI_Service.o
+                0x000003f8       0x30 SPI_Service.o
  .debug_aranges
-                0x00000410       0x50 timer.o
+                0x00000428       0x50 timer.o
 
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x481e
+.debug_info     0x00000000     0x4ecd
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
  .debug_info    0x000005f4       0xec ADC.o
  .debug_info    0x000006e0      0x451 analog_servo_drv.o
- .debug_info    0x00000b31      0x213 buttons.o
- .debug_info    0x00000d44      0x8c9 CAN.o
- .debug_info    0x0000160d      0x1e6 cmd_sts_helpers.o
- .debug_info    0x000017f3      0x2d9 eeprom_storage.o
- .debug_info    0x00001acc      0x277 events.o
- .debug_info    0x00001d43      0x1e2 framework.o
- .debug_info    0x00001f25      0x184 IOC.o
- .debug_info    0x000020a9      0x67f light_setting_alg.o
- .debug_info    0x00002728      0x1e4 lin_drv.o
- .debug_info    0x0000290c      0x1de LIN_XCVR_WD_Kicker.o
- .debug_info    0x00002aea       0xb9 main.o
- .debug_info    0x00002ba3      0xa76 master_service.o
- .debug_info    0x00003619      0x3a0 MS_LIN_top_layer.o
- .debug_info    0x000039b9      0x1c4 PWM.o
- .debug_info    0x00003b7d      0x19f slave_parameters.o
- .debug_info    0x00003d1c      0x488 SPI.o
- .debug_info    0x000041a4      0x1a5 SPI_Service.o
- .debug_info    0x00004349      0x4d5 timer.o
+ .debug_info    0x00000b31      0x33c buttons.o
+ .debug_info    0x00000e6d      0x8c9 CAN.o
+ .debug_info    0x00001736      0x1e6 cmd_sts_helpers.o
+ .debug_info    0x0000191c      0x2d9 eeprom_storage.o
+ .debug_info    0x00001bf5      0x485 events.o
+ .debug_info    0x0000207a      0x1e2 framework.o
+ .debug_info    0x0000225c      0x184 IOC.o
+ .debug_info    0x000023e0      0x67f light_setting_alg.o
+ .debug_info    0x00002a5f      0x1e4 lin_drv.o
+ .debug_info    0x00002c43      0x1de LIN_XCVR_WD_Kicker.o
+ .debug_info    0x00002e21       0xb9 main.o
+ .debug_info    0x00002eda      0xdee master_service.o
+ .debug_info    0x00003cc8      0x3a0 MS_LIN_top_layer.o
+ .debug_info    0x00004068      0x1c4 PWM.o
+ .debug_info    0x0000422c      0x19f slave_parameters.o
+ .debug_info    0x000043cb      0x488 SPI.o
+ .debug_info    0x00004853      0x1a5 SPI_Service.o
+ .debug_info    0x000049f8      0x4d5 timer.o
 
-.debug_abbrev   0x00000000     0x1f3f
+.debug_abbrev   0x00000000     0x1fc8
  *(.debug_abbrev)
  .debug_abbrev  0x00000000      0x5a2 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
  .debug_abbrev  0x000005a2       0x92 ADC.o
  .debug_abbrev  0x00000634      0x1f5 analog_servo_drv.o
- .debug_abbrev  0x00000829       0xdf buttons.o
- .debug_abbrev  0x00000908      0x148 CAN.o
- .debug_abbrev  0x00000a50       0xce cmd_sts_helpers.o
- .debug_abbrev  0x00000b1e      0x14e eeprom_storage.o
- .debug_abbrev  0x00000c6c      0x19d events.o
- .debug_abbrev  0x00000e09       0xe7 framework.o
- .debug_abbrev  0x00000ef0      0x109 IOC.o
- .debug_abbrev  0x00000ff9      0x223 light_setting_alg.o
- .debug_abbrev  0x0000121c       0xb2 lin_drv.o
- .debug_abbrev  0x000012ce       0xea LIN_XCVR_WD_Kicker.o
- .debug_abbrev  0x000013b8       0x71 main.o
- .debug_abbrev  0x00001429      0x28a master_service.o
- .debug_abbrev  0x000016b3      0x19a MS_LIN_top_layer.o
- .debug_abbrev  0x0000184d      0x157 PWM.o
- .debug_abbrev  0x000019a4       0xc0 slave_parameters.o
- .debug_abbrev  0x00001a64      0x1c2 SPI.o
- .debug_abbrev  0x00001c26       0xf0 SPI_Service.o
- .debug_abbrev  0x00001d16      0x229 timer.o
+ .debug_abbrev  0x00000829      0x170 buttons.o
+ .debug_abbrev  0x00000999      0x148 CAN.o
+ .debug_abbrev  0x00000ae1       0xce cmd_sts_helpers.o
+ .debug_abbrev  0x00000baf      0x14e eeprom_storage.o
+ .debug_abbrev  0x00000cfd      0x175 events.o
+ .debug_abbrev  0x00000e72       0xe7 framework.o
+ .debug_abbrev  0x00000f59      0x109 IOC.o
+ .debug_abbrev  0x00001062      0x223 light_setting_alg.o
+ .debug_abbrev  0x00001285       0xb2 lin_drv.o
+ .debug_abbrev  0x00001337       0xea LIN_XCVR_WD_Kicker.o
+ .debug_abbrev  0x00001421       0x71 main.o
+ .debug_abbrev  0x00001492      0x2aa master_service.o
+ .debug_abbrev  0x0000173c      0x19a MS_LIN_top_layer.o
+ .debug_abbrev  0x000018d6      0x157 PWM.o
+ .debug_abbrev  0x00001a2d       0xc0 slave_parameters.o
+ .debug_abbrev  0x00001aed      0x1c2 SPI.o
+ .debug_abbrev  0x00001caf       0xf0 SPI_Service.o
+ .debug_abbrev  0x00001d9f      0x229 timer.o
 
-.debug_line     0x00000000     0x283d
+.debug_line     0x00000000     0x2aee
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x10f C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
  .debug_line    0x0000010f      0x110 ADC.o
  .debug_line    0x0000021f      0x1f8 analog_servo_drv.o
- .debug_line    0x00000417      0x14a buttons.o
- .debug_line    0x00000561      0x3a0 CAN.o
- .debug_line    0x00000901      0x11b cmd_sts_helpers.o
- .debug_line    0x00000a1c      0x23f eeprom_storage.o
- .debug_line    0x00000c5b      0x1d0 events.o
- .debug_line    0x00000e2b      0x169 framework.o
- .debug_line    0x00000f94      0x114 IOC.o
- .debug_line    0x000010a8      0x369 light_setting_alg.o
- .debug_line    0x00001411      0x23a lin_drv.o
- .debug_line    0x0000164b      0x102 LIN_XCVR_WD_Kicker.o
- .debug_line    0x0000174d       0xe0 main.o
- .debug_line    0x0000182d      0x37b master_service.o
- .debug_line    0x00001ba8      0x1d3 MS_LIN_top_layer.o
- .debug_line    0x00001d7b      0x1ca PWM.o
- .debug_line    0x00001f45       0xd2 slave_parameters.o
- .debug_line    0x00002017      0x2ec SPI.o
- .debug_line    0x00002303      0x169 SPI_Service.o
- .debug_line    0x0000246c      0x3d1 timer.o
+ .debug_line    0x00000417      0x17e buttons.o
+ .debug_line    0x00000595      0x3a0 CAN.o
+ .debug_line    0x00000935      0x11b cmd_sts_helpers.o
+ .debug_line    0x00000a50      0x23f eeprom_storage.o
+ .debug_line    0x00000c8f      0x288 events.o
+ .debug_line    0x00000f17      0x169 framework.o
+ .debug_line    0x00001080      0x114 IOC.o
+ .debug_line    0x00001194      0x369 light_setting_alg.o
+ .debug_line    0x000014fd      0x23a lin_drv.o
+ .debug_line    0x00001737      0x102 LIN_XCVR_WD_Kicker.o
+ .debug_line    0x00001839       0xe0 main.o
+ .debug_line    0x00001919      0x540 master_service.o
+ .debug_line    0x00001e59      0x1d3 MS_LIN_top_layer.o
+ .debug_line    0x0000202c      0x1ca PWM.o
+ .debug_line    0x000021f6       0xd2 slave_parameters.o
+ .debug_line    0x000022c8      0x2ec SPI.o
+ .debug_line    0x000025b4      0x169 SPI_Service.o
+ .debug_line    0x0000271d      0x3d1 timer.o
 
-.debug_frame    0x00000000      0xb30
+.debug_frame    0x00000000      0xb8c
  *(.debug_frame)
  .debug_frame   0x00000000       0x74 ADC.o
  .debug_frame   0x00000074       0xc0 analog_servo_drv.o
@@ -1297,86 +1325,86 @@ END GROUP
  .debug_frame   0x00000218      0x1ac CAN.o
  .debug_frame   0x000003c4       0x64 cmd_sts_helpers.o
  .debug_frame   0x00000428       0xa8 eeprom_storage.o
- .debug_frame   0x000004d0       0x48 events.o
- .debug_frame   0x00000518       0x48 framework.o
- .debug_frame   0x00000560       0x9c IOC.o
- .debug_frame   0x000005fc       0x84 light_setting_alg.o
- .debug_frame   0x00000680       0x64 lin_drv.o
- .debug_frame   0x000006e4       0x34 LIN_XCVR_WD_Kicker.o
- .debug_frame   0x00000718       0x24 main.o
- .debug_frame   0x0000073c       0x74 master_service.o
- .debug_frame   0x000007b0       0xcc MS_LIN_top_layer.o
- .debug_frame   0x0000087c       0x34 PWM.o
- .debug_frame   0x000008b0       0x24 slave_parameters.o
- .debug_frame   0x000008d4       0xfc SPI.o
- .debug_frame   0x000009d0       0x44 SPI_Service.o
- .debug_frame   0x00000a14      0x11c timer.o
+ .debug_frame   0x000004d0       0x64 events.o
+ .debug_frame   0x00000534       0x48 framework.o
+ .debug_frame   0x0000057c       0x9c IOC.o
+ .debug_frame   0x00000618       0x84 light_setting_alg.o
+ .debug_frame   0x0000069c       0x64 lin_drv.o
+ .debug_frame   0x00000700       0x34 LIN_XCVR_WD_Kicker.o
+ .debug_frame   0x00000734       0x24 main.o
+ .debug_frame   0x00000758       0xb4 master_service.o
+ .debug_frame   0x0000080c       0xcc MS_LIN_top_layer.o
+ .debug_frame   0x000008d8       0x34 PWM.o
+ .debug_frame   0x0000090c       0x24 slave_parameters.o
+ .debug_frame   0x00000930       0xfc SPI.o
+ .debug_frame   0x00000a2c       0x44 SPI_Service.o
+ .debug_frame   0x00000a70      0x11c timer.o
 
-.debug_str      0x00000000     0x1360
+.debug_str      0x00000000     0x14d3
  *(.debug_str)
  .debug_str     0x00000000      0x21d C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
- .debug_str     0x0000021d      0x180 ADC.o
-                                0x1b4 (size before relaxing)
- .debug_str     0x0000039d      0x1f5 analog_servo_drv.o
-                                0x362 (size before relaxing)
- .debug_str     0x00000592       0xa1 buttons.o
-                                0x220 (size before relaxing)
- .debug_str     0x00000633      0x184 CAN.o
-                                0x2d4 (size before relaxing)
- .debug_str     0x000007b7       0xd0 cmd_sts_helpers.o
-                                0x239 (size before relaxing)
- .debug_str     0x00000887      0x141 eeprom_storage.o
-                                0x29a (size before relaxing)
- .debug_str     0x000009c8       0x72 events.o
+ .debug_str     0x0000021d      0x190 ADC.o
+                                0x1c4 (size before relaxing)
+ .debug_str     0x000003ad      0x1f5 analog_servo_drv.o
+                                0x372 (size before relaxing)
+ .debug_str     0x000005a2       0xe5 buttons.o
+                                0x274 (size before relaxing)
+ .debug_str     0x00000687      0x184 CAN.o
+                                0x2e4 (size before relaxing)
+ .debug_str     0x0000080b       0xd0 cmd_sts_helpers.o
+                                0x249 (size before relaxing)
+ .debug_str     0x000008db      0x141 eeprom_storage.o
+                                0x2aa (size before relaxing)
+ .debug_str     0x00000a1c       0x67 events.o
+                                0x204 (size before relaxing)
+ .debug_str     0x00000a83       0xb8 framework.o
+                                0x255 (size before relaxing)
+ .debug_str     0x00000b3b       0x24 IOC.o
+                                0x1db (size before relaxing)
+ .debug_str     0x00000b5f      0x1e3 light_setting_alg.o
+                                0x45a (size before relaxing)
+ .debug_str     0x00000d42       0x77 lin_drv.o
+                                0x1d7 (size before relaxing)
+ .debug_str     0x00000db9       0x46 LIN_XCVR_WD_Kicker.o
                                 0x1f4 (size before relaxing)
- .debug_str     0x00000a3a       0xb8 framework.o
-                                0x245 (size before relaxing)
- .debug_str     0x00000af2       0x24 IOC.o
-                                0x1cb (size before relaxing)
- .debug_str     0x00000b16      0x1e3 light_setting_alg.o
-                                0x44a (size before relaxing)
- .debug_str     0x00000cf9       0x77 lin_drv.o
-                                0x1c7 (size before relaxing)
- .debug_str     0x00000d70       0x46 LIN_XCVR_WD_Kicker.o
-                                0x1e4 (size before relaxing)
- .debug_str     0x00000db6       0x11 main.o
-                                0x181 (size before relaxing)
- .debug_str     0x00000dc7      0x203 master_service.o
-                                0x587 (size before relaxing)
- .debug_str     0x00000fca       0xb2 MS_LIN_top_layer.o
-                                0x2c5 (size before relaxing)
- .debug_str     0x0000107c       0x36 PWM.o
-                                0x210 (size before relaxing)
- .debug_str     0x000010b2       0x18 slave_parameters.o
-                                0x236 (size before relaxing)
- .debug_str     0x000010ca      0x184 SPI.o
-                                0x32a (size before relaxing)
- .debug_str     0x0000124e       0x21 SPI_Service.o
-                                0x22e (size before relaxing)
- .debug_str     0x0000126f       0xf1 timer.o
-                                0x2cd (size before relaxing)
+ .debug_str     0x00000dff       0x11 main.o
+                                0x191 (size before relaxing)
+ .debug_str     0x00000e10      0x32d master_service.o
+                                0x6df (size before relaxing)
+ .debug_str     0x0000113d       0xb2 MS_LIN_top_layer.o
+                                0x2d5 (size before relaxing)
+ .debug_str     0x000011ef       0x36 PWM.o
+                                0x220 (size before relaxing)
+ .debug_str     0x00001225       0x18 slave_parameters.o
+                                0x246 (size before relaxing)
+ .debug_str     0x0000123d      0x184 SPI.o
+                                0x33a (size before relaxing)
+ .debug_str     0x000013c1       0x21 SPI_Service.o
+                                0x23e (size before relaxing)
+ .debug_str     0x000013e2       0xf1 timer.o
+                                0x2dd (size before relaxing)
 
-.debug_loc      0x00000000     0x2a7b
+.debug_loc      0x00000000     0x2d3f
  *(.debug_loc)
  .debug_loc     0x00000000       0x63 ADC.o
  .debug_loc     0x00000063      0x1bc analog_servo_drv.o
- .debug_loc     0x0000021f      0x196 buttons.o
- .debug_loc     0x000003b5      0x74b CAN.o
- .debug_loc     0x00000b00       0xda cmd_sts_helpers.o
- .debug_loc     0x00000bda      0x28f eeprom_storage.o
- .debug_loc     0x00000e69      0x126 events.o
- .debug_loc     0x00000f8f       0x8b framework.o
- .debug_loc     0x0000101a       0xfe IOC.o
- .debug_loc     0x00001118      0x502 light_setting_alg.o
- .debug_loc     0x0000161a      0x362 lin_drv.o
- .debug_loc     0x0000197c       0x50 LIN_XCVR_WD_Kicker.o
- .debug_loc     0x000019cc      0x229 master_service.o
- .debug_loc     0x00001bf5      0x2af MS_LIN_top_layer.o
- .debug_loc     0x00001ea4      0x16c PWM.o
- .debug_loc     0x00002010       0x37 slave_parameters.o
- .debug_loc     0x00002047      0x40d SPI.o
- .debug_loc     0x00002454       0xe0 SPI_Service.o
- .debug_loc     0x00002534      0x547 timer.o
+ .debug_loc     0x0000021f      0x24e buttons.o
+ .debug_loc     0x0000046d      0x74b CAN.o
+ .debug_loc     0x00000bb8       0xda cmd_sts_helpers.o
+ .debug_loc     0x00000c92      0x28f eeprom_storage.o
+ .debug_loc     0x00000f21      0x145 events.o
+ .debug_loc     0x00001066       0x8b framework.o
+ .debug_loc     0x000010f1       0xfe IOC.o
+ .debug_loc     0x000011ef      0x502 light_setting_alg.o
+ .debug_loc     0x000016f1      0x362 lin_drv.o
+ .debug_loc     0x00001a53       0x50 LIN_XCVR_WD_Kicker.o
+ .debug_loc     0x00001aa3      0x416 master_service.o
+ .debug_loc     0x00001eb9      0x2af MS_LIN_top_layer.o
+ .debug_loc     0x00002168      0x16c PWM.o
+ .debug_loc     0x000022d4       0x37 slave_parameters.o
+ .debug_loc     0x0000230b      0x40d SPI.o
+ .debug_loc     0x00002718       0xe0 SPI_Service.o
+ .debug_loc     0x000027f8      0x547 timer.o
 
 .debug_macinfo
  *(.debug_macinfo)
@@ -1396,7 +1424,7 @@ END GROUP
 .debug_pubtypes
  *(.debug_pubtypes)
 
-.debug_ranges   0x00000000      0x3a0
+.debug_ranges   0x00000000      0x398
  *(.debug_ranges)
  .debug_ranges  0x00000000       0x28 ADC.o
  .debug_ranges  0x00000028       0x40 analog_servo_drv.o
@@ -1404,20 +1432,20 @@ END GROUP
  .debug_ranges  0x00000090       0x70 CAN.o
  .debug_ranges  0x00000100       0x30 cmd_sts_helpers.o
  .debug_ranges  0x00000130       0x28 eeprom_storage.o
- .debug_ranges  0x00000158       0x50 events.o
- .debug_ranges  0x000001a8       0x18 framework.o
- .debug_ranges  0x000001c0       0x20 IOC.o
- .debug_ranges  0x000001e0       0x48 light_setting_alg.o
- .debug_ranges  0x00000228       0x30 lin_drv.o
- .debug_ranges  0x00000258       0x18 LIN_XCVR_WD_Kicker.o
- .debug_ranges  0x00000270       0x10 main.o
- .debug_ranges  0x00000280       0x38 master_service.o
- .debug_ranges  0x000002b8       0x28 MS_LIN_top_layer.o
- .debug_ranges  0x000002e0       0x18 PWM.o
- .debug_ranges  0x000002f8       0x10 slave_parameters.o
- .debug_ranges  0x00000308       0x38 SPI.o
- .debug_ranges  0x00000340       0x20 SPI_Service.o
- .debug_ranges  0x00000360       0x40 timer.o
+ .debug_ranges  0x00000158       0x38 events.o
+ .debug_ranges  0x00000190       0x18 framework.o
+ .debug_ranges  0x000001a8       0x20 IOC.o
+ .debug_ranges  0x000001c8       0x48 light_setting_alg.o
+ .debug_ranges  0x00000210       0x30 lin_drv.o
+ .debug_ranges  0x00000240       0x18 LIN_XCVR_WD_Kicker.o
+ .debug_ranges  0x00000258       0x10 main.o
+ .debug_ranges  0x00000268       0x48 master_service.o
+ .debug_ranges  0x000002b0       0x28 MS_LIN_top_layer.o
+ .debug_ranges  0x000002d8       0x18 PWM.o
+ .debug_ranges  0x000002f0       0x10 slave_parameters.o
+ .debug_ranges  0x00000300       0x38 SPI.o
+ .debug_ranges  0x00000338       0x20 SPI_Service.o
+ .debug_ranges  0x00000358       0x40 timer.o
 
 .debug_macro
  *(.debug_macro)

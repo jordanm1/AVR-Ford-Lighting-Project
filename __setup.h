@@ -77,7 +77,7 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                      18
+#define NUM_EVENTS                      20
 
 #define NON_EVENT                       EVENT_NULL
        
@@ -104,6 +104,9 @@
 #define EVT_SPI_SEND_BYTE               EVENT_16
 #define EVT_SPI_RECV_BYTE               EVENT_17
 #define EVT_SPI_END                     EVENT_18
+
+#define EVT_BTN_SYS_ON                  EVENT_19
+#define EVT_BTN_SYS_OFF                 EVENT_20
 
 // #############################################################################
 // ------------ END OF FILE
