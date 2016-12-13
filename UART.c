@@ -372,6 +372,7 @@ ISR(LIN_TC_vect)
 		// Check for correct sequence from modem to see if a packet is coming
 		else
 		{
+			PORTB &= ~(1<<PINB5);
 			uint8_t Current_Read = LINDAT;
 			if (Current_Read == 'T')
 			{

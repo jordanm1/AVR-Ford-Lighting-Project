@@ -735,7 +735,7 @@ END GROUP
 .rela.plt
  *(.rela.plt)
 
-.text           0x00000000      0xfb2
+.text           0x00000000      0xfac
  *(.vectors)
  .vectors       0x00000000       0x50 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
                 0x00000000                __vector_default
@@ -904,22 +904,22 @@ END GROUP
                 0x00000bd4       0xfc UART.o
                 0x00000bd4                Write_UART
  .text.__vector_12
-                0x00000cd0      0x23c UART.o
+                0x00000cd0      0x236 UART.o
                 0x00000cd0                __vector_12
  .text.Init_UART_Service
-                0x00000f0c        0x6 UART_Service.o
-                0x00000f0c                Init_UART_Service
+                0x00000f06        0x6 UART_Service.o
+                0x00000f06                Init_UART_Service
  .text.Run_UART_Service
-                0x00000f12       0x96 UART_Service.o
-                0x00000f12                Run_UART_Service
+                0x00000f0c       0x96 UART_Service.o
+                0x00000f0c                Run_UART_Service
  .text.Query_UART_State
-                0x00000fa8        0x6 UART_Service.o
-                0x00000fa8                Query_UART_State
-                0x00000fae                . = ALIGN (0x2)
+                0x00000fa2        0x6 UART_Service.o
+                0x00000fa2                Query_UART_State
+                0x00000fa8                . = ALIGN (0x2)
  *(.fini9)
- .fini9         0x00000fae        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
-                0x00000fae                _exit
-                0x00000fae                exit
+ .fini9         0x00000fa8        0x0 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+                0x00000fa8                _exit
+                0x00000fa8                exit
  *(.fini9)
  *(.fini8)
  *(.fini8)
@@ -938,11 +938,11 @@ END GROUP
  *(.fini1)
  *(.fini1)
  *(.fini0)
- .fini0         0x00000fae        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
+ .fini0         0x00000fa8        0x4 c:/program files (x86)/atmel/studio/7.0/toolchain/avr8/avr8-gnu-toolchain/bin/../lib/gcc/avr/4.9.2/avr35\libgcc.a(_exit.o)
  *(.fini0)
-                0x00000fb2                _etext = .
+                0x00000fac                _etext = .
 
-.data           0x00800100        0xe load address 0x00000fb2
+.data           0x00800100        0xe load address 0x00000fac
                 0x00800100                PROVIDE (__data_start, .)
  *(.data)
  *(.data*)
@@ -1052,8 +1052,8 @@ END GROUP
                 0x00800215        0x1 UART_Service.o
  *(COMMON)
                 0x00800216                PROVIDE (__bss_end, .)
-                0x00000fb2                __data_load_start = LOADADDR (.data)
-                0x00000fc0                __data_load_end = (__data_load_start + SIZEOF (.data))
+                0x00000fac                __data_load_start = LOADADDR (.data)
+                0x00000fba                __data_load_end = (__data_load_start + SIZEOF (.data))
 
 .noinit         0x00800216        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
