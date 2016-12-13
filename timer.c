@@ -42,6 +42,9 @@
 // Interrupts
 #include <avr/interrupt.h>
 
+// Atomic Read/Write operations
+#include <util/atomic.h>
+
 // #############################################################################
 // ------------ MODULE DEFINITIONS
 // #############################################################################
@@ -186,11 +189,14 @@ void Register_Timer(uint32_t * p_new_timer, timer_cb_t new_timer_cb_func)
         {
             if (0 == Timers[i].p_timer_id)
             {
-                Timers[i].p_timer_id = p_new_timer;
-                Timers[i].timer_cb_func = new_timer_cb_func;
-                Timers[i].timer_running_flag = false;
-                Timers[i].ticks_since_start = 0;
-                Timers[i].ticks_remaining = 0;
+                ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+                {
+                    Timers[i].p_timer_id = p_new_timer;
+                    Timers[i].timer_cb_func = new_timer_cb_func;
+                    Timers[i].timer_running_flag = false;
+                    Timers[i].ticks_since_start = 0;
+                    Timers[i].ticks_remaining = 0;
+                }
                 break;
             }
         }
@@ -219,9 +225,12 @@ void Start_Timer(uint32_t * p_this_timer, uint32_t time_in_ms)
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            Timers[i].timer_running_flag = true;
-            Timers[i].ticks_since_start = 0;
-            Timers[i].ticks_remaining = (time_in_ms*TICK_COUNT_PER_MS);
+            ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+            {
+                Timers[i].timer_running_flag = true;
+                Timers[i].ticks_since_start = 0;
+                Timers[i].ticks_remaining = (time_in_ms*TICK_COUNT_PER_MS);
+            }
             break;
         }
     }
@@ -275,7 +284,10 @@ void Stop_Timer(uint32_t * p_this_timer)
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            Timers[i].timer_running_flag = false;
+            ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+            {
+                Timers[i].timer_running_flag = false;
+            }
             break;
         }
     }
@@ -303,9 +315,12 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksper
     {
         if (p_this_timer == Timers[i].p_timer_id)
         {
-            Timers[i].timer_running_flag = true;
-            Timers[i].ticks_since_start = 0;
-            Timers[i].ticks_remaining = time_in_ms_div_ticksperms;
+            ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
+            {
+                Timers[i].timer_running_flag = true;
+                Timers[i].ticks_since_start = 0;
+                Timers[i].ticks_remaining = time_in_ms_div_ticksperms;
+            }
             break;
         }
     }
