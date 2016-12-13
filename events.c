@@ -213,21 +213,26 @@ void Run_Events(void)
 ****************************************************************************/
 static void process_event_if_pending(uint32_t event_mask)
 {
+    // Initialize event pending flag to false
+    bool event_pending = false;
+
     // We must enter a critical section here, because it is possible that
     // while we are clearing the event, an interrupt may occur and post an 
     // event. In this situation, we would lose the new event that was posted.
     ATOMIC_BLOCK(ATOMIC_RESTORESTATE)
     {
-        // If this event is not pending, return immediately.
-        if (!(Pending_Events & event_mask)) return;
+        // If this event is pending
+        if (event_mask == (Pending_Events & event_mask))
+        {
+            // Set flag
+            event_pending = true;
 
-        // If we are here, the event must be pending.
-        // Clear the event and continue.
-        Pending_Events &= ~event_mask;
+            // Clear the event
+            Pending_Events &= ~event_mask;
+        }           
     }
 
-    // If we are here, the event must be pending.
-    // Run all services to process the event.
-    Run_Services(event_mask);
+    // If the event is pending, run all services to process the event.
+    if (event_pending) Run_Services(event_mask);
 }
 
