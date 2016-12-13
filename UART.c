@@ -82,7 +82,7 @@ static bool third_slash_r = false;
 
 static uint8_t byte_space_counter = 0;
 
-static uint8_t Modem_Recv_Data [MAX_MODEM_RECEIVE] = {0};
+static uint8_t *Modem_Recv_Data;
 
 static const char Init_Text[149] PROGMEM = "ATE1/rAT^SICA=1,3/rAT^SISS=0,\"srvType\",\"socket"
 										  "\"/rAT^SISS=0,\"conId\",3/rAT^SISS=0,\"address\""
@@ -116,7 +116,7 @@ static void Update_Buffer_Index(void);
         address
 
 ****************************************************************************/
-void UART_Initialize()
+void UART_Initialize(uint8_t *pCanTXPacket)
 {    	
 	// Rx -> A0
 	// Tx -> A1
@@ -149,7 +149,8 @@ void UART_Initialize()
     Buffer_Index = 0;
     TX_Index = 0;
 	RX_Index = 0;
-
+	
+	Modem_Recv_Data = pCanTXPacket;
     Reset_Command_Receive_Buffer();
 }
 

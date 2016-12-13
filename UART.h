@@ -24,7 +24,7 @@
 // ------------ PUBLIC FUNCTION PROTOTYPES
 // #############################################################################
 
-void UART_Initialize(void);
+void UART_Initialize(uint8_t *pCanTXPacket);
 void UART_Transmit(void);
 void UART_Start_Command (void);
 void UART_End_Command (void);

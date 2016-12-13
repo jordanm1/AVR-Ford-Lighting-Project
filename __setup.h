@@ -47,6 +47,8 @@
 
 #define INITIALIZER_04				Init_LIN_XCVR_WD_Kicker
 
+#define INITIALIZER_05				Init_SPI_Service
+
 // #############################################################################
 // ------------ SERVICES (must be functions of type "void f(uint32_t event)")
 // #############################################################################
@@ -56,13 +58,15 @@
 
 #define SERVICE_01					Run_UART_Service
 
+#define SERVICE_02					Run_SPI_Service
+
 
 // #############################################################################
 // ------------ EVENT DEFINITIONS
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                  15
+#define NUM_EVENTS                  19
 
 #define NON_EVENT                   EVENT_NULL
 
@@ -85,12 +89,16 @@
 #define EVT_UART_RECV_BYTE          EVENT_10
 #define EVT_UART_END                EVENT_11
 
-#define EVT_SPI_START              EVENT_12
-#define EVT_SPI_SEND_BYTE          EVENT_13
-#define EVT_SPI_RECV_BYTE          EVENT_14
-#define EVT_SPI_END                EVENT_15
+#define EVT_SPI_START				EVENT_12
+#define EVT_SPI_SEND_BYTE			EVENT_13
+#define EVT_SPI_RECV_BYTE			EVENT_14
+#define EVT_SPI_END					EVENT_15
 
-#define EVT_MODEM_NEW_PACKAGE      EVENT_16
+#define EVT_MODEM_NEW_PACKAGE		EVENT_16
+#define EVT_CAN_INIT_1_COMPLETE		EVENT_17
+#define EVT_BTN_DEBOUNCE_TIMEOUT	EVENT_18
+#define EVT_CAN_POLLING_TIMEOUT		EVENT_19
+
 
 // #############################################################################
 // ------------ END OF FILE

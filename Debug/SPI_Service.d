@@ -14,9 +14,9 @@ SPI_Service.d SPI_Service.o: .././SPI_Service.c \
  c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\lock.h \
  .././framework.h .././events.h .././__setup.h .././timer.h \
  .././LIN_XCVR_WD_Kicker.h .././PWM.h .././IOC.h .././ADC.h \
- .././analog_servo_drv.h .././buttons.h .././master_service.h \
- .././SPI_Service.h .././slave_service.h .././slave_number_setting_SM.h \
- .././SPI.h .././SPI_service.h
+ .././analog_servo_drv.h .././master_service.h .././slave_service.h \
+ .././SPI_Service.h .././UART_Service.h .././ModemService.h .././SPI.h \
+ .././SPI_service.h
 
 c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\4.9.2\include\stdint.h:
 
@@ -62,15 +62,15 @@ c:\program\ files\ (x86)\atmel\studio\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\
 
 .././analog_servo_drv.h:
 
-.././buttons.h:
-
 .././master_service.h:
-
-.././SPI_Service.h:
 
 .././slave_service.h:
 
-.././slave_number_setting_SM.h:
+.././SPI_Service.h:
+
+.././UART_Service.h:
+
+.././ModemService.h:
 
 .././SPI.h:
 

@@ -36,11 +36,7 @@ ModemService.c
 
 PWM.c
 
-slave_number_setting_SM.c
-
 slave_parameters.c
-
-slave_service.c
 
 SPI.c
 

@@ -52,14 +52,14 @@ C_SRCS +=  \
 ../LIN_XCVR_WD_Kicker.c \
 ../main.c \
 ../master_service.c \
-../MS_LIN_top_layer.c \
+../ModemService.c \
 ../PWM.c \
-../slave_number_setting_SM.c \
 ../slave_parameters.c \
-../slave_service.c \
 ../SPI.c \
 ../SPI_Service.c \
 ../timer.c \
+../UART.c \
+../UART_Service.c \
 ../__template.c
 
 
@@ -85,14 +85,14 @@ lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
 master_service.o \
-MS_LIN_top_layer.o \
+ModemService.o \
 PWM.o \
-slave_number_setting_SM.o \
 slave_parameters.o \
-slave_service.o \
 SPI.o \
 SPI_Service.o \
 timer.o \
+UART.o \
+UART_Service.o \
 __template.o
 
 OBJS_AS_ARGS +=  \
@@ -111,14 +111,14 @@ lin_drv.o \
 LIN_XCVR_WD_Kicker.o \
 main.o \
 master_service.o \
-MS_LIN_top_layer.o \
+ModemService.o \
 PWM.o \
-slave_number_setting_SM.o \
 slave_parameters.o \
-slave_service.o \
 SPI.o \
 SPI_Service.o \
 timer.o \
+UART.o \
+UART_Service.o \
 __template.o
 
 C_DEPS +=  \
@@ -137,14 +137,14 @@ lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
 master_service.d \
-MS_LIN_top_layer.d \
+ModemService.d \
 PWM.d \
-slave_number_setting_SM.d \
 slave_parameters.d \
-slave_service.d \
 SPI.d \
 SPI_Service.d \
 timer.d \
+UART.d \
+UART_Service.d \
 __template.d
 
 C_DEPS_AS_ARGS +=  \
@@ -163,14 +163,14 @@ lin_drv.d \
 LIN_XCVR_WD_Kicker.d \
 main.d \
 master_service.d \
-MS_LIN_top_layer.d \
+ModemService.d \
 PWM.d \
-slave_number_setting_SM.d \
 slave_parameters.d \
-slave_service.d \
 SPI.d \
 SPI_Service.d \
 timer.d \
+UART.d \
+UART_Service.d \
 __template.d
 
 OUTPUT_FILE_PATH +=Ford_360_Lighting_Project.elf

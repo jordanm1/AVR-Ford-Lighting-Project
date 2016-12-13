@@ -239,9 +239,9 @@
     <Compile Include="PWM.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="slave_number_setting_SM.c">
+    <None Include="slave_number_setting_SM.c">
       <SubType>compile</SubType>
-    </Compile>
+    </None>
     <Compile Include="slave_number_setting_SM.h">
       <SubType>compile</SubType>
     </Compile>
@@ -251,12 +251,12 @@
     <Compile Include="slave_parameters.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="slave_service.c">
+    <None Include="slave_service.c">
       <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="slave_service.h">
+    </None>
+    <None Include="slave_service.h">
       <SubType>compile</SubType>
-    </Compile>
+    </None>
     <Compile Include="SPI.c">
       <SubType>compile</SubType>
     </Compile>
