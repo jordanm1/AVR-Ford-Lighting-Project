@@ -8,6 +8,15 @@
         The current implementation can be off by +- 0.5 ms.
             (That is, if a function started a timer for 0.5ms, the 
             timer could expire in the next clock cycle via an interrupt)
+
+        We must enter a critical sections whenever we modify the timer 
+        variable, because it is possible that while we are modifying 
+        the timers, an tick interrupt may occur and cause extraneous 
+        expiration events. For example, the running flag may be set to
+        true and the remaining ticks may still be zero, then an interrupt
+        may occur which will service the timers and will see that a timer
+        is running with zero remaining ticks, which will cause a false
+        timer expiration event.
     
     External Functions Required:
 
