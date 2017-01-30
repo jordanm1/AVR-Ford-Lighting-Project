@@ -89,11 +89,11 @@ static uint8_t *Modem_Recv_Data;
 										  //",\"socktcp://listener:2000;etx=26;autoconnect"
 										  //"=1\"/rAT^SISO=0/r";
 //static const char Init_Text[10] PROGMEM = "AT^SICA?\r";			
-//static const char Init_Text[10] PROGMEM = "AT^SISS?\r";			
+static const char Init_Text[10] PROGMEM = "AT^SISS?\r";			
 //static const char Init_Text[13] PROGMEM = "AT+CGDCONT?\r";	
 //static const char Init_Text[40] PROGMEM = "AT+CGDCONT=3,\"IPV4V6\",\"MW01.VZWSTATIC\"/r";				
 //static const char Init_Text[11] PROGMEM = "AT^SISC=0\r";		
-static const char Init_Text[11] PROGMEM = "AT^SISO=0\r";		
+//static const char Init_Text[11] PROGMEM = "AT^SISO=0\r";		
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -125,6 +125,8 @@ void UART_Initialize(uint8_t *pCanTXPacket)
 	
 	//DDRA &= ~(1<<PINA0);
 	//PORTA &= ~(1<<PINA0);
+	PORTB &= ~(1<<PINB1);
+	DDRB |= (1<<PINB1);
 	PORTB &= ~(1<<PINB5);
 	DDRB |= (1<<PINB5);
 	
@@ -135,18 +137,18 @@ void UART_Initialize(uint8_t *pCanTXPacket)
 	// - Command Mode = TxRx Enabled
 	// - UART Enable
 	// - Odd Parity	
-	LINCR = (0<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
+	LINCR = (1<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
 	
 	// Set up LINBTR
-	LINBTR = (1<<LDISR);
+	LINBTR = (0<<LDISR);
 	
 	// 19200 baud
 	LINBRRL = 12;//(1<<LDIV0);
 	LINBRRH = 0;
     
 	// LIN Interrupt Enable
-	//LINENIR = (1<<LENERR)|(1<<LENTXOK)|(1<<LENRXOK);
-	LINENIR = (0<<LENTXOK)|(1<<LENRXOK);
+	LINENIR = (1<<LENERR)|(1<<LENTXOK)|(1<<LENRXOK);
+	//LINENIR = (1<<LENTXOK)|(1<<LENRXOK);
 	// Reset indices
     Buffer_Index = 0;
     TX_Index = 0;
@@ -345,11 +347,15 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
         Handles UART transmission completed interrupts
 
 ****************************************************************************/
+ISR(LIN_ERR_vect)
+{
+	PORTB |= (1<<PINB1);
+	LINSIR |= (1<LERR);
+}
 
 ISR(LIN_TC_vect)
 {
 	//LINSIR = (1<<3)|(1<<2)|(1<<1)|(1<<0);
-	
 	// Received a byte
 	if (LINSIR & RX_ISR_FLAG)	
 	//if (!modem_init && !In_Tx)
@@ -375,7 +381,7 @@ ISR(LIN_TC_vect)
 		// Check for correct sequence from modem to see if a packet is coming
 		else
 		{
-			PORTB &= ~(1<<PINB5);
+			//PORTB &= ~(1<<PINB5);
 			uint8_t Current_Read = LINDAT;
 			if (Current_Read == 'T')
 			{
