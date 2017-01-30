@@ -75,6 +75,8 @@ static uint8_t Recv_Byte = 0;
 static uint8_t* RX_Data[1] = {&Recv_Byte};
 static uint8_t TX_Data[2] = {0xA5, 0xB5};
 static uint8_t Modem_Recv_Data [MAX_MODEM_RECEIVE] = {0};
+	
+static uint8_t TX_Away[5] = {0x0a, 0x00, 0x00, 0x00, 0x00};
 
 static bool do_init_modem = true;
 static bool flipper = true;
@@ -103,7 +105,6 @@ void Init_Modem_Service(void)
    // Initialize UART
 	UART_Initialize(Modem_Recv_Data);
 	Register_Timer(&Testing_Timer, Post_Event);
-	Start_Timer(&Testing_Timer, 5000);
     PORTB &= ~(1<<PINB2);
     DDRB |= (1<<PINB2);
 	
@@ -140,6 +141,8 @@ void Run_Modem_Service(uint32_t event_mask)
 
 		        // Call step two of the CAN init
 		        CAN_Initialize_2();
+				
+				Start_Timer(&Testing_Timer, 200);
 		        
 		        break;
 				
@@ -151,6 +154,7 @@ void Run_Modem_Service(uint32_t event_mask)
 			}
 			else
 			{
+				CAN_Send_Message(5, TX_Away);
 				//Write_UART(2, 0, &TX_Data[0], &RX_Data[0], false);
 			}
 			
