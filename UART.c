@@ -84,16 +84,16 @@ static uint8_t byte_space_counter = 0;
 
 static uint8_t *Modem_Recv_Data;
 
-//static const char Init_Text[149] PROGMEM = "ATE1/rAT^SICA=1,3/rAT^SISS=0,\"srvType\",\"socket"
-										  //"\"/rAT^SISS=0,\"conId\",3/rAT^SISS=0,\"address\""
-										  //",\"socktcp://listener:2000;etx=26;autoconnect"
-										  //"=1\"/rAT^SISO=0/r";
+static const char Init_Text[149] PROGMEM = "ATE1/rAT^SICA=1,3/rAT^SISS=0,\"srvType\",\"socket"
+										  "\"/rAT^SISS=0,\"conId\",3/rAT^SISS=0,\"address\""
+										  ",\"socktcp://listener:2000;etx=26;autoconnect"
+										  "=1\"/rAT^SISO=0/r";
 //static const char Init_Text[10] PROGMEM = "AT^SICA?\r";			
 //static const char Init_Text[10] PROGMEM = "AT^SISS?\r";			
 //static const char Init_Text[13] PROGMEM = "AT+CGDCONT?\r";	
 //static const char Init_Text[40] PROGMEM = "AT+CGDCONT=3,\"IPV4V6\",\"MW01.VZWSTATIC\"/r";				
 //static const char Init_Text[11] PROGMEM = "AT^SISC=0\r";		
-static const char Init_Text[11] PROGMEM = "AT^SISO=0\r";		
+//static const char Init_Text[11] PROGMEM = "AT^SISO=0\r";		
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
