@@ -135,7 +135,7 @@ void UART_Initialize(uint8_t *pCanTXPacket)
 	// - Command Mode = TxRx Enabled
 	// - UART Enable
 	// - Odd Parity	
-	LINCR = (0<<LCMD0)|(1<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
+	LINCR = (1<<LCMD0)|(0<<LCMD1)|(1<<LCMD2)|(1<<LENA)|(0<<LCONF0)|(0<<LCONF1);
 	
 	// Set up LINBTR
 	LINBTR = (1<<LDISR);
@@ -146,7 +146,7 @@ void UART_Initialize(uint8_t *pCanTXPacket)
     
 	// LIN Interrupt Enable
 	//LINENIR = (1<<LENERR)|(1<<LENTXOK)|(1<<LENRXOK);
-	LINENIR = (0<<LENTXOK)|(1<<LENRXOK);
+	LINENIR = (1<<LENTXOK)|(0<<LENRXOK);
 	// Reset indices
     Buffer_Index = 0;
     TX_Index = 0;
