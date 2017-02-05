@@ -13,7 +13,7 @@
 #define UART_RX_LENGTH_BYTE				1
 #define UART_LENGTH_BYTES				2
 
-#define	MAX_MODEM_RECEIVE				4
+#define	MAX_MODEM_RECEIVE				5
 
 #define MAX_UART_DATA_LENGTH			10
 

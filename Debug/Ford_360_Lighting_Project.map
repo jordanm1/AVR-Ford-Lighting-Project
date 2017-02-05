@@ -1020,7 +1020,7 @@ END GROUP
                 0x00800120                _edata = .
                 0x00800120                PROVIDE (__data_end, .)
 
-.bss            0x00800120       0xe2
+.bss            0x00800120       0xe3
                 0x00800120                PROVIDE (__bss_start, .)
  *(.bss)
  *(.bss*)
@@ -1047,74 +1047,74 @@ END GROUP
  .bss.LIN_XCVR_Kick_Timer
                 0x00800137        0x4 LIN_XCVR_WD_Kicker.o
  .bss.Modem_Recv_Data
-                0x0080013b        0x4 ModemService.o
+                0x0080013b        0x5 ModemService.o
  .bss.Recv_Byte
-                0x0080013f        0x1 ModemService.o
+                0x00800140        0x1 ModemService.o
  .bss.CAN_Volatile_Msg
-                0x00800140        0x5 ModemService.o
+                0x00800141        0x5 ModemService.o
  .bss.counter_value
-                0x00800145        0x4 SPI.o
- .bss.In_Tx     0x00800149        0x1 SPI.o
+                0x00800146        0x4 SPI.o
+ .bss.In_Tx     0x0080014a        0x1 SPI.o
  .bss.Expected_RX_Length
-                0x0080014a        0x1 SPI.o
- .bss.Expected_TX_Length
                 0x0080014b        0x1 SPI.o
- .bss.TX_Index  0x0080014c        0x1 SPI.o
- .bss.RX_Index  0x0080014d        0x1 SPI.o
- .bss.Next_Available_Row
-                0x0080014e        0x1 SPI.o
- .bss.Buffer_Index
-                0x0080014f        0x1 SPI.o
- .bss.Receive_List
-                0x00800150       0x14 SPI.o
- .bss.Command_Buffer
-                0x00800164       0x3c SPI.o
- .bss.Master_Slave_Identifier
-                0x008001a0        0x1 SPI.o
- .bss.Current_State
-                0x008001a1        0x1 SPI_Service.o
- .bss.Timers    0x008001a2       0x41 timer.o
- .bss.Modem_Recv_Data
-                0x008001e3        0x2 UART.o
- .bss.byte_space_counter
-                0x008001e5        0x1 UART.o
- .bss.third_slash_r
-                0x008001e6        0x1 UART.o
- .bss.second_byte_slash_n
-                0x008001e7        0x1 UART.o
- .bss.first_byte_T
-                0x008001e8        0x1 UART.o
- .bss.counter_value
-                0x008001e9        0x4 UART.o
- .bss.In_Tx     0x008001ed        0x1 UART.o
- .bss.Text_Index
-                0x008001ee        0x1 UART.o
- .bss.Expected_RX_Length
-                0x008001ef        0x1 UART.o
  .bss.Expected_TX_Length
-                0x008001f0        0x1 UART.o
- .bss.TX_Index  0x008001f1        0x1 UART.o
- .bss.RX_Index  0x008001f2        0x1 UART.o
+                0x0080014c        0x1 SPI.o
+ .bss.TX_Index  0x0080014d        0x1 SPI.o
+ .bss.RX_Index  0x0080014e        0x1 SPI.o
  .bss.Next_Available_Row
-                0x008001f3        0x1 UART.o
+                0x0080014f        0x1 SPI.o
  .bss.Buffer_Index
-                0x008001f4        0x1 UART.o
+                0x00800150        0x1 SPI.o
  .bss.Receive_List
-                0x008001f5        0x4 UART.o
+                0x00800151       0x14 SPI.o
  .bss.Command_Buffer
-                0x008001f9        0x8 UART.o
+                0x00800165       0x3c SPI.o
+ .bss.Master_Slave_Identifier
+                0x008001a1        0x1 SPI.o
  .bss.Current_State
-                0x00800201        0x1 UART_Service.o
+                0x008001a2        0x1 SPI_Service.o
+ .bss.Timers    0x008001a3       0x41 timer.o
+ .bss.Modem_Recv_Data
+                0x008001e4        0x2 UART.o
+ .bss.byte_space_counter
+                0x008001e6        0x1 UART.o
+ .bss.third_slash_r
+                0x008001e7        0x1 UART.o
+ .bss.second_byte_slash_n
+                0x008001e8        0x1 UART.o
+ .bss.first_byte_T
+                0x008001e9        0x1 UART.o
+ .bss.counter_value
+                0x008001ea        0x4 UART.o
+ .bss.In_Tx     0x008001ee        0x1 UART.o
+ .bss.Text_Index
+                0x008001ef        0x1 UART.o
+ .bss.Expected_RX_Length
+                0x008001f0        0x1 UART.o
+ .bss.Expected_TX_Length
+                0x008001f1        0x1 UART.o
+ .bss.TX_Index  0x008001f2        0x1 UART.o
+ .bss.RX_Index  0x008001f3        0x1 UART.o
+ .bss.Next_Available_Row
+                0x008001f4        0x1 UART.o
+ .bss.Buffer_Index
+                0x008001f5        0x1 UART.o
+ .bss.Receive_List
+                0x008001f6        0x4 UART.o
+ .bss.Command_Buffer
+                0x008001fa        0x8 UART.o
+ .bss.Current_State
+                0x00800202        0x1 UART_Service.o
  *(COMMON)
-                0x00800202                PROVIDE (__bss_end, .)
+                0x00800203                PROVIDE (__bss_end, .)
                 0x000014a8                __data_load_start = LOADADDR (.data)
                 0x000014c8                __data_load_end = (__data_load_start + SIZEOF (.data))
 
-.noinit         0x00800202        0x0
+.noinit         0x00800203        0x0
                 [!provide]                PROVIDE (__noinit_start, .)
  *(.noinit*)
                 [!provide]                PROVIDE (__noinit_end, .)
-                0x00800202                _end = .
+                0x00800203                _end = .
                 [!provide]                PROVIDE (__heap_start, .)
 
 .eeprom         0x00810000        0x0
@@ -1232,7 +1232,7 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x3a54
+.debug_info     0x00000000     0x3a44
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATautomotive_DFP/1.1.96/gcc/dev/ata6617c/avr35/crtata6617c.o
  .debug_info    0x000005f4       0xec ADC.o
@@ -1245,12 +1245,12 @@ END GROUP
  .debug_info    0x00001f07      0x184 IOC.o
  .debug_info    0x0000208b      0x1de LIN_XCVR_WD_Kicker.o
  .debug_info    0x00002269       0xb9 main.o
- .debug_info    0x00002322      0x454 ModemService.o
- .debug_info    0x00002776      0x488 SPI.o
- .debug_info    0x00002bfe      0x1a5 SPI_Service.o
- .debug_info    0x00002da3      0x4d5 timer.o
- .debug_info    0x00003278      0x634 UART.o
- .debug_info    0x000038ac      0x1a8 UART_Service.o
+ .debug_info    0x00002322      0x444 ModemService.o
+ .debug_info    0x00002766      0x488 SPI.o
+ .debug_info    0x00002bee      0x1a5 SPI_Service.o
+ .debug_info    0x00002d93      0x4d5 timer.o
+ .debug_info    0x00003268      0x634 UART.o
+ .debug_info    0x0000389c      0x1a8 UART_Service.o
 
 .debug_abbrev   0x00000000     0x1989
  *(.debug_abbrev)

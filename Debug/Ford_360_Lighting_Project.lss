@@ -7,7 +7,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, ALLOC, LOAD, DATA
   1 .text         000014a8  00000000  00000000  00000094  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .bss          000000e2  00800120  00800120  0000155c  2**0
+  2 .bss          000000e3  00800120  00800120  0000155c  2**0
                   ALLOC
   3 .comment      00000030  00000000  00000000  0000155c  2**0
                   CONTENTS, READONLY
@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 000003b8  00000000  00000000  000015c8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00003a54  00000000  00000000  00001980  2**0
+  6 .debug_info   00003a44  00000000  00000000  00001980  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00001989  00000000  00000000  000053d4  2**0
+  7 .debug_abbrev 00001989  00000000  00000000  000053c4  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   000020fd  00000000  00000000  00006d5d  2**0
+  8 .debug_line   000020fd  00000000  00000000  00006d4d  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  000009f8  00000000  00000000  00008e5c  2**2
+  9 .debug_frame  000009f8  00000000  00000000  00008e4c  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    00000f90  00000000  00000000  00009854  2**0
+ 10 .debug_str    00000f90  00000000  00000000  00009844  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    000022b4  00000000  00000000  0000a7e4  2**0
+ 11 .debug_loc    000022b4  00000000  00000000  0000a7d4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 00000318  00000000  00000000  0000ca98  2**0
+ 12 .debug_ranges 00000318  00000000  00000000  0000ca88  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -92,7 +92,7 @@ Disassembly of section .text:
       84:	1d 92       	st	X+, r1
 
 00000086 <.do_clear_bss_start>:
-      86:	a2 30       	cpi	r26, 0x02	; 2
+      86:	a3 30       	cpi	r26, 0x03	; 3
       88:	b2 07       	cpc	r27, r18
       8a:	e1 f7       	brne	.-8      	; 0x84 <.do_clear_bss_loop>
       8c:	0e 94 05 04 	call	0x80a	; 0x80a <main>
@@ -1673,7 +1673,7 @@ void Run_Modem_Service(uint32_t event_mask)
 			CAN_Send_Message(MAX_MODEM_RECEIVE, Modem_Recv_Data);
      8e8:	6b e3       	ldi	r22, 0x3B	; 59
      8ea:	71 e0       	ldi	r23, 0x01	; 1
-     8ec:	84 e0       	ldi	r24, 0x04	; 4
+     8ec:	85 e0       	ldi	r24, 0x05	; 5
      8ee:	90 e0       	ldi	r25, 0x00	; 0
      8f0:	0e 94 ed 01 	call	0x3da	; 0x3da <CAN_Send_Message>
 			break;
@@ -1696,7 +1696,7 @@ void SPI_Initialize(void)
      8fa:	df 93       	push	r29
     // Identify node type
     Master_Slave_Identifier = SPI_MASTER;
-     8fc:	10 92 a0 01 	sts	0x01A0, r1	; 0x8001a0 <Master_Slave_Identifier>
+     8fc:	10 92 a1 01 	sts	0x01A1, r1	; 0x8001a1 <Master_Slave_Identifier>
     
     if (SPI_MASTER == Master_Slave_Identifier)
     {
@@ -1720,16 +1720,16 @@ void SPI_Initialize(void)
 
         // Reset indices
         Buffer_Index = 0;
-     90c:	10 92 4f 01 	sts	0x014F, r1	; 0x80014f <Buffer_Index>
+     90c:	10 92 50 01 	sts	0x0150, r1	; 0x800150 <Buffer_Index>
         TX_Index = 0;
-     910:	10 92 4c 01 	sts	0x014C, r1	; 0x80014c <TX_Index>
+     910:	10 92 4d 01 	sts	0x014D, r1	; 0x80014d <TX_Index>
 		RX_Index = 0;
-     914:	10 92 4d 01 	sts	0x014D, r1	; 0x80014d <RX_Index>
-     918:	e9 e6       	ldi	r30, 0x69	; 105
+     914:	10 92 4e 01 	sts	0x014E, r1	; 0x80014e <RX_Index>
+     918:	ea e6       	ldi	r30, 0x6A	; 106
      91a:	f1 e0       	ldi	r31, 0x01	; 1
-     91c:	a0 e5       	ldi	r26, 0x50	; 80
+     91c:	a1 e5       	ldi	r26, 0x51	; 81
      91e:	b1 e0       	ldi	r27, 0x01	; 1
-     920:	24 e6       	ldi	r18, 0x64	; 100
+     920:	25 e6       	ldi	r18, 0x65	; 101
      922:	31 e0       	ldi	r19, 0x01	; 1
     for (int row = 0; row < COMMAND_BUFFER_SIZE; row++)
     {
@@ -1784,7 +1784,7 @@ static void Reset_Command_Receive_Buffer(void)
 void SPI_Start_Command (void)
 {
 	Expected_TX_Length = Command_Buffer[Buffer_Index][TX_LENGTH_BYTE];
-     950:	80 91 4f 01 	lds	r24, 0x014F	; 0x80014f <Buffer_Index>
+     950:	80 91 50 01 	lds	r24, 0x0150	; 0x800150 <Buffer_Index>
      954:	90 e0       	ldi	r25, 0x00	; 0
      956:	fc 01       	movw	r30, r24
      958:	ee 0f       	add	r30, r30
@@ -1794,14 +1794,14 @@ void SPI_Start_Command (void)
      960:	b9 1f       	adc	r27, r25
      962:	aa 0f       	add	r26, r26
      964:	bb 1f       	adc	r27, r27
-     966:	ac 59       	subi	r26, 0x9C	; 156
+     966:	ab 59       	subi	r26, 0x9B	; 155
      968:	be 4f       	sbci	r27, 0xFE	; 254
      96a:	2c 91       	ld	r18, X
-     96c:	20 93 4b 01 	sts	0x014B, r18	; 0x80014b <Expected_TX_Length>
+     96c:	20 93 4c 01 	sts	0x014C, r18	; 0x80014c <Expected_TX_Length>
 	Expected_RX_Length = Command_Buffer[Buffer_Index][RX_LENGTH_BYTE];
      970:	fd 01       	movw	r30, r26
      972:	81 81       	ldd	r24, Z+1	; 0x01
-     974:	80 93 4a 01 	sts	0x014A, r24	; 0x80014a <Expected_RX_Length>
+     974:	80 93 4b 01 	sts	0x014B, r24	; 0x80014b <Expected_RX_Length>
 
     // If somehow the expected lengths are invalid, set them to 
     // reasonable values
@@ -1809,43 +1809,43 @@ void SPI_Start_Command (void)
      978:	2f 3f       	cpi	r18, 0xFF	; 255
      97a:	19 f4       	brne	.+6      	; 0x982 <SPI_Start_Command+0x32>
      97c:	91 e0       	ldi	r25, 0x01	; 1
-     97e:	90 93 4b 01 	sts	0x014B, r25	; 0x80014b <Expected_TX_Length>
+     97e:	90 93 4c 01 	sts	0x014C, r25	; 0x80014c <Expected_TX_Length>
     if (Expected_RX_Length == 0xff) Expected_RX_Length = 0;
      982:	8f 3f       	cpi	r24, 0xFF	; 255
      984:	11 f4       	brne	.+4      	; 0x98a <SPI_Start_Command+0x3a>
-     986:	10 92 4a 01 	sts	0x014A, r1	; 0x80014a <Expected_RX_Length>
+     986:	10 92 4b 01 	sts	0x014B, r1	; 0x80014b <Expected_RX_Length>
 	
 	// Set RX data index
 	RX_Index = 0;
-     98a:	10 92 4d 01 	sts	0x014D, r1	; 0x80014d <RX_Index>
+     98a:	10 92 4e 01 	sts	0x014E, r1	; 0x80014e <RX_Index>
 	
     // Set TX data index
     TX_Index = 0;
-     98e:	10 92 4c 01 	sts	0x014C, r1	; 0x80014c <TX_Index>
+     98e:	10 92 4d 01 	sts	0x014D, r1	; 0x80014d <TX_Index>
 	
 	// State in TX
 	In_Tx = true;
      992:	81 e0       	ldi	r24, 0x01	; 1
-     994:	80 93 49 01 	sts	0x0149, r24	; 0x800149 <In_Tx>
+     994:	80 93 4a 01 	sts	0x014A, r24	; 0x80014a <In_Tx>
 
     //Debug line
     if (Expected_TX_Length == 0xff)
-     998:	80 91 4b 01 	lds	r24, 0x014B	; 0x80014b <Expected_TX_Length>
+     998:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <Expected_TX_Length>
      99c:	8f 3f       	cpi	r24, 0xFF	; 255
      99e:	99 f4       	brne	.+38     	; 0x9c6 <SPI_Start_Command+0x76>
     {
         counter_value++;
-     9a0:	80 91 45 01 	lds	r24, 0x0145	; 0x800145 <counter_value>
-     9a4:	90 91 46 01 	lds	r25, 0x0146	; 0x800146 <counter_value+0x1>
-     9a8:	a0 91 47 01 	lds	r26, 0x0147	; 0x800147 <counter_value+0x2>
-     9ac:	b0 91 48 01 	lds	r27, 0x0148	; 0x800148 <counter_value+0x3>
+     9a0:	80 91 46 01 	lds	r24, 0x0146	; 0x800146 <counter_value>
+     9a4:	90 91 47 01 	lds	r25, 0x0147	; 0x800147 <counter_value+0x1>
+     9a8:	a0 91 48 01 	lds	r26, 0x0148	; 0x800148 <counter_value+0x2>
+     9ac:	b0 91 49 01 	lds	r27, 0x0149	; 0x800149 <counter_value+0x3>
      9b0:	01 96       	adiw	r24, 0x01	; 1
      9b2:	a1 1d       	adc	r26, r1
      9b4:	b1 1d       	adc	r27, r1
-     9b6:	80 93 45 01 	sts	0x0145, r24	; 0x800145 <counter_value>
-     9ba:	90 93 46 01 	sts	0x0146, r25	; 0x800146 <counter_value+0x1>
-     9be:	a0 93 47 01 	sts	0x0147, r26	; 0x800147 <counter_value+0x2>
-     9c2:	b0 93 48 01 	sts	0x0148, r27	; 0x800148 <counter_value+0x3>
+     9b6:	80 93 46 01 	sts	0x0146, r24	; 0x800146 <counter_value>
+     9ba:	90 93 47 01 	sts	0x0147, r25	; 0x800147 <counter_value+0x1>
+     9be:	a0 93 48 01 	sts	0x0148, r26	; 0x800148 <counter_value+0x2>
+     9c2:	b0 93 49 01 	sts	0x0149, r27	; 0x800149 <counter_value+0x3>
     }
 
     // Set slave select low to indicate start of transmission
@@ -1870,8 +1870,8 @@ void SPI_Transmit (void)
 {
     // Send byte out
     SPDR = Command_Buffer[Buffer_Index][TX_Index + LENGTH_BYTES];
-     9ce:	20 91 4f 01 	lds	r18, 0x014F	; 0x80014f <Buffer_Index>
-     9d2:	30 91 4c 01 	lds	r19, 0x014C	; 0x80014c <TX_Index>
+     9ce:	20 91 50 01 	lds	r18, 0x0150	; 0x800150 <Buffer_Index>
+     9d2:	30 91 4d 01 	lds	r19, 0x014D	; 0x80014d <TX_Index>
      9d6:	82 2f       	mov	r24, r18
      9d8:	90 e0       	ldi	r25, 0x00	; 0
      9da:	82 0f       	add	r24, r18
@@ -1881,7 +1881,7 @@ void SPI_Transmit (void)
      9e2:	fc 01       	movw	r30, r24
      9e4:	ee 0f       	add	r30, r30
      9e6:	ff 1f       	adc	r31, r31
-     9e8:	ec 59       	subi	r30, 0x9C	; 156
+     9e8:	eb 59       	subi	r30, 0x9B	; 155
      9ea:	fe 4f       	sbci	r31, 0xFE	; 254
      9ec:	e3 0f       	add	r30, r19
      9ee:	f1 1d       	adc	r31, r1
@@ -1889,15 +1889,15 @@ void SPI_Transmit (void)
      9f2:	8e bd       	out	0x2e, r24	; 46
 	
 	if (In_Tx)
-     9f4:	80 91 49 01 	lds	r24, 0x0149	; 0x800149 <In_Tx>
+     9f4:	80 91 4a 01 	lds	r24, 0x014A	; 0x80014a <In_Tx>
      9f8:	88 23       	and	r24, r24
      9fa:	31 f0       	breq	.+12     	; 0xa08 <SPI_Transmit+0x3a>
 	{
 		// Increment Transmit Index
 		TX_Index++;		
-     9fc:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <TX_Index>
+     9fc:	80 91 4d 01 	lds	r24, 0x014D	; 0x80014d <TX_Index>
      a00:	8f 5f       	subi	r24, 0xFF	; 255
-     a02:	80 93 4c 01 	sts	0x014C, r24	; 0x80014c <TX_Index>
+     a02:	80 93 4d 01 	sts	0x014D, r24	; 0x80014d <TX_Index>
      a06:	08 95       	ret
 		/*
 		// Increment Receive Index
@@ -1905,9 +1905,9 @@ void SPI_Transmit (void)
 		*/
 		// Increment Transmit Index
 		TX_Index++;
-     a08:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <TX_Index>
+     a08:	80 91 4d 01 	lds	r24, 0x014D	; 0x80014d <TX_Index>
      a0c:	8f 5f       	subi	r24, 0xFF	; 255
-     a0e:	80 93 4c 01 	sts	0x014C, r24	; 0x80014c <TX_Index>
+     a0e:	80 93 4d 01 	sts	0x014D, r24	; 0x80014d <TX_Index>
      a12:	08 95       	ret
 
 00000a14 <Write_SPI>:
@@ -1933,10 +1933,10 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
      a2e:	79 01       	movw	r14, r18
 	counter_value = query_counter();
      a30:	0e 94 81 03 	call	0x702	; 0x702 <query_counter>
-     a34:	60 93 45 01 	sts	0x0145, r22	; 0x800145 <counter_value>
-     a38:	70 93 46 01 	sts	0x0146, r23	; 0x800146 <counter_value+0x1>
-     a3c:	80 93 47 01 	sts	0x0147, r24	; 0x800147 <counter_value+0x2>
-     a40:	90 93 48 01 	sts	0x0148, r25	; 0x800148 <counter_value+0x3>
+     a34:	60 93 46 01 	sts	0x0146, r22	; 0x800146 <counter_value>
+     a38:	70 93 47 01 	sts	0x0147, r23	; 0x800147 <counter_value+0x1>
+     a3c:	80 93 48 01 	sts	0x0148, r24	; 0x800148 <counter_value+0x2>
+     a40:	90 93 49 01 	sts	0x0149, r25	; 0x800149 <counter_value+0x3>
 	
     // Over all columns of next available command row
     for (int i = 0; i < (LENGTH_BYTES + TX_Length); i++)
@@ -1950,7 +1950,7 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
         if (i == TX_LENGTH_BYTE)
         {
             Command_Buffer[Next_Available_Row][TX_LENGTH_BYTE] = TX_Length;
-     a4e:	20 91 4e 01 	lds	r18, 0x014E	; 0x80014e <Next_Available_Row>
+     a4e:	20 91 4f 01 	lds	r18, 0x014F	; 0x80014f <Next_Available_Row>
      a52:	30 e0       	ldi	r19, 0x00	; 0
      a54:	de 01       	movw	r26, r28
      a56:	12 97       	sbiw	r26, 0x02	; 2
@@ -1969,7 +1969,7 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
         {
             Command_Buffer[Next_Available_Row][RX_LENGTH_BYTE] = RX_Length;
      a6a:	9c 01       	movw	r18, r24
-     a6c:	2c 59       	subi	r18, 0x9C	; 156
+     a6c:	2b 59       	subi	r18, 0x9B	; 155
      a6e:	3e 4f       	sbci	r19, 0xFE	; 254
      a70:	59 01       	movw	r10, r18
      a72:	2f 5f       	subi	r18, 0xFF	; 255
@@ -2007,7 +2007,7 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
      a8e:	af 01       	movw	r20, r30
      a90:	48 0f       	add	r20, r24
      a92:	59 1f       	adc	r21, r25
-     a94:	4c 59       	subi	r20, 0x9C	; 156
+     a94:	4b 59       	subi	r20, 0x9B	; 155
      a96:	5e 4f       	sbci	r21, 0xFE	; 254
      a98:	ea 01       	movw	r28, r20
      a9a:	68 83       	st	Y, r22
@@ -2029,26 +2029,26 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
     }
     // If reached Command Buffer end
     if (Next_Available_Row == COMMAND_BUFFER_SIZE - 1)
-     aa8:	80 91 4e 01 	lds	r24, 0x014E	; 0x80014e <Next_Available_Row>
+     aa8:	80 91 4f 01 	lds	r24, 0x014F	; 0x80014f <Next_Available_Row>
      aac:	89 30       	cpi	r24, 0x09	; 9
      aae:	19 f4       	brne	.+6      	; 0xab6 <Write_SPI+0xa2>
     {
         Next_Available_Row = 0;
-     ab0:	10 92 4e 01 	sts	0x014E, r1	; 0x80014e <Next_Available_Row>
+     ab0:	10 92 4f 01 	sts	0x014F, r1	; 0x80014f <Next_Available_Row>
      ab4:	03 c0       	rjmp	.+6      	; 0xabc <Write_SPI+0xa8>
     }
     else
     {
         Next_Available_Row++;
      ab6:	8f 5f       	subi	r24, 0xFF	; 255
-     ab8:	80 93 4e 01 	sts	0x014E, r24	; 0x80014e <Next_Available_Row>
+     ab8:	80 93 4f 01 	sts	0x014F, r24	; 0x80014f <Next_Available_Row>
     }
     // If SPI is currently idling, start transmission
     if (Query_SPI_State() == NORMAL_STATE && Command_Buffer[Buffer_Index][TX_LENGTH_BYTE] != 0xFF )
      abc:	0e 94 95 06 	call	0xd2a	; 0xd2a <Query_SPI_State>
      ac0:	81 11       	cpse	r24, r1
      ac2:	27 c0       	rjmp	.+78     	; 0xb12 <Write_SPI+0xfe>
-     ac4:	20 91 4f 01 	lds	r18, 0x014F	; 0x80014f <Buffer_Index>
+     ac4:	20 91 50 01 	lds	r18, 0x0150	; 0x800150 <Buffer_Index>
      ac8:	82 2f       	mov	r24, r18
      aca:	90 e0       	ldi	r25, 0x00	; 0
      acc:	82 0f       	add	r24, r18
@@ -2058,7 +2058,7 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
      ad4:	88 0f       	add	r24, r24
      ad6:	99 1f       	adc	r25, r25
      ad8:	fc 01       	movw	r30, r24
-     ada:	ec 59       	subi	r30, 0x9C	; 156
+     ada:	eb 59       	subi	r30, 0x9B	; 155
      adc:	fe 4f       	sbci	r31, 0xFE	; 254
      ade:	80 81       	ld	r24, Z
      ae0:	8f 3f       	cpi	r24, 0xFF	; 255
@@ -2080,11 +2080,11 @@ void Write_SPI(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint8
      af2:	f7 01       	movw	r30, r14
      af4:	80 81       	ld	r24, Z
      af6:	91 81       	ldd	r25, Z+1	; 0x01
-     af8:	e0 91 4e 01 	lds	r30, 0x014E	; 0x80014e <Next_Available_Row>
+     af8:	e0 91 4f 01 	lds	r30, 0x014F	; 0x80014f <Next_Available_Row>
      afc:	f0 e0       	ldi	r31, 0x00	; 0
      afe:	ee 0f       	add	r30, r30
      b00:	ff 1f       	adc	r31, r31
-     b02:	e0 5b       	subi	r30, 0xB0	; 176
+     b02:	ef 5a       	subi	r30, 0xAF	; 175
      b04:	fe 4f       	sbci	r31, 0xFE	; 254
      b06:	91 83       	std	Z+1, r25	; 0x01
      b08:	80 83       	st	Z, r24
@@ -2141,7 +2141,7 @@ ISR(SPI_STC_vect)
      b46:	ef 93       	push	r30
      b48:	ff 93       	push	r31
     if (Master_Slave_Identifier == SPI_MASTER)
-     b4a:	80 91 a0 01 	lds	r24, 0x01A0	; 0x8001a0 <Master_Slave_Identifier>
+     b4a:	80 91 a1 01 	lds	r24, 0x01A1	; 0x8001a1 <Master_Slave_Identifier>
      b4e:	81 11       	cpse	r24, r1
      b50:	8b c0       	rjmp	.+278    	; 0xc68 <__vector_14+0x140>
     {
@@ -2153,26 +2153,26 @@ ISR(SPI_STC_vect)
 		
 		// Once a transmit has been completed
 		if (In_Tx)
-     b54:	80 91 49 01 	lds	r24, 0x0149	; 0x800149 <In_Tx>
+     b54:	80 91 4a 01 	lds	r24, 0x014A	; 0x80014a <In_Tx>
      b58:	88 23       	and	r24, r24
      b5a:	e1 f0       	breq	.+56     	; 0xb94 <__vector_14+0x6c>
 		{
             // If more bytes left to transmit post transmission event
 			if (TX_Index <= Expected_TX_Length)
-     b5c:	90 91 4c 01 	lds	r25, 0x014C	; 0x80014c <TX_Index>
-     b60:	80 91 4b 01 	lds	r24, 0x014B	; 0x80014b <Expected_TX_Length>
+     b5c:	90 91 4d 01 	lds	r25, 0x014D	; 0x80014d <TX_Index>
+     b60:	80 91 4c 01 	lds	r24, 0x014C	; 0x80014c <Expected_TX_Length>
      b64:	89 17       	cp	r24, r25
      b66:	a0 f0       	brcs	.+40     	; 0xb90 <__vector_14+0x68>
 			{
 				if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
      b68:	98 13       	cpse	r25, r24
      b6a:	07 c0       	rjmp	.+14     	; 0xb7a <__vector_14+0x52>
-     b6c:	80 91 4a 01 	lds	r24, 0x014A	; 0x80014a <Expected_RX_Length>
+     b6c:	80 91 4b 01 	lds	r24, 0x014B	; 0x80014b <Expected_RX_Length>
      b70:	81 11       	cpse	r24, r1
      b72:	03 c0       	rjmp	.+6      	; 0xb7a <__vector_14+0x52>
 				{
 					In_Tx = false;									
-     b74:	10 92 49 01 	sts	0x0149, r1	; 0x800149 <In_Tx>
+     b74:	10 92 4a 01 	sts	0x014A, r1	; 0x80014a <In_Tx>
      b78:	0d c0       	rjmp	.+26     	; 0xb94 <__vector_14+0x6c>
 				}
 				else
@@ -2189,7 +2189,7 @@ ISR(SPI_STC_vect)
 		}
 		
 		if (!In_Tx)
-     b86:	80 91 49 01 	lds	r24, 0x0149	; 0x800149 <In_Tx>
+     b86:	80 91 4a 01 	lds	r24, 0x014A	; 0x80014a <In_Tx>
      b8a:	81 11       	cpse	r24, r1
      b8c:	6d c0       	rjmp	.+218    	; 0xc68 <__vector_14+0x140>
      b8e:	02 c0       	rjmp	.+4      	; 0xb94 <__vector_14+0x6c>
@@ -2199,27 +2199,27 @@ ISR(SPI_STC_vect)
 			else
 			{
 				In_Tx = false;
-     b90:	10 92 49 01 	sts	0x0149, r1	; 0x800149 <In_Tx>
+     b90:	10 92 4a 01 	sts	0x014A, r1	; 0x80014a <In_Tx>
 			}
 		}
 		
 		if (!In_Tx)
 		{
 			if (Expected_RX_Length > 0)
-     b94:	90 91 4a 01 	lds	r25, 0x014A	; 0x80014a <Expected_RX_Length>
+     b94:	90 91 4b 01 	lds	r25, 0x014B	; 0x80014b <Expected_RX_Length>
      b98:	99 23       	and	r25, r25
      b9a:	09 f1       	breq	.+66     	; 0xbde <__vector_14+0xb6>
 			{
                 if (Receive_List[Buffer_Index][RX_Index] == NULL)
-     b9c:	80 91 4d 01 	lds	r24, 0x014D	; 0x80014d <RX_Index>
-     ba0:	20 91 4f 01 	lds	r18, 0x014F	; 0x80014f <Buffer_Index>
+     b9c:	80 91 4e 01 	lds	r24, 0x014E	; 0x80014e <RX_Index>
+     ba0:	20 91 50 01 	lds	r18, 0x0150	; 0x800150 <Buffer_Index>
      ba4:	e8 2f       	mov	r30, r24
      ba6:	f0 e0       	ldi	r31, 0x00	; 0
      ba8:	e2 0f       	add	r30, r18
      baa:	f1 1d       	adc	r31, r1
      bac:	ee 0f       	add	r30, r30
      bae:	ff 1f       	adc	r31, r31
-     bb0:	e0 5b       	subi	r30, 0xB0	; 176
+     bb0:	ef 5a       	subi	r30, 0xAF	; 175
      bb2:	fe 4f       	sbci	r31, 0xFE	; 254
      bb4:	01 90       	ld	r0, Z+
      bb6:	f0 81       	ld	r31, Z
@@ -2239,7 +2239,7 @@ ISR(SPI_STC_vect)
                 }
 				RX_Index++;				
      bc6:	8f 5f       	subi	r24, 0xFF	; 255
-     bc8:	80 93 4d 01 	sts	0x014D, r24	; 0x80014d <RX_Index>
+     bc8:	80 93 4e 01 	sts	0x014E, r24	; 0x80014e <RX_Index>
 			}
 			if (RX_Index < Expected_RX_Length)
      bcc:	89 17       	cp	r24, r25
@@ -2258,7 +2258,7 @@ static void Update_Buffer_Index(void)
     for (int i = 0; i < MAX_COMMAND_TX_SIZE; i++)
     {
         Command_Buffer[Buffer_Index][i] = 0xFF;
-     bde:	30 91 4f 01 	lds	r19, 0x014F	; 0x80014f <Buffer_Index>
+     bde:	30 91 50 01 	lds	r19, 0x0150	; 0x800150 <Buffer_Index>
      be2:	83 2f       	mov	r24, r19
      be4:	90 e0       	ldi	r25, 0x00	; 0
      be6:	ac 01       	movw	r20, r24
@@ -2269,7 +2269,7 @@ static void Update_Buffer_Index(void)
      bf0:	f9 1f       	adc	r31, r25
      bf2:	ee 0f       	add	r30, r30
      bf4:	ff 1f       	adc	r31, r31
-     bf6:	ec 59       	subi	r30, 0x9C	; 156
+     bf6:	eb 59       	subi	r30, 0x9B	; 155
      bf8:	fe 4f       	sbci	r31, 0xFE	; 254
      bfa:	2f ef       	ldi	r18, 0xFF	; 255
      bfc:	20 83       	st	Z, r18
@@ -2282,7 +2282,7 @@ static void Update_Buffer_Index(void)
      c0a:	f9 1f       	adc	r31, r25
      c0c:	ee 0f       	add	r30, r30
      c0e:	ff 1f       	adc	r31, r31
-     c10:	ec 59       	subi	r30, 0x9C	; 156
+     c10:	eb 59       	subi	r30, 0x9B	; 155
      c12:	fe 4f       	sbci	r31, 0xFE	; 254
      c14:	25 83       	std	Z+5, r18	; 0x05
     }
@@ -2291,7 +2291,7 @@ static void Update_Buffer_Index(void)
     {
         Receive_List[Buffer_Index][i] = NULL;
      c16:	fa 01       	movw	r30, r20
-     c18:	e0 5b       	subi	r30, 0xB0	; 176
+     c18:	ef 5a       	subi	r30, 0xAF	; 175
      c1a:	fe 4f       	sbci	r31, 0xFE	; 254
      c1c:	11 82       	std	Z+1, r1	; 0x01
      c1e:	10 82       	st	Z, r1
@@ -2302,18 +2302,18 @@ static void Update_Buffer_Index(void)
      c22:	19 f4       	brne	.+6      	; 0xc2a <__vector_14+0x102>
     {
         Buffer_Index = 0;
-     c24:	10 92 4f 01 	sts	0x014F, r1	; 0x80014f <Buffer_Index>
+     c24:	10 92 50 01 	sts	0x0150, r1	; 0x800150 <Buffer_Index>
      c28:	03 c0       	rjmp	.+6      	; 0xc30 <__vector_14+0x108>
     }
     else
     {
         Buffer_Index++;
      c2a:	3f 5f       	subi	r19, 0xFF	; 255
-     c2c:	30 93 4f 01 	sts	0x014F, r19	; 0x80014f <Buffer_Index>
+     c2c:	30 93 50 01 	sts	0x0150, r19	; 0x800150 <Buffer_Index>
     }
     // If buffer has pending transmits
     if (Command_Buffer[Buffer_Index][TX_LENGTH_BYTE] != 0xFF)
-     c30:	20 91 4f 01 	lds	r18, 0x014F	; 0x80014f <Buffer_Index>
+     c30:	20 91 50 01 	lds	r18, 0x0150	; 0x800150 <Buffer_Index>
      c34:	82 2f       	mov	r24, r18
      c36:	90 e0       	ldi	r25, 0x00	; 0
      c38:	82 0f       	add	r24, r18
@@ -2323,7 +2323,7 @@ static void Update_Buffer_Index(void)
      c40:	88 0f       	add	r24, r24
      c42:	99 1f       	adc	r25, r25
      c44:	fc 01       	movw	r30, r24
-     c46:	ec 59       	subi	r30, 0x9C	; 156
+     c46:	eb 59       	subi	r30, 0x9B	; 155
      c48:	fe 4f       	sbci	r31, 0xFE	; 254
      c4a:	80 81       	ld	r24, Z
      c4c:	8f 3f       	cpi	r24, 0xFF	; 255
@@ -2377,7 +2377,7 @@ void Init_SPI_Service(void)
 {
 	// Start State Machine from normal state
 	Current_State = NORMAL_STATE;
-     c8a:	10 92 a1 01 	sts	0x01A1, r1	; 0x8001a1 <Current_State>
+     c8a:	10 92 a2 01 	sts	0x01A2, r1	; 0x8001a2 <Current_State>
 
     // Initialize SPI
     SPI_Initialize();
@@ -2391,7 +2391,7 @@ void Init_SPI_Service(void)
 void Run_SPI_Service(uint32_t event_mask)
 {
 	switch(Current_State)
-     c94:	20 91 a1 01 	lds	r18, 0x01A1	; 0x8001a1 <Current_State>
+     c94:	20 91 a2 01 	lds	r18, 0x01A2	; 0x8001a2 <Current_State>
      c98:	21 30       	cpi	r18, 0x01	; 1
      c9a:	a9 f0       	breq	.+42     	; 0xcc6 <Run_SPI_Service+0x32>
      c9c:	18 f0       	brcs	.+6      	; 0xca4 <Run_SPI_Service+0x10>
@@ -2413,7 +2413,7 @@ void Run_SPI_Service(uint32_t event_mask)
 				// Switch to sending state
 				Current_State = SENDING_STATE;
      cb2:	81 e0       	ldi	r24, 0x01	; 1
-     cb4:	80 93 a1 01 	sts	0x01A1, r24	; 0x8001a1 <Current_State>
+     cb4:	80 93 a2 01 	sts	0x01A2, r24	; 0x8001a2 <Current_State>
 				// Post event to initiate transition
 				Post_Event(EVT_SPI_SEND_BYTE);
      cb8:	60 e0       	ldi	r22, 0x00	; 0
@@ -2451,7 +2451,7 @@ void Run_SPI_Service(uint32_t event_mask)
      ce4:	0e 94 e7 04 	call	0x9ce	; 0x9ce <SPI_Transmit>
 				Current_State = RECEIVING_STATE;				
      ce8:	82 e0       	ldi	r24, 0x02	; 2
-     cea:	80 93 a1 01 	sts	0x01A1, r24	; 0x8001a1 <Current_State>
+     cea:	80 93 a2 01 	sts	0x01A2, r24	; 0x8001a2 <Current_State>
      cee:	08 95       	ret
 			}
 			else if (EVT_SPI_END == event_mask)
@@ -2464,7 +2464,7 @@ void Run_SPI_Service(uint32_t event_mask)
                 SPI_End_Command();
      cfa:	0e 94 e5 04 	call	0x9ca	; 0x9ca <SPI_End_Command>
 				Current_State = NORMAL_STATE;
-     cfe:	10 92 a1 01 	sts	0x01A1, r1	; 0x8001a1 <Current_State>
+     cfe:	10 92 a2 01 	sts	0x01A2, r1	; 0x8001a2 <Current_State>
      d02:	08 95       	ret
                 // Do Nothing
             }
@@ -2493,7 +2493,7 @@ void Run_SPI_Service(uint32_t event_mask)
                 SPI_End_Command();
      d20:	0e 94 e5 04 	call	0x9ca	; 0x9ca <SPI_End_Command>
                 Current_State = NORMAL_STATE;
-     d24:	10 92 a1 01 	sts	0x01A1, r1	; 0x8001a1 <Current_State>
+     d24:	10 92 a2 01 	sts	0x01A2, r1	; 0x8001a2 <Current_State>
      d28:	08 95       	ret
 
 00000d2a <Query_SPI_State>:
@@ -2503,7 +2503,7 @@ SPI_State_t Query_SPI_State(void)
 {
     return Current_State;
 }
-     d2a:	80 91 a1 01 	lds	r24, 0x01A1	; 0x8001a1 <Current_State>
+     d2a:	80 91 a2 01 	lds	r24, 0x01A2	; 0x8001a2 <Current_State>
      d2e:	08 95       	ret
 
 00000d30 <Init_Timer_Module>:
@@ -2513,11 +2513,11 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksper
 {
     // Start timer
     for (int i = 0; i < NUM_TIMERS; i++)
-     d30:	e2 ea       	ldi	r30, 0xA2	; 162
+     d30:	e3 ea       	ldi	r30, 0xA3	; 163
      d32:	f1 e0       	ldi	r31, 0x01	; 1
-     d34:	a6 ea       	ldi	r26, 0xA6	; 166
+     d34:	a7 ea       	ldi	r26, 0xA7	; 167
      d36:	b1 e0       	ldi	r27, 0x01	; 1
-     d38:	83 ee       	ldi	r24, 0xE3	; 227
+     d38:	84 ee       	ldi	r24, 0xE4	; 228
      d3a:	91 e0       	ldi	r25, 0x01	; 1
      d3c:	11 82       	std	Z+1, r1	; 0x01
      d3e:	10 82       	st	Z, r1
@@ -2554,15 +2554,15 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksper
 00000d7c <Register_Timer>:
      d7c:	cf 93       	push	r28
      d7e:	df 93       	push	r29
-     d80:	c0 91 a2 01 	lds	r28, 0x01A2	; 0x8001a2 <Timers>
-     d84:	d0 91 a3 01 	lds	r29, 0x01A3	; 0x8001a3 <Timers+0x1>
+     d80:	c0 91 a3 01 	lds	r28, 0x01A3	; 0x8001a3 <Timers>
+     d84:	d0 91 a4 01 	lds	r29, 0x01A4	; 0x8001a4 <Timers+0x1>
      d88:	c8 17       	cp	r28, r24
      d8a:	d9 07       	cpc	r29, r25
      d8c:	09 f4       	brne	.+2      	; 0xd90 <Register_Timer+0x14>
      d8e:	43 c0       	rjmp	.+134    	; 0xe16 <Register_Timer+0x9a>
-     d90:	a2 ea       	ldi	r26, 0xA2	; 162
+     d90:	a3 ea       	ldi	r26, 0xA3	; 163
      d92:	b1 e0       	ldi	r27, 0x01	; 1
-     d94:	46 ed       	ldi	r20, 0xD6	; 214
+     d94:	47 ed       	ldi	r20, 0xD7	; 215
      d96:	51 e0       	ldi	r21, 0x01	; 1
      d98:	fd 01       	movw	r30, r26
      d9a:	25 85       	ldd	r18, Z+13	; 0x0d
@@ -2598,7 +2598,7 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksper
      dd6:	2e 0f       	add	r18, r30
      dd8:	3f 1f       	adc	r19, r31
      dda:	f9 01       	movw	r30, r18
-     ddc:	ee 55       	subi	r30, 0x5E	; 94
+     ddc:	ed 55       	subi	r30, 0x5D	; 93
      dde:	fe 4f       	sbci	r31, 0xFE	; 254
      de0:	91 83       	std	Z+1, r25	; 0x01
      de2:	80 83       	st	Z, r24
@@ -2636,12 +2636,12 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksper
      e1e:	df 92       	push	r13
      e20:	ef 92       	push	r14
      e22:	ff 92       	push	r15
-     e24:	20 91 a2 01 	lds	r18, 0x01A2	; 0x8001a2 <Timers>
-     e28:	30 91 a3 01 	lds	r19, 0x01A3	; 0x8001a3 <Timers+0x1>
+     e24:	20 91 a3 01 	lds	r18, 0x01A3	; 0x8001a3 <Timers>
+     e28:	30 91 a4 01 	lds	r19, 0x01A4	; 0x8001a4 <Timers+0x1>
      e2c:	28 17       	cp	r18, r24
      e2e:	39 07       	cpc	r19, r25
      e30:	51 f0       	breq	.+20     	; 0xe46 <Start_Timer+0x2a>
-     e32:	e2 ea       	ldi	r30, 0xA2	; 162
+     e32:	e3 ea       	ldi	r30, 0xA3	; 163
      e34:	f1 e0       	ldi	r31, 0x01	; 1
      e36:	21 e0       	ldi	r18, 0x01	; 1
      e38:	30 e0       	ldi	r19, 0x00	; 0
@@ -2667,7 +2667,7 @@ void Start_Short_Timer(uint32_t * p_this_timer, uint32_t time_in_ms_div_ticksper
      e60:	2e 0f       	add	r18, r30
      e62:	3f 1f       	adc	r19, r31
      e64:	f9 01       	movw	r30, r18
-     e66:	ee 55       	subi	r30, 0x5E	; 94
+     e66:	ed 55       	subi	r30, 0x5D	; 93
      e68:	fe 4f       	sbci	r31, 0xFE	; 254
      e6a:	91 e0       	ldi	r25, 0x01	; 1
      e6c:	94 83       	std	Z+4, r25	; 0x04
@@ -2738,12 +2738,12 @@ ISR(TIMER0_COMPA_vect)
      ed2:	88 b5       	in	r24, 0x28	; 40
      ed4:	83 58       	subi	r24, 0x83	; 131
      ed6:	88 bd       	out	0x28, r24	; 40
-     ed8:	06 ea       	ldi	r16, 0xA6	; 166
+     ed8:	07 ea       	ldi	r16, 0xA7	; 167
      eda:	11 e0       	ldi	r17, 0x01	; 1
-     edc:	c2 ea       	ldi	r28, 0xA2	; 162
+     edc:	c3 ea       	ldi	r28, 0xA3	; 163
      ede:	d1 e0       	ldi	r29, 0x01	; 1
      ee0:	0f 2e       	mov	r0, r31
-     ee2:	f3 ee       	ldi	r31, 0xE3	; 227
+     ee2:	f4 ee       	ldi	r31, 0xE4	; 228
      ee4:	ef 2e       	mov	r14, r31
      ee6:	f1 e0       	ldi	r31, 0x01	; 1
      ee8:	ff 2e       	mov	r15, r31
@@ -2918,22 +2918,22 @@ ISR(TIMER0_COMPA_vect)
 	//LINENIR = (1<<LENTXOK)|(1<<LENRXOK);
 	// Reset indices
     Buffer_Index = 0;
-     fb8:	10 92 f4 01 	sts	0x01F4, r1	; 0x8001f4 <Buffer_Index>
+     fb8:	10 92 f5 01 	sts	0x01F5, r1	; 0x8001f5 <Buffer_Index>
     TX_Index = 0;
-     fbc:	10 92 f1 01 	sts	0x01F1, r1	; 0x8001f1 <TX_Index>
+     fbc:	10 92 f2 01 	sts	0x01F2, r1	; 0x8001f2 <TX_Index>
 	RX_Index = 0;
-     fc0:	10 92 f2 01 	sts	0x01F2, r1	; 0x8001f2 <RX_Index>
+     fc0:	10 92 f3 01 	sts	0x01F3, r1	; 0x8001f3 <RX_Index>
 	
 	Modem_Recv_Data = pCanTXPacket;
-     fc4:	90 93 e4 01 	sts	0x01E4, r25	; 0x8001e4 <Modem_Recv_Data+0x1>
-     fc8:	80 93 e3 01 	sts	0x01E3, r24	; 0x8001e3 <Modem_Recv_Data>
+     fc4:	90 93 e5 01 	sts	0x01E5, r25	; 0x8001e5 <Modem_Recv_Data+0x1>
+     fc8:	80 93 e4 01 	sts	0x01E4, r24	; 0x8001e4 <Modem_Recv_Data>
     for (int row = 0; row < UART_COMMAND_BUFFER_SIZE; row++)
     {
         // Set all bytes of Command_Buffer to 0xff = UNASSIGNED
         for (int col = 0; col < UART_MAX_COMMAND_TX_SIZE; col++)
         {
             Command_Buffer[row][col] = 0xFF;    // Set as unassigned
-     fcc:	e9 ef       	ldi	r30, 0xF9	; 249
+     fcc:	ea ef       	ldi	r30, 0xFA	; 250
      fce:	f1 e0       	ldi	r31, 0x01	; 1
      fd0:	8f ef       	ldi	r24, 0xFF	; 255
      fd2:	80 83       	st	Z, r24
@@ -2945,7 +2945,7 @@ ISR(TIMER0_COMPA_vect)
         for (int col = 0; col < UART_MAX_COMMAND_RX_SIZE; col++)
         {
             Receive_List[row][col] = NULL;     // Set as unassigned
-     fda:	a5 ef       	ldi	r26, 0xF5	; 245
+     fda:	a6 ef       	ldi	r26, 0xF6	; 246
      fdc:	b1 e0       	ldi	r27, 0x01	; 1
      fde:	11 96       	adiw	r26, 0x01	; 1
      fe0:	1c 92       	st	X, r1
@@ -2978,32 +2978,32 @@ ISR(TIMER0_COMPA_vect)
 void UART_Start_Command (void)
 {
 	Expected_TX_Length = Command_Buffer[Buffer_Index][UART_TX_LENGTH_BYTE];
-     ff6:	e0 91 f4 01 	lds	r30, 0x01F4	; 0x8001f4 <Buffer_Index>
+     ff6:	e0 91 f5 01 	lds	r30, 0x01F5	; 0x8001f5 <Buffer_Index>
      ffa:	f0 e0       	ldi	r31, 0x00	; 0
      ffc:	ee 0f       	add	r30, r30
      ffe:	ff 1f       	adc	r31, r31
     1000:	ee 0f       	add	r30, r30
     1002:	ff 1f       	adc	r31, r31
-    1004:	e7 50       	subi	r30, 0x07	; 7
+    1004:	e6 50       	subi	r30, 0x06	; 6
     1006:	fe 4f       	sbci	r31, 0xFE	; 254
     1008:	80 81       	ld	r24, Z
-    100a:	80 93 f0 01 	sts	0x01F0, r24	; 0x8001f0 <Expected_TX_Length>
+    100a:	80 93 f1 01 	sts	0x01F1, r24	; 0x8001f1 <Expected_TX_Length>
 	Expected_RX_Length = Command_Buffer[Buffer_Index][UART_RX_LENGTH_BYTE];
     100e:	81 81       	ldd	r24, Z+1	; 0x01
-    1010:	80 93 ef 01 	sts	0x01EF, r24	; 0x8001ef <Expected_RX_Length>
+    1010:	80 93 f0 01 	sts	0x01F0, r24	; 0x8001f0 <Expected_RX_Length>
 	
 	// Set RX data index
 	RX_Index = 0;
-    1014:	10 92 f2 01 	sts	0x01F2, r1	; 0x8001f2 <RX_Index>
+    1014:	10 92 f3 01 	sts	0x01F3, r1	; 0x8001f3 <RX_Index>
 	
     // Set TX data index
     TX_Index = 0;
-    1018:	10 92 f1 01 	sts	0x01F1, r1	; 0x8001f1 <TX_Index>
+    1018:	10 92 f2 01 	sts	0x01F2, r1	; 0x8001f2 <TX_Index>
 	
 	// State in TX
 	In_Tx = true;
     101c:	81 e0       	ldi	r24, 0x01	; 1
-    101e:	80 93 ed 01 	sts	0x01ED, r24	; 0x8001ed <In_Tx>
+    101e:	80 93 ee 01 	sts	0x01EE, r24	; 0x8001ee <In_Tx>
     1022:	08 95       	ret
 
 00001024 <UART_End_Command>:
@@ -3028,23 +3028,23 @@ void UART_Transmit (void)
 	{
 		// Send byte out
 		LINDAT = Command_Buffer[Buffer_Index][TX_Index + UART_LENGTH_BYTES];
-    102e:	e0 91 f4 01 	lds	r30, 0x01F4	; 0x8001f4 <Buffer_Index>
+    102e:	e0 91 f5 01 	lds	r30, 0x01F5	; 0x8001f5 <Buffer_Index>
     1032:	f0 e0       	ldi	r31, 0x00	; 0
-    1034:	80 91 f1 01 	lds	r24, 0x01F1	; 0x8001f1 <TX_Index>
+    1034:	80 91 f2 01 	lds	r24, 0x01F2	; 0x8001f2 <TX_Index>
     1038:	ee 0f       	add	r30, r30
     103a:	ff 1f       	adc	r31, r31
     103c:	ee 0f       	add	r30, r30
     103e:	ff 1f       	adc	r31, r31
-    1040:	e7 50       	subi	r30, 0x07	; 7
+    1040:	e6 50       	subi	r30, 0x06	; 6
     1042:	fe 4f       	sbci	r31, 0xFE	; 254
     1044:	e8 0f       	add	r30, r24
     1046:	f1 1d       	adc	r31, r1
     1048:	82 81       	ldd	r24, Z+2	; 0x02
     104a:	80 93 d2 00 	sts	0x00D2, r24	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
 		TX_Index++;
-    104e:	80 91 f1 01 	lds	r24, 0x01F1	; 0x8001f1 <TX_Index>
+    104e:	80 91 f2 01 	lds	r24, 0x01F2	; 0x8001f2 <TX_Index>
     1052:	8f 5f       	subi	r24, 0xFF	; 255
-    1054:	80 93 f1 01 	sts	0x01F1, r24	; 0x8001f1 <TX_Index>
+    1054:	80 93 f2 01 	sts	0x01F2, r24	; 0x8001f2 <TX_Index>
     1058:	08 95       	ret
 		//}
 	}
@@ -3052,7 +3052,7 @@ void UART_Transmit (void)
 	{
 		char set_as;
 		if (pgm_read_byte(&(Init_Text[Text_Index])) == '/')
-    105a:	20 91 ee 01 	lds	r18, 0x01EE	; 0x8001ee <Text_Index>
+    105a:	20 91 ef 01 	lds	r18, 0x01EF	; 0x8001ef <Text_Index>
     105e:	82 2f       	mov	r24, r18
     1060:	90 e0       	ldi	r25, 0x00	; 0
     1062:	fc 01       	movw	r30, r24
@@ -3073,7 +3073,7 @@ void UART_Transmit (void)
 				set_as = 0x0D;
 				Text_Index++;
     107a:	2f 5f       	subi	r18, 0xFF	; 255
-    107c:	20 93 ee 01 	sts	0x01EE, r18	; 0x8001ee <Text_Index>
+    107c:	20 93 ef 01 	sts	0x01EF, r18	; 0x8001ef <Text_Index>
 		char set_as;
 		if (pgm_read_byte(&(Init_Text[Text_Index])) == '/')
 		{
@@ -3105,9 +3105,9 @@ void UART_Transmit (void)
 		LINDAT = set_as;
     108a:	e0 93 d2 00 	sts	0x00D2, r30	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
 		Text_Index++;
-    108e:	80 91 ee 01 	lds	r24, 0x01EE	; 0x8001ee <Text_Index>
+    108e:	80 91 ef 01 	lds	r24, 0x01EF	; 0x8001ef <Text_Index>
     1092:	8f 5f       	subi	r24, 0xFF	; 255
-    1094:	80 93 ee 01 	sts	0x01EE, r24	; 0x8001ee <Text_Index>
+    1094:	80 93 ef 01 	sts	0x01EF, r24	; 0x8001ef <Text_Index>
     1098:	08 95       	ret
 
 0000109a <Write_UART>:
@@ -3137,10 +3137,10 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
     10b6:	10 92 1e 01 	sts	0x011E, r1	; 0x80011e <modem_init>
 		counter_value = query_counter();
     10ba:	0e 94 81 03 	call	0x702	; 0x702 <query_counter>
-    10be:	60 93 e9 01 	sts	0x01E9, r22	; 0x8001e9 <counter_value>
-    10c2:	70 93 ea 01 	sts	0x01EA, r23	; 0x8001ea <counter_value+0x1>
-    10c6:	80 93 eb 01 	sts	0x01EB, r24	; 0x8001eb <counter_value+0x2>
-    10ca:	90 93 ec 01 	sts	0x01EC, r25	; 0x8001ec <counter_value+0x3>
+    10be:	60 93 ea 01 	sts	0x01EA, r22	; 0x8001ea <counter_value>
+    10c2:	70 93 eb 01 	sts	0x01EB, r23	; 0x8001eb <counter_value+0x1>
+    10c6:	80 93 ec 01 	sts	0x01EC, r24	; 0x8001ec <counter_value+0x2>
+    10ca:	90 93 ed 01 	sts	0x01ED, r25	; 0x8001ed <counter_value+0x3>
 		
 		// Over all columns of next available command row
 		for (int i = 0; i < (UART_LENGTH_BYTES + TX_Length); i++)
@@ -3153,7 +3153,7 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 			if (i == UART_TX_LENGTH_BYTE)
 			{
 				Command_Buffer[Next_Available_Row][UART_TX_LENGTH_BYTE] = TX_Length;
-    10d6:	20 91 f3 01 	lds	r18, 0x01F3	; 0x8001f3 <Next_Available_Row>
+    10d6:	20 91 f4 01 	lds	r18, 0x01F4	; 0x8001f4 <Next_Available_Row>
     10da:	30 e0       	ldi	r19, 0x00	; 0
     10dc:	de 01       	movw	r26, r28
     10de:	12 97       	sbiw	r26, 0x02	; 2
@@ -3170,7 +3170,7 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 			{
 				Command_Buffer[Next_Available_Row][UART_RX_LENGTH_BYTE] = RX_Length;
     10ee:	9c 01       	movw	r18, r24
-    10f0:	27 50       	subi	r18, 0x07	; 7
+    10f0:	26 50       	subi	r18, 0x06	; 6
     10f2:	3e 4f       	sbci	r19, 0xFE	; 254
     10f4:	a9 01       	movw	r20, r18
     10f6:	4f 5f       	subi	r20, 0xFF	; 255
@@ -3208,7 +3208,7 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
     1112:	ef 01       	movw	r28, r30
     1114:	c8 0f       	add	r28, r24
     1116:	d9 1f       	adc	r29, r25
-    1118:	c7 50       	subi	r28, 0x07	; 7
+    1118:	c6 50       	subi	r28, 0x06	; 6
     111a:	de 4f       	sbci	r29, 0xFE	; 254
     111c:	68 83       	st	Y, r22
 	{
@@ -3229,19 +3229,19 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 		}
 		// If reached Command Buffer end
 		if (Next_Available_Row == UART_COMMAND_BUFFER_SIZE - 1)
-    112a:	80 91 f3 01 	lds	r24, 0x01F3	; 0x8001f3 <Next_Available_Row>
+    112a:	80 91 f4 01 	lds	r24, 0x01F4	; 0x8001f4 <Next_Available_Row>
     112e:	81 30       	cpi	r24, 0x01	; 1
     1130:	19 f4       	brne	.+6      	; 0x1138 <Write_UART+0x9e>
 		{
 			Next_Available_Row = 0;
-    1132:	10 92 f3 01 	sts	0x01F3, r1	; 0x8001f3 <Next_Available_Row>
+    1132:	10 92 f4 01 	sts	0x01F4, r1	; 0x8001f4 <Next_Available_Row>
     1136:	03 c0       	rjmp	.+6      	; 0x113e <Write_UART+0xa4>
 		}
 		else
 		{
 			Next_Available_Row++;
     1138:	8f 5f       	subi	r24, 0xFF	; 255
-    113a:	80 93 f3 01 	sts	0x01F3, r24	; 0x8001f3 <Next_Available_Row>
+    113a:	80 93 f4 01 	sts	0x01F4, r24	; 0x8001f4 <Next_Available_Row>
 		}
 		// If UART is currently idling, start transmission
 		if (Query_UART_State() == NORMAL_UART_STATE)
@@ -3264,7 +3264,7 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
     1154:	81 e0       	ldi	r24, 0x01	; 1
     1156:	80 93 1e 01 	sts	0x011E, r24	; 0x80011e <modem_init>
 		Text_Index = 0;
-    115a:	10 92 ee 01 	sts	0x01EE, r1	; 0x8001ee <Text_Index>
+    115a:	10 92 ef 01 	sts	0x01EF, r1	; 0x8001ef <Text_Index>
 		UART_Transmit();
     115e:	0e 94 13 08 	call	0x1026	; 0x1026 <UART_Transmit>
     1162:	10 c0       	rjmp	.+32     	; 0x1184 <Write_UART+0xea>
@@ -3274,11 +3274,11 @@ void Write_UART(uint8_t TX_Length, uint8_t RX_Length, uint8_t * Data2Write, uint
 			{
 				// Add pointers to variables that shall be updated with receive data
 				Receive_List[Next_Available_Row][i] = *(Data2Receive + i);
-    1164:	e0 91 f3 01 	lds	r30, 0x01F3	; 0x8001f3 <Next_Available_Row>
+    1164:	e0 91 f4 01 	lds	r30, 0x01F4	; 0x8001f4 <Next_Available_Row>
     1168:	f0 e0       	ldi	r31, 0x00	; 0
     116a:	ee 0f       	add	r30, r30
     116c:	ff 1f       	adc	r31, r31
-    116e:	eb 50       	subi	r30, 0x0B	; 11
+    116e:	ea 50       	subi	r30, 0x0A	; 10
     1170:	fe 4f       	sbci	r31, 0xFE	; 254
     1172:	d7 01       	movw	r26, r14
     1174:	8d 91       	ld	r24, X+
@@ -3383,33 +3383,33 @@ ISR(LIN_TC_vect)
 						
 		// If the correct sequence was received, prepare to store packet sent from phone
 		if (first_byte_T && second_byte_slash_n && third_slash_r)
-    11f6:	80 91 e8 01 	lds	r24, 0x01E8	; 0x8001e8 <first_byte_T>
+    11f6:	80 91 e9 01 	lds	r24, 0x01E9	; 0x8001e9 <first_byte_T>
     11fa:	88 23       	and	r24, r24
     11fc:	69 f1       	breq	.+90     	; 0x1258 <__vector_12+0x96>
-    11fe:	80 91 e7 01 	lds	r24, 0x01E7	; 0x8001e7 <second_byte_slash_n>
+    11fe:	80 91 e8 01 	lds	r24, 0x01E8	; 0x8001e8 <second_byte_slash_n>
     1202:	88 23       	and	r24, r24
     1204:	09 f4       	brne	.+2      	; 0x1208 <__vector_12+0x46>
     1206:	dd c0       	rjmp	.+442    	; 0x13c2 <__vector_12+0x200>
-    1208:	80 91 e6 01 	lds	r24, 0x01E6	; 0x8001e6 <third_slash_r>
+    1208:	80 91 e7 01 	lds	r24, 0x01E7	; 0x8001e7 <third_slash_r>
     120c:	88 23       	and	r24, r24
     120e:	09 f4       	brne	.+2      	; 0x1212 <__vector_12+0x50>
     1210:	d8 c0       	rjmp	.+432    	; 0x13c2 <__vector_12+0x200>
 		{
 			Modem_Recv_Data[byte_space_counter - 1] = LINDAT;
-    1212:	80 91 e5 01 	lds	r24, 0x01E5	; 0x8001e5 <byte_space_counter>
+    1212:	80 91 e6 01 	lds	r24, 0x01E6	; 0x8001e6 <byte_space_counter>
     1216:	90 91 d2 00 	lds	r25, 0x00D2	; 0x8000d2 <__EEPROM_REGION_LENGTH__+0x7f00d2>
-    121a:	e0 91 e3 01 	lds	r30, 0x01E3	; 0x8001e3 <Modem_Recv_Data>
-    121e:	f0 91 e4 01 	lds	r31, 0x01E4	; 0x8001e4 <Modem_Recv_Data+0x1>
+    121a:	e0 91 e4 01 	lds	r30, 0x01E4	; 0x8001e4 <Modem_Recv_Data>
+    121e:	f0 91 e5 01 	lds	r31, 0x01E5	; 0x8001e5 <Modem_Recv_Data+0x1>
     1222:	e8 0f       	add	r30, r24
     1224:	f1 1d       	adc	r31, r1
     1226:	31 97       	sbiw	r30, 0x01	; 1
     1228:	90 83       	st	Z, r25
 			byte_space_counter++;
     122a:	8f 5f       	subi	r24, 0xFF	; 255
-    122c:	80 93 e5 01 	sts	0x01E5, r24	; 0x8001e5 <byte_space_counter>
+    122c:	80 93 e6 01 	sts	0x01E6, r24	; 0x8001e6 <byte_space_counter>
 			
 			if (byte_space_counter >= MAX_MODEM_RECEIVE + 1)
-    1230:	85 30       	cpi	r24, 0x05	; 5
+    1230:	86 30       	cpi	r24, 0x06	; 6
     1232:	08 f4       	brcc	.+2      	; 0x1236 <__vector_12+0x74>
     1234:	d5 c0       	rjmp	.+426    	; 0x13e0 <__vector_12+0x21e>
 			{
@@ -3419,11 +3419,11 @@ ISR(LIN_TC_vect)
     123a:	89 27       	eor	r24, r25
     123c:	85 b9       	out	0x05, r24	; 5
 				first_byte_T = false;
-    123e:	10 92 e8 01 	sts	0x01E8, r1	; 0x8001e8 <first_byte_T>
+    123e:	10 92 e9 01 	sts	0x01E9, r1	; 0x8001e9 <first_byte_T>
 				second_byte_slash_n = false;
-    1242:	10 92 e7 01 	sts	0x01E7, r1	; 0x8001e7 <second_byte_slash_n>
+    1242:	10 92 e8 01 	sts	0x01E8, r1	; 0x8001e8 <second_byte_slash_n>
 				third_slash_r = false;
-    1246:	10 92 e6 01 	sts	0x01E6, r1	; 0x8001e6 <third_slash_r>
+    1246:	10 92 e7 01 	sts	0x01E7, r1	; 0x8001e7 <third_slash_r>
 				Post_Event(EVT_MODEM_NEW_PACKAGE);
     124a:	60 e0       	ldi	r22, 0x00	; 0
     124c:	70 e8       	ldi	r23, 0x80	; 128
@@ -3443,14 +3443,14 @@ ISR(LIN_TC_vect)
     125e:	c9 f4       	brne	.+50     	; 0x1292 <__vector_12+0xd0>
 			{
 				byte_space_counter = 0;
-    1260:	10 92 e5 01 	sts	0x01E5, r1	; 0x8001e5 <byte_space_counter>
+    1260:	10 92 e6 01 	sts	0x01E6, r1	; 0x8001e6 <byte_space_counter>
 				first_byte_T = true;
     1264:	81 e0       	ldi	r24, 0x01	; 1
-    1266:	80 93 e8 01 	sts	0x01E8, r24	; 0x8001e8 <first_byte_T>
+    1266:	80 93 e9 01 	sts	0x01E9, r24	; 0x8001e9 <first_byte_T>
     126a:	19 c0       	rjmp	.+50     	; 0x129e <__vector_12+0xdc>
 			}
 			else if (first_byte_T && byte_space_counter == 1 && Current_Read == 0x0D)
-    126c:	90 91 e5 01 	lds	r25, 0x01E5	; 0x8001e5 <byte_space_counter>
+    126c:	90 91 e6 01 	lds	r25, 0x01E6	; 0x8001e6 <byte_space_counter>
     1270:	91 30       	cpi	r25, 0x01	; 1
     1272:	79 f4       	brne	.+30     	; 0x1292 <__vector_12+0xd0>
     1274:	8d 30       	cpi	r24, 0x0D	; 13
@@ -3459,32 +3459,32 @@ ISR(LIN_TC_vect)
 			{
 				second_byte_slash_n = true;
     127a:	81 e0       	ldi	r24, 0x01	; 1
-    127c:	80 93 e7 01 	sts	0x01E7, r24	; 0x8001e7 <second_byte_slash_n>
+    127c:	80 93 e8 01 	sts	0x01E8, r24	; 0x8001e8 <second_byte_slash_n>
 				byte_space_counter = 0;
-    1280:	10 92 e5 01 	sts	0x01E5, r1	; 0x8001e5 <byte_space_counter>
+    1280:	10 92 e6 01 	sts	0x01E6, r1	; 0x8001e6 <byte_space_counter>
     1284:	0c c0       	rjmp	.+24     	; 0x129e <__vector_12+0xdc>
 			}
 			else if (first_byte_T && second_byte_slash_n && byte_space_counter == 1 && Current_Read == 0x0A)
 			{
 				third_slash_r = true;
     1286:	81 e0       	ldi	r24, 0x01	; 1
-    1288:	80 93 e6 01 	sts	0x01E6, r24	; 0x8001e6 <third_slash_r>
+    1288:	80 93 e7 01 	sts	0x01E7, r24	; 0x8001e7 <third_slash_r>
 				byte_space_counter = 0;
-    128c:	10 92 e5 01 	sts	0x01E5, r1	; 0x8001e5 <byte_space_counter>
+    128c:	10 92 e6 01 	sts	0x01E6, r1	; 0x8001e6 <byte_space_counter>
     1290:	06 c0       	rjmp	.+12     	; 0x129e <__vector_12+0xdc>
 			}
 			else {
 				first_byte_T = false;
-    1292:	10 92 e8 01 	sts	0x01E8, r1	; 0x8001e8 <first_byte_T>
+    1292:	10 92 e9 01 	sts	0x01E9, r1	; 0x8001e9 <first_byte_T>
 				second_byte_slash_n = false;
-    1296:	10 92 e7 01 	sts	0x01E7, r1	; 0x8001e7 <second_byte_slash_n>
+    1296:	10 92 e8 01 	sts	0x01E8, r1	; 0x8001e8 <second_byte_slash_n>
 				third_slash_r = false;
-    129a:	10 92 e6 01 	sts	0x01E6, r1	; 0x8001e6 <third_slash_r>
+    129a:	10 92 e7 01 	sts	0x01E7, r1	; 0x8001e7 <third_slash_r>
 			}
 			byte_space_counter++;
-    129e:	80 91 e5 01 	lds	r24, 0x01E5	; 0x8001e5 <byte_space_counter>
+    129e:	80 91 e6 01 	lds	r24, 0x01E6	; 0x8001e6 <byte_space_counter>
     12a2:	8f 5f       	subi	r24, 0xFF	; 255
-    12a4:	80 93 e5 01 	sts	0x01E5, r24	; 0x8001e5 <byte_space_counter>
+    12a4:	80 93 e6 01 	sts	0x01E6, r24	; 0x8001e6 <byte_space_counter>
     12a8:	9b c0       	rjmp	.+310    	; 0x13e0 <__vector_12+0x21e>
 		}
 	}
@@ -3509,26 +3509,26 @@ ISR(LIN_TC_vect)
 		{
 			// Once a transmit has been completed
 			if (In_Tx)
-    12c6:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <In_Tx>
+    12c6:	80 91 ee 01 	lds	r24, 0x01EE	; 0x8001ee <In_Tx>
     12ca:	88 23       	and	r24, r24
     12cc:	e1 f0       	breq	.+56     	; 0x1306 <__vector_12+0x144>
 			{
 				// If more bytes left to transmit post transmission event
 				if (TX_Index <= Expected_TX_Length)
-    12ce:	90 91 f1 01 	lds	r25, 0x01F1	; 0x8001f1 <TX_Index>
-    12d2:	80 91 f0 01 	lds	r24, 0x01F0	; 0x8001f0 <Expected_TX_Length>
+    12ce:	90 91 f2 01 	lds	r25, 0x01F2	; 0x8001f2 <TX_Index>
+    12d2:	80 91 f1 01 	lds	r24, 0x01F1	; 0x8001f1 <Expected_TX_Length>
     12d6:	89 17       	cp	r24, r25
     12d8:	a0 f0       	brcs	.+40     	; 0x1302 <__vector_12+0x140>
 				{
 					if ((TX_Index == Expected_TX_Length) && Expected_RX_Length == 0)
     12da:	98 13       	cpse	r25, r24
     12dc:	07 c0       	rjmp	.+14     	; 0x12ec <__vector_12+0x12a>
-    12de:	80 91 ef 01 	lds	r24, 0x01EF	; 0x8001ef <Expected_RX_Length>
+    12de:	80 91 f0 01 	lds	r24, 0x01F0	; 0x8001f0 <Expected_RX_Length>
     12e2:	81 11       	cpse	r24, r1
     12e4:	03 c0       	rjmp	.+6      	; 0x12ec <__vector_12+0x12a>
 					{
 						In_Tx = false;
-    12e6:	10 92 ed 01 	sts	0x01ED, r1	; 0x8001ed <In_Tx>
+    12e6:	10 92 ee 01 	sts	0x01EE, r1	; 0x8001ee <In_Tx>
     12ea:	0d c0       	rjmp	.+26     	; 0x1306 <__vector_12+0x144>
 					}
 					else
@@ -3545,7 +3545,7 @@ ISR(LIN_TC_vect)
 			}
 			
 			if (!In_Tx)
-    12f8:	80 91 ed 01 	lds	r24, 0x01ED	; 0x8001ed <In_Tx>
+    12f8:	80 91 ee 01 	lds	r24, 0x01EE	; 0x8001ee <In_Tx>
     12fc:	81 11       	cpse	r24, r1
     12fe:	70 c0       	rjmp	.+224    	; 0x13e0 <__vector_12+0x21e>
     1300:	02 c0       	rjmp	.+4      	; 0x1306 <__vector_12+0x144>
@@ -3555,27 +3555,27 @@ ISR(LIN_TC_vect)
 				else
 				{
 					In_Tx = false;
-    1302:	10 92 ed 01 	sts	0x01ED, r1	; 0x8001ed <In_Tx>
+    1302:	10 92 ee 01 	sts	0x01EE, r1	; 0x8001ee <In_Tx>
 				}
 			}
 			
 			if (!In_Tx)
 			{
 				if (Expected_RX_Length > 0)
-    1306:	90 91 ef 01 	lds	r25, 0x01EF	; 0x8001ef <Expected_RX_Length>
+    1306:	90 91 f0 01 	lds	r25, 0x01F0	; 0x8001f0 <Expected_RX_Length>
     130a:	99 23       	and	r25, r25
     130c:	c1 f0       	breq	.+48     	; 0x133e <__vector_12+0x17c>
 				{
 					*(Receive_List[Buffer_Index][RX_Index]) = LINDAT;
-    130e:	80 91 f2 01 	lds	r24, 0x01F2	; 0x8001f2 <RX_Index>
-    1312:	20 91 f4 01 	lds	r18, 0x01F4	; 0x8001f4 <Buffer_Index>
+    130e:	80 91 f3 01 	lds	r24, 0x01F3	; 0x8001f3 <RX_Index>
+    1312:	20 91 f5 01 	lds	r18, 0x01F5	; 0x8001f5 <Buffer_Index>
     1316:	e8 2f       	mov	r30, r24
     1318:	f0 e0       	ldi	r31, 0x00	; 0
     131a:	e2 0f       	add	r30, r18
     131c:	f1 1d       	adc	r31, r1
     131e:	ee 0f       	add	r30, r30
     1320:	ff 1f       	adc	r31, r31
-    1322:	eb 50       	subi	r30, 0x0B	; 11
+    1322:	ea 50       	subi	r30, 0x0A	; 10
     1324:	fe 4f       	sbci	r31, 0xFE	; 254
     1326:	01 90       	ld	r0, Z+
     1328:	f0 81       	ld	r31, Z
@@ -3584,7 +3584,7 @@ ISR(LIN_TC_vect)
     1330:	20 83       	st	Z, r18
 					RX_Index++;
     1332:	8f 5f       	subi	r24, 0xFF	; 255
-    1334:	80 93 f2 01 	sts	0x01F2, r24	; 0x8001f2 <RX_Index>
+    1334:	80 93 f3 01 	sts	0x01F3, r24	; 0x8001f3 <RX_Index>
 				if (RX_Index < Expected_RX_Length)
 				{
 					// Do Nothing
@@ -3600,7 +3600,7 @@ static void Update_Buffer_Index(void)
     for (int i = 0; i < UART_MAX_COMMAND_TX_SIZE; i++)
     {
         Command_Buffer[Buffer_Index][i] = 0xFF;
-    133e:	20 91 f4 01 	lds	r18, 0x01F4	; 0x8001f4 <Buffer_Index>
+    133e:	20 91 f5 01 	lds	r18, 0x01F5	; 0x8001f5 <Buffer_Index>
     1342:	82 2f       	mov	r24, r18
     1344:	90 e0       	ldi	r25, 0x00	; 0
     1346:	fc 01       	movw	r30, r24
@@ -3608,7 +3608,7 @@ static void Update_Buffer_Index(void)
     134a:	ff 1f       	adc	r31, r31
     134c:	ee 0f       	add	r30, r30
     134e:	ff 1f       	adc	r31, r31
-    1350:	e7 50       	subi	r30, 0x07	; 7
+    1350:	e6 50       	subi	r30, 0x06	; 6
     1352:	fe 4f       	sbci	r31, 0xFE	; 254
     1354:	3f ef       	ldi	r19, 0xFF	; 255
     1356:	30 83       	st	Z, r19
@@ -3623,7 +3623,7 @@ static void Update_Buffer_Index(void)
     135e:	88 0f       	add	r24, r24
     1360:	99 1f       	adc	r25, r25
     1362:	fc 01       	movw	r30, r24
-    1364:	eb 50       	subi	r30, 0x0B	; 11
+    1364:	ea 50       	subi	r30, 0x0A	; 10
     1366:	fe 4f       	sbci	r31, 0xFE	; 254
     1368:	11 82       	std	Z+1, r1	; 0x01
     136a:	10 82       	st	Z, r1
@@ -3634,24 +3634,24 @@ static void Update_Buffer_Index(void)
     136e:	19 f4       	brne	.+6      	; 0x1376 <__vector_12+0x1b4>
     {
         Buffer_Index = 0;
-    1370:	10 92 f4 01 	sts	0x01F4, r1	; 0x8001f4 <Buffer_Index>
+    1370:	10 92 f5 01 	sts	0x01F5, r1	; 0x8001f5 <Buffer_Index>
     1374:	03 c0       	rjmp	.+6      	; 0x137c <__vector_12+0x1ba>
     }
     else
     {
         Buffer_Index++;
     1376:	2f 5f       	subi	r18, 0xFF	; 255
-    1378:	20 93 f4 01 	sts	0x01F4, r18	; 0x8001f4 <Buffer_Index>
+    1378:	20 93 f5 01 	sts	0x01F5, r18	; 0x8001f5 <Buffer_Index>
     }
     // If buffer has pending transmits
     if (Command_Buffer[Buffer_Index][UART_TX_LENGTH_BYTE] != 0xFF)
-    137c:	e0 91 f4 01 	lds	r30, 0x01F4	; 0x8001f4 <Buffer_Index>
+    137c:	e0 91 f5 01 	lds	r30, 0x01F5	; 0x8001f5 <Buffer_Index>
     1380:	f0 e0       	ldi	r31, 0x00	; 0
     1382:	ee 0f       	add	r30, r30
     1384:	ff 1f       	adc	r31, r31
     1386:	ee 0f       	add	r30, r30
     1388:	ff 1f       	adc	r31, r31
-    138a:	e7 50       	subi	r30, 0x07	; 7
+    138a:	e6 50       	subi	r30, 0x06	; 6
     138c:	fe 4f       	sbci	r31, 0xFE	; 254
     138e:	80 81       	ld	r24, Z
     1390:	8f 3f       	cpi	r24, 0xFF	; 255
@@ -3681,7 +3681,7 @@ static void Update_Buffer_Index(void)
 		else
 		{
 			if (Text_Index >= sizeof(Init_Text)/sizeof(Init_Text[0]))
-    13ae:	80 91 ee 01 	lds	r24, 0x01EE	; 0x8001ee <Text_Index>
+    13ae:	80 91 ef 01 	lds	r24, 0x01EF	; 0x8001ef <Text_Index>
     13b2:	8a 30       	cpi	r24, 0x0A	; 10
     13b4:	18 f0       	brcs	.+6      	; 0x13bc <__vector_12+0x1fa>
 			{
@@ -3718,7 +3718,7 @@ static void Update_Buffer_Index(void)
     13d0:	09 f0       	breq	.+2      	; 0x13d4 <__vector_12+0x212>
     13d2:	5f cf       	rjmp	.-322    	; 0x1292 <__vector_12+0xd0>
     13d4:	58 cf       	rjmp	.-336    	; 0x1286 <__vector_12+0xc4>
-    13d6:	90 91 e7 01 	lds	r25, 0x01E7	; 0x8001e7 <second_byte_slash_n>
+    13d6:	90 91 e8 01 	lds	r25, 0x01E8	; 0x8001e8 <second_byte_slash_n>
     13da:	91 11       	cpse	r25, r1
     13dc:	f8 cf       	rjmp	.-16     	; 0x13ce <__vector_12+0x20c>
     13de:	59 cf       	rjmp	.-334    	; 0x1292 <__vector_12+0xd0>
@@ -3747,11 +3747,11 @@ static void Update_Buffer_Index(void)
     1400:	18 95       	reti
 
 00001402 <Init_UART_Service>:
-    1402:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <Current_State>
+    1402:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <Current_State>
     1406:	08 95       	ret
 
 00001408 <Run_UART_Service>:
-    1408:	20 91 01 02 	lds	r18, 0x0201	; 0x800201 <Current_State>
+    1408:	20 91 02 02 	lds	r18, 0x0202	; 0x800202 <Current_State>
     140c:	21 30       	cpi	r18, 0x01	; 1
     140e:	a9 f0       	breq	.+42     	; 0x143a <Run_UART_Service+0x32>
     1410:	18 f0       	brcs	.+6      	; 0x1418 <Run_UART_Service+0x10>
@@ -3765,7 +3765,7 @@ static void Update_Buffer_Index(void)
     1420:	e9 f5       	brne	.+122    	; 0x149c <Run_UART_Service+0x94>
     1422:	0e 94 fb 07 	call	0xff6	; 0xff6 <UART_Start_Command>
     1426:	81 e0       	ldi	r24, 0x01	; 1
-    1428:	80 93 01 02 	sts	0x0201, r24	; 0x800201 <Current_State>
+    1428:	80 93 02 02 	sts	0x0202, r24	; 0x800202 <Current_State>
     142c:	60 e0       	ldi	r22, 0x00	; 0
     142e:	71 e0       	ldi	r23, 0x01	; 1
     1430:	80 e0       	ldi	r24, 0x00	; 0
@@ -3788,7 +3788,7 @@ static void Update_Buffer_Index(void)
     1456:	31 f4       	brne	.+12     	; 0x1464 <Run_UART_Service+0x5c>
     1458:	0e 94 13 08 	call	0x1026	; 0x1026 <UART_Transmit>
     145c:	82 e0       	ldi	r24, 0x02	; 2
-    145e:	80 93 01 02 	sts	0x0201, r24	; 0x800201 <Current_State>
+    145e:	80 93 02 02 	sts	0x0202, r24	; 0x800202 <Current_State>
     1462:	08 95       	ret
     1464:	61 15       	cp	r22, r1
     1466:	74 40       	sbci	r23, 0x04	; 4
@@ -3796,7 +3796,7 @@ static void Update_Buffer_Index(void)
     146a:	91 05       	cpc	r25, r1
     146c:	b9 f4       	brne	.+46     	; 0x149c <Run_UART_Service+0x94>
     146e:	0e 94 12 08 	call	0x1024	; 0x1024 <UART_End_Command>
-    1472:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <Current_State>
+    1472:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <Current_State>
     1476:	08 95       	ret
     1478:	61 15       	cp	r22, r1
     147a:	22 e0       	ldi	r18, 0x02	; 2
@@ -3812,11 +3812,11 @@ static void Update_Buffer_Index(void)
     1490:	91 05       	cpc	r25, r1
     1492:	21 f4       	brne	.+8      	; 0x149c <Run_UART_Service+0x94>
     1494:	0e 94 12 08 	call	0x1024	; 0x1024 <UART_End_Command>
-    1498:	10 92 01 02 	sts	0x0201, r1	; 0x800201 <Current_State>
+    1498:	10 92 02 02 	sts	0x0202, r1	; 0x800202 <Current_State>
     149c:	08 95       	ret
 
 0000149e <Query_UART_State>:
-    149e:	80 91 01 02 	lds	r24, 0x0201	; 0x800201 <Current_State>
+    149e:	80 91 02 02 	lds	r24, 0x0202	; 0x800202 <Current_State>
     14a2:	08 95       	ret
 
 000014a4 <_exit>:
