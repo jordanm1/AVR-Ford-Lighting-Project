@@ -39,7 +39,7 @@
 
 #define INITIALIZER_00              Init_Timer_Module
 
-#define INITIALIZER_01				Init_Modem_Service
+#define INITIALIZER_01				Init_SPI_Service
 
 #define INITIALIZER_02              Init_UART_Service
 
@@ -47,7 +47,7 @@
 
 #define INITIALIZER_04				Init_LIN_XCVR_WD_Kicker
 
-#define INITIALIZER_05				Init_SPI_Service
+#define INITIALIZER_05				Init_Modem_Service
 
 // #############################################################################
 // ------------ SERVICES (must be functions of type "void f(uint32_t event)")
