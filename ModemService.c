@@ -157,7 +157,7 @@ void Run_Modem_Service(uint32_t event_mask)
 			else
 			{
 				//Write_UART(2, 0, &TX_Data[0], &RX_Data[0], false);
-				CAN_Send_Message(5, TX_Away);
+				//CAN_Send_Message(5, TX_Away);
 			}
 			
 			if (flipper)
@@ -178,7 +178,7 @@ void Run_Modem_Service(uint32_t event_mask)
 		
 			//Modem_Recv_Data =  //{CAN_MODEM_POS_TYPE, 0x00, 0x00, 0x00, 0x00};
 			//write_rect_vect(&TX_Away[CAN_MODEM_POS_VECT_IDX], test_positions[test_counter]);
-			CAN_Send_Message(5, Modem_Recv_Data);
+			CAN_Send_Message(MAX_MODEM_RECEIVE, Modem_Recv_Data);
 			break;
 		
         default:
