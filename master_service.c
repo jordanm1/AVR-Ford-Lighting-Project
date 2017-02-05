@@ -412,7 +412,7 @@ void Run_Master_Service(uint32_t event_mask)
                 position_counter = 400;
             }
 
-            #if 1
+            #if 0
             switch (anim_state)
             {
                 // Radial Travel
