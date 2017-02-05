@@ -361,7 +361,8 @@ ISR(LIN_TC_vect)
 	//if (!modem_init && !In_Tx)
 	{
 		LINSIR |= RX_ISR_FLAG;	// Clear Receive Flag
-		
+
+						
 		// If the correct sequence was received, prepare to store packet sent from phone
 		if (first_byte_T && second_byte_slash_n && third_slash_r)
 		{
@@ -370,7 +371,7 @@ ISR(LIN_TC_vect)
 			
 			if (byte_space_counter >= MAX_MODEM_RECEIVE + 1)
 			{
-				PORTB |= (1<<PINB5);
+				PORTB ^= (1<<PINB5);
 				first_byte_T = false;
 				second_byte_slash_n = false;
 				third_slash_r = false;
