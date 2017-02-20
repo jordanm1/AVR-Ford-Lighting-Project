@@ -93,6 +93,7 @@
 #define SYSTEM_DISABLED         (0)
 
 // Animation States & Time Intervals
+#define ANIM_STATE_OFF          (0xFF)
 #define ANIM_STATE_RADIAL       (0)
 #define ANIM_STATE_HONING       (1)
 #define ANIM_STATE_BLINK        (2)
@@ -352,7 +353,8 @@ void Run_Master_Service(uint32_t event_mask)
                 switch (CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
                 {
                     case CAN_MODEM_POS_TYPE:
-                        // Stop the animation timer, just in case it was running
+                        // Stop the animation, just in case it was running
+                        Animation_State = ANIM_STATE_OFF;
                         Stop_Timer(&Animation_Timer);
                         // Set last processed location
                         Last_Processed_User_Position = get_CAN_pos_vect();
@@ -361,7 +363,8 @@ void Run_Master_Service(uint32_t event_mask)
                         break;
 
                     case CAN_MODEM_SPEC_TYPE:
-                        // Stop the animation timer, just in case it was running
+                        // Stop the animation, just in case it was running
+                        Animation_State = ANIM_STATE_OFF;
                         Stop_Timer(&Animation_Timer);
                         // Update the command for only the slave specified
                         Write_Intensity_Data(   Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
@@ -374,16 +377,16 @@ void Run_Master_Service(uint32_t event_mask)
 
                     case CAN_ANIM_HONING_TYPE:
                         // Begin the honing animation
-                        Animation_State = ANIM_STATE_HONING;
                         Anim_Honing_Count_Up = true;
                         Anim_Honing_Intensity = 0;
+                        Animation_State = ANIM_STATE_HONING;
                         Start_Timer(&Animation_Timer, ANIM_TRANSITION_MS);
                         break;
 
                     case CAN_ANIM_BLINK_TYPE:
                         // Begin the blink animation
-                        Animation_State = ANIM_STATE_BLINK;
                         Anim_Blink_On_Off = 0;
+                        Animation_State = ANIM_STATE_BLINK;
                         Start_Timer(&Animation_Timer, ANIM_TRANSITION_MS);
                         break;
 

@@ -17,6 +17,13 @@
         may occur which will service the timers and will see that a timer
         is running with zero remaining ticks, which will cause a false
         timer expiration event.
+
+        Note: The critical sections should be entered at the top of
+        the function call. This is important because if a module wants
+        to stop the timer, they should be able to expect that the timer
+        is truly stopped at the call. It's possible that is they request
+        a stop, a timer interrupt may occur right as they call the stop
+        function.
     
     External Functions Required:
 
