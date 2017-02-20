@@ -77,7 +77,7 @@
 // #############################################################################
 
 // Number of events we've defined
-#define NUM_EVENTS                      20
+#define NUM_EVENTS                      21
 
 #define NON_EVENT                       EVENT_NULL
        
@@ -93,7 +93,7 @@
 #define EVT_CAN_INIT_1_COMPLETE         EVENT_09
 #define EVT_CAN_POLLING_TIMEOUT         EVENT_10
 
-#define EVT_TEST_TIMEOUT                EVENT_11
+#define EVT_ANIM_TIMEOUT                EVENT_11
 
 #define EVT_BTN_MISC_PRESS              EVENT_12
 #define EVT_BTN_MISC_RELEASE            EVENT_13
@@ -107,6 +107,8 @@
 
 #define EVT_BTN_SYS_ON                  EVENT_19
 #define EVT_BTN_SYS_OFF                 EVENT_20
+
+#define EVT_UPSTREAM_CAN_NODE_BTN_PRESS EVENT_21
 
 // #############################################################################
 // ------------ END OF FILE

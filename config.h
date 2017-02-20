@@ -131,6 +131,8 @@ typedef uint16_t                position_data_t;    // Right now we are encoding
 #define CAN_MODEM_POS_VECT_IDX      (1)         // For pos type, the index starts at byte 1
 #define CAN_MODEM_SPEC_NUM_IDX      (1)         // For spec type, the slave num starts at byte 1
 #define CAN_MODEM_SPEC_CMD_INDEX    (2)         // For spec type, the equiv cmd packet starts at byte 2
+#define CAN_ANIM_HONING_TYPE        (0xb0)      // This header type will start the honing animation
+#define CAN_ANIM_BLINK_TYPE         (0xb1)      // This header type will start the blink animation
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS

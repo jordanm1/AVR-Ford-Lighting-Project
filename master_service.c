@@ -90,7 +90,15 @@
 
 // System State On/Off
 #define SYSTEM_ENABLED          (1)
-#define SYSTEM_DISABLED          (0)
+#define SYSTEM_DISABLED         (0)
+
+// Animation States & Time Intervals
+#define ANIM_STATE_RADIAL       (0)
+#define ANIM_STATE_HONING       (1)
+#define ANIM_STATE_BLINK        (2)
+#define ANIM_TRANSITION_MS      (10)
+#define ANIM_HONING_INTERVAL_MS (15)
+#define ANIM_BLINK_INTERVAL_MS  (200)
 
 // #############################################################################
 // ------------ MODULE VARIABLES
@@ -138,8 +146,8 @@ static rect_vect_t Last_Processed_User_Position = {0};
 // State of whether we allow processing of CAN messages
 static uint8_t System_State = SYSTEM_DISABLED;
 
-// TEST TIMER
-static uint32_t Testing_Timer = EVT_TEST_TIMEOUT;
+// Testing Variables
+#if 0
 static uint16_t test_counter = 0;
 static uint8_t up_count = 1;
 static uint16_t position_counter = 1;
@@ -155,9 +163,12 @@ static rect_vect_t test_positions[NUM_TEST_POSITIONS] = {
                                                         {.x = -100, .y = 0},
                                                         {.x = -70, .y = -70},
                                                         };
+#endif
 
-#define NUM_ANIM_HONING_POSITIONS 8                                                       
-static rect_vect_t anim_honing_positions[NUM_TEST_POSITIONS] = {
+// ANIMATION VARIABLES
+static uint32_t Animation_Timer = EVT_ANIM_TIMEOUT;
+#define NUM_ANIM_RADIAL_POSITIONS 8                                                       
+static rect_vect_t Anim_Radial_Positions[NUM_ANIM_RADIAL_POSITIONS] = {
     {.x = 0, .y = -100},
     {.x = 70, .y = -70},
     {.x = 100, .y = 0},
@@ -167,20 +178,29 @@ static rect_vect_t anim_honing_positions[NUM_TEST_POSITIONS] = {
     {.x = -100, .y = 0},
     {.x = -70, .y = -70},
 };
-static uint8_t anim_radial_position_index = 0;    
-static uint8_t anim_radial_num_cycles_completed = 0;                                              
-static intensity_data_t anim_honing_intensity = 0;
-static bool anim_honing_count_up = true;
-static uint8_t anim_honing_num_cycles_completed = 0;
+static uint8_t Anim_Radial_Position_Index = 0;    
+static uint8_t Anim_Radial_Num_Cycles = 0;
+static intensity_data_t Anim_Honing_Intensity = 0;
+static bool Anim_Honing_Count_Up = true;
+static uint8_t Anim_Honing_Num_Cycles = 0;
+static uint8_t Anim_Blink_On_Off = 0;
+static uint8_t Anim_Blink_Num_Cycles = 0;
+static uint8_t Animation_State = 0;
 
-static uint8_t anim_ambulance_on_off = 0;
-static uint8_t anim_ambulance_num_cycles = 0;
-
-static uint8_t anim_state = 0;
-
+// Variables for debugging purposes
 static rect_vect_t vect_2_watch = {0};
 static position_data_t position_2_watch;
 static intensity_data_t intensity_2_watch;
+
+// Upstream CAN Testing Node Variables
+// Message to send out
+static uint8_t Upstream_Test_Message[5] = {0};
+// Index to keep track of what message we should send out
+static uint8_t Upstream_Test_Message_Index = 0;
+// Number of upstream can test messages
+#define NUM_UPSTREAM_TEST_MESSAGES 10
+#define UPSTREAM_HONING_MESSAGE_INDEX 8
+#define UPSTREAM_BLINK_MESSAGE_INDEX 9
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -247,12 +267,8 @@ void Init_Master_Service(void)
     System_State = SYSTEM_DISABLED;
     if ((1<<PINB4) == (PINB & (1<<PINB4))) System_State = SYSTEM_ENABLED;
 
-    // Register test timer & start
-    Register_Timer(&Testing_Timer, Post_Event);
-    if (SYSTEM_ENABLED == System_State) Start_Timer(&Testing_Timer, 1000);
-    //Set_PWM_Duty_Cycle(pwm_channel_a, 10);
-    PORTB &= ~(1<<PORTB2);
-    DDRB |= (1<<PORTB2);
+    // Register test timer
+    Register_Timer(&Animation_Timer, Post_Event);
 }
 
 /****************************************************************************
@@ -290,18 +306,8 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_CAN_POLLING_TIMEOUT:
             // The CAN polling timer has expired
-
-            #if 1
-            parity ^= 1;
-            if (parity)
-            {
-                PORTB |= (1<<PORTB2);
-            }
-            else
-            {
-                PORTB &= ~(1<<PORTB2);
-            }
-            #endif
+            // We have to poll the CAN message, because we don't yet have a system
+            // implemented to know when we truly have received a CAN message
 
             // Restart the CAN polling timer
             Start_Timer(&CAN_Timer, CAN_POLL_INTERVAL_MS);
@@ -324,6 +330,8 @@ void Run_Master_Service(uint32_t event_mask)
                     {
                         case CAN_MODEM_POS_TYPE:
                         case CAN_MODEM_SPEC_TYPE:
+                        case CAN_ANIM_HONING_TYPE:
+                        case CAN_ANIM_BLINK_TYPE:
                             // Copy the message
                             // @TODO: This might need to be in a critical section
                             memcpy(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN);
@@ -344,6 +352,8 @@ void Run_Master_Service(uint32_t event_mask)
                 switch (CAN_Last_Processed_Msg[CAN_MODEM_TYPE_IDX])
                 {
                     case CAN_MODEM_POS_TYPE:
+                        // Stop the animation timer, just in case it was running
+                        Stop_Timer(&Animation_Timer);
                         // Set last processed location
                         Last_Processed_User_Position = get_CAN_pos_vect();
                         // Run light setting algo for all slave nodes
@@ -351,6 +361,8 @@ void Run_Master_Service(uint32_t event_mask)
                         break;
 
                     case CAN_MODEM_SPEC_TYPE:
+                        // Stop the animation timer, just in case it was running
+                        Stop_Timer(&Animation_Timer);
                         // Update the command for only the slave specified
                         Write_Intensity_Data(   Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
                                                 get_CAN_spec_intensity_data()
@@ -358,6 +370,21 @@ void Run_Master_Service(uint32_t event_mask)
                         Write_Position_Data(    Get_Pointer_To_Slave_Data(p_My_Command_Data, CAN_Last_Processed_Msg[CAN_MODEM_SPEC_NUM_IDX]),
                                                 get_CAN_spec_position_data()
                                                 );
+                        break;
+
+                    case CAN_ANIM_HONING_TYPE:
+                        // Begin the honing animation
+                        Animation_State = ANIM_STATE_HONING;
+                        Anim_Honing_Count_Up = true;
+                        Anim_Honing_Intensity = 0;
+                        Start_Timer(&Animation_Timer, ANIM_TRANSITION_MS);
+                        break;
+
+                    case CAN_ANIM_BLINK_TYPE:
+                        // Begin the blink animation
+                        Animation_State = ANIM_STATE_BLINK;
+                        Anim_Blink_On_Off = 0;
+                        Start_Timer(&Animation_Timer, ANIM_TRANSITION_MS);
                         break;
 
                     default:
@@ -369,18 +396,15 @@ void Run_Master_Service(uint32_t event_mask)
 
         case EVT_BTN_SYS_ON:
             // Set system state to be enabled
+            // At this point, the system is awaiting a new CAN message
             System_State = SYSTEM_ENABLED;
-            // Run light setting algo for all slave nodes
-            update_cmds(Last_Processed_User_Position);
-            // Start the testing timer
-            Start_Timer(&Testing_Timer, 100);
             break;
 
         case EVT_BTN_SYS_OFF:
             // Set system state to be disabled
             System_State = SYSTEM_DISABLED;
-            // Stop the timer
-            Stop_Timer(&Testing_Timer);
+            // Stop the animation timer
+            Stop_Timer(&Animation_Timer);
             // Write commands to turn off all lights
             write_all_off_cmds();
             break;
@@ -404,62 +428,62 @@ void Run_Master_Service(uint32_t event_mask)
             // Do nothing.
             break;
 
-        case EVT_TEST_TIMEOUT:
-            // Just a test
+        case EVT_ANIM_TIMEOUT:
+            // The animation timer has expired.
+            // Execute the next animation step.
 
-            if (0 != CAN_Volatile_Msg[0])
+            switch (Animation_State)
             {
-                position_counter = 400;
-            }
-
-            #if 0
-            switch (anim_state)
-            {
-                // Radial Travel
-                case 0:
-                    update_cmds(anim_honing_positions[anim_radial_position_index]);
-                    anim_radial_position_index++;
-                    if (0 == (anim_radial_position_index%NUM_ANIM_HONING_POSITIONS)) anim_radial_num_cycles_completed++;
-                    anim_radial_position_index %= NUM_ANIM_HONING_POSITIONS;
-                    if (2 <= anim_radial_num_cycles_completed)
+                #if 0 // Comment out because we no longer support the radial animations
+                // Radial Animation
+                case ANIM_STATE_RADIAL:
+                    update_cmds(Anim_Radial_Positions[Anim_Radial_Position_Index]);
+                    Anim_Radial_Position_Index++;
+                    if (0 == (Anim_Radial_Position_Index%NUM_ANIM_RADIAL_POSITIONS)) Anim_Radial_Num_Cycles++;
+                    Anim_Radial_Position_Index %= NUM_ANIM_RADIAL_POSITIONS;
+                    if (2 <= Anim_Radial_Num_Cycles)
                     {
-                        anim_state += 1;
-                        anim_radial_position_index = 0;
-                        anim_radial_num_cycles_completed = 0;
+                        Animation_State += 1;
+                        Anim_Radial_Position_Index = 0;
+                        Anim_Radial_Num_Cycles = 0;
                     }
-                    Start_Timer(&Testing_Timer, 1000);
+                    Start_Timer(&Animation_Timer, 1000);
                     break;
+                #endif
 
-                // Honing
-                case 1:
-                    write_all_data_cmds(anim_honing_intensity, 1450);
+                // Honing Animation
+                case ANIM_STATE_HONING:
+                    write_all_data_cmds(Anim_Honing_Intensity, 1450);
+                    // Overwrite positions only for the 1 and 9 because they are special nodes (360 deg capability)
                     Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 9),1295);
                     Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1295);
-                    if (anim_honing_count_up)
+                    if (Anim_Honing_Count_Up)
                     {
-                        anim_honing_intensity += 1;
+                        Anim_Honing_Intensity += 1;
                     }
                     else
                     {
-                        anim_honing_intensity -= 1;
+                        Anim_Honing_Intensity -= 1;
                     }
-                    if ((0 == anim_honing_intensity) || (100 == anim_honing_intensity))
+                    if ((0 == Anim_Honing_Intensity) || (100 == Anim_Honing_Intensity))
                     {
-                        anim_honing_count_up ^= 1;
-                        anim_honing_num_cycles_completed += 1;
+                        Anim_Honing_Count_Up ^= 1;
+                        Anim_Honing_Num_Cycles += 1;
                     }
-                    if (16 == anim_honing_num_cycles_completed)
+                    #if 0 // Comment this out because we want to allow the animation to continue indefinitely
+                    if (16 == Anim_Honing_Num_Cycles)
                     {
-                        anim_state += 1;
-                        anim_honing_intensity = 0;
-                        anim_honing_num_cycles_completed = 0;
+                        Animation_State += 1;
+                        Anim_Honing_Intensity = 0;
+                        Anim_Honing_Num_Cycles = 0;
                     }
-                    Start_Timer(&Testing_Timer, 10);
+                    #endif
+                    Start_Timer(&Animation_Timer, ANIM_HONING_INTERVAL_MS);
                     break;
 
-                // Ambulance
-                case 2:
-                    if (anim_ambulance_on_off)
+                // Blink Animation
+                case ANIM_STATE_BLINK:
+                    if (Anim_Blink_On_Off)
                     {
                         write_all_data_cmds(0, 1450);
                     }
@@ -469,140 +493,64 @@ void Run_Master_Service(uint32_t event_mask)
                     }
                     Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 9),1295);
                     Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1295);
-                    anim_ambulance_on_off ^= 1;
-                    anim_ambulance_num_cycles += 1;
-
-                    if (100 == anim_ambulance_num_cycles)
+                    Anim_Blink_On_Off ^= 1;
+                    Anim_Blink_Num_Cycles += 1;
+                    #if 0 // Comment this out because we want to allow the animation to continue indefinitely
+                    if (100 == Anim_Blink_Num_Cycles)
                     {
-                        anim_state += 1;
-                        anim_ambulance_on_off = 0;
-                        anim_ambulance_num_cycles = 0;
+                        Animation_State += 1;
+                        Anim_Blink_On_Off = 0;
+                        Anim_Blink_Num_Cycles = 0;
                     }
-                    Start_Timer(&Testing_Timer, 100);
+                    #endif
+                    Start_Timer(&Animation_Timer, ANIM_BLINK_INTERVAL_MS);
                     break;
 
                 default:
-                    anim_state = 0;
-                    Start_Timer(&Testing_Timer, 1000);
+                    // Do nothing. Unsupported animation type
                     break;
             }
-            #endif
-            
-            // Restart test timer
-            // Start_Timer(&Testing_Timer, 2000);
-            //uint8_t TX_Away[1] = {0x11};
-            //uint8_t TX_Away[1] = {0xaa};
-
-            // RIGHT
-            #if 0
-            Start_Timer(&Testing_Timer, 2000);
-            uint8_t TX_Away[5] = {CAN_MODEM_POS_TYPE, 0x00, 0x00, 0x00, 0x00};
-            write_rect_vect(&TX_Away[CAN_MODEM_POS_VECT_IDX], test_positions[test_counter]);
-            CAN_Send_Message(5, TX_Away);
-            test_counter++;
-            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
-            #endif
-
-            // LEFT, !!! DO NOT SEND ANYTHING
-            //uint8_t TX_Away[5] = {0xaa, 0xbb, 0xcc, 0xdd, 0xee};
-            //CAN_Send_Message(5, TX_Away);
-
-
-            // TEST PWM
-            /*
-            Set_PWM_Duty_Cycle(pwm_channel_a, 80);
-            if ((1 == position_counter) || (4 == position_counter)) {up_count ^= 1;};
-            if (up_count)
-            {
-                position_counter--;
-            }
-            else
-            {
-                position_counter++;
-            }
-            */
-
-            #if 0
-            parity ^= 1;
-            if (parity)
-            {
-                PORTB |= (1<<PORTB2);
-            }
-            else
-            {
-                PORTB &= ~(1<<PORTB2);
-            }
-            #endif
-
-            #if 0
-            parity ^= 1;
-            if (parity)
-            {
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),75);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),2250);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),75);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),2250);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),75);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),2250);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),75);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),2250);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),75);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),2250);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),75);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),2250);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),75);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),2250);
-            }
-            else
-            {
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),0);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),1450);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),0);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 2),1450);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),0);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 3),1450);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),0);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 4),1450);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),0);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 5),1450);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),0);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 6),1450);
-                Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),0);
-                Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 7),1450);
-            }
-            #endif
-
-            #if 0
-            // EXAMPLE FOR NEW_REQ_LOCATION over CAN
-//             // Reset the schedule counter
-//             Curr_Schedule_ID = SCHEDULE_START_ID;
-//             // Reset our commands to NON_COMMANDs
-//             //      (will be ignored by the slaves)
-//             clear_cmds();
-//             // Start transmitting headers
-//             Start_Timer(&Scheduling_Timer, SCHEDULE_INTERVAL_MS);
-            // Begin updating the commands, which will
-            //      be sent in the background
-//             Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 98);
-//             Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1), 1589);
-            memcpy(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN);
-            vect_2_watch = get_CAN_pos_vect();
-            intensity_2_watch = get_CAN_spec_intensity_data();
-            position_2_watch = get_CAN_spec_position_data();
-            update_cmds(vect_2_watch);
-            //Write_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),intensity_2_watch);
-            //Write_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1),position_2_watch);
-            //position_to_watch = Get_Position_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
-            //intensity_to_watch = Get_Intensity_Data(Get_Pointer_To_Slave_Data(p_My_Command_Data, 1));
-            test_counter++;
-            if (NUM_TEST_POSITIONS <= test_counter) test_counter = 0;
-            // *Note: While we are sending, we will
-            //      check to see if the slaves have
-            //      obeyed whenever we receive a
-            //      new status.
-            #endif
 
             break;
+        
+        // Allow the following to compile only if this build is intended
+        // to run on the CAN upstream testing node
+        #if 0
+        case EVT_UPSTREAM_CAN_NODE_BTN_PRESS:
+            // We got a button press, so increment through the positions,
+            // or if on last position, increment through the animation types
+
+            // Increment the message index type
+            Upstream_Test_Message_Index++;
+            if (NUM_UPSTREAM_TEST_MESSAGES <= Upstream_Test_Message_Index)
+                Upstream_Test_Message_Index = 0;
+            
+            // Based on our message index, construct the appropriate CAN message
+            if (NUM_ANIM_RADIAL_POSITIONS > Upstream_Test_Message_Index)
+            {
+                Upstream_Test_Message[CAN_MODEM_TYPE_IDX] = CAN_MODEM_POS_TYPE;
+                write_rect_vect(&Upstream_Test_Message[CAN_MODEM_POS_VECT_IDX], Anim_Radial_Positions[Upstream_Test_Message_Index]);
+            }
+            else if (UPSTREAM_HONING_MESSAGE_INDEX == Upstream_Test_Message_Index)
+            {
+                // Just set the header, the master node will just ignore the rest
+                Upstream_Test_Message[CAN_MODEM_TYPE_IDX] = CAN_ANIM_HONING_TYPE;
+            }
+            else if (UPSTREAM_BLINK_MESSAGE_INDEX == Upstream_Test_Message_Index)
+            {
+                // Just set the header, the master node will just ignore the rest
+                Upstream_Test_Message[CAN_MODEM_TYPE_IDX] = CAN_ANIM_BLINK_TYPE;
+            }
+            else
+            {
+                // Should never occur. Do nothing.
+            }
+
+            // Send the CAN message
+            CAN_Send_Message(CAN_MODEM_PACKET_LEN, Upstream_Test_Message);
+
+            break;
+        #endif
 
         default:
             break;
@@ -711,7 +659,7 @@ static void write_all_off_cmds(void)
         None
 
     Description
-        Updates all commands for slaves to be LIGHT_OFF
+        Updates commands for all nodes based on requested intensity and position
 
 ****************************************************************************/
 static void write_all_data_cmds(intensity_data_t intensity, position_data_t position)
