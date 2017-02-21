@@ -133,6 +133,7 @@ typedef uint16_t                position_data_t;    // Right now we are encoding
 #define CAN_MODEM_SPEC_CMD_INDEX    (2)         // For spec type, the equiv cmd packet starts at byte 2
 #define CAN_ANIM_HONING_TYPE        (0xb0)      // This header type will start the honing animation
 #define CAN_ANIM_BLINK_TYPE         (0xb1)      // This header type will start the blink animation
+#define CAN_ANIM_SYSOFF_TYPE        (0xb2)      // This header type will turn off all slave nodes
 
 // #############################################################################
 // ------------ TYPE DEFINITIONS

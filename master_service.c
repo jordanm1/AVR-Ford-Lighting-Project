@@ -97,6 +97,7 @@
 #define ANIM_STATE_RADIAL       (0)
 #define ANIM_STATE_HONING       (1)
 #define ANIM_STATE_BLINK        (2)
+#define ANIM_STATE_SYSOFF       (3)
 #define ANIM_TRANSITION_MS      (10)
 #define ANIM_HONING_INTERVAL_MS (15)
 #define ANIM_BLINK_INTERVAL_MS  (200)
@@ -199,9 +200,10 @@ static uint8_t Upstream_Test_Message[5] = {0};
 // Index to keep track of what message we should send out
 static uint8_t Upstream_Test_Message_Index = 0;
 // Number of upstream can test messages
-#define NUM_UPSTREAM_TEST_MESSAGES 10
+#define NUM_UPSTREAM_TEST_MESSAGES 11
 #define UPSTREAM_HONING_MESSAGE_INDEX 8
 #define UPSTREAM_BLINK_MESSAGE_INDEX 9
+#define UPSTREAM_SYSOFF_MESSAGE_INDEX 10
 
 // #############################################################################
 // ------------ PRIVATE FUNCTION PROTOTYPES
@@ -333,6 +335,7 @@ void Run_Master_Service(uint32_t event_mask)
                         case CAN_MODEM_SPEC_TYPE:
                         case CAN_ANIM_HONING_TYPE:
                         case CAN_ANIM_BLINK_TYPE:
+                        case CAN_ANIM_SYSOFF_TYPE:
                             // Copy the message
                             // @TODO: This might need to be in a critical section
                             memcpy(&CAN_Last_Processed_Msg, &CAN_Volatile_Msg, CAN_MODEM_PACKET_LEN);
@@ -387,6 +390,12 @@ void Run_Master_Service(uint32_t event_mask)
                         // Begin the blink animation
                         Anim_Blink_On_Off = 0;
                         Animation_State = ANIM_STATE_BLINK;
+                        Start_Timer(&Animation_Timer, ANIM_TRANSITION_MS);
+                        break;
+
+                    case CAN_ANIM_SYSOFF_TYPE:
+                        // Begin all off animation
+                        Animation_State = ANIM_STATE_SYSOFF;
                         Start_Timer(&Animation_Timer, ANIM_TRANSITION_MS);
                         break;
 
@@ -509,6 +518,11 @@ void Run_Master_Service(uint32_t event_mask)
                     Start_Timer(&Animation_Timer, ANIM_BLINK_INTERVAL_MS);
                     break;
 
+                case ANIM_STATE_SYSOFF:
+                    // Write commands to turn off all lights
+                    write_all_off_cmds();
+                    break;
+
                 default:
                     // Do nothing. Unsupported animation type
                     break;
@@ -543,6 +557,11 @@ void Run_Master_Service(uint32_t event_mask)
             {
                 // Just set the header, the master node will just ignore the rest
                 Upstream_Test_Message[CAN_MODEM_TYPE_IDX] = CAN_ANIM_BLINK_TYPE;
+            }
+            else if (UPSTREAM_SYSOFF_MESSAGE_INDEX == Upstream_Test_Message_Index)
+            {
+                // Just set the header, the master node will just ignore the rest
+                Upstream_Test_Message[CAN_MODEM_TYPE_IDX] = CAN_ANIM_SYSOFF_TYPE;
             }
             else
             {
